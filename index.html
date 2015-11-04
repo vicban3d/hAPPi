@@ -1,0 +1,48 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <script language="javascript"></script>
+</head>
+<body>
+<p>hAPPi</p>
+<button name="plus" onclick="click_add()">+</button>
+
+<br>
+<div id="inputs">
+
+
+
+
+</div>
+<script>
+    function click_add(){
+
+        add_field(0,0);
+    }
+
+
+    function add_field(x,y){
+
+        document.getElementById("inputs").innerHTML += "Entity Name: <br><input id=\"entity\">" +
+                "<button name=\"plus\" onclick=\"add_attr()\">Add Attribute</button>" +
+                "<div id=\"inner\">" +
+                "</div>" +
+
+                "<button name=\"sub\" onclick=submit()>Submit</button>";
+
+
+
+    }
+    var attr = 0;
+    function add_attr(){
+
+    }
+
+    function submit(){
+
+
+    }
+
+</script>
+</body>
+</html>
