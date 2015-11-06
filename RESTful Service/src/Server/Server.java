@@ -8,6 +8,7 @@ import java.io.IOException;
 
 /**
  * Created by victor on 11/6/2015.
+ *
  */
 
 /**
@@ -16,14 +17,16 @@ import java.io.IOException;
  */
 @Path("/hAPPi")
 public class Server {
+    // Global definitions
     private final static String SRV_HOST =  "http://localhost"; // Server host name.
     private final static String SRV_PORT =  "9998"; // Server port.
-    private final String PATH_MAIN =  "/main"; //Path to main page.
     private final String PATH_WEB_CONTENT = "C:\\Users\\victor\\IdeaProjects\\HAPPY Server\\RESTful Service\\src\\Web\\";
+    // Paths to web pages
+    private final String PATH_MAIN = "/main"; //Path to main page.
 
     /**
      * Returns the main page of the application - "index.html".
-     * @return
+     * @return the HTML content of the main page.
      */
     @GET
     @Path(PATH_MAIN)
