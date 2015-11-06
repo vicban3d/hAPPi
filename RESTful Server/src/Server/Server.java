@@ -1,10 +1,8 @@
 package Server;
+
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.io.IOException;
 
 /**
@@ -19,14 +17,19 @@ import java.io.IOException;
 @Path("/hAPPi")
 public class Server {
     // Global definitions
-    private final static String SRV_HOST =  "http://localhost"; // Server host name.
-    private final static String SRV_PORT =  "9998"; // Server port.
+    private final static String SRV_HOST = "http://localhost"; // Server host name.
+    private final static String SRV_PORT = "9998"; // Server port.
     private final String PATH_WEB_CONTENT = "C:\\Users\\victor\\IdeaProjects\\HAPPY Server\\RESTful Service\\src\\Web\\";
+    private final String PATH_CORDOVA = "C:\\Users\\victor\\AppData\\Roaming\\npm\\cordova.cmd";
+    private final String PATH_PROJECTS = "C:\\Users\\victor\\HAPPI\\Projects";
+
     // Paths to web pages
     private final String PATH_MAIN = "/main"; //Path to main page.
+    private final String PATH_CREATE_PROJECT = "/createProject"; //Path to main page.
 
     /**
      * Returns the main page of the application - "index.html".
+     *
      * @return the HTML content of the main page.
      */
     @GET
@@ -37,11 +40,30 @@ public class Server {
     }
 
     /**
+     * Creates a new Cordova project in PATH_PROJECTS according to user parameters.
+     * @return page upon success or failure.
+     */
+    @GET
+    @Path(PATH_CREATE_PROJECT)
+    @Produces("text/plain")
+    public String createProject() {
+        try {
+            Process p = Runtime.getRuntime().exec(PATH_CORDOVA + " create " + PATH_PROJECTS + "/hello com.example.hello HelloWorld");
+            p.waitFor();
+            return "Created Project!";
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "ERROR - Requested file not found!"; // Should return error page.
+    }
+
+    /**
      * Returns the file at given source to the client.
+     *
      * @param src - path to the requested file
      * @return the requested file or an error page.
      */
-    private String getPage(String src){
+    private String getPage(String src) {
         try {
             return Util.FileHandler.readFile(PATH_WEB_CONTENT + src);
         } catch (IOException e) {
@@ -57,11 +79,12 @@ public class Server {
         server.start();
 
         System.out.println("Server running");
-        System.out.println("Visit: " + SRV_HOST + ":" + SRV_PORT + "/hAPPi" + "/main");
-        System.out.println("Hit return to stop...");
+        System.out.println("Visit: " + SRV_HOST + ":" + SRV_PORT + "/hAPPi" + "/createProject");
+        System.out.println("Projects: " + "C:\\Users\\victor\\HAPPI\\Projects");
+        System.out.println("Press ENTER to stop...");
         System.in.read();
 
-        System.out.println("Stopping server");
+        System.out.println("Stopping server...");
         // Stop the server
         server.stop(0);
         System.out.println("Server stopped");
