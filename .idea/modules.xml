@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HAPPY Server.iml" filepath="$PROJECT_DIR$/HAPPY Server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HAPPI Server.iml" filepath="$PROJECT_DIR$/HAPPI Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/RESTful Service/RESTful Service.iml" filepath="$PROJECT_DIR$/RESTful Service/RESTful Service.iml" />
     </modules>
   </component>
