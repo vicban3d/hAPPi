@@ -1,13 +1,13 @@
-function debug(text){
-    document.getElementById("debug").innerHTML += "<br><label>" + text + "</label>";
-}
+/**
+ * Created by Gila-Ber on 07/11/2015.
+ *
+ */
 var numOfAttributes = 0;
 
 function buildAttributeInputFields(list){
     var tags = "";
     for (i=0; i<list.length; i++){
-        var value = document.getElementById(list[i]).value;
-        tags+="<br>(" + i + ") <input id=\"" + list[i] + "\" value=\"" + value + "\">"
+        tags += "<br>(" + i + ") <input id=\"att" + i + "\" value=\"" + list[i] + "\">"
     }
     return tags;
 }
@@ -16,18 +16,14 @@ function collectAttributeValues(){
     if (numOfAttributes == 0) {
         return "";
     }
-    debug("RESULT: " + numOfAttributes);
-    var result = [];
-    var content = document.getElementById("attributesDiv").innerHTML;
-    debug("CONTENT " + content);
-    tags = content.split("\n");
-    debug("TAGS " + tags);
-    for (i=0; i<tags.length; i++){
-        var value = tags[i].split("id=\"")[1];
-        value = value.split("\"")[0];
-        result[i] = value;
-    }
 
+    var result = [];
+    var elements = document.getElementById("attributesDiv").children;
+    for(var i = 0; i < elements.length; i++) {
+        if(elements[i].tagName == 'INPUT') {
+            result.push(elements[i].value);
+        }
+    }
     return result;
 }
 
@@ -49,11 +45,10 @@ function addNewAttribute(){
         numOfAttributes +
         "\">";
     numOfAttributes++;
-
 }
 
 function submit(){
-    alert("Added new entity " + document.getElementById("entityName").value +
-        "\nAttributes: " + numOfAttributes);
-
+    var entityName = document.getElementById("entityName").value;
+    var attributes = collectAttributeValues();
+    alert("Entity Name : " + entityName + "\nAttributes : " + attributes + "\nNumber Of Attributes : " + attributes.length);
 }

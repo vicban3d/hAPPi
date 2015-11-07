@@ -1,0 +1,13 @@
+body{
+    background-color: lightblue;
+}
+
+h1{
+    font-size: 350%;
+    text-align: center;
+    color: black;
+}
+
+#plus{
+    color: green;
+}

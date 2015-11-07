@@ -3,6 +3,7 @@ package Server;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 /**
@@ -19,7 +20,7 @@ public class Server {
     // Global definitions
     private final static String SRV_HOST = "http://localhost"; // Server host name.
     private final static String SRV_PORT = "9998"; // Server port.
-    private final String PATH_WEB_CONTENT = "C:\\Users\\victor\\IdeaProjects\\HAPPY Server\\RESTful Service\\src\\Web\\";
+    private final String PATH_WEB_CONTENT = "C:\\Users\\victor\\IdeaProjects\\hAPPi\\RESTful Server\\src\\Web\\";
     private final String PATH_CORDOVA = "C:\\Users\\victor\\AppData\\Roaming\\npm\\cordova.cmd";
     private final String PATH_PROJECTS = "C:\\Users\\victor\\HAPPI\\Projects";
 
@@ -34,9 +35,9 @@ public class Server {
      */
     @GET
     @Path(PATH_MAIN)
-    @Produces("text/html")
+    @Produces(MediaType.WILDCARD)
     public String getMainPage() {
-        return getPage("index.html");
+        return assemblePage(getPage("js/index.js"), getPage("css/index.css"), getPage("index.html"));
     }
 
     /**
@@ -45,7 +46,7 @@ public class Server {
      */
     @GET
     @Path(PATH_CREATE_PROJECT)
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public String createProject() {
         try {
             Process p = Runtime.getRuntime().exec(PATH_CORDOVA + " create " + PATH_PROJECTS + "/hello com.example.hello HelloWorld");
@@ -72,6 +73,10 @@ public class Server {
         return "ERROR - Requested file not found!"; // Should return error page.
     }
 
+    private String assemblePage(String script, String style, String page){
+        return "<html><head><script>" + script + "</script><style>" + style +"</style></head>" + page;
+    }
+
     public static void main(String[] args) throws IOException {
         // Define new server
         HttpServer server = HttpServerFactory.create(SRV_HOST + ":" + SRV_PORT + "/");
@@ -79,7 +84,7 @@ public class Server {
         server.start();
 
         System.out.println("Server running");
-        System.out.println("Visit: " + SRV_HOST + ":" + SRV_PORT + "/hAPPi" + "/createProject");
+        System.out.println("Visit: " + SRV_HOST + ":" + SRV_PORT + "/hAPPi" + "/main");
         System.out.println("Projects: " + "C:\\Users\\victor\\HAPPI\\Projects");
         System.out.println("Press ENTER to stop...");
         System.in.read();

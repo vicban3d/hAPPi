@@ -12,3 +12,4 @@ function makeStruct(attributes) { // a general factory for structs
     }
     return constructor;
 }
+
