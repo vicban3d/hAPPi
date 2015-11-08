@@ -35,8 +35,14 @@ function createRequest() {
 function sendPOSTRequest(path, data){
     var req = createRequest();
     req.open("POST", Paths.ROOT + path, true);
-    req.setRequestHeader("Content-Type", "application/json");
+    req.setRequestHeader("Content-Type", "text/plain");
     req.send(data);
-    alert("Sent\n" + data)
+}
+
+function sendGETRequest(path, data){
+    var req = createRequest();
+    req.open("GET", Paths.ROOT + path, true);
+    req.setRequestHeader("Content-Type", "text/plain");
+    req.send(data);
 }
 

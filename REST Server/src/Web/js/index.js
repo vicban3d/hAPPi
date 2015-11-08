@@ -37,6 +37,7 @@ function createNewEntity(){
     document.getElementById("btn_createEntity").setAttribute("disabled", "true");
     document.getElementById("btn_createEntity").innerHTML = "-//-";
 }
+
 function addNewAttribute(){
     document.getElementById("div_attributes").innerHTML = buildAttributeInputFields(collectAttributeValues());
     document.getElementById("div_attributes").innerHTML +=
@@ -49,7 +50,11 @@ function addNewAttribute(){
 }
 
 function createNewProject(){
-    //TODO - Not yet implemented
+    //TODO - get name from new project field.
+    var newProject = {
+        name: "BABOON"
+    };
+    sendPOSTRequest(Paths.CREATE_PROJECT, JSON.stringify(newProject));
 }
 
 function submit(){

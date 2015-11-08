@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RESTful Server/RESTful Server.iml" filepath="$PROJECT_DIR$/RESTful Server/RESTful Server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/REST Server/REST Server.iml" filepath="$PROJECT_DIR$/REST Server/REST Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/hAPPi.iml" filepath="$PROJECT_DIR$/hAPPi.iml" />
     </modules>
   </component>
