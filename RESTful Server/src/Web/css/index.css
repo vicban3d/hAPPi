@@ -8,7 +8,7 @@ h1{
     color: black;
 }
 
-#plus{
-    color: red;
-    background-color: green;
+#btn_createEntity {
+    color: black;
+    background-color: silver;
 }

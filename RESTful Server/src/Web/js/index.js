@@ -6,8 +6,8 @@ var numOfAttributes = 0;
 
 function buildAttributeInputFields(list){
     var tags = "";
-    for (i=0; i<list.length; i++){
-        tags += "<br>(" + i + ") <input id=\"att" + i + "\" value=\"" + list[i] + "\">"
+    for (var i=0; i<list.length; i++){
+        tags += "<br>(" + i + ") <input id=\"in_attribute" + i + "\" value=\"" + list[i] + "\">"
     }
     return tags;
 }
@@ -16,9 +16,8 @@ function collectAttributeValues(){
     if (numOfAttributes == 0) {
         return "";
     }
-
     var result = [];
-    var elements = document.getElementById("attributesDiv").children;
+    var elements = document.getElementById("div_attributes").children;
     for(var i = 0; i < elements.length; i++) {
         if(elements[i].tagName == 'INPUT') {
             result.push(elements[i].value);
@@ -28,27 +27,39 @@ function collectAttributeValues(){
 }
 
 function createNewEntity(){
-    document.getElementById("entityDiv").innerHTML +=
+    document.getElementById("div_createEntity").innerHTML +=
         "<hr>" +
         "Entity Name: " +
-        "<input id=\"entityName\">" +
-        "<button id=\"addAttribute\" onclick=\"addNewAttribute()\">Add Attribute</button>" +
-        "<hr><div id=\"attributesDiv\"></div><hr>" +
-        "<br><button id=\"submitButton\" onclick=submit()>Submit</button>";
+        "<input id=\"in_entityName\">" +
+        "<button id=\"btn_addAttribute\" onclick=\"addNewAttribute()\">Add Attribute</button>" +
+        "<hr><div id=\"div_attributes\"></div><hr>" +
+        "<br><button id=\"btn_submit\" onclick=submit()>Submit</button>";
+    document.getElementById("btn_createEntity").setAttribute("disabled", "true");
+    document.getElementById("btn_createEntity").innerHTML = "-//-";
 }
 function addNewAttribute(){
-    document.getElementById("attributesDiv").innerHTML = buildAttributeInputFields(collectAttributeValues());
-    document.getElementById("attributesDiv").innerHTML +=
+    document.getElementById("div_attributes").innerHTML = buildAttributeInputFields(collectAttributeValues());
+    document.getElementById("div_attributes").innerHTML +=
         "<br>(" +
         numOfAttributes + ") " +
-        "<input id=\"attribute" +
+        "<input id=\"in_attribute" +
         numOfAttributes +
         "\">";
     numOfAttributes++;
 }
 
+function createNewProject(){
+    //TODO - Not yet implemented
+}
+
 function submit(){
-    var entityName = document.getElementById("entityName").value;
-    var attributes = collectAttributeValues();
-    alert("Entity Name : " + entityName + "\nAttributes : " + attributes + "\nNumber Of Attributes : " + attributes.length);
+    document.getElementById("btn_createEntity").setAttribute("disabled", "false");
+    document.getElementById("btn_createEntity").innerHTML = "+ Add Object";
+    var entityName = document.getElementById("in_entityName").value;
+    var attributes = collectAttributeValues().join(" ");
+    var newEntity = {
+        name: entityName,
+        attributes: attributes
+    };
+    sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newEntity));
 }

@@ -2,6 +2,9 @@ package Server;
 
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -26,7 +29,8 @@ public class Server {
 
     // Paths to web pages
     private final String PATH_MAIN = "/main"; //Path to main page.
-    private final String PATH_CREATE_PROJECT = "/createProject"; //Path to main page.
+    private final String PATH_CREATE_PROJECT = "/createProject"; //Path to project creation.
+    private final String PATH_CREATE_ENTITY = "/createEntity"; //Path to entity creation.
 
     /**
      * Returns the main page of the application - "index.html".
@@ -37,25 +41,34 @@ public class Server {
     @Path(PATH_MAIN)
     @Produces(MediaType.WILDCARD)
     public String getMainPage() {
-        return assemblePage(getPage("js/index.js"), getPage("css/index.css"), getPage("index.html"));
+        return assemblePage(getPage("js/strings.js") + getPage("js/util.js") + getPage("js/index.js"), getPage("css/index.css"), getPage("index.html"));
     }
 
     /**
      * Creates a new Cordova project in PATH_PROJECTS according to user parameters.
-     * @return page upon success or failure.
      */
-    @GET
+    @POST
     @Path(PATH_CREATE_PROJECT)
     @Produces(MediaType.TEXT_PLAIN)
-    public String createProject() {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createProject(String data) {
         try {
             Process p = Runtime.getRuntime().exec(PATH_CORDOVA + " create " + PATH_PROJECTS + "/hello com.example.hello HelloWorld");
             p.waitFor();
-            return "Created Project!";
+            System.out.println("Created " + data);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        return "ERROR - Requested file not found!"; // Should return error page.
+    }
+
+    /**
+     * Creates a new entity for the user.
+     */
+    @POST
+    @Path(PATH_CREATE_ENTITY)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createEntity(JSONObject data) throws JSONException {
+        System.out.println("RECEIVED");
     }
 
     /**
