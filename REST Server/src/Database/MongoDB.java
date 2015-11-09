@@ -35,10 +35,8 @@ public class MongoDB {
     public void connect() {
         try{
             mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT);
-            Logger.logSEVERE("Successfully connected to database!");
         }catch(Exception e){
-            Logger.logSEVERE("Failed to connect to database!");
-            Logger.logSEVERE(e.getMessage());
+            Logger.logERROR("Failed to connect to database!", e.getMessage());
         }
     }
 

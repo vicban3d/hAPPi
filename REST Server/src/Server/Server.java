@@ -22,8 +22,6 @@ import java.io.IOException;
  */
 @Path("/hAPPi")
 public class Server {
-    // Global definitions
-
     private static MongoDB db;
     private String projectName = "TEST_PROJECT";
 
@@ -49,7 +47,6 @@ public class Server {
     @Path(Strings.PATH_CREATE_PROJECT)
     @Consumes(MediaType.TEXT_PLAIN)
     public void createProject(String data) throws JSONException {
-        //TODO - Dummy implementation, needs to be implemented.
         JSONObject json = new JSONObject(data);
         projectName = json.getString("name");
         Logger.logINFO("Creating Project " + json.getString("name") + "...");
@@ -83,9 +80,9 @@ public class Server {
         try {
             return Util.FileHandler.readFile(Strings.PATH_WEB_CONTENT + src);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.logERROR("Failed to get page " + src, e.getMessage());
         }
-        return "ERROR - Requested file not found!"; // Should return error page.
+        return "ERROR - Requested page not found!"; // Should return error page.
     }
 
     /**
@@ -102,14 +99,24 @@ public class Server {
     /**
      * Main - starts the server and awaits termination.
      * @param args - null
-     * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
-        // Define new server
-        HttpServer server = HttpServerFactory.create(Strings.SRV_HOST + ":" + Strings.SRV_PORT + "/");
-        // Start the server
-        server.start();
+    public static void main(String[] args) {
+        HttpServer server;
+        try {
+            server = HttpServerFactory.create(Strings.SRV_HOST + ":" + Strings.SRV_PORT + "/");
+            server.start();
+        } catch (IOException e) {
+            Logger.logERROR("Failed to start server!", e.getMessage());
+            return;
+        }
 
+        try {
+            Runtime.getRuntime().exec("mongod");
+        } catch (IOException e) {
+            Logger.logERROR("Failed to start database!", e.getMessage());
+            return;
+        }
+        Logger.logSEVERE("Database started.");
         db = new MongoDB();
         db.connect();
 
@@ -117,7 +124,12 @@ public class Server {
         Logger.logINFO("Visit: " + Strings.SRV_FULL + Strings.PATH_MAIN);
         Logger.logINFO("Projects: " + Strings.PATH_PROJECTS);
         Logger.logINFO("Press ENTER to stop...");
-        System.in.read();
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            Logger.logERROR("Error reading stop signal!", e.getMessage());
+            return;
+        }
         Logger.logSEVERE("Stopping server...");
         server.stop(0);
         Logger.logSEVERE("Server stopped.");

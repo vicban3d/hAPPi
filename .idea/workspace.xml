@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Util/JSCreator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Util/Logger.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Util/Strings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" afterPath="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Server/Server.java" afterPath="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Util/FileHandler.java" afterPath="$PROJECT_DIR$/REST Server/src/Util/FileHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/index.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Util/Logger.java" afterPath="$PROJECT_DIR$/REST Server/src/Util/Logger.java" />
     </list>
     <ignored path="HAPPY Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,8 +38,8 @@
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Server/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.616836">
-              <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.5805515">
+              <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -57,7 +52,7 @@
         <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -81,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/REST Server/src/Util/Logger.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+              <caret line="23" column="48" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="48" />
               <folding>
                 <element signature="e#229#230#0" expanded="true" />
                 <element signature="e#259#260#0" expanded="true" />
@@ -89,6 +84,8 @@
                 <element signature="e#336#337#0" expanded="true" />
                 <element signature="e#382#383#0" expanded="true" />
                 <element signature="e#415#416#0" expanded="true" />
+                <element signature="e#479#480#0" expanded="true" />
+                <element signature="e#536#537#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -161,10 +158,10 @@
         <option value="$PROJECT_DIR$/RESTful Server/src/Server/Server.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/util.js" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/index.js" />
-        <option value="$PROJECT_DIR$/REST Server/src/Util/Logger.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/FileHandler.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/JSCreator.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/Strings.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Util/Logger.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
       </list>
@@ -293,32 +290,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="REST Server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -925,7 +896,7 @@
       <workItem from="1447064711412" duration="2013000" />
       <workItem from="1447067089565" duration="5117000" />
       <workItem from="1447073477363" duration="4535000" />
-      <workItem from="1447096995903" duration="8088000" />
+      <workItem from="1447096995903" duration="8797000" />
     </task>
     <task id="LOCAL-00001" summary="Created a simple server">
       <created>1446824947202</created>
@@ -1029,11 +1000,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447078402620</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Added DB Connection">
+      <created>1447105176879</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1447105176879</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51823000" />
+    <option name="totallyTimeSpent" value="52532000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1465,6 +1442,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-95.07143">
           <caret line="121" column="19" selection-start-line="121" selection-start-column="19" selection-end-line="121" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1489,21 +1467,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/Logger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-          <folding>
-            <element signature="e#229#230#0" expanded="true" />
-            <element signature="e#259#260#0" expanded="true" />
-            <element signature="e#304#305#0" expanded="true" />
-            <element signature="e#336#337#0" expanded="true" />
-            <element signature="e#382#383#0" expanded="true" />
-            <element signature="e#415#416#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1533,10 +1496,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/Logger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="48" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="48" />
+          <folding>
+            <element signature="e#229#230#0" expanded="true" />
+            <element signature="e#259#260#0" expanded="true" />
+            <element signature="e#304#305#0" expanded="true" />
+            <element signature="e#336#337#0" expanded="true" />
+            <element signature="e#382#383#0" expanded="true" />
+            <element signature="e#415#416#0" expanded="true" />
+            <element signature="e#479#480#0" expanded="true" />
+            <element signature="e#536#537#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1545,8 +1525,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.616836">
-          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.5805515">
+          <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
