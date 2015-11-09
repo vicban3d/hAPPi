@@ -74,8 +74,6 @@ public class Server {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     /**
@@ -86,7 +84,8 @@ public class Server {
     //@Consumes(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
     public void createEntity(String data) throws JSONException {
-        JSONObject json = new JSONObject(data);
+        db.add("blabla", data);
+
         //TODO - create entity object.
     }
 
