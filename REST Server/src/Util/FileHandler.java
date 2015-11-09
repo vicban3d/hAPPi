@@ -16,4 +16,8 @@ public class FileHandler {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
     }
+
+    public static void writeFile(String path, String content) throws IOException {
+        Files.write(Paths.get(path), content.getBytes());
+    }
 }

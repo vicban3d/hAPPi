@@ -27,9 +27,9 @@ public class Server {
     private final static String SRV_PORT = "9998"; // Server port.
     private final static String SRV_MAIN = "/hAPPi";
     private final static String SRV_FULL = SRV_HOST + ":" + SRV_PORT + SRV_MAIN;
-    private final String PATH_WEB_CONTENT = "C:\\Users\\victor\\IdeaProjects\\hAPPi\\REST Server\\src\\Web\\";
-    private final String PATH_CORDOVA = "C:\\Users\\victor\\AppData\\Roaming\\npm\\cordova.cmd";
-    private final String PATH_PROJECTS = "C:\\Users\\victor\\HAPPI\\Projects";
+    private final String PATH_WEB_CONTENT = "C:\\Users\\Gila-Ber\\IdeaProjects\\hAPPi\\REST Server\\src\\Web\\";
+    private final String PATH_CORDOVA = "C:\\Users\\Gila-Ber\\AppData\\Roaming\\npm\\cordova.cmd";//C:\Users\Gila-Ber\AppData\Roaming\npm
+    private final String PATH_PROJECTS = "C:\\Users\\Gila-Ber\\HAPPI\\Projects";
 
 
     // Paths to web pages
@@ -40,6 +40,8 @@ public class Server {
     public static Logger logger = Logger.getLogger("ServerLogger");
 
     private static MongoDB db;
+
+    private String projectName;
 
     /**
      * Returns the main page of the application - "index.html".
@@ -65,7 +67,7 @@ public class Server {
     public void createProject(String data) throws JSONException {
         //TODO - Dummy implementation, needs to be implemented.
         JSONObject json = new JSONObject(data);
-        String projectName = json.getString("name");
+        projectName = json.getString("name");
         logger.log(Level.INFO, "Creating Project " + json.getString("name") + "...");
         try {
             Process p = Runtime.getRuntime().exec(PATH_CORDOVA + " create " + PATH_PROJECTS + "/" + projectName + " com.example.hello " + projectName);
@@ -84,7 +86,7 @@ public class Server {
     //@Consumes(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
     public void createEntity(String data) throws JSONException {
-        db.add("blabla", data);
+        db.add("blabla", data, projectName);
 
         //TODO - create entity object.
     }
