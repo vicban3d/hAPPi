@@ -6,6 +6,8 @@
 package Server;
 
 import Database.MongoDB;
+import Util.Logger;
+import Util.Strings;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
@@ -13,8 +15,6 @@ import org.codehaus.jettison.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * hAPPi RESTful Server
@@ -23,25 +23,9 @@ import java.util.logging.Logger;
 @Path("/hAPPi")
 public class Server {
     // Global definitions
-    private final static String SRV_HOST = "http://localhost"; // Server host name.
-    private final static String SRV_PORT = "9998"; // Server port.
-    private final static String SRV_MAIN = "/hAPPi";
-    private final static String SRV_FULL = SRV_HOST + ":" + SRV_PORT + SRV_MAIN;
-    private final String PATH_WEB_CONTENT = "C:\\Users\\Gila-Ber\\IdeaProjects\\hAPPi\\REST Server\\src\\Web\\";
-    private final String PATH_CORDOVA = "C:\\Users\\Gila-Ber\\AppData\\Roaming\\npm\\cordova.cmd";//C:\Users\Gila-Ber\AppData\Roaming\npm
-    private final String PATH_PROJECTS = "C:\\Users\\Gila-Ber\\HAPPI\\Projects";
-
-
-    // Paths to web pages
-    private static final String PATH_MAIN = "/main"; //Path to main page.
-    private final String PATH_CREATE_PROJECT = "/createProject"; //Path to project creation.
-    private final String PATH_CREATE_ENTITY = "/createEntity"; //Path to entity creation.
-
-    public static Logger logger = Logger.getLogger("ServerLogger");
 
     private static MongoDB db;
-
-    private String projectName;
+    private String projectName = "TEST_PROJECT";
 
     /**
      * Returns the main page of the application - "index.html".
@@ -49,7 +33,7 @@ public class Server {
      * @return the HTML content of the main page.
      */
     @GET
-    @Path(PATH_MAIN)
+    @Path(Strings.PATH_MAIN)
     @Produces(MediaType.WILDCARD)
     public String getMainPage() {
         String script = getPage("js/strings.js") + getPage("js/util.js") + getPage("js/index.js");
@@ -62,17 +46,17 @@ public class Server {
      * Creates a new Cordova project in PATH_PROJECTS according to user parameters.
      */
     @POST
-    @Path(PATH_CREATE_PROJECT)
+    @Path(Strings.PATH_CREATE_PROJECT)
     @Consumes(MediaType.TEXT_PLAIN)
     public void createProject(String data) throws JSONException {
         //TODO - Dummy implementation, needs to be implemented.
         JSONObject json = new JSONObject(data);
         projectName = json.getString("name");
-        logger.log(Level.INFO, "Creating Project " + json.getString("name") + "...");
+        Logger.logINFO("Creating Project " + json.getString("name") + "...");
         try {
-            Process p = Runtime.getRuntime().exec(PATH_CORDOVA + " create " + PATH_PROJECTS + "/" + projectName + " com.example.hello " + projectName);
+            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " create " + Strings.PATH_PROJECTS + "/" + projectName + " com.example.hello " + projectName);
             p.waitFor();
-            logger.log(Level.INFO, "Successfully created Project " + json.getString("name") + ".");
+            Logger.logINFO("Created new project " + json.getString("name") + ".");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -82,12 +66,10 @@ public class Server {
      * Creates a new entity for the user.
      */
     @POST
-    @Path(PATH_CREATE_ENTITY)
-    //@Consumes(MediaType.APPLICATION_JSON)
+    @Path(Strings.PATH_CREATE_ENTITY)
     @Consumes(MediaType.TEXT_PLAIN)
-    public void createEntity(String data) throws JSONException {
-        db.add("blabla", data, projectName);
-
+    public void createEntity(String data) {
+        db.addData(projectName, "Entities", data);
         //TODO - create entity object.
     }
 
@@ -99,7 +81,7 @@ public class Server {
      */
     private String getPage(String src) {
         try {
-            return Util.FileHandler.readFile(PATH_WEB_CONTENT + src);
+            return Util.FileHandler.readFile(Strings.PATH_WEB_CONTENT + src);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,20 +106,20 @@ public class Server {
      */
     public static void main(String[] args) throws IOException {
         // Define new server
-        HttpServer server = HttpServerFactory.create(SRV_HOST + ":" + SRV_PORT + "/");
+        HttpServer server = HttpServerFactory.create(Strings.SRV_HOST + ":" + Strings.SRV_PORT + "/");
         // Start the server
         server.start();
 
         db = new MongoDB();
         db.connect();
 
-        logger.log(Level.SEVERE, "Server running...");
-        logger.log(Level.INFO, "Visit: " + SRV_FULL + PATH_MAIN);
-        logger.log(Level.INFO, "Projects: " + "C:\\Users\\victor\\HAPPI\\Projects");
-        logger.log(Level.INFO, "Press ENTER to stop...");
+        Logger.logSEVERE("Server running...");
+        Logger.logINFO("Visit: " + Strings.SRV_FULL + Strings.PATH_MAIN);
+        Logger.logINFO("Projects: " + Strings.PATH_PROJECTS);
+        Logger.logINFO("Press ENTER to stop...");
         System.in.read();
-        logger.log(Level.SEVERE, "Stopping server...");
+        Logger.logSEVERE("Stopping server...");
         server.stop(0);
-        logger.log(Level.SEVERE, "Server stopped.");
+        Logger.logSEVERE("Server stopped.");
     }
 }

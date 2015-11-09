@@ -52,7 +52,7 @@ function addNewAttribute(){
 function createNewProject(){
     //TODO - get name from new project field.
     var newProject = {
-        name: "BABOON"
+        name: "TEMP_PROJECT_NAME"
     };
     sendPOSTRequest(Paths.CREATE_PROJECT, JSON.stringify(newProject));
 }

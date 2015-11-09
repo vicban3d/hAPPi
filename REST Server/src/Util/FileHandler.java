@@ -3,6 +3,7 @@ package Util;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 /**
  * Created by victor on 11/6/2015.
@@ -17,7 +18,7 @@ public class FileHandler {
         return new String(encoded);
     }
 
-    public static void writeFile(String path, String content) throws IOException {
-        Files.write(Paths.get(path), content.getBytes());
+    public static void writeFile(String path, String content, StandardOpenOption option) throws IOException {
+        Files.write(Paths.get(path), content.getBytes(), option);
     }
 }
