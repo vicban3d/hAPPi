@@ -5,6 +5,7 @@
 
 package Server;
 
+import Database.MongoDB;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
@@ -37,6 +38,8 @@ public class Server {
     private final String PATH_CREATE_ENTITY = "/createEntity"; //Path to entity creation.
 
     public static Logger logger = Logger.getLogger("ServerLogger");
+
+    private static MongoDB db;
 
     /**
      * Returns the main page of the application - "index.html".
@@ -123,6 +126,9 @@ public class Server {
         HttpServer server = HttpServerFactory.create(SRV_HOST + ":" + SRV_PORT + "/");
         // Start the server
         server.start();
+
+        db = new MongoDB();
+        db.connect();
 
         logger.log(Level.SEVERE, "Server running...");
         logger.log(Level.INFO, "Visit: " + SRV_FULL + PATH_MAIN);
