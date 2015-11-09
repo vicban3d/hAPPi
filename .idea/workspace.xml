@@ -1,46 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/mongo-java-driver-3.0.4.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/mongo4idea-0.7.2.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/slf4j-api-1.7.12.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/slf4j-nop-1.7.12.jar" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/REST Server/lib/javax.ws.rs-api-2.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-client.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-common.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-container-servlet-core.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-container-servlet.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-server.jar" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/FastInfoset-1.2.12.jar" afterPath="$PROJECT_DIR$/lib/FastInfoset-1.2.12.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/activation-1.1.jar" afterPath="$PROJECT_DIR$/lib/activation-1.1.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/asm-3.3.1.jar" afterPath="$PROJECT_DIR$/lib/asm-3.3.1.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/comresrcgen-1.0.jar" afterPath="$PROJECT_DIR$/lib/comresrcgen-1.0.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/grizzly-servlet-webserver-1.9.45.jar" afterPath="$PROJECT_DIR$/lib/grizzly-servlet-webserver-1.9.45.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jackson-core-asl-1.9.2.jar" afterPath="$PROJECT_DIR$/lib/jackson-core-asl-1.9.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jackson-jaxrs-1.9.2.jar" afterPath="$PROJECT_DIR$/lib/jackson-jaxrs-1.9.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jackson-mapper-asl-1.9.2.jar" afterPath="$PROJECT_DIR$/lib/jackson-mapper-asl-1.9.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jackson-xc-1.9.2.jar" afterPath="$PROJECT_DIR$/lib/jackson-xc-1.9.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jaxb-api-2.1.jar" afterPath="$PROJECT_DIR$/lib/jaxb-api-2.1.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jaxb-impl-2.2.jar" afterPath="$PROJECT_DIR$/lib/jaxb-impl-2.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jaxb-xjc-2.2.jar" afterPath="$PROJECT_DIR$/lib/jaxb-xjc-2.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jdom-1.0.jar" afterPath="$PROJECT_DIR$/lib/jdom-1.0.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-bundle-1.12.jar" afterPath="$PROJECT_DIR$/lib/jersey-bundle-1.12.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-client-1.12.jar" afterPath="$PROJECT_DIR$/lib/jersey-client-1.12.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-core-1.12.jar" afterPath="$PROJECT_DIR$/lib/jersey-core-1.12.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-grizzly-1.12.jar" afterPath="$PROJECT_DIR$/lib/jersey-grizzly-1.12.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jersey-multipart-1.12.jar" afterPath="$PROJECT_DIR$/lib/jersey-multipart-1.12.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/jettison-1.1.jar" afterPath="$PROJECT_DIR$/lib/jettison-1.1.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/localizer-1.0.jar" afterPath="$PROJECT_DIR$/lib/localizer-1.0.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/mail-1.4.4.jar" afterPath="$PROJECT_DIR$/lib/mail-1.4.4.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/mimepull-1.3.jar" afterPath="$PROJECT_DIR$/lib/mimepull-1.3.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/persistence-api-1.0.2.jar" afterPath="$PROJECT_DIR$/lib/persistence-api-1.0.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/rome-1.0.jar" afterPath="$PROJECT_DIR$/lib/rome-1.0.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/stax-api-1.0-2.jar" afterPath="$PROJECT_DIR$/lib/stax-api-1.0-2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/wadl-cmdline-1.1.2.jar" afterPath="$PROJECT_DIR$/lib/wadl-cmdline-1.1.2.jar" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/lib/wadl-core-1.1.2.jar" afterPath="$PROJECT_DIR$/lib/wadl-core-1.1.2.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jax_rs_jersey_1_12.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jax_rs_jersey_1_12.xml" />
+    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="Added logger and fixed receiving of messages by the server.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Server/Server.java" afterPath="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
     </list>
     <ignored path="HAPPY Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,9 +29,10 @@
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Server/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53065324">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6351759">
+              <caret line="130" column="25" selection-start-line="130" selection-start-column="25" selection-end-line="130" selection-end-column="25" />
               <folding>
+                <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -120,8 +84,8 @@
         <option value="$PROJECT_DIR$/RESTful Server/src/Server/Server.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/util.js" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/index.js" />
-        <option value="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/FileHandler.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
       </list>
     </option>
   </component>
@@ -222,46 +186,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="REST Server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="Scratches" />
     </panes>
   </component>
@@ -271,7 +221,7 @@
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -679,7 +629,7 @@
       <workItem from="1446983357677" duration="8912000" />
       <workItem from="1446994058165" duration="7142000" />
       <workItem from="1447064711412" duration="2013000" />
-      <workItem from="1447067089565" duration="1529000" />
+      <workItem from="1447067089565" duration="3130000" />
     </task>
     <task id="LOCAL-00001" summary="Created a simple server">
       <created>1446824947202</created>
@@ -759,15 +709,21 @@
       <option name="project" value="LOCAL" />
       <updated>1447004553921</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added logger and fixed receiving of messages by the server.">
+      <created>1447069463619</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1447069463619</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35612000" />
+    <option name="totallyTimeSpent" value="37213000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3226" height="1754" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -832,6 +788,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -842,6 +799,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -880,6 +838,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="51" selection-start-line="87" selection-start-column="51" selection-end-line="87" selection-end-column="51" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -918,6 +877,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="51" selection-start-line="87" selection-start-column="51" selection-end-line="87" selection-end-column="51" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -956,6 +916,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="81" column="43" selection-start-line="81" selection-start-column="43" selection-end-line="81" selection-end-column="43" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -980,6 +941,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -990,6 +952,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -1037,13 +1000,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hAPPi.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/REST Server.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1062,6 +1018,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27949184">
           <caret line="115" column="25" selection-start-line="115" selection-start-column="25" selection-end-line="115" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1150,11 +1107,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hAPPi.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19899498">
+          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53065324">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6351759">
+          <caret line="130" column="25" selection-start-line="130" selection-start-column="25" selection-end-line="130" selection-end-column="25" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -1212,12 +1178,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>hAPPi</last-edited>
+          <last-edited>Web|hAPPi</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

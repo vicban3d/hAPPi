@@ -1,3 +1,8 @@
+/**
+ * Created by victor on 11/6/2015.
+ *
+ */
+
 package Server;
 
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
@@ -9,11 +14,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-/**
- * Created by victor on 11/6/2015.
- *
- */
 
 /**
  * hAPPi RESTful Server
@@ -71,6 +71,8 @@ public class Server {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+
+
     }
 
     /**
