@@ -6,6 +6,8 @@
 package Server;
 
 import Database.MongoDB;
+import Logic.Facade;
+import Logic.hAPPiFacade;
 import Util.Logger;
 import Util.Strings;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
@@ -22,7 +24,8 @@ import java.io.IOException;
  */
 @Path("/hAPPi")
 public class Server {
-    private static MongoDB db;
+
+    private static Facade facade;
     private String projectName = "TEST_PROJECT";
 
     /**
@@ -47,16 +50,11 @@ public class Server {
     @Path(Strings.PATH_CREATE_PROJECT)
     @Consumes(MediaType.TEXT_PLAIN)
     public void createProject(String data) throws JSONException {
+        //***************************************** TEMP
         JSONObject json = new JSONObject(data);
         projectName = json.getString("name");
-        Logger.logINFO("Creating Project " + json.getString("name") + "...");
-        try {
-            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " create " + Strings.PATH_PROJECTS + "/" + projectName + " com.example.hello " + projectName);
-            p.waitFor();
-            Logger.logINFO("Created new project " + json.getString("name") + ".");
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        //******************************************
+        facade.createProject(data);
     }
 
     /**
@@ -66,8 +64,7 @@ public class Server {
     @Path(Strings.PATH_CREATE_ENTITY)
     @Consumes(MediaType.TEXT_PLAIN)
     public void createEntity(String data) {
-        db.addData(projectName, "Entities", data);
-        //TODO - create entity object.
+        facade.createEntity(projectName, data);
     }
 
     /**
@@ -97,10 +94,9 @@ public class Server {
     }
 
     /**
-     * Main - starts the server and awaits termination.
-     * @param args - null
+     * Starts the Server.
      */
-    public static void main(String[] args) {
+    private static void start(){
         HttpServer server;
         try {
             server = HttpServerFactory.create(Strings.SRV_HOST + ":" + Strings.SRV_PORT + "/");
@@ -109,21 +105,11 @@ public class Server {
             Logger.logERROR("Failed to start server!", e.getMessage());
             return;
         }
-
-        try {
-            Runtime.getRuntime().exec("mongod");
-        } catch (IOException e) {
-            Logger.logERROR("Failed to start database!", e.getMessage());
-            return;
-        }
-        Logger.logSEVERE("Database started.");
-        db = new MongoDB();
-        db.connect();
-
-        Logger.logSEVERE("Server running...");
+        Logger.logSEVERE("Server running.");
         Logger.logINFO("Visit: " + Strings.SRV_FULL + Strings.PATH_MAIN);
         Logger.logINFO("Projects: " + Strings.PATH_PROJECTS);
         Logger.logINFO("Press ENTER to stop...");
+
         try {
             System.in.read();
         } catch (IOException e) {
@@ -133,5 +119,15 @@ public class Server {
         Logger.logSEVERE("Stopping server...");
         server.stop(0);
         Logger.logSEVERE("Server stopped.");
+    }
+
+    /**
+     * Main - starts the server and awaits termination.
+     * @param args - null
+     */
+    public static void main(String[] args) {
+        facade = new hAPPiFacade();
+        facade.connectToDatabase();
+        start();
     }
 }

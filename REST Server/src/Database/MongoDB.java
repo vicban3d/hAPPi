@@ -5,6 +5,8 @@ import Util.Strings;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 
+import java.io.IOException;
+
 /**
  * Created by victor on 11/9/2015.
  *
@@ -33,11 +35,18 @@ public class MongoDB {
      * Connects to Mongo database.
      */
     public void connect() {
+        try {
+            Runtime.getRuntime().exec("mongod");
+        } catch (IOException e) {
+            Logger.logERROR("Failed to start database!", e.getMessage());
+            return;
+        }
         try{
             mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT);
         }catch(Exception e){
             Logger.logERROR("Failed to connect to database!", e.getMessage());
         }
+        Logger.logSEVERE("Database started.");
     }
 
     /**

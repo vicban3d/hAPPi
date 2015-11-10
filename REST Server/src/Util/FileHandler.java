@@ -18,7 +18,11 @@ public class FileHandler {
         return new String(encoded);
     }
 
-    public static void writeFile(String path, String content, StandardOpenOption option) throws IOException {
-        Files.write(Paths.get(path), content.getBytes(), option);
+    public static void writeFile(String path, String content, StandardOpenOption option){
+        try {
+            Files.write(Paths.get(path), content.getBytes(), option);
+        } catch (IOException e) {
+            Logger.logERROR("Failed to write to file " + path + "!", e.getMessage());
+        }
     }
 }
