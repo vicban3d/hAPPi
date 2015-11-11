@@ -3,13 +3,23 @@ package Util;
 import Logic.Entity;
 
 import java.io.IOException;
-import java.nio.file.StandardOpenOption;
 
 /**
  * Created by victor on 11/9/2015.
  *
  */
 public class JSCreator {
+
+    public static String JSFUNCTION_MAKE_STRUCT = "function makeStruct(attributes) { // a general factory for structs\n" +
+            "    var fields = attributes.split(' ');\n" +
+            "    var count = fields.length;\n" +
+            "    function constructor() {\n" +
+            "        for (var i = 0; i < count; i++) {\n" +
+            "            this[fields[i]] = arguments[i];\n" +
+            "        }\n" +
+            "    }\n" +
+            "    return constructor;\n" +
+            "}";
 
     public JSCreator() {
     }
@@ -22,7 +32,7 @@ public class JSCreator {
            Logger.logSEVERE("Could not find Helper Functions JS file!");
         }
         // Add more initial file content here.
-        FileHandler.writeFile(Strings.PATH_PROJECTS + "/" + projectName + "/www/js/" + name + ".js", text, StandardOpenOption.CREATE);
+        FileHandler.writeFile(Strings.PATH_PROJECTS + "/" + projectName + "/www/js/" + name + ".js", text);
     }
 
 

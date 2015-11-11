@@ -5,7 +5,6 @@
 
 package Server;
 
-import Database.MongoDB;
 import Logic.Facade;
 import Logic.hAPPiFacade;
 import Util.Logger;
@@ -14,6 +13,7 @@ import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.io.IOException;
 public class Server {
 
     private static Facade facade;
-    private String projectName = "TEST_PROJECT";
+    private String projectName = "TEMP_PROJECT_NAME";
 
     /**
      * Returns the main page of the application - "index.html".
