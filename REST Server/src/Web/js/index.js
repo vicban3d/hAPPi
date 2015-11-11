@@ -57,6 +57,20 @@ function createNewProject(){
     sendPOSTRequest(Paths.CREATE_PROJECT, JSON.stringify(newProject));
 }
 
+function addAndroid(){
+    var newProject = {
+        name: "TEMP_PROJECT_NAME"
+    };
+    sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID, JSON.stringify(newProject));
+}
+
+function buildProject(){
+    var newProject = {
+        name: "TEMP_PROJECT_NAME"
+    };
+    sendPOSTRequest(Paths.BUILD_PROJECT, JSON.stringify(newProject));
+}
+
 function submit(){
     document.getElementById("btn_createEntity").setAttribute("disabled", "false");
     document.getElementById("btn_createEntity").innerHTML = "+ Add Object";

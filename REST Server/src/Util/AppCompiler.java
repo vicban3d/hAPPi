@@ -8,7 +8,8 @@ import org.codehaus.jettison.json.JSONObject;
 public interface AppCompiler {
 
     void createProject(JSONObject name);
-    void addAndroidModule();
-    void addIOSModule();
-    void addWindowsPhoneModule();
+    void addAndroidModule(JSONObject project);
+    void addIOSModule(JSONObject project);
+    void addWindowsPhoneModule(JSONObject project);
+    void buildProject(JSONObject project);
 }

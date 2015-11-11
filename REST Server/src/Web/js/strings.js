@@ -7,5 +7,7 @@
 var Paths = {
     ROOT: "http://localhost:9998/hAPPi",
     CREATE_ENTITY: "/createEntity",
-    CREATE_PROJECT: "/createProject"
+    CREATE_PROJECT: "/createProject",
+    ADD_PLATFORM_ANDROID: "/addAndroid",
+    BUILD_PROJECT: "/build"
 };

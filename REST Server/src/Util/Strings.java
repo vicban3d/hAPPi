@@ -14,6 +14,8 @@ public interface Strings {
     String PATH_PROJECTS = "C:\\Users\\victor\\HAPPI\\Projects";
     String PATH_MAIN = "/main";
     String PATH_CREATE_PROJECT = "/createProject";
+    String PATH_ADD_PLATFORM_ANDROID = "/addAndroid";
+    String PATH_BUILD_PROJECT = "/build";
     String PATH_CREATE_ENTITY = "/createEntity";
     String DB_NAME = "hAPPiDB";
     String DB_PORT = "27017";

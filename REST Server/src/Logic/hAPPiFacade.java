@@ -31,6 +31,38 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
+    public void addAndroidToProject(String project) {
+        JSONObject json;
+        try {
+            json = new JSONObject(project);
+            compiler.addAndroidModule(json);
+        } catch (JSONException e) {
+            Logger.logERROR("Error creating JSON object!", e.getMessage());
+        }
+    }
+
+    @Override
+    public void addIOSToProject(String project) {
+
+    }
+
+    @Override
+    public void addWindowsPhoneToProject(String project) {
+
+    }
+
+    @Override
+    public void buildProject(String project){
+        JSONObject json;
+        try {
+            json = new JSONObject(project);
+            compiler.buildProject(json);
+        } catch (JSONException e) {
+            Logger.logERROR("Error creating JSON object!", e.getMessage());
+        }
+    }
+
+    @Override
     public void createEntity(String project, String entity){
         db.addData(project, "Entities", entity);
         Entity newEntity = new Entity(entity);

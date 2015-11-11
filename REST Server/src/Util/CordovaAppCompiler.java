@@ -3,6 +3,7 @@ package Util;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -30,24 +31,50 @@ public class CordovaAppCompiler implements AppCompiler {
         } catch (JSONException e) {
             Logger.logERROR("Error while handling JSON object!", e.getMessage());
         }
+    }
 
+    @Override
+    public void addAndroidModule(JSONObject project) {
+        try {
+            String name = project.getString("name");
+            Logger.logINFO("Adding android to Project " + name + "...");
+            File dir = new File(Strings.PATH_PROJECTS + "/" + name);
+            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " platform add android", null, dir);
+            p.waitFor();
+            Logger.logINFO("Added android to project " + name + ".");
+        } catch (InterruptedException | IOException e) {
+            Logger.logERROR("Error adding android to project!", e.getMessage());
+        } catch (JSONException e) {
+            Logger.logERROR("Error while handling JSON object!", e.getMessage());
+        }
+    }
+
+    @Override
+    public void addIOSModule(JSONObject project) {
 
     }
 
     @Override
-    public void addAndroidModule() {
+    public void addWindowsPhoneModule(JSONObject project) {
 
     }
 
     @Override
-    public void addIOSModule() {
-
+    public void buildProject(JSONObject project) {
+        try {
+            String name = project.getString("name");
+            Logger.logINFO("Building project " + name + "...");
+            File dir = new File(Strings.PATH_PROJECTS + "/" + name);
+            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " build", null, dir);
+            p.waitFor();
+            Logger.logINFO("Project " + name + " built.");
+        } catch (InterruptedException | IOException e) {
+            Logger.logERROR("Error adding android to project!", e.getMessage());
+        } catch (JSONException e) {
+            Logger.logERROR("Error while handling JSON object!", e.getMessage());
+        }
     }
 
-    @Override
-    public void addWindowsPhoneModule() {
-
-    }
 
     private void initializeFiles(String projectPath){
         Logger.logINFO("Initializing project files...");

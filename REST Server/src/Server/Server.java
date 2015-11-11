@@ -58,6 +58,26 @@ public class Server {
     }
 
     /**
+     * Add an android platform to a project
+     */
+    @POST
+    @Path(Strings.PATH_ADD_PLATFORM_ANDROID)
+    @Consumes(MediaType.TEXT_PLAIN)
+    public void addAndroidModule(String data){
+        facade.addAndroidToProject(data);
+    }
+
+    /**
+     * Add an android platform to a project
+     */
+    @POST
+    @Path(Strings.PATH_BUILD_PROJECT)
+    @Consumes(MediaType.TEXT_PLAIN)
+    public void buildProject(String data){
+        facade.buildProject(data);
+    }
+
+    /**
      * Creates a new entity for the user.
      */
     @POST
