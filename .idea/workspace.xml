@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Database/Database.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/AppCompiler.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/AppCompiler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/CordovaAppCompiler.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/CordovaAppCompiler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/FileHandler.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/FileHandler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/JSCreator.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/JSCreator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/Logger.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/Logger.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/Strings.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/Strings.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Database/Database.java" afterPath="$PROJECT_DIR$/REST Server/src/Database/Database.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" afterPath="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Logic/Entity.java" afterPath="$PROJECT_DIR$/REST Server/src/Logic/Entity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java" afterPath="$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Server/Server.java" afterPath="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
     </list>
     <ignored path="HAPPY Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,14 +64,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MongoDB.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MongoDB.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="35" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
+            <state vertical-scroll-proportion="-0.47142857">
+              <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2065#2097#1" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Database.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/REST Server/src/Database/Database.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -95,11 +97,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="hAPPiFacade.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="hAPPiFacade.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72301584">
-              <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -177,8 +179,9 @@
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/strings.js" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/Strings.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Utility/Strings.java" />
-        <option value="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Database/Database.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
       </list>
     </option>
   </component>
@@ -301,6 +304,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hAPPi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hAPPi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="REST Server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Utility" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -807,7 +832,7 @@
       <workItem from="1447325645347" duration="5509000" />
       <workItem from="1447345071513" duration="1170000" />
       <workItem from="1447346294588" duration="40000" />
-      <workItem from="1447346512695" duration="582000" />
+      <workItem from="1447346512695" duration="1122000" />
     </task>
     <task id="LOCAL-00001" summary="Created a simple server">
       <created>1446824947202</created>
@@ -953,11 +978,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447331165582</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Added database interface to decrease cohesion">
+      <created>1447347137313</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1447347137313</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72587000" />
+    <option name="totallyTimeSpent" value="73127000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1056,7 +1087,8 @@
     <MESSAGE value="Added more class separation and better OOP." />
     <MESSAGE value="Added ability to add android platform and to build the project." />
     <MESSAGE value="Added javadoc to classes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added javadoc to classes." />
+    <MESSAGE value="Added database interface to decrease cohesion" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added database interface to decrease cohesion" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1475,16 +1507,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="35" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/Facade.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1495,10 +1517,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72301584">
-          <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Database/Database.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.47142857">
+          <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2065#2097#1" expanded="true" />
           </folding>
         </state>
       </provider>

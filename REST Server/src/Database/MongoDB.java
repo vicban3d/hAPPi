@@ -4,7 +4,6 @@ import Utility.Logger;
 import Utility.Strings;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
-
 import java.io.IOException;
 
 /**
@@ -31,9 +30,6 @@ public class MongoDB implements Database {
     public MongoDB() {
     }
 
-    /**
-     * Connects to Mongo database.
-     */
     @Override
     public void connect() {
         try {
@@ -50,12 +46,6 @@ public class MongoDB implements Database {
         Logger.logSEVERE("Database started.");
     }
 
-    /**
-     * Adds given data to a given project in the database.
-     * @param projectName - name of the project to add data to.
-     * @param categoryName - name of the category to add data to.
-     * @param data - the content to be added.
-     */
     @Override
     public void addData(String projectName, String categoryName, String data){
         //TODO - should use project ID instead of name.
@@ -67,12 +57,6 @@ public class MongoDB implements Database {
         Logger.logINFO("Added data to Database: " + projectName + " -> " + categoryName + " -> " + data);
     }
 
-    /**
-     * gets the data from a given project.
-     * @param projectName - the project to get from.
-     * @param data - the data to retrieve.
-     * @return a string representation of the needed data.
-     */
     @Override
     public String getData(String projectName, String categoryName, String data){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
