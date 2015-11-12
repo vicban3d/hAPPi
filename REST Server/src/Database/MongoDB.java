@@ -26,7 +26,7 @@ public class MongoDB {
      *            ------- Project n ...
      */
 
-    MongoClient mongoClient;
+    MongoClient mongoClient; // a MongoDB client for the database.
 
     public MongoDB() {
     }

@@ -4,6 +4,10 @@ package Util;
  * Created by victor on 11/9/2015.
  *
  */
+
+/**
+ * An interface containing all String Constants for the system.
+ */
 public interface Strings {
     String SRV_HOST = "http://localhost";
     String SRV_PORT = "9998";

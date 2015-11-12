@@ -7,12 +7,17 @@ import org.codehaus.jettison.json.JSONObject;
 
 /**
  * Created by victor on 11/10/2015.
+ *
  */
 public class hAPPiFacade implements Facade {
 
-    private MongoDB db;
-    private JSCreator jsCreator;
-    private AppCompiler compiler;
+    private final MongoDB db;
+    private final JSCreator jsCreator;
+    private final AppCompiler compiler;
+
+    /**
+     * Constructor and initiator for the Facade.
+     */
     public  hAPPiFacade(){
         db = new MongoDB();
         jsCreator = new JSCreator();

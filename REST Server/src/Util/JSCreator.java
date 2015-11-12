@@ -8,6 +8,10 @@ import java.io.IOException;
  * Created by victor on 11/9/2015.
  *
  */
+
+/**
+ * A class which creates JavaScript commands from given objects.
+ */
 public class JSCreator {
 
     public static String JSFUNCTION_MAKE_STRUCT = "function makeStruct(attributes) { // a general factory for structs\n" +
@@ -21,23 +25,23 @@ public class JSCreator {
             "    return constructor;\n" +
             "}";
 
-    public JSCreator() {
-    }
-
+    /**
+     * Initializes a JavaScript file in the given project with all relevant helper functions.
+     * @param projectName - the name of the project.
+     * @param name - the name of the file.
+     */
     public void initializeFile(String projectName, String name){
         String text = "";
-        try {
-            text+= FileHandler.readFile(Strings.PATH_WEB_CONTENT + "/helper_functions.js");
-        } catch (IOException e) {
-           Logger.logSEVERE("Could not find Helper Functions JS file!");
-        }
+        text+= FileHandler.readFile(Strings.PATH_WEB_CONTENT + "/helper_functions.js");
         // Add more initial file content here.
         FileHandler.writeFile(Strings.PATH_PROJECTS + "/" + projectName + "/www/js/" + name + ".js", text);
     }
 
-
-
-
+    /**
+     * Creates an entity deceleration in JavaScript.
+     * @param newEntity - the entity to create.
+     * @return a string containing the relevant JavaScript command.
+     */
     public String create(Entity newEntity) {
         String result = "";
         String name = newEntity.getName();
