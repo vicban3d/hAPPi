@@ -1,6 +1,6 @@
 package Logic;
 
-import Util.Logger;
+import Utility.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 

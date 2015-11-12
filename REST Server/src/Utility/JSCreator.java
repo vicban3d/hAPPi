@@ -1,8 +1,6 @@
-package Util;
+package Utility;
 
 import Logic.Entity;
-
-import java.io.IOException;
 
 /**
  * Created by victor on 11/9/2015.

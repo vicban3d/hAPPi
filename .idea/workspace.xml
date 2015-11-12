@@ -2,19 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/victor.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/victor.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Database/Database.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/AppCompiler.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/AppCompiler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/CordovaAppCompiler.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/CordovaAppCompiler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/FileHandler.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/FileHandler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/JSCreator.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/JSCreator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/Logger.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/Logger.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/REST Server/src/Util/Strings.java" afterPath="$PROJECT_DIR$/REST Server/src/Utility/Strings.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/REST Server.iml" afterPath="$PROJECT_DIR$/REST Server/REST Server.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" afterPath="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Logic/Entity.java" afterPath="$PROJECT_DIR$/REST Server/src/Logic/Entity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java" afterPath="$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Server/Server.java" afterPath="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Util/AppCompiler.java" afterPath="$PROJECT_DIR$/REST Server/src/Util/AppCompiler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Util/CordovaAppCompiler.java" afterPath="$PROJECT_DIR$/REST Server/src/Util/CordovaAppCompiler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Util/JSCreator.java" afterPath="$PROJECT_DIR$/REST Server/src/Util/JSCreator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Util/Logger.java" afterPath="$PROJECT_DIR$/REST Server/src/Util/Logger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/util.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/util.js" />
     </list>
     <ignored path="HAPPY Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,53 +43,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="JSCreator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/REST Server/src/Util/JSCreator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="122" selection-start-line="16" selection-start-column="122" selection-end-line="16" selection-end-column="122" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MongoDB.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="67" column="7" selection-start-line="67" selection-start-column="7" selection-end-line="67" selection-end-column="7" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1801#1833#1" expanded="true" />
-                <element signature="e#2514#2546#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6226415">
-              <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Server/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.045627378">
+            <state vertical-scroll-proportion="0.0">
               <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#Server#0" expanded="false" />
                 <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
-                <element signature="e#2201#2206#0" expanded="false" />
+                <element signature="e#2207#2212#0" expanded="false" />
                 <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
                 <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
                 <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
@@ -100,51 +63,55 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="util.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/util.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="63" column="25" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Strings.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/REST Server/src/Util/Strings.java">
+        <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/Strings.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="48" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Entity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/Entity.java">
+      <file leaf-file-name="MongoDB.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="10" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
+              <caret line="23" column="35" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Facade.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/Facade.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="7" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppCompiler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/REST Server/src/Util/AppCompiler.java">
+      <file leaf-file-name="hAPPiFacade.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.72301584">
+              <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/strings.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+              <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -158,8 +125,8 @@
         <option value="CSS File" />
         <option value="JavaScript File" />
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -196,21 +163,22 @@
         <option value="$PROJECT_DIR$/RESTful Server/src/Web/js/util.js" />
         <option value="$PROJECT_DIR$/RESTful Server/src/Server/Server.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/index.js" />
-        <option value="$PROJECT_DIR$/REST Server/src/Web/js/strings.js" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/index.html" />
         <option value="$PROJECT_DIR$/REST Server/src/Logic/Facade.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/FileHandler.java" />
-        <option value="$PROJECT_DIR$/REST Server/src/Util/Strings.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/JSCreator.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/Logger.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/CordovaAppCompiler.java" />
-        <option value="$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/util.js" />
         <option value="$PROJECT_DIR$/REST Server/src/Util/AppCompiler.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Logic/Entity.java" />
-        <option value="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Web/js/strings.js" />
+        <option value="$PROJECT_DIR$/REST Server/src/Util/Strings.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Utility/Strings.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Database/MongoDB.java" />
+        <option value="$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java" />
       </list>
     </option>
   </component>
@@ -227,10 +195,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="3187" />
+    <option name="x" value="-13" />
     <option name="y" value="-13" />
-    <option name="width" value="1946" />
-    <option name="height" value="1106" />
+    <option name="width" value="3226" />
+    <option name="height" value="1754" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -267,6 +235,21 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hAPPi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="REST Server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -318,58 +301,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="REST Server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="REST Server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Util" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -441,21 +372,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hAPPi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="REST Server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -472,6 +388,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="Database" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Logic" />
     </key>
@@ -885,7 +804,10 @@
       <workItem from="1447246477122" duration="1817000" />
       <workItem from="1447251361440" duration="3828000" />
       <workItem from="1447266674970" duration="2387000" />
-      <workItem from="1447325645347" duration="5441000" />
+      <workItem from="1447325645347" duration="5509000" />
+      <workItem from="1447345071513" duration="1170000" />
+      <workItem from="1447346294588" duration="40000" />
+      <workItem from="1447346512695" duration="582000" />
     </task>
     <task id="LOCAL-00001" summary="Created a simple server">
       <created>1446824947202</created>
@@ -1025,11 +947,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447328315882</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Added javadoc to classes.">
+      <created>1447331165582</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1447331165582</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70727000" />
+    <option name="totallyTimeSpent" value="72587000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1041,7 +969,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="3187" y="-13" width="1946" height="1106" extended-state="6" />
+    <frame x="-13" y="-13" width="3226" height="1754" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1051,22 +979,22 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42508325" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.092317626" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11627907" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0754717" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15816656" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.221875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.165625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18423973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18398967" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39961267" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1139,13 +1067,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="63" column="39" selection-start-line="63" selection-start-column="26" selection-end-line="63" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/strings.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1168,19 +1089,12 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Server#0" expanded="false" />
-            <element signature="docComment;method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#813#817#0" expanded="false" />
-            <element signature="method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#2095#2096#0" expanded="true" />
-            <element signature="e#2136#2137#0" expanded="true" />
             <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
-            <element signature="e#2201#2206#0" expanded="false" />
+            <element signature="e#2207#2212#0" expanded="false" />
             <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
-            <element signature="method#getPage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#start#0;class#Server#0" expanded="false" />
-            <element signature="method#start#0;class#Server#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1221,19 +1135,12 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Server#0" expanded="false" />
-            <element signature="docComment;method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#813#817#0" expanded="false" />
-            <element signature="method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#2095#2096#0" expanded="true" />
-            <element signature="e#2136#2137#0" expanded="true" />
             <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
-            <element signature="e#2201#2206#0" expanded="false" />
+            <element signature="e#2207#2212#0" expanded="false" />
             <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
-            <element signature="method#getPage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#start#0;class#Server#0" expanded="false" />
-            <element signature="method#start#0;class#Server#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1274,19 +1181,12 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Server#0" expanded="false" />
-            <element signature="docComment;method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#813#817#0" expanded="false" />
-            <element signature="method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#2095#2096#0" expanded="true" />
-            <element signature="e#2136#2137#0" expanded="true" />
             <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
-            <element signature="e#2201#2206#0" expanded="false" />
+            <element signature="e#2207#2212#0" expanded="false" />
             <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
-            <element signature="method#getPage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#start#0;class#Server#0" expanded="false" />
-            <element signature="method#start#0;class#Server#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1313,19 +1213,12 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Server#0" expanded="false" />
-            <element signature="docComment;method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#813#817#0" expanded="false" />
-            <element signature="method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#2095#2096#0" expanded="true" />
-            <element signature="e#2136#2137#0" expanded="true" />
             <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
-            <element signature="e#2201#2206#0" expanded="false" />
+            <element signature="e#2207#2212#0" expanded="false" />
             <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
-            <element signature="method#getPage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#start#0;class#Server#0" expanded="false" />
-            <element signature="method#start#0;class#Server#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1338,24 +1231,17 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#Server#0" expanded="false" />
-            <element signature="docComment;method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#813#817#0" expanded="false" />
-            <element signature="method#getMainPage#0;class#Server#0" expanded="false" />
-            <element signature="e#2095#2096#0" expanded="true" />
-            <element signature="e#2136#2137#0" expanded="true" />
             <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
-            <element signature="e#2201#2206#0" expanded="false" />
+            <element signature="e#2207#2212#0" expanded="false" />
             <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
-            <element signature="method#getPage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
             <element signature="docComment;method#start#0;class#Server#0" expanded="false" />
-            <element signature="method#start#0;class#Server#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/FileHandler.java">
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/FileHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
@@ -1474,14 +1360,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/strings.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1490,15 +1368,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/Facade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72358805">
-          <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/FileHandler.java">
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/FileHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4045977">
           <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
@@ -1506,7 +1376,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/CordovaAppCompiler.java">
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/CordovaAppCompiler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
@@ -1516,17 +1386,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5402567">
-          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/Logger.java">
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30805135">
           <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
@@ -1534,7 +1394,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/JSCreator.java">
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/JSCreator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="122" selection-start-line="16" selection-start-column="122" selection-end-line="16" selection-end-column="122" />
@@ -1546,48 +1406,71 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6226415">
+        <state vertical-scroll-proportion="0.0">
           <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/Strings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="48" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/Entity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="10" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/util.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.12643678">
           <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.12643678">
           <caret line="63" column="25" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/Entity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12643678">
+          <caret line="47" column="10" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Util/AppCompiler.java">
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/AppCompiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12643678">
+          <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#Server#0" expanded="false" />
+            <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
+            <element signature="e#2207#2212#0" expanded="false" />
+            <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
+            <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
+            <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
+            <element signature="docComment;method#start#0;class#Server#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/strings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Utility/Strings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1595,29 +1478,27 @@
     <entry file="file://$PROJECT_DIR$/REST Server/src/Database/MongoDB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="67" column="7" selection-start-line="67" selection-start-column="7" selection-end-line="67" selection-end-column="7" />
+          <caret line="23" column="35" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1801#1833#1" expanded="true" />
-            <element signature="e#2514#2546#1" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Server/Server.java">
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/Facade.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.045627378">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="7" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.72301584">
+          <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="docComment;class#Server#0" expanded="false" />
-            <element signature="docComment;method#createEntity#0;class#Server#0" expanded="false" />
-            <element signature="e#2201#2206#0" expanded="false" />
-            <element signature="docComment;method#getPage#0;class#Server#0" expanded="false" />
-            <element signature="docComment;method#assemblePage#0;class#Server#0" expanded="false" />
-            <element signature="method#assemblePage#0;class#Server#0" expanded="false" />
-            <element signature="docComment;method#start#0;class#Server#0" expanded="false" />
           </folding>
         </state>
       </provider>

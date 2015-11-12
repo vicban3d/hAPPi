@@ -1,7 +1,7 @@
 package Database;
 
-import Util.Logger;
-import Util.Strings;
+import Utility.Logger;
+import Utility.Strings;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by victor on 11/9/2015.
  *
  */
-public class MongoDB {
+public class MongoDB implements Database {
 
     /**
      * DB Structure:
@@ -34,6 +34,7 @@ public class MongoDB {
     /**
      * Connects to Mongo database.
      */
+    @Override
     public void connect() {
         try {
             Runtime.getRuntime().exec("mongod");
@@ -55,6 +56,7 @@ public class MongoDB {
      * @param categoryName - name of the category to add data to.
      * @param data - the content to be added.
      */
+    @Override
     public void addData(String projectName, String categoryName, String data){
         //TODO - should use project ID instead of name.
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
@@ -71,6 +73,7 @@ public class MongoDB {
      * @param data - the data to retrieve.
      * @return a string representation of the needed data.
      */
+    @Override
     public String getData(String projectName, String categoryName, String data){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
         DBCollection project = db.getCollection(projectName);

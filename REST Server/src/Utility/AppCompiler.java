@@ -1,4 +1,4 @@
-package Util;
+package Utility;
 
 import org.codehaus.jettison.json.JSONObject;
 

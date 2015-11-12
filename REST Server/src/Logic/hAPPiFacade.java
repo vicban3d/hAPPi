@@ -1,7 +1,8 @@
 package Logic;
 
+import Database.Database;
 import Database.MongoDB;
-import Util.*;
+import Utility.*;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -11,7 +12,7 @@ import org.codehaus.jettison.json.JSONObject;
  */
 public class hAPPiFacade implements Facade {
 
-    private final MongoDB db;
+    private final Database database;
     private final JSCreator jsCreator;
     private final AppCompiler compiler;
 
@@ -19,7 +20,7 @@ public class hAPPiFacade implements Facade {
      * Constructor and initiator for the Facade.
      */
     public  hAPPiFacade(){
-        db = new MongoDB();
+        database = new MongoDB();
         jsCreator = new JSCreator();
         compiler = new CordovaAppCompiler();
     }
@@ -69,7 +70,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void createEntity(String project, String entity){
-        db.addData(project, "Entities", entity);
+        database.addData(project, "Entities", entity);
         Entity newEntity = new Entity(entity);
         String jsValue = jsCreator.create(newEntity);
         String path = Strings.PATH_PROJECTS + "/" + project + "/www/js/entities.js";
@@ -78,6 +79,6 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void connectToDatabase() {
-        db.connect();
+        database.connect();
     }
 }

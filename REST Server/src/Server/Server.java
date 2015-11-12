@@ -7,8 +7,8 @@ package Server;
 
 import Logic.Facade;
 import Logic.hAPPiFacade;
-import Util.Logger;
-import Util.Strings;
+import Utility.Logger;
+import Utility.Strings;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
@@ -93,7 +93,7 @@ public class Server {
      * @return the requested file or an error page.
      */
     private String getPage(String src) {
-        return Util.FileHandler.readFile(Strings.PATH_WEB_CONTENT + src);
+        return Utility.FileHandler.readFile(Strings.PATH_WEB_CONTENT + src);
     }
 
     /**
