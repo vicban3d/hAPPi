@@ -4,6 +4,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 /**
  * Created by victor on 11/11/2015.
+ *
  */
 
 /**
@@ -20,20 +21,9 @@ public interface AppCompiler {
     /**
      * Add an android module to the given project.
      * @param project - the name of the project.
+     * @param platform - the platform that should be added.
      */
-    void addAndroidModule(JSONObject project);
-
-    /**
-     * Add an ios module to the given project.
-     * @param project - the name of the project.
-     */
-    void addIOSModule(JSONObject project);
-
-    /**
-     * Add a windows phone module to the given project.
-     * @param project - the name of the project.
-     */
-    void addWindowsPhoneModule(JSONObject project);
+    void addPlatform(JSONObject project, String platform);
 
     /**
      * Compiles the given project and creates a package file on all added modules.

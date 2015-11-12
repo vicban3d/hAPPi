@@ -6,7 +6,7 @@ package Util;
  */
 public class Logger {
 
-    public static java.util.logging.Logger logger = java.util.logging.Logger.getLogger("hAPPi_Logger");
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger("hAPPi_Logger");
 
     public static void logINFO(String s){
         logger.info(s);

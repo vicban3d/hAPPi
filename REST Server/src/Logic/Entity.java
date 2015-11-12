@@ -27,7 +27,6 @@ public class Entity {
             JSONObject json = new JSONObject(data);
             this.name = json.getString("name");
             this.attributes = json.getString("attributes").split(" ");
-            System.out.println(attributes);
         } catch (JSONException e) {
             Logger.logERROR("Failed to initialize entity!", e.getMessage());
         }
@@ -46,8 +45,8 @@ public class Entity {
      */
     public String getAttributes(){
         String res = "";
-        for (int i=0; i<attributes.length; i++){
-            res+=attributes[i] + " ";
+        for (String attribute : attributes) {
+            res += attribute + " ";
         }
         return res.substring(0, res.length() - 1);
     }

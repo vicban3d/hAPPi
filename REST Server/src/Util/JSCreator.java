@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class JSCreator {
 
-    public static String JSFUNCTION_MAKE_STRUCT = "function makeStruct(attributes) { // a general factory for structs\n" +
+    public static final String JSFUNCTION_MAKE_STRUCT = "function makeStruct(attributes) { // a general factory for structs\n" +
             "    var fields = attributes.split(' ');\n" +
             "    var count = fields.length;\n" +
             "    function constructor() {\n" +

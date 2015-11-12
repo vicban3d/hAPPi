@@ -26,7 +26,7 @@ public class MongoDB {
      *            ------- Project n ...
      */
 
-    MongoClient mongoClient; // a MongoDB client for the database.
+    private MongoClient mongoClient;
 
     public MongoDB() {
     }
@@ -57,7 +57,7 @@ public class MongoDB {
      */
     public void addData(String projectName, String categoryName, String data){
         //TODO - should use project ID instead of name.
-        DB db = mongoClient.getDB(Strings.DB_NAME);
+        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
         DBCollection project = db.getCollection(projectName);
         DBCollection category = project.getCollection(categoryName);
         DBObject jsonData = (DBObject)JSON.parse(data);
@@ -72,7 +72,7 @@ public class MongoDB {
      * @return a string representation of the needed data.
      */
     public String getData(String projectName, String categoryName, String data){
-        DB db = mongoClient.getDB(Strings.DB_NAME);
+        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
         DBCollection project = db.getCollection(projectName);
         DBCollection category = project.getCollection(categoryName);
         for (DBObject c : category.find()) {

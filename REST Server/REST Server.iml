@@ -10,6 +10,9 @@
     <orderEntry type="library" name="jax-rs-jersey-1.12" level="project" />
     <orderEntry type="module-library">
       <library>
+        <ANNOTATIONS>
+          <root url="file://$MODULE_DIR$/.." />
+        </ANNOTATIONS>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../lib/mongo-java-driver-3.0.4.jar!/" />
         </CLASSES>

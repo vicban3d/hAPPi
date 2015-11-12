@@ -12,7 +12,7 @@ function createRequest() {
         }
     }
     else if (window.ActiveXObject) {
-        // MSIE
+        // Internet Explorer
         result = new ActiveXObject("Microsoft.XMLHTTP");
     }
     else {

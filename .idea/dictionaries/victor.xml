@@ -2,7 +2,12 @@
   <dictionary name="victor">
     <words>
       <w>cordova</w>
+      <w>happi</w>
+      <w>jsfunction</w>
+      <w>mongod</w>
+      <w>structs</w>
       <w>tful</w>
+      <w>xmlhttp</w>
     </words>
   </dictionary>
 </component>

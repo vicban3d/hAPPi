@@ -40,7 +40,7 @@ public class hAPPiFacade implements Facade {
         JSONObject json;
         try {
             json = new JSONObject(project);
-            compiler.addAndroidModule(json);
+            compiler.addPlatform(json, "android");
         } catch (JSONException e) {
             Logger.logERROR("Error creating JSON object!", e.getMessage());
         }

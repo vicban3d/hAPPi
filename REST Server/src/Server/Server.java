@@ -93,12 +93,7 @@ public class Server {
      * @return the requested file or an error page.
      */
     private String getPage(String src) {
-        try {
-            return Util.FileHandler.readFile(Strings.PATH_WEB_CONTENT + src);
-        } catch (IOException e) {
-            Logger.logERROR("Failed to get page " + src, e.getMessage());
-        }
-        return "ERROR - Requested page not found!"; // Should return error page.
+        return Util.FileHandler.readFile(Strings.PATH_WEB_CONTENT + src);
     }
 
     /**
@@ -130,6 +125,7 @@ public class Server {
         Logger.logINFO("Press ENTER to stop...");
 
         try {
+            //noinspection ResultOfMethodCallIgnored
             System.in.read();
         } catch (IOException e) {
             Logger.logERROR("Error reading stop signal!", e.getMessage());

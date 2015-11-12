@@ -34,45 +34,31 @@ public class CordovaAppCompiler implements AppCompiler {
     }
 
     @Override
-    public void addAndroidModule(JSONObject project) {
+    public void addPlatform(JSONObject project, String platform) {
+        String name;
         try {
-            String name = project.getString("name");
-            Logger.logINFO("Adding android to Project " + name + "...");
-            File dir = new File(Strings.PATH_PROJECTS + "/" + name);
-            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " platform add android", null, dir);
-            p.waitFor();
-            Logger.logINFO("Added android to project " + name + ".");
-        } catch (InterruptedException | IOException e) {
-            Logger.logERROR("Error adding android to project!", e.getMessage());
+            name = project.getString("name");
         } catch (JSONException e) {
             Logger.logERROR("Error while handling JSON object!", e.getMessage());
+            return;
         }
-    }
-
-    @Override
-    public void addIOSModule(JSONObject project) {
-
-    }
-
-    @Override
-    public void addWindowsPhoneModule(JSONObject project) {
-
+        Logger.logINFO("Adding " + platform + " to project " + name + "...");
+        executeCommand(name, "platform add " + platform);
+        Logger.logINFO("Added " + platform + " to project " + name + ".");
     }
 
     @Override
     public void buildProject(JSONObject project) {
+        String name;
         try {
-            String name = project.getString("name");
-            Logger.logINFO("Building project " + name + "...");
-            File dir = new File(Strings.PATH_PROJECTS + "/" + name);
-            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " build", null, dir);
-            p.waitFor();
-            Logger.logINFO("Project " + name + " built.");
-        } catch (InterruptedException | IOException e) {
-            Logger.logERROR("Error adding android to project!", e.getMessage());
+            name = project.getString("name");
         } catch (JSONException e) {
             Logger.logERROR("Error while handling JSON object!", e.getMessage());
+            return;
         }
+        Logger.logINFO("Building project " + name + "...");
+        executeCommand(name, "build");
+        Logger.logINFO("Project " + name + " built.");
     }
 
 
@@ -81,5 +67,17 @@ public class CordovaAppCompiler implements AppCompiler {
         FileHandler.writeFile(projectPath + "/www/js/helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
 
         Logger.logINFO("Initialized project files.");
+    }
+
+
+    private void executeCommand(String project, String command){
+        try {
+            File dir = new File(Strings.PATH_PROJECTS + "/" + project);
+            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " " + command, null, dir);
+            p.waitFor();
+
+        } catch (InterruptedException | IOException e) {
+            Logger.logERROR("Error adding android to project!", e.getMessage());
+        }
     }
 }
