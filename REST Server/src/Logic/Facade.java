@@ -36,7 +36,7 @@ public interface Facade {
 
     /**
      * Compiles and builds the project.
-     * @param projectName
+     * @param projectName - the name of the project to build.
      */
     void buildProject(String projectName);
 

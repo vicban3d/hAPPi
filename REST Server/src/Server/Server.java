@@ -69,6 +69,24 @@ public class Server {
      * Add an android platform to a project
      */
     @POST
+    @Path(Strings.PATH_ADD_PLATFORM_IOS)
+    public void addIOModuleS(){
+        facade.addIOSToProject(projectName);
+    }
+
+    /**
+     * Add an android platform to a project
+     */
+    @POST
+    @Path(Strings.PATH_ADD_PLATFORM_WINDOWS_PHONE)
+    public void addWindowsPhoneModule(){
+        facade.addWindowsPhoneToProject(projectName);
+    }
+
+    /**
+     * Build a project
+     */
+    @POST
     @Path(Strings.PATH_BUILD_PROJECT)
     public void buildProject(){
         facade.buildProject(projectName);

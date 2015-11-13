@@ -2,6 +2,7 @@ package Database;
 
 /**
  * Created by victor on 11/12/2015.
+ *
  */
 public interface Database {
 

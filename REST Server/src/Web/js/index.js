@@ -72,6 +72,14 @@ function addAndroid(){
     sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID);
 }
 
+function addIOS(){
+    sendPOSTRequest(Paths.ADD_PLATFORM_IOS);
+}
+
+function addWindowsPhone(){
+    sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE);
+}
+
 function buildProject(){
     sendPOSTRequest(Paths.BUILD_PROJECT);
 }
@@ -87,4 +95,5 @@ function submit(){
     sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newEntity));
     clearDiv("div_createEntity");
     document.getElementById("btn_createEntity").disabled = false;
+    numOfAttributes = 0;
 }

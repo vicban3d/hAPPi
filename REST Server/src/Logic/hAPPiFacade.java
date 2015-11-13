@@ -52,13 +52,13 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void addIOSToProject(String project) {
-
+    public void addIOSToProject(String projectName) {
+        compiler.addPlatform(projectName, "ios");
     }
 
     @Override
-    public void addWindowsPhoneToProject(String project) {
-
+    public void addWindowsPhoneToProject(String projectName) {
+        compiler.addPlatform(projectName, "wp8");
     }
 
     @Override
@@ -79,7 +79,7 @@ public class hAPPiFacade implements Facade {
     }
 
     private HashMap<String, String[]> makeMapOfElements(String content) {
-        HashMap<String,String[]> result = new HashMap<String, String[]>();
+        HashMap<String,String[]> result = new HashMap<>();
         String[] split = content.split("\\)");
         for (int j=0; j < split.length - 1 ; j++){
             String[] elements = split[j].split("\\(");
@@ -93,7 +93,7 @@ public class hAPPiFacade implements Facade {
         return result;
     }
 
-    public String createListEntities(HashMap<String,String[]> elements){
+    private String createListEntities(HashMap<String,String[]> elements){
         String result = "";
         Object[] keys = elements.keySet().toArray();
         for(int i=0; i < keys.length ; i++){
@@ -104,7 +104,7 @@ public class hAPPiFacade implements Facade {
         return result;
     }
 
-    public String createHtmlContent(HashMap<String,String[]> elements){
+    private String createHtmlContent(HashMap<String,String[]> elements){
         return  "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<body>\n" +
