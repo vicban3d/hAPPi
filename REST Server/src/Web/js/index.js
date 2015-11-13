@@ -34,8 +34,7 @@ function createNewEntity(){
         "<button id=\"btn_addAttribute\" onclick=\"addNewAttribute()\">Add Attribute</button>" +
         "<hr><div id=\"div_attributes\"></div><hr>" +
         "<br><button id=\"btn_submit\" onclick=submit()>Submit</button>";
-    document.getElementById("btn_createEntity").setAttribute("disabled", "true");
-    document.getElementById("btn_createEntity").innerHTML = "-//-";
+    document.getElementById("btn_createEntity").disabled = true;
 }
 
 function addNewAttribute(){
@@ -84,13 +83,17 @@ function buildProject(){
 }
 
 function submit(){
-    document.getElementById("btn_createEntity").setAttribute("disabled", "false");
-    document.getElementById("btn_createEntity").innerHTML = "+ Add Object";
     var entityName = document.getElementById("in_entityName").value;
     var attributes = collectAttributeValues().join(" ");
     var newEntity = {
         name: entityName,
         attributes: attributes
     };
+
     sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newEntity));
+    alert("here");
+    clearDiv("div_createEntity");
+    alert("here2");
+    document.getElementById("btn_createEntity").disabled = false;
+    alert("here3");
 }
