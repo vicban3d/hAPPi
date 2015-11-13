@@ -49,12 +49,24 @@ function addNewAttribute(){
     numOfAttributes++;
 }
 
-function createNewProject(){
-    //TODO - get name from new project field.
+function openNewProjectForm(){
+    document.getElementById("div_createProject").innerHTML =
+    "<hr>" +
+    "Project Name: " +
+    "<input id=\"in_projectName\">" +
+    "<br><button id=\"btn_create\" onclick=createProject()>create</button>";
+}
+function createProject(){
+    var projectName = document.getElementById("in_projectName").value;
     var newProject = {
-        name: "TEMP_PROJECT_NAME"
+        name: projectName
     };
     sendPOSTRequest(Paths.CREATE_PROJECT, JSON.stringify(newProject));
+    clearDiv("div_createProject");
+}
+
+function clearDiv(divName){
+    document.getElementById(divName).innerHTML ="";
 }
 
 function addAndroid(){

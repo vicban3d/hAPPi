@@ -30,9 +30,9 @@ public class JSCreator {
      */
     public void initializeFile(String projectName, String name){
         String text = "";
-        text+= FileHandler.readFile(Strings.PATH_WEB_CONTENT + "/helper_functions.js");
+        text+= FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\helper_functions.js");
         // Add more initial file content here.
-        FileHandler.writeFile(Strings.PATH_PROJECTS + "/" + projectName + "/www/js/" + name + ".js", text);
+        FileHandler.writeFile(Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\js\\" + name + ".js", text);
     }
 
     /**

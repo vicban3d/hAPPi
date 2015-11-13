@@ -21,11 +21,12 @@ public class CordovaAppCompiler implements AppCompiler {
     public void createProject(JSONObject project) {
         try {
             String name = project.getString("name");
+            System.out.println("victorrrrrrrrr "+ name);
             Logger.logINFO("Creating Project " + name + "...");
             Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " create " + Strings.PATH_PROJECTS + "/" + name + " com.example.hello " + name);
             p.waitFor();
             Logger.logINFO("Created new project " + name + ".");
-            initializeFiles(Strings.PATH_PROJECTS + "/" + name);
+            initializeFiles(Strings.PATH_PROJECTS + "\\" + name);
         } catch (InterruptedException | IOException e) {
             Logger.logERROR("Error creating project!", e.getMessage());
         } catch (JSONException e) {
