@@ -34,17 +34,10 @@ public class CordovaAppCompiler implements AppCompiler {
     }
 
     @Override
-    public void addPlatform(JSONObject project, String platform) {
-        String name;
-        try {
-            name = project.getString("name");
-        } catch (JSONException e) {
-            Logger.logERROR("Error while handling JSON object!", e.getMessage());
-            return;
-        }
-        Logger.logINFO("Adding " + platform + " to project " + name + "...");
-        executeCommand(name, "platform add " + platform);
-        Logger.logINFO("Added " + platform + " to project " + name + ".");
+    public void addPlatform(String projectName, String platform) {
+        Logger.logINFO("Adding " + platform + " to project " + projectName + "...");
+        executeCommand(projectName, "platform add " + platform);
+        Logger.logINFO("Added " + platform + " to project " + projectName + ".");
     }
 
     @Override
@@ -58,7 +51,6 @@ public class CordovaAppCompiler implements AppCompiler {
     private void initializeFiles(String projectPath){
         Logger.logINFO("Initializing project files...");
         FileHandler.writeFile(projectPath + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
-
         Logger.logINFO("Initialized project files.");
     }
 

@@ -44,7 +44,7 @@ public class JSCreator {
         String result = "";
         String name = newEntity.getName();
         String attributes = newEntity.getAttributes();
-        result += "var " + name + " = createStruct(" + name + " " + attributes + ");";
+        result += "var " + name + " = makeStruct(" + name + " " + attributes + ");";
         return result;
     }
 }

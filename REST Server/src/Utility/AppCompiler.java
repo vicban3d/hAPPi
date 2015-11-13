@@ -20,14 +20,14 @@ public interface AppCompiler {
 
     /**
      * Add an android module to the given project.
-     * @param project - the name of the project.
+     * @param projectName - the name of the project.
      * @param platform - the platform that should be added.
      */
-    void addPlatform(JSONObject project, String platform);
+    void addPlatform(String projectName, String platform);
 
     /**
      * Compiles the given project and creates a package file on all added modules.
-     * @param projectName
+     * @param projectName - the name of the project to build.
      */
     void buildProject(String projectName);
 }

@@ -69,11 +69,11 @@ function clearDiv(divName){
 }
 
 function addAndroid(){
-    sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID, JSON.stringify(""));
+    sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID);
 }
 
 function buildProject(){
-    sendPOSTRequest(Paths.BUILD_PROJECT, JSON.stringify(""));
+    sendPOSTRequest(Paths.BUILD_PROJECT);
 }
 
 function submit(){

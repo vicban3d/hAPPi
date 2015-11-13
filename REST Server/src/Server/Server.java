@@ -61,9 +61,8 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_ANDROID)
-    @Consumes(MediaType.TEXT_PLAIN)
-    public void addAndroidModule(String data){
-        facade.addAndroidToProject(data);
+    public void addAndroidModule(){
+        facade.addAndroidToProject(projectName);
     }
 
     /**
@@ -71,8 +70,7 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_BUILD_PROJECT)
-    @Consumes(MediaType.TEXT_PLAIN)
-    public void buildProject(String data){
+    public void buildProject(){
         facade.buildProject(projectName);
     }
 

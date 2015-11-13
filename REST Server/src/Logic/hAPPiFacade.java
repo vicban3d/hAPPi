@@ -47,14 +47,8 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void addAndroidToProject(String project) {
-        JSONObject json;
-        try {
-            json = new JSONObject(project);
-            compiler.addPlatform(json, "android");
-        } catch (JSONException e) {
-            Logger.logERROR("Error creating JSON object!", e.getMessage());
-        }
+    public void addAndroidToProject(String projectName) {
+            compiler.addPlatform(projectName, "android");
     }
 
     @Override
