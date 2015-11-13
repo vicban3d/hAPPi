@@ -48,17 +48,10 @@ public class CordovaAppCompiler implements AppCompiler {
     }
 
     @Override
-    public void buildProject(JSONObject project) {
-        String name;
-        try {
-            name = project.getString("name");
-        } catch (JSONException e) {
-            Logger.logERROR("Error while handling JSON object!", e.getMessage());
-            return;
-        }
-        Logger.logINFO("Building project " + name + "...");
-        executeCommand(name, "build");
-        Logger.logINFO("Project " + name + " built.");
+    public void buildProject(String projectName) {
+        Logger.logINFO("Building project " + projectName + "...");
+        executeCommand(projectName, "build");
+        Logger.logINFO("Project " + projectName + " built.");
     }
 
 

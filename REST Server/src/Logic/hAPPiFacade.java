@@ -3,8 +3,18 @@ package Logic;
 import Database.Database;
 import Database.MongoDB;
 import Utility.*;
+import Utility.FileHandler;
+import Utility.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import sun.nio.cs.StreamDecoder;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.logging.*;
 
 /**
  * Created by victor on 11/10/2015.
@@ -58,14 +68,57 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void buildProject(String project){
-        JSONObject json;
+    public void buildProject(String projectName){
+        compiler.buildProject(projectName);
+        //Edit index.html file with the entities
+        String indexPath = Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\index.html";
+        String entitiesPath = Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\js\\entities.js";
+        String content = FileHandler.readFile(entitiesPath);
+        HashMap<String, String[]> elements = makeMapOfElements(content);
+        content =  createHtmlContent(elements);
         try {
-            json = new JSONObject(project);
-            compiler.buildProject(json);
-        } catch (JSONException e) {
-            Logger.logERROR("Error creating JSON object!", e.getMessage());
+            FileHandler.clearFile(indexPath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        FileHandler.writeFile(indexPath, content);
+    }
+
+    private HashMap<String, String[]> makeMapOfElements(String content) {
+        HashMap<String,String[]> result = new HashMap<String, String[]>();
+        String[] split = content.split("\\)");
+        for (int j=0; j < split.length - 1 ; j++){
+            String[] elements = split[j].split("\\(");
+            elements = elements[1].split(" ");
+            String[] attributes = new String[elements.length -1];
+            for (int i=1; i < elements.length ; i++){
+                attributes[i-1] = elements[i];
+            }
+            result.put(elements[0], attributes);
+        }
+        return result;
+    }
+
+    public String createListEntities(HashMap<String,String[]> elements){
+        String result = "";
+        Object[] keys = elements.keySet().toArray();
+        for(int i=0; i < keys.length ; i++){
+            String element = (String)keys[i];
+            String[] attributes = elements.get(keys[i]);
+            result += i+1 + ") Name: " + element + "\n   Attributes: " + Arrays.toString(attributes) + "\n" + "<hr>";
+        }
+        return result;
+    }
+
+    public String createHtmlContent(HashMap<String,String[]> elements){
+        return  "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<body>\n" +
+                "<pre>\n" +
+                createListEntities(elements) +
+                "</pre>\n" +
+                "</body>\n" +
+                "</html>";
     }
 
     @Override

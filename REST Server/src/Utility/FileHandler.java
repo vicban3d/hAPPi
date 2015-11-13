@@ -54,4 +54,9 @@ public class FileHandler {
             Logger.logERROR("Failed to write to file " + path + "!", e.getMessage());
         }
     }
+
+    public static void clearFile(String path) throws IOException {
+        Files.delete(Paths.get(path));
+        Files.createFile(Paths.get(path));
+    }
 }

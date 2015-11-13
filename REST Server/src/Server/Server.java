@@ -51,10 +51,8 @@ public class Server {
     @Path(Strings.PATH_CREATE_PROJECT)
     @Consumes(MediaType.TEXT_PLAIN)
     public void createProject(String data) throws JSONException {
-        //***************************************** TEMP
         JSONObject json = new JSONObject(data);
         this.projectName = json.getString("name");
-        //******************************************
         facade.createProject(data);
     }
 
@@ -75,7 +73,7 @@ public class Server {
     @Path(Strings.PATH_BUILD_PROJECT)
     @Consumes(MediaType.TEXT_PLAIN)
     public void buildProject(String data){
-        facade.buildProject(data);
+        facade.buildProject(projectName);
     }
 
     /**

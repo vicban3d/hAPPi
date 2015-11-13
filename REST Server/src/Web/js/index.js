@@ -69,17 +69,11 @@ function clearDiv(divName){
 }
 
 function addAndroid(){
-    var newProject = {
-        name: "TEMP_PROJECT_NAME"
-    };
-    sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID, JSON.stringify(newProject));
+    sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID, JSON.stringify(""));
 }
 
 function buildProject(){
-    var newProject = {
-        name: "TEMP_PROJECT_NAME"
-    };
-    sendPOSTRequest(Paths.BUILD_PROJECT, JSON.stringify(newProject));
+    sendPOSTRequest(Paths.BUILD_PROJECT, JSON.stringify(""));
 }
 
 function submit(){
@@ -91,9 +85,6 @@ function submit(){
     };
 
     sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newEntity));
-    alert("here");
     clearDiv("div_createEntity");
-    alert("here2");
     document.getElementById("btn_createEntity").disabled = false;
-    alert("here3");
 }

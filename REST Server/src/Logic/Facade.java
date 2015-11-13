@@ -36,9 +36,9 @@ public interface Facade {
 
     /**
      * Compiles and builds the project.
-     * @param project - the name of the project.
+     * @param projectName
      */
-    void buildProject(String project);
+    void buildProject(String projectName);
 
     /**
      * Creates a new entity in the given project.

@@ -27,7 +27,7 @@ public interface AppCompiler {
 
     /**
      * Compiles the given project and creates a package file on all added modules.
-     * @param project - the project to compile.
+     * @param projectName
      */
-    void buildProject(JSONObject project);
+    void buildProject(String projectName);
 }
