@@ -13,9 +13,9 @@ public interface Strings {
     String SRV_PORT = "9998";
     String SRV_MAIN = "/hAPPi";
     String SRV_FULL = SRV_HOST + ":" + SRV_PORT + SRV_MAIN;
-    String PATH_WEB_CONTENT = "C:\\Users\\victor\\IdeaProjects\\hAPPi\\REST Server\\src\\Web\\";
-    String PATH_CORDOVA = "C:\\Users\\victor\\AppData\\Roaming\\npm\\cordova.cmd";
-    String PATH_PROJECTS = "C:\\Users\\victor\\HAPPI\\Projects";
+    String PATH_WEB_CONTENT = "C:\\Users\\Gila-Ber\\IdeaProjects\\hAPPi\\REST Server\\src\\Web\\";
+    String PATH_CORDOVA = "C:\\Users\\Gila-Ber\\AppData\\Roaming\\npm\\cordova.cmd";
+    String PATH_PROJECTS = "C:\\Users\\Gila-Ber\\HAPPI\\Projects";
     String PATH_MAIN = "/main";
     String PATH_CREATE_PROJECT = "/createProject";
     String PATH_ADD_PLATFORM_ANDROID = "/addAndroid";

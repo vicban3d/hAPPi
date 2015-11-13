@@ -10,6 +10,7 @@ import Logic.hAPPiFacade;
 import Utility.Logger;
 import Utility.Strings;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
+import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -21,6 +22,7 @@ import java.io.IOException;
  * hAPPi RESTful Server
  * The server will host at the URL http://loaclhost/hAPPi on port 9998
  */
+@Singleton
 @Path("/hAPPi")
 public class Server {
 
@@ -51,7 +53,7 @@ public class Server {
     public void createProject(String data) throws JSONException {
         //***************************************** TEMP
         JSONObject json = new JSONObject(data);
-        projectName = json.getString("name");
+        this.projectName = json.getString("name");
         //******************************************
         facade.createProject(data);
     }

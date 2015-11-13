@@ -21,7 +21,6 @@ public class CordovaAppCompiler implements AppCompiler {
     public void createProject(JSONObject project) {
         try {
             String name = project.getString("name");
-            System.out.println("victorrrrrrrrr "+ name);
             Logger.logINFO("Creating Project " + name + "...");
             Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " create " + Strings.PATH_PROJECTS + "/" + name + " com.example.hello " + name);
             p.waitFor();
@@ -65,7 +64,7 @@ public class CordovaAppCompiler implements AppCompiler {
 
     private void initializeFiles(String projectPath){
         Logger.logINFO("Initializing project files...");
-        FileHandler.writeFile(projectPath + "/www/js/helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
+        FileHandler.writeFile(projectPath + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
 
         Logger.logINFO("Initialized project files.");
     }

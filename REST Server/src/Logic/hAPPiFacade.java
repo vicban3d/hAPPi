@@ -73,7 +73,7 @@ public class hAPPiFacade implements Facade {
         database.addData(project, "Entities", entity);
         Entity newEntity = new Entity(entity);
         String jsValue = jsCreator.create(newEntity);
-        String path = Strings.PATH_PROJECTS + "/" + project + "/www/js/entities.js";
+        String path = Strings.PATH_PROJECTS + "\\" + project + "\\www\\js\\entities.js";
         FileHandler.writeFile(path, jsValue);
     }
 
