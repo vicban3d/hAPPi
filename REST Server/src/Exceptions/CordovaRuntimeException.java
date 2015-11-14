@@ -7,6 +7,7 @@ import Utility.Logger;
  */
 public class CordovaRuntimeException extends Exception {
     public CordovaRuntimeException(String message) {
+        super(message);
         Logger.ERROR("Failed to run Cordova command!", message);
     }
 }

@@ -58,9 +58,8 @@ public class CordovaAppCompiler implements AppCompiler {
             File dir = new File(Strings.PATH_PROJECTS + "\\" + project);
             Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " " + command, null, dir);
             p.waitFor();
-            System.out.println(p.exitValue());
             if (p.exitValue() != 0){
-               // throw new CordovaRuntimeException("Error running Cordova command " + command);
+                throw new CordovaRuntimeException("Error running Cordova command " + command + " Error Code: " + p.exitValue());
             }
         } catch (InterruptedException | IOException e) {
             Logger.ERROR("Error adding android to project!", e.getMessage());

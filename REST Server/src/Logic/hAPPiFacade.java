@@ -74,7 +74,6 @@ public class hAPPiFacade implements Facade {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(content);
         FileHandler.writeFile(indexPath, content);
     }
 
