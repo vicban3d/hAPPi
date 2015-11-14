@@ -1,5 +1,7 @@
 package Database;
 
+import Exceptions.DatabaseConnectionErrorException;
+
 /**
  * Created by victor on 11/12/2015.
  *
@@ -9,7 +11,7 @@ public interface Database {
     /**
      * Connects to Mongo database.
      */
-    void connect();
+    void connect() throws DatabaseConnectionErrorException;
 
     /**
      * Adds given data to a given project in the database.

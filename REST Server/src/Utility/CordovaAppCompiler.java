@@ -1,5 +1,6 @@
 package Utility;
 
+import Exceptions.CordovaRuntimeException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -18,54 +19,51 @@ public class CordovaAppCompiler implements AppCompiler {
     }
 
     @Override
-    public void createProject(JSONObject project) {
+    public void createProject(JSONObject project) throws CordovaRuntimeException {
         try {
             String name = project.getString("name");
-            Logger.logINFO("Creating Project " + name + "...");
-            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " create " + Strings.PATH_PROJECTS + "\\" + name + " com.example.hello " + name);
-            p.waitFor();
-            Logger.logINFO("Created new project " + name + ".");
+            Logger.INFO("Creating Project " + name + "...");
+            executeCommand("","create \"" + Strings.PATH_PROJECTS + "\\" + name + "\" com.example.hello \"" + name + "\"");
+            Logger.INFO("Created new project " + name + ".");
             initializeFiles(Strings.PATH_PROJECTS + "\\" + name);
-        } catch (InterruptedException | IOException e) {
-            Logger.logERROR("Error creating project!", e.getMessage());
         } catch (JSONException e) {
-            Logger.logERROR("Error while handling JSON object!", e.getMessage());
+            Logger.ERROR("Error while handling JSON object!", e.getMessage());
         }
     }
 
     @Override
-    public void addPlatform(String projectName, String platform) {
-        Logger.logINFO("Adding " + platform + " to project " + projectName + "...");
+    public void addPlatform(String projectName, String platform) throws CordovaRuntimeException {
+        Logger.INFO("Adding " + platform + " to project " + projectName + "...");
         executeCommand(projectName, "platform add " + platform);
-        Logger.logINFO("Added " + platform + " to project " + projectName + ".");
+        Logger.INFO("Added " + platform + " to project " + projectName + ".");
     }
 
     @Override
-    public void buildProject(String projectName) {
-        Logger.logINFO("Building project " + projectName + "...");
+    public void buildProject(String projectName) throws CordovaRuntimeException {
+        Logger.INFO("Building project " + projectName + "...");
         executeCommand(projectName, "build");
-        Logger.logINFO("Project " + projectName + " built.");
+        Logger.INFO("Project " + projectName + " built.");
     }
 
 
     private void initializeFiles(String projectPath){
-        Logger.logINFO("Initializing project files...");
+        Logger.INFO("Initializing project files...");
         FileHandler.writeFile(projectPath + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
-        Logger.logINFO("Initialized project files.");
+        Logger.INFO("Initialized project files.");
     }
 
 
-    private void executeCommand(String project, String command)throws RuntimeException{
+    private void executeCommand(String project, String command) throws CordovaRuntimeException {
         try {
             File dir = new File(Strings.PATH_PROJECTS + "\\" + project);
             Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " " + command, null, dir);
             p.waitFor();
-            if (p.exitValue() < 0){
-                throw new RuntimeException("Error running process");
+            System.out.println(p.exitValue());
+            if (p.exitValue() != 0){
+               // throw new CordovaRuntimeException("Error running Cordova command " + command);
             }
-
         } catch (InterruptedException | IOException e) {
-            Logger.logERROR("Error adding android to project!", e.getMessage());
+            Logger.ERROR("Error adding android to project!", e.getMessage());
         }
     }
 }

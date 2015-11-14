@@ -8,19 +8,18 @@ public class Logger {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger("hAPPi_Logger");
 
-    public static void logINFO(String s){
+    public static void INFO(String s){
         logger.info(s);
     }
 
-    public static void logSEVERE(String s){
+    public static void SEVERE(String s){
         logger.severe(s);
     }
 
-    public static void logWARNING(String s){
+    public static void WARNING(String s){
         logger.warning(s);
     }
-
-    public static void logERROR(String cause, String message){
+    public static void ERROR(String cause, String message){
         logger.severe(cause + "\n*** " + message);
     }
 }

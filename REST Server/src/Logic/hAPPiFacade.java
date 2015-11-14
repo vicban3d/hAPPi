@@ -2,19 +2,18 @@ package Logic;
 
 import Database.Database;
 import Database.MongoDB;
+import Exceptions.CordovaRuntimeException;
+import Exceptions.DatabaseConnectionErrorException;
 import Utility.*;
 import Utility.FileHandler;
 import Utility.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import sun.nio.cs.StreamDecoder;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.logging.*;
+import java.util.Objects;
 
 /**
  * Created by victor on 11/10/2015.
@@ -36,33 +35,33 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createProject(String project){
+    public void createProject(String project) throws CordovaRuntimeException {
         JSONObject json;
         try {
             json = new JSONObject(project);
             compiler.createProject(json);
         } catch (JSONException e) {
-            Logger.logERROR("Error creating JSON object!", e.getMessage());
+            Logger.ERROR("Error creating JSON object!", e.getMessage());
         }
     }
 
     @Override
-    public void addAndroidToProject(String projectName) {
+    public void addAndroidToProject(String projectName) throws CordovaRuntimeException {
             compiler.addPlatform(projectName, "android");
     }
 
     @Override
-    public void addIOSToProject(String projectName) {
+    public void addIOSToProject(String projectName) throws CordovaRuntimeException {
         compiler.addPlatform(projectName, "ios");
     }
 
     @Override
-    public void addWindowsPhoneToProject(String projectName) {
+    public void addWindowsPhoneToProject(String projectName) throws CordovaRuntimeException {
         compiler.addPlatform(projectName, "wp8");
     }
 
     @Override
-    public void buildProject(String projectName){
+    public void buildProject(String projectName) throws CordovaRuntimeException {
         compiler.buildProject(projectName);
         //Edit index.html file with the entities
         String indexPath = Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\index.html";
@@ -75,19 +74,21 @@ public class hAPPiFacade implements Facade {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(content);
         FileHandler.writeFile(indexPath, content);
     }
 
     private HashMap<String, String[]> makeMapOfElements(String content) {
         HashMap<String,String[]> result = new HashMap<>();
+        if (content == null) {
+            return result;
+        }
         String[] split = content.split("\\)");
         for (int j=0; j < split.length - 1 ; j++){
             String[] elements = split[j].split("\\(");
             elements = elements[1].split(" ");
             String[] attributes = new String[elements.length -1];
-            for (int i=1; i < elements.length ; i++){
-                attributes[i-1] = elements[i];
-            }
+            System.arraycopy(elements, 1, attributes, 0, elements.length - 1);
             result.put(elements[0], attributes);
         }
         return result;
@@ -125,7 +126,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void connectToDatabase() {
+    public void connectToDatabase() throws DatabaseConnectionErrorException {
         database.connect();
     }
 }

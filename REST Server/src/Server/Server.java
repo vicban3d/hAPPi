@@ -5,6 +5,9 @@
 
 package Server;
 
+import Exceptions.CordovaRuntimeException;
+import Exceptions.DatabaseConnectionErrorException;
+import Exceptions.ServerConnectionErrorException;
 import Logic.Facade;
 import Logic.hAPPiFacade;
 import Utility.Logger;
@@ -27,7 +30,7 @@ import java.io.IOException;
 public class Server {
 
     private static Facade facade;
-    private String projectName = "TEMP_PROJECT_NAME";
+    private String projectName = "";
 
     /**
      * Returns the main page of the application - "index.html".
@@ -50,7 +53,7 @@ public class Server {
     @POST
     @Path(Strings.PATH_CREATE_PROJECT)
     @Consumes(MediaType.TEXT_PLAIN)
-    public void createProject(String data) throws JSONException {
+    public void createProject(String data) throws JSONException, CordovaRuntimeException {
         JSONObject json = new JSONObject(data);
         this.projectName = json.getString("name");
         facade.createProject(data);
@@ -61,7 +64,7 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_ANDROID)
-    public void addAndroidModule(){
+    public void addAndroidModule() throws CordovaRuntimeException {
         facade.addAndroidToProject(projectName);
     }
 
@@ -70,7 +73,7 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_IOS)
-    public void addIOModuleS(){
+    public void addIOModuleS() throws CordovaRuntimeException {
         facade.addIOSToProject(projectName);
     }
 
@@ -79,7 +82,7 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_WINDOWS_PHONE)
-    public void addWindowsPhoneModule(){
+    public void addWindowsPhoneModule() throws CordovaRuntimeException {
         facade.addWindowsPhoneToProject(projectName);
     }
 
@@ -88,7 +91,7 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_BUILD_PROJECT)
-    public void buildProject(){
+    public void buildProject() throws CordovaRuntimeException {
         facade.buildProject(projectName);
     }
 
@@ -126,37 +129,37 @@ public class Server {
     /**
      * Starts the Server.
      */
-    private static void start(){
+    private static void start() throws ServerConnectionErrorException {
         HttpServer server;
         try {
             server = HttpServerFactory.create(Strings.SRV_HOST + ":" + Strings.SRV_PORT + "/");
             server.start();
         } catch (IOException e) {
-            Logger.logERROR("Failed to start server!", e.getMessage());
-            return;
+            throw new ServerConnectionErrorException(e.getMessage());
         }
-        Logger.logSEVERE("Server running.");
-        Logger.logINFO("Visit: " + Strings.SRV_FULL + Strings.PATH_MAIN);
-        Logger.logINFO("Projects: " + Strings.PATH_PROJECTS);
-        Logger.logINFO("Press ENTER to stop...");
+        Logger.SEVERE("Server running.");
+
+        System.out.println("Visit: " + Strings.SRV_FULL + Strings.PATH_MAIN);
+        System.out.println("Projects: " + Strings.PATH_PROJECTS);
+        System.out.println("Press ENTER to stop...");
 
         try {
             //noinspection ResultOfMethodCallIgnored
             System.in.read();
         } catch (IOException e) {
-            Logger.logERROR("Error reading stop signal!", e.getMessage());
+            Logger.ERROR("Error reading stop signal!", e.getMessage());
             return;
         }
-        Logger.logSEVERE("Stopping server...");
+        Logger.SEVERE("Stopping server...");
         server.stop(0);
-        Logger.logSEVERE("Server stopped.");
+        Logger.SEVERE("Server stopped.");
     }
 
     /**
      * Main - starts the server and awaits termination.
      * @param args - null
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ServerConnectionErrorException, DatabaseConnectionErrorException {
         facade = new hAPPiFacade();
         facade.connectToDatabase();
         start();

@@ -28,7 +28,7 @@ public class Entity {
             this.name = json.getString("name");
             this.attributes = json.getString("attributes").split(" ");
         } catch (JSONException e) {
-            Logger.logERROR("Failed to initialize entity!", e.getMessage());
+            Logger.ERROR("Failed to initialize entity!", e.getMessage());
         }
 
     }

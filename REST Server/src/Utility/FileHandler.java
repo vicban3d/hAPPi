@@ -27,7 +27,7 @@ public class FileHandler {
         try {
             encoded = Files.readAllBytes(Paths.get(path));
         } catch (IOException e) {
-            Logger.logERROR("Failed to read from file " + path + "!", e.getMessage());
+            Logger.ERROR("Failed to read from file " + path + "!", e.getMessage());
             return null;
         }
         return new String(encoded);
@@ -44,14 +44,14 @@ public class FileHandler {
             try {
                 Files.createFile(filePath);
             } catch (IOException e) {
-                Logger.logERROR("Failed to write to file " + path + "!", e.getMessage());
+                Logger.ERROR("Failed to write to file " + path + "!", e.getMessage());
                 return;
             }
         }
         try {
             Files.write(filePath, content.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
-            Logger.logERROR("Failed to write to file " + path + "!", e.getMessage());
+            Logger.ERROR("Failed to write to file " + path + "!", e.getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 package Database;
 
+import Exceptions.DatabaseConnectionErrorException;
 import Utility.Logger;
 import Utility.Strings;
 import com.mongodb.*;
@@ -31,19 +32,19 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void connect() {
+    public void connect() throws DatabaseConnectionErrorException {
         try {
             Runtime.getRuntime().exec("mongod");
         } catch (IOException e) {
-            Logger.logERROR("Failed to start database!", e.getMessage());
-            return;
+            Logger.ERROR("Failed to start database!", e.getMessage());
+            throw new DatabaseConnectionErrorException("Failed to start database");
         }
         try{
             mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT);
         }catch(Exception e){
-            Logger.logERROR("Failed to connect to database!", e.getMessage());
+            Logger.ERROR("Failed to connect to database!", e.getMessage());
         }
-        Logger.logSEVERE("Database started.");
+        Logger.SEVERE("Database started.");
     }
 
     @Override
@@ -54,7 +55,7 @@ public class MongoDB implements Database {
         DBCollection category = project.getCollection(categoryName);
         DBObject jsonData = (DBObject)JSON.parse(data);
         category.save(jsonData);
-        Logger.logINFO("Added data to Database: " + projectName + " -> " + categoryName + " -> " + data);
+        Logger.INFO("Added data to Database: " + projectName + " -> " + categoryName + " -> " + data);
     }
 
     @Override
