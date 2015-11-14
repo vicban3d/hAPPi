@@ -26,6 +26,7 @@ function sendPOSTRequest(path, data){
     req.open("POST", Paths.ROOT + path, true);
     req.setRequestHeader("Content-Type", "text/plain");
     req.send(data);
+    return req;
 }
 
 function sendGETRequest(path, data){

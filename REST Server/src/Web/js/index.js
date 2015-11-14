@@ -27,6 +27,7 @@ function collectAttributeValues(){
 }
 
 function createNewEntity(){
+    clearDiv("div_message");
     document.getElementById("div_createEntity").innerHTML +=
         "<hr>" +
         "Entity Name: " +
@@ -60,8 +61,24 @@ function createProject(){
     var newProject = {
         name: projectName
     };
-    sendPOSTRequest(Paths.CREATE_PROJECT, JSON.stringify(newProject));
+    var result = sendPOSTRequest(Paths.CREATE_PROJECT, JSON.stringify(newProject));
     clearDiv("div_createProject");
+    setResponseText(result);
+}
+
+function setResponseText(result){
+    result.onreadystatechange = function(){
+        if (result.readyState != 4)
+            writeMessage("Error");
+        if (result.status != 200)
+            writeMessage("Error");
+        else
+            writeMessage(result.responseText);
+    }
+}
+
+function writeMessage(message){
+    document.getElementById("div_message").innerHTML = message;
 }
 
 function clearDiv(divName){
@@ -69,19 +86,23 @@ function clearDiv(divName){
 }
 
 function addAndroid(){
-    sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID);
+    var result = sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID);
+    setResponseText(result);
 }
 
 function addIOS(){
-    sendPOSTRequest(Paths.ADD_PLATFORM_IOS);
+    var result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS);
+    setResponseText(result);
 }
 
 function addWindowsPhone(){
-    sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE);
+    var result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE);
+    setResponseText(result);
 }
 
 function buildProject(){
-    sendPOSTRequest(Paths.BUILD_PROJECT);
+    var result = sendPOSTRequest(Paths.BUILD_PROJECT);
+    setResponseText(result);
 }
 
 function submit(){

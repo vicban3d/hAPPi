@@ -19,6 +19,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.xml.ws.ResponseWrapper;
 import java.io.IOException;
 
 /**
@@ -53,10 +54,12 @@ public class Server {
     @POST
     @Path(Strings.PATH_CREATE_PROJECT)
     @Consumes(MediaType.TEXT_PLAIN)
-    public void createProject(String data) throws JSONException, CordovaRuntimeException {
+    @Produces(MediaType.TEXT_XML)
+    public String createProject(String data) throws JSONException, CordovaRuntimeException {
         JSONObject json = new JSONObject(data);
         this.projectName = json.getString("name");
         facade.createProject(data);
+        return "The project " + projectName + " created successfully";
     }
 
     /**
@@ -64,8 +67,10 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_ANDROID)
-    public void addAndroidModule() throws CordovaRuntimeException {
+    @Produces(MediaType.TEXT_XML)
+    public String addAndroidModule() throws CordovaRuntimeException {
         facade.addAndroidToProject(projectName);
+        return "Added android to " + projectName;
     }
 
     /**
@@ -73,8 +78,10 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_IOS)
-    public void addIOModuleS() throws CordovaRuntimeException {
+    @Produces(MediaType.TEXT_XML)
+    public String addIOModuleS() throws CordovaRuntimeException {
         facade.addIOSToProject(projectName);
+        return "Added ios to " + projectName;
     }
 
     /**
@@ -82,8 +89,10 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_WINDOWS_PHONE)
-    public void addWindowsPhoneModule() throws CordovaRuntimeException {
+    @Produces(MediaType.TEXT_XML)
+    public String addWindowsPhoneModule() throws CordovaRuntimeException {
         facade.addWindowsPhoneToProject(projectName);
+        return "Added windows phone to " + projectName;
     }
 
     /**
@@ -91,8 +100,10 @@ public class Server {
      */
     @POST
     @Path(Strings.PATH_BUILD_PROJECT)
-    public void buildProject() throws CordovaRuntimeException {
+    @Produces(MediaType.TEXT_XML)
+    public String buildProject() throws CordovaRuntimeException {
         facade.buildProject(projectName);
+        return projectName + " build successfully";
     }
 
     /**
