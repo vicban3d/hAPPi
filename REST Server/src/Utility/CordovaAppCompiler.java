@@ -22,7 +22,7 @@ public class CordovaAppCompiler implements AppCompiler {
         try {
             String name = project.getString("name");
             Logger.logINFO("Creating Project " + name + "...");
-            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " create " + Strings.PATH_PROJECTS + "/" + name + " com.example.hello " + name);
+            Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " create " + Strings.PATH_PROJECTS + "\\" + name + " com.example.hello " + name);
             p.waitFor();
             Logger.logINFO("Created new project " + name + ".");
             initializeFiles(Strings.PATH_PROJECTS + "\\" + name);
@@ -55,11 +55,14 @@ public class CordovaAppCompiler implements AppCompiler {
     }
 
 
-    private void executeCommand(String project, String command){
+    private void executeCommand(String project, String command)throws RuntimeException{
         try {
-            File dir = new File(Strings.PATH_PROJECTS + "/" + project);
+            File dir = new File(Strings.PATH_PROJECTS + "\\" + project);
             Process p = Runtime.getRuntime().exec(Strings.PATH_CORDOVA + " " + command, null, dir);
             p.waitFor();
+            if (p.exitValue() < 0){
+                throw new RuntimeException("Error running process");
+            }
 
         } catch (InterruptedException | IOException e) {
             Logger.logERROR("Error adding android to project!", e.getMessage());
