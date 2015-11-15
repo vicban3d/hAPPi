@@ -25,4 +25,5 @@ public interface Strings {
     String PATH_CREATE_ENTITY = "/createEntity";
     String DB_NAME = "hAPPiDB";
     String DB_PORT = "27017";
+    String PATH_ANDROID_HOME = "C:\\Program Files (x86)\\Android\\android-sdk";
 }

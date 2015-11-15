@@ -57,6 +57,7 @@ function openNewProjectForm(){
     "<br><button id=\"btn_create\" onclick=createProject()>create</button>";
 }
 function createProject(){
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Creating project...</span>"
     var projectName = document.getElementById("in_projectName").value;
     var newProject = {
         name: projectName
@@ -69,11 +70,11 @@ function createProject(){
 function setResponseText(result){
     result.onreadystatechange = function(){
         if (result.readyState != 4)
-            writeMessage("Error");
+            writeMessage("<span style=\"color: red;\">Error</span>");
         if (result.status != 200)
-            writeMessage("Error");
+            writeMessage("<span style=\"color: red;\">Error</span>");
         else
-            writeMessage(result.responseText);
+            writeMessage("<span style=\"color: #00cc00;\">" + result.responseText + "</span>");
     }
 }
 
@@ -86,21 +87,25 @@ function clearDiv(divName){
 }
 
 function addAndroid(){
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding Android platform...</span>"
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID);
     setResponseText(result);
 }
 
 function addIOS(){
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding iOS platform...</span>"
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS);
     setResponseText(result);
 }
 
 function addWindowsPhone(){
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding wp8 platform...</span>"
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE);
     setResponseText(result);
 }
 
 function buildProject(){
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Building Project...</span>"
     var result = sendPOSTRequest(Paths.BUILD_PROJECT);
     setResponseText(result);
 }
@@ -117,4 +122,5 @@ function submit(){
     clearDiv("div_createEntity");
     document.getElementById("btn_createEntity").disabled = false;
     numOfAttributes = 0;
+    document.getElementById("div_message").innerHTML = "<span style=\"color: #00cc00;\">Added new object.</span>"
 }

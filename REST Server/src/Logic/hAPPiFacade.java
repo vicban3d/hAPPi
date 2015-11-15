@@ -47,7 +47,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void addAndroidToProject(String projectName) throws CordovaRuntimeException {
-            compiler.addPlatform(projectName, "android");
+        compiler.addPlatform(projectName, "android");
     }
 
     @Override
