@@ -55,6 +55,7 @@ public class CordovaAppCompiler implements AppCompiler {
             p.waitFor();
             if (p.exitValue() != 0){
                 byte[] error = new byte[1024];
+                //noinspection ResultOfMethodCallIgnored
                 p.getErrorStream().read(error);
                 throw new CordovaRuntimeException(new String(error));
             }

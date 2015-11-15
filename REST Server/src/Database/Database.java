@@ -1,6 +1,7 @@
 package Database;
 
 import Exceptions.DatabaseConnectionErrorException;
+import com.mongodb.DBCollection;
 
 /**
  * Created by victor on 11/12/2015.
@@ -24,8 +25,13 @@ public interface Database {
     /**
      * gets the data from a given project.
      * @param projectName - the project to get from.
-     * @param data - the data to retrieve.
      * @return a string representation of the needed data.
      */
-    String getData(String projectName, String categoryName, String data);
+    DBCollection getData(String projectName, String categoryName);
+
+    /**
+     * Clear the whole DB
+     * WARNING! DO NOT USE LIGHTLY!
+     */
+    void cleaAll();
 }

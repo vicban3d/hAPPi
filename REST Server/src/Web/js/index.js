@@ -57,7 +57,7 @@ function openNewProjectForm(){
     "<br><button id=\"btn_create\" onclick=createProject()>create</button>";
 }
 function createProject(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Creating project...</span>"
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Creating project...</span>";
     var projectName = document.getElementById("in_projectName").value;
     var newProject = {
         name: projectName
@@ -87,25 +87,25 @@ function clearDiv(divName){
 }
 
 function addAndroid(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding Android platform...</span>"
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding Android platform...</span>";
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID);
     setResponseText(result);
 }
 
 function addIOS(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding iOS platform...</span>"
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding iOS platform...</span>";
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS);
     setResponseText(result);
 }
 
 function addWindowsPhone(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding wp8 platform...</span>"
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding wp8 platform...</span>";
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE);
     setResponseText(result);
 }
 
 function buildProject(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Building Project...</span>"
+    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Building Project...</span>";
     var result = sendPOSTRequest(Paths.BUILD_PROJECT);
     setResponseText(result);
 }

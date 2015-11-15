@@ -59,15 +59,15 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public String getData(String projectName, String categoryName, String data){
+    public DBCollection getData(String projectName, String categoryName){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
         DBCollection project = db.getCollection(projectName);
-        DBCollection category = project.getCollection(categoryName);
-        for (DBObject c : category.find()) {
-            if (c.get("name").equals(data)){
-                return c.toString();
-            }
-        }
-        return null;
+        return project.getCollection(categoryName);
+    }
+
+    @Override
+    public void cleaAll() {
+        @SuppressWarnings("deprecation" ) DB db = mongoClient.getDB(Strings.DB_NAME);
+        db.dropDatabase();
     }
 }

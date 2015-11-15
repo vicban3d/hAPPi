@@ -7,6 +7,10 @@ import Exceptions.DatabaseConnectionErrorException;
 import Utility.*;
 import Utility.FileHandler;
 import Utility.Logger;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -36,6 +40,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void createProject(String project) throws CordovaRuntimeException {
+        database.cleaAll();
         JSONObject json;
         try {
             json = new JSONObject(project);
@@ -63,12 +68,24 @@ public class hAPPiFacade implements Facade {
     @Override
     public void buildProject(String projectName) throws CordovaRuntimeException {
         compiler.buildProject(projectName);
+
+        DBCollection entities = database.getData(projectName, "Entities");
+        DBCursor c =  entities.find();
+        String result = "";
+        int i=0;
+        for (DBObject entity : c) {
+            try {
+                JSONObject json = new JSONObject(String.format("%s",entity));
+                String name  = json.getString("name");
+                String attributes = json.getString("attributes");
+                result += i++ + ") Name: " + name + "\n   Attributes: " + attributes + "\n" + "<hr>";
+            } catch (JSONException e) {
+                Logger.ERROR("Failed while handling JSON object.", e.getMessage());
+            }
+        }
         //Edit index.html file with the entities
         String indexPath = Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\index.html";
-        String entitiesPath = Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\js\\entities.js";
-        String content = FileHandler.readFile(entitiesPath);
-        HashMap<String, String[]> elements = makeMapOfElements(content);
-        content =  createHtmlContent(elements);
+        String content =  createHtmlContent(result);
         try {
             FileHandler.clearFile(indexPath);
         } catch (IOException e) {
@@ -77,39 +94,12 @@ public class hAPPiFacade implements Facade {
         FileHandler.writeFile(indexPath, content);
     }
 
-    private HashMap<String, String[]> makeMapOfElements(String content) {
-        HashMap<String,String[]> result = new HashMap<>();
-        if (content == null) {
-            return result;
-        }
-        String[] split = content.split("\\)");
-        for (int j=0; j < split.length - 1 ; j++){
-            String[] elements = split[j].split("\\(");
-            elements = elements[1].split(" ");
-            String[] attributes = new String[elements.length -1];
-            System.arraycopy(elements, 1, attributes, 0, elements.length - 1);
-            result.put(elements[0], attributes);
-        }
-        return result;
-    }
-
-    private String createListEntities(HashMap<String,String[]> elements){
-        String result = "";
-        Object[] keys = elements.keySet().toArray();
-        for(int i=0; i < keys.length ; i++){
-            String element = (String)keys[i];
-            String[] attributes = elements.get(keys[i]);
-            result += i+1 + ") Name: " + element + "\n   Attributes: " + Arrays.toString(attributes) + "\n" + "<hr>";
-        }
-        return result;
-    }
-
-    private String createHtmlContent(HashMap<String,String[]> elements){
+    private String createHtmlContent(String content){
         return  "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<body>\n" +
                 "<pre>\n" +
-                createListEntities(elements) +
+                content +
                 "</pre>\n" +
                 "</body>\n" +
                 "</html>";
