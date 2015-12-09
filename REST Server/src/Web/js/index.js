@@ -3,6 +3,7 @@
  *
  */
 var numOfAttributes = 0;
+var currentApp = "";
 
 function buildAttributeInputFields(list){
     var tags = "";
@@ -49,21 +50,22 @@ function addNewAttribute(){
     numOfAttributes++;
 }
 
-function openNewProjectForm(){
-    document.getElementById("div_createProject").innerHTML =
+function openNewApplicationForm(){
+    document.getElementById("div_createApplication").innerHTML =
     "<hr>" +
-    "Project Name: " +
-    "<input id=\"in_projectName\">" +
-    "<br><button id=\"btn_create\" onclick=createProject()>create</button>";
+    "Application Name: " +
+    "<input id=\"in_applicationName\">" +
+    "<br><button id=\"btn_create\" onclick=createApplication()>Create</button>";
 }
-function createProject(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Creating project...</span>";
-    var projectName = document.getElementById("in_projectName").value;
-    var newProject = {
-        name: projectName
+function createApplication(){
+    document.getElementById("div_message").innerHTML = "<span style=\"color: #b86102; \">Creating application...</span>";
+    var applicationName = document.getElementById("in_applicationName").value;
+    var newApplication = {
+        name: applicationName
     };
-    var result = sendPOSTRequest(Paths.CREATE_PROJECT, JSON.stringify(newProject));
-    clearDiv("div_createProject");
+    currentApp = applicationName;
+    var result = sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
+    clearDiv("div_createApplication");
     setResponseText(result);
 }
 
@@ -87,27 +89,33 @@ function clearDiv(divName){
 }
 
 function addAndroid(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding Android platform...</span>";
+    document.getElementById("div_message").innerHTML = "<span style=\"color: #b86102; \">Adding Android platform...</span>";
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID);
     setResponseText(result);
 }
 
 function addIOS(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding iOS platform...</span>";
+    document.getElementById("div_message").innerHTML = "<span style=\"color: #b86102; \">Adding iOS platform...</span>";
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS);
     setResponseText(result);
 }
 
 function addWindowsPhone(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Adding wp8 platform...</span>";
+    document.getElementById("div_message").innerHTML = "<span style=\"color: #b86102; \">Adding wp8 platform...</span>";
     var result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE);
     setResponseText(result);
 }
 
-function buildProject(){
-    document.getElementById("div_message").innerHTML = "<span style=\"color: yellow; \">Building Project...</span>";
-    var result = sendPOSTRequest(Paths.BUILD_PROJECT);
+function buildApplication(){
+    document.getElementById("div_message").innerHTML = "<span style=\"color: #b86102; \">Building application...</span>";
+    var result = sendPOSTRequest(Paths.BUILD_APP);
     setResponseText(result);
+}
+
+function emulateAndroid(){
+    var result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE);
+    setResponseText(result);
+    document.getElementById("div_emulator").innerHTML = "<html><head></head><body><h1>HELLO</h1></body></html>"
 }
 
 function submit(){

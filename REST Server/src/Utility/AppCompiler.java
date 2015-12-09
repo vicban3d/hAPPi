@@ -14,21 +14,21 @@ import org.codehaus.jettison.json.JSONObject;
 public interface AppCompiler {
 
     /**
-     * Creates a new project and initializes relevant files.
-     * @param name - the name of the created project.
+     * Creates a new application and initializes relevant files.
+     * @param name - the name of the created application.
      */
-    void createProject(JSONObject name) throws CordovaRuntimeException;
+    void createApplication(JSONObject name) throws CordovaRuntimeException;
 
     /**
-     * Add an android module to the given project.
-     * @param projectName - the name of the project.
+     * Add an android module to the given application.
+     * @param applicationName - the name of the application.
      * @param platform - the platform that should be added.
      */
-    void addPlatform(String projectName, String platform) throws CordovaRuntimeException;
+    void addPlatform(String applicationName, String platform) throws CordovaRuntimeException;
 
     /**
-     * Compiles the given project and creates a package file on all added modules.
-     * @param projectName - the name of the project to build.
+     * Compiles the given application and creates a package file on all added modules.
+     * @param applicationName - the name of the application to build.
      */
-    void buildProject(String projectName) throws CordovaRuntimeException;
+    void buildApplication(String applicationName) throws CordovaRuntimeException;
 }

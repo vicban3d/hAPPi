@@ -2,6 +2,16 @@ body{
     background-color: lightblue;
 }
 
+#div_emulator{
+    width: 25%;
+    height: 75%;
+    position: fixed;
+    background: azure;
+    left: 70%;
+    top: 10%;
+    border: outset black  ;
+}
+
 h1{
     font-size: 350%;
     text-align: center;

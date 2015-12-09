@@ -31,7 +31,7 @@ import java.io.IOException;
 public class Server {
 
     private static Facade facade;
-    private String projectName = "";
+    private String currentAppName = "";
 
     /**
      * Returns the main page of the application - "index.html".
@@ -49,61 +49,73 @@ public class Server {
     }
 
     /**
-     * Creates a new Cordova project in PATH_PROJECTS according to user parameters.
+     * Returns the application page of the current application - "index.html".
+     *
+     * @return the HTML content of the main page.
      */
-    @POST
-    @Path(Strings.PATH_CREATE_PROJECT)
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_XML)
-    public String createProject(String data) throws JSONException, CordovaRuntimeException {
-        JSONObject json = new JSONObject(data);
-        this.projectName = json.getString("name");
-        facade.createProject(data);
-        return "The project " + projectName + " created successfully";
+    @GET
+    @Path(Strings.PATH_EMULATE_ANDROID)
+    @Produces(MediaType.WILDCARD)
+    public String emulateAndroid(String appName) {
+        return "aaaa";
     }
 
     /**
-     * Add an android platform to a project
+     * Creates a new Cordova project in PATH_APPS according to user parameters.
+     */
+    @POST
+    @Path(Strings.PATH_CREATE_APP)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_XML)
+    public String createApplication(String data) throws JSONException, CordovaRuntimeException {
+        JSONObject json = new JSONObject(data);
+        this.currentAppName = json.getString("name");
+        facade.createApplication(data);
+        return "The application " + currentAppName + " was created successfully";
+    }
+
+    /**
+     * Add an android platform to an application
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_ANDROID)
     @Produces(MediaType.TEXT_XML)
     public String addAndroidModule() throws CordovaRuntimeException {
-        facade.addAndroidToProject(projectName);
-        return "Added android to " + projectName;
+        facade.addAndroidToApplication(currentAppName);
+        return "Added android to " + currentAppName + "!";
     }
 
     /**
-     * Add an android platform to a project
+     * Add an android platform to an application
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_IOS)
     @Produces(MediaType.TEXT_XML)
     public String addIOModuleS() throws CordovaRuntimeException {
-        facade.addIOSToProject(projectName);
-        return "Added ios to " + projectName;
+        facade.addIOSToApplication(currentAppName);
+        return "Added ios to " + currentAppName + "!";
     }
 
     /**
-     * Add an android platform to a project
+     * Add an android platform to a an application
      */
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_WINDOWS_PHONE)
     @Produces(MediaType.TEXT_XML)
     public String addWindowsPhoneModule() throws CordovaRuntimeException {
-        facade.addWindowsPhoneToProject(projectName);
-        return "Added windows phone to " + projectName;
+        facade.addWindowsPhoneToApplication(currentAppName);
+        return "Added windows phone to " + currentAppName + "!";
     }
 
     /**
-     * Build a project
+     * Build an application
      */
     @POST
-    @Path(Strings.PATH_BUILD_PROJECT)
+    @Path(Strings.PATH_BUILD_APP)
     @Produces(MediaType.TEXT_XML)
-    public String buildProject() throws CordovaRuntimeException {
-        facade.buildProject(projectName);
-        return projectName + " build successfully";
+    public String buildApplication() throws CordovaRuntimeException {
+        facade.buildApplication(currentAppName);
+        return currentAppName + " built successfully!";
     }
 
     /**
@@ -112,8 +124,10 @@ public class Server {
     @POST
     @Path(Strings.PATH_CREATE_ENTITY)
     @Consumes(MediaType.TEXT_PLAIN)
-    public void createEntity(String data) {
-        facade.createEntity(projectName, data);
+    @Produces(MediaType.TEXT_XML)
+    public String createEntity(String data) {
+        facade.createEntity(currentAppName, data);
+        return "Object added!";
     }
 
     /**
@@ -151,7 +165,7 @@ public class Server {
         Logger.SEVERE("Server running.");
 
         System.out.println("Visit: " + Strings.SRV_FULL + Strings.PATH_MAIN);
-        System.out.println("Projects: " + Strings.PATH_PROJECTS);
+        System.out.println("Applications: " + Strings.PATH_APPS);
         System.out.println("Press ENTER to stop...");
 
         try {

@@ -10,14 +10,10 @@ import Utility.Logger;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Created by victor on 11/10/2015.
@@ -39,37 +35,40 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createProject(String project) throws CordovaRuntimeException {
-        database.cleaAll();
+    public void createApplication(String application) throws CordovaRuntimeException {
+        //TODO - REMOVE THIS STATEMENT!
+//        database.cleaAll();
+        //TODO - REMOVE THIS STATEMENT!
         JSONObject json;
         try {
-            json = new JSONObject(project);
-            compiler.createProject(json);
+            json = new JSONObject(application);
+            compiler.createApplication(json);
         } catch (JSONException e) {
             Logger.ERROR("Error creating JSON object!", e.getMessage());
         }
+
     }
 
     @Override
-    public void addAndroidToProject(String projectName) throws CordovaRuntimeException {
-        compiler.addPlatform(projectName, "android");
+    public void addAndroidToApplication(String application) throws CordovaRuntimeException {
+        compiler.addPlatform(application, "android");
     }
 
     @Override
-    public void addIOSToProject(String projectName) throws CordovaRuntimeException {
-        compiler.addPlatform(projectName, "ios");
+    public void addIOSToApplication(String application) throws CordovaRuntimeException {
+        compiler.addPlatform(application, "ios");
     }
 
     @Override
-    public void addWindowsPhoneToProject(String projectName) throws CordovaRuntimeException {
-        compiler.addPlatform(projectName, "wp8");
+    public void addWindowsPhoneToApplication(String application) throws CordovaRuntimeException {
+        compiler.addPlatform(application, "wp8");
     }
 
     @Override
-    public void buildProject(String projectName) throws CordovaRuntimeException {
-        compiler.buildProject(projectName);
+    public void buildApplication(String applicationName) throws CordovaRuntimeException {
+        compiler.buildApplication(applicationName);
 
-        DBCollection entities = database.getData(projectName, "Entities");
+        DBCollection entities = database.getData(applicationName, "Entities");
         DBCursor c =  entities.find();
         String result = "";
         int i=0;
@@ -84,7 +83,7 @@ public class hAPPiFacade implements Facade {
             }
         }
         //Edit index.html file with the entities
-        String indexPath = Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\index.html";
+        String indexPath = Strings.PATH_APPS + "\\" + applicationName + "\\www\\index.html";
         String content =  createHtmlContent(result);
         try {
             FileHandler.clearFile(indexPath);
@@ -106,11 +105,11 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createEntity(String project, String entity){
-        database.addData(project, "Entities", entity);
+    public void createEntity(String application, String entity){
+        database.addData(application, "Entities", entity);
         Entity newEntity = new Entity(entity);
         String jsValue = jsCreator.create(newEntity);
-        String path = Strings.PATH_PROJECTS + "\\" + project + "\\www\\js\\entities.js";
+        String path = Strings.PATH_APPS + "\\" + application + "\\www\\js\\entities.js";
         FileHandler.writeFile(path, jsValue);
     }
 

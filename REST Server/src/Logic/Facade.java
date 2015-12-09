@@ -14,41 +14,41 @@ import Exceptions.DatabaseConnectionErrorException;
 public interface Facade {
 
     /**
-     * Creates a new project with the given parameters.
-     * @param project - a JSON compatible string describing the project.
+     * Creates a new application with the given parameters.
+     * @param application - a JSON compatible string describing the application.
      */
-    void createProject(String project) throws CordovaRuntimeException;
+    void createApplication(String application) throws CordovaRuntimeException;
 
     /**
-     * Adds an android component to the given project.
-     * @param project - the name of the project.
+     * Adds an android component to the given application.
+     * @param application - the name of the application.
      */
-    void addAndroidToProject(String project) throws CordovaRuntimeException;
+    void addAndroidToApplication(String application) throws CordovaRuntimeException;
 
     /**
-     * Adds an ios component to the given project.
-     * @param project - the name of the project.
+     * Adds an ios component to the given application.
+     * @param application - the name of the application.
      */
-    void addIOSToProject(String project) throws CordovaRuntimeException;
+    void addIOSToApplication(String application) throws CordovaRuntimeException;
 
     /**
-     * Adds a Windows Phone component to the given project.
-     * @param project - the name of the project.
+     * Adds a Windows Phone component to the given application.
+     * @param application - the name of the application.
      */
-    void addWindowsPhoneToProject(String project) throws CordovaRuntimeException;
+    void addWindowsPhoneToApplication(String application) throws CordovaRuntimeException;
 
     /**
-     * Compiles and builds the project.
-     * @param projectName - the name of the project to build.
+     * Compiles and builds the application.
+     * @param applicationName - the name of the application to build.
      */
-    void buildProject(String projectName) throws CordovaRuntimeException;
+    void buildApplication(String applicationName) throws CordovaRuntimeException;
 
     /**
-     * Creates a new entity in the given project.
-     * @param project - the name of the project.
+     * Creates a new entity in the given application.
+     * @param application - the name of the application.
      * @param entity - the JSON compatible parameters of the entity.
      */
-    void createEntity(String project, String entity);
+    void createEntity(String application, String entity);
 
     /**
      * Initiates a connection to the database.

@@ -15,15 +15,15 @@ public interface Strings {
     String SRV_FULL = SRV_HOST + ":" + SRV_PORT + SRV_MAIN;
     String PATH_WEB_CONTENT = "C:\\users\\victor\\IdeaProjects\\hAPPi\\REST Server\\src\\Web\\";
     String PATH_CORDOVA = "C:\\users\\victor\\AppData\\Roaming\\npm\\cordova.cmd";
-    String PATH_PROJECTS = "C:\\users\\victor\\HAPPI\\Projects";
+    String PATH_APPS = "C:\\users\\victor\\HAPPI\\Applications";
     String PATH_MAIN = "/main";
-    String PATH_CREATE_PROJECT = "/createProject";
+    String PATH_EMULATE_ANDROID = "/emulateAndroid";
+    String PATH_CREATE_APP = "/createApplication";
     String PATH_ADD_PLATFORM_ANDROID = "/addAndroid";
     String PATH_ADD_PLATFORM_IOS = "/addIOS";
     String PATH_ADD_PLATFORM_WINDOWS_PHONE = "/addWindowsPhone";
-    String PATH_BUILD_PROJECT = "/build";
+    String PATH_BUILD_APP = "/build";
     String PATH_CREATE_ENTITY = "/createEntity";
     String DB_NAME = "hAPPiDB";
     String DB_PORT = "27017";
-    String PATH_ANDROID_HOME = "C:\\Program Files (x86)\\Android\\android-sdk";
 }

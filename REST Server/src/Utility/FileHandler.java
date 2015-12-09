@@ -12,7 +12,7 @@ import java.nio.file.StandardOpenOption;
  */
 
 /**
- * A class which handles reading and writing of project files.
+ * A class which handles reading and writing of application files.
  */
 public class FileHandler {
 

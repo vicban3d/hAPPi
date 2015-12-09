@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="" id="html">
 <head>
     <script language="JavaScript" src="js/util.js"></script>
     <script language="JavaScript" src="js/index.js"></script>
@@ -7,15 +7,17 @@
     <link rel="stylesheet" type="text/css" href="css/index.css"></head>
 <body>
     <h1>hAPPi</h1>
-    <button id="btn_createProject" onclick="openNewProjectForm()">+ Create Project</button>
+    <button id="btn_createApplication" onclick="openNewApplicationForm()">+ Create App</button>
     <button id="btn_addAndroid" onclick="addAndroid()">+ Add Android</button>
     <button id="btn_addIOS" onclick="addIOS()">+ Add iOS</button>
     <button id="btn_addWindowsPhone" onclick="addWindowsPhone()">+ Add Windows Phone</button>
     <button id="btn_createEntity" onclick="createNewEntity()">+ Add Object</button>
-    <button id="btn_buildProject" onclick="buildProject()">! Build Project</button><br>
+    <button id="btn_buildApplication" onclick="buildApplication()">! Build App</button><br>
+    <button id="btn_emulateAndroid" onclick="emulateAndroid()">Emulate Android</button><br>
     <br>
     <div id="div_createEntity"></div>
-    <div id="div_createProject"></div>
+    <div id="div_createApplication"></div>
+    <div id="div_emulator"><button></button></div>
     <div id="div_message"></div>
 </body>
 </html>

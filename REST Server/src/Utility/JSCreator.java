@@ -24,15 +24,15 @@ public class JSCreator {
             "}";
 
     /**
-     * Initializes a JavaScript file in the given project with all relevant helper functions.
-     * @param projectName - the name of the project.
+     * Initializes a JavaScript file in the given application with all relevant helper functions.
+     * @param applicationName - the name of the application.
      * @param name - the name of the file.
      */
-    public void initializeFile(String projectName, String name){
+    public void initializeFile(String applicationName, String name){
         String text = "";
         text+= FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\helper_functions.js");
         // Add more initial file content here.
-        FileHandler.writeFile(Strings.PATH_PROJECTS + "\\" + projectName + "\\www\\js\\" + name + ".js", text);
+        FileHandler.writeFile(Strings.PATH_APPS + "\\" + applicationName + "\\www\\js\\" + name + ".js", text);
     }
 
     /**
