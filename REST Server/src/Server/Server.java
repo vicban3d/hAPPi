@@ -56,7 +56,7 @@ public class Server {
     @GET
     @Path(Strings.PATH_EMULATE_ANDROID)
     @Produces(MediaType.WILDCARD)
-    public String emulateAndroid(String appName) {
+    public String emulateAndroid() {
         return "aaaa";
     }
 
