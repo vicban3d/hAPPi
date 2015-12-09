@@ -10,7 +10,6 @@ package Utility;
  */
 public interface Strings {
     String username = System.getProperty("user.name");
-
     String SRV_HOST = "http://localhost";
     String SRV_PORT = "9998";
     String SRV_MAIN = "/hAPPi";
