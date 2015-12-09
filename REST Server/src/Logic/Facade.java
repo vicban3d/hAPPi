@@ -54,4 +54,6 @@ public interface Facade {
      * Initiates a connection to the database.
      */
     void connectToDatabase() throws DatabaseConnectionErrorException;
+
+    void clearDatabase();
 }

@@ -117,4 +117,9 @@ public class hAPPiFacade implements Facade {
     public void connectToDatabase() throws DatabaseConnectionErrorException {
         database.connect();
     }
+
+    @Override
+    public void clearDatabase() {
+        database.cleaAll();
+    }
 }

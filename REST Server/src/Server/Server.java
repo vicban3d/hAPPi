@@ -178,6 +178,9 @@ public class Server {
         Logger.SEVERE("Stopping server...");
         server.stop(0);
         Logger.SEVERE("Server stopped.");
+        // TODO - remove in production!!!
+        facade.clearDatabase();// TODO - remove in production!!!
+        // TODO - remove in production!!!
     }
 
     /**
