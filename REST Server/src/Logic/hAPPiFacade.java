@@ -36,9 +36,6 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void createApplication(String application) throws CordovaRuntimeException {
-        //TODO - REMOVE THIS STATEMENT!
-//        database.cleaAll();
-        //TODO - REMOVE THIS STATEMENT!
         JSONObject json;
         try {
             json = new JSONObject(application);

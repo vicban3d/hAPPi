@@ -24,6 +24,10 @@ public class MongoDB implements Database {
      * Database              .        ------- Category m ...
      *          \            .
      *            ------- Project n ...
+     *
+     *
+     * DB RECOVERY AFTER SHUTDOWN:
+     * mongod --dbpath /data/db --repair --repairpath /data/db0
      */
 
     private MongoClient mongoClient;

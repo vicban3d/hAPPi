@@ -42,7 +42,7 @@ public class Server {
     @Path(Strings.PATH_MAIN)
     @Produces(MediaType.WILDCARD)
     public String getMainPage() {
-        String script = getPage("js/strings.js") + getPage("js/util.js") + getPage("js/index.js");
+        String script = getPage("js/strings.js") + getPage("js/util.js") + getPage("js/index.js") + getPage("js/angular_index.js");
         String style = getPage("css/index.css");
         String page = getPage("index.html");
         return assemblePage(script, style, page);
@@ -148,7 +148,8 @@ public class Server {
      * @return the assembled web page.
      */
     private String assemblePage(String script, String style, String page){
-        return "<html><head><script>" + script + "</script><style>" + style +"</style></head>" + page + "</html>";
+        page = page.replace("<html>","").replace("<head>", "").replace("</head>", "").replace("<body>", "");
+        return "<html><head><script src=\"http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js\"></script></head><body><script>" + script + "</script><style>" + style +"</style>" + page;
     }
 
     /**

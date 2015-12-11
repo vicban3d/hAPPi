@@ -1,8 +1,86 @@
-<!doctype html>
-
+<html>
 <head>
-<title>hAPPi - Human-Application Interpreter
-<body>
+    <title>hAPPi - Human - Application Interpreter</title>
+    <script src="lib/js/angular.min.js"></script>
+    <script src="js/angular_index.js"></script>
+</head>
+<body ng-app="main" ng-controller="ctrl_main">
+<div class="title">
+    hAPPi
+</div>
+<div class="div_workArea">
+    <div class="div_menuArea">
+        <div class="div_menuCreateApplication" data-ng-click="menuCreateApplication()">
+            Create App
+        </div>
+        <hr>
+        <div class="div_menuAddObjects" data-ng-click="menuAddObjects()">
+            Add Objects
+        </div>
+        <hr>
+        <div class="div_menuAddObjects" data-ng-click="">
+            Add Behavior
+        </div>
+        <hr>
+        <div class="div_menuAddObjects" data-ng-click="">
+            Design
+        </div>
+        <hr>
+        <div class="div_menuAddObjects" data-ng-click="">
+            Release
+        </div>
+        <hr>
+    </div>
+    <div class="div_objectCreationArea" ng-show="showAddObjects">
+            <span ng-repeat="object in objects track by $index">
+                <div class="div_objectBlob" data-ng-click="showObjectDetails(object)">
+                    <span >{{object.name}}</span>
+                    <div class='div_deleteObjectButton' data-ng-click="deleteObject(object)">X</div>
+                    <div class='div_editObjectButton' data-ng-click="editObjectDetails(object)">?</div>
+                </div>
+            </span>
+            <div class="div_objectBlob" data-ng-click="addFirstObject()">
+                <span>+</span>
+            </div>
+    </div>
+    <div class="div_applicationCreationArea" ng-show="showCreateApplication">
+        <form class="form_createApplication" data-ng-submit="createApplication(app_name)">
+            Name: <input type="text" data-ng-model="app_name">
+            <button type="submit">Create Application {{app_name}}</button>
+        </form>
+    </div>
+    <div class="div_objectDetailsArea">
 
+        <div ng-show="showObjectDetailsFlag">
+            <div class="objectDetailsSummary">
+                {{currentObject.name}}<br><hr>
+                <div ng-repeat="attr in currentObject.attributes track by $index">
+                    {{attr}}
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="showObjectEditFlag">
+            <form class="form_addNewObject" data-ng-submit="addObject()" ng-init="name='';all_attrs=[]">
+                Name: <input type="text" data-ng-model="name">
+                <hr>
+                Attributes:<br>
+                <div ng-repeat="n in [].constructor(attributes) track by $index">
+                    {{$index + 1}} <input type="text" data-ng-model="all_attrs[$index]">
+                </div>
+                <div class="div_addAttributeButton" data-ng-click="addAttribute()">+</div>
+                <hr>
+                Actions:<br>
+                <div ng-repeat="n in [].constructor(2) track by $index">
+                    Action {{$index + 1}}
+                </div>
+                <div class="div_addAttributeButton" data-ng-click="">+</div>
+                <hr>
+
+                <button type="submit">Create Object</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
