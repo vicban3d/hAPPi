@@ -22,6 +22,8 @@ public interface Database {
      */
     void addData(String projectName, String categoryName, String data);
 
+    void removeData(String currentAppName, String categoryName, String data);
+
     /**
      * gets the data from a given project.
      * @param projectName - the project to get from.

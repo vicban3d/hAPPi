@@ -131,6 +131,18 @@ public class Server {
     }
 
     /**
+     * Creates a new entity for the user.
+     */
+    @POST
+    @Path(Strings.PATH_REMOVE_ENTITY)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_XML)
+    public String removeEntity(String data) {
+        facade.removeEntity(currentAppName, data);
+        return "Object Removed!";
+    }
+
+    /**
      * Returns the file at given source to the client.
      *
      * @param src - path to the requested file.

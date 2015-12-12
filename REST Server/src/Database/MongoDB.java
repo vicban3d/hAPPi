@@ -63,6 +63,16 @@ public class MongoDB implements Database {
     }
 
     @Override
+    public void removeData(String projectName, String categoryName, String data) {
+        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
+        DBCollection project = db.getCollection(projectName);
+        DBCollection category = project.getCollection(categoryName);
+        DBObject jsonData = (DBObject)JSON.parse(data);
+        category.remove(jsonData);
+        Logger.INFO("Removed data from Database: " + projectName + " -> " + categoryName + " -> " + data);
+    }
+
+    @Override
     public DBCollection getData(String projectName, String categoryName){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
         DBCollection project = db.getCollection(projectName);

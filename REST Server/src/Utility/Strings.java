@@ -25,6 +25,7 @@ public interface Strings {
     String PATH_ADD_PLATFORM_WINDOWS_PHONE = "/addWindowsPhone";
     String PATH_BUILD_APP = "/build";
     String PATH_CREATE_ENTITY = "/createEntity";
+    String PATH_REMOVE_ENTITY = "/removeEntity";
     String DB_NAME = "hAPPiDB";
     String DB_PORT = "27017";
 }

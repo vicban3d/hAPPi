@@ -111,6 +111,15 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
+    public void removeEntity(String application, String entity) {
+        database.removeData(application, "Entities", entity);
+        Entity newEntity = new Entity(entity);
+        String jsValue = jsCreator.create(newEntity);
+        String path = Strings.PATH_APPS + "\\" + application + "\\www\\js\\entities.js";
+        FileHandler.removeFromFile(path, jsValue);
+    }
+
+    @Override
     public void connectToDatabase() throws DatabaseConnectionErrorException {
         database.connect();
     }

@@ -6,30 +6,25 @@
 </head>
 <body ng-app="main" ng-controller="ctrl_main">
 <div class="title">
-    hAPPi
+    hAPPi UI Prototype
 </div>
 <div class="div_workArea">
     <div class="div_menuArea">
-        <div class="div_menuCreateApplication" data-ng-click="menuCreateApplication()">
+        <div class="div_menuButton" data-ng-click="menuCreateApplication()">
             Create App
         </div>
-        <hr>
-        <div class="div_menuAddObjects" data-ng-click="menuAddObjects()">
+        <div class="div_menuButton" data-ng-click="menuAddObjects()">
             Add Objects
         </div>
-        <hr>
-        <div class="div_menuAddObjects" data-ng-click="">
+        <div class="div_menuButton" data-ng-click="">
             Add Behavior
         </div>
-        <hr>
-        <div class="div_menuAddObjects" data-ng-click="">
+        <div class="div_menuButton" data-ng-click="">
             Design
         </div>
-        <hr>
-        <div class="div_menuAddObjects" data-ng-click="">
+        <div class="div_menuButton" data-ng-click="">
             Release
         </div>
-        <hr>
     </div>
     <div class="div_objectCreationArea" ng-show="showAddObjects">
             <span ng-repeat="object in objects track by $index">
@@ -46,7 +41,7 @@
     <div class="div_applicationCreationArea" ng-show="showCreateApplication">
         <form class="form_createApplication" data-ng-submit="createApplication(app_name)">
             Name: <input type="text" data-ng-model="app_name">
-            <button type="submit">Create Application {{app_name}}</button>
+            <button type="submit">Create {{app_name}}</button>
         </form>
     </div>
     <div class="div_objectDetailsArea">

@@ -50,6 +50,8 @@ public interface Facade {
      */
     void createEntity(String application, String entity);
 
+    void removeEntity(String application, String entity);
+
     /**
      * Initiates a connection to the database.
      */

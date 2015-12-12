@@ -34,7 +34,9 @@ angular.module('main', [])
                 if (object == $scope.currentObject){
                     $scope.currentObject = {};
                 }
+                sendPOSTRequest(Paths.REMOVE_ENTITY, JSON.stringify(object));
             };
+
             $scope.getNumber = function(num) {
                 return new Array(num);
             };
