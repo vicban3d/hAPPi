@@ -98,7 +98,7 @@
                         {{all_acts[$index].name}}
                     </div>
                 </div>
-                <div class="div_addAttributeButton" data-ng-click="addNewAction()">+</div>
+                <div class="div_addAttributeButton" data-ng-click="addAction()">+</div>
                 <hr>
                 <button type="submit">Create Object</button>
             </form>
@@ -141,11 +141,11 @@
             </div>
         </div>
         <div class="div_addActionArea" ng-show="showActionsEditFlag">
-            <form class="form_addAction" data-ng-submit="addAction()"
-                  ng-init="all_acts[$index]={name:'', operator1:'', operand:'', operator2:''}">
+            <form class="form_addAction" data-ng-submit="addNewAction()"
+                  ng-init="actionName='';all_acts[$index]={name:'', operator1:'', operand:'', operator2:''}">
                 Name: <input type="text" data-ng-model="all_acts[numOfActions].name"><hr>
-                <input type="text" ng-model="all_acts[numOfActions].operand1">
-                <select ng-model="allActs[numOfActions].operator"></select>
+                <select ng-model="all_acts[numOfActions].operand1" ng-options="item as o for o in all_attrs.filter(isValidAttribute)"></select>
+                <select ng-model="all_acts[numOfActions].operator" ng-options="item as o for o in operators"></select>
                 <input type="text" ng-model="all_acts[numOfActions].operand2">
                 <button type="submit">Add Action</button>
             </form>

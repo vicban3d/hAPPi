@@ -127,12 +127,17 @@ angular.module('main', [])
             };
 
             $scope.addAction = function(){
-                $scope.showActionsEditFlag = false;
-                $scope.numOfActions+=1;
+                $scope.showActionsEditFlag = true;
             };
 
             $scope.addNewAction = function(){
-                $scope.showActionsEditFlag = true;
+                if ($scope.actionName == '' || $scope.actionName =='Invalid Name!'){
+                    $scope.actionName = 'Invalid Name!'
+                }
+                else {
+                    $scope.numOfActions += 1;
+                    $scope.showActionsEditFlag = false;
+                }
             };
 
             $scope.showObjectDetails = function(object){
@@ -188,7 +193,7 @@ angular.module('main', [])
             };
 
             $scope.addNewApplication = function(){
-               /* $scope.showApplicationDetails(null);*/
+                /* $scope.showApplicationDetails(null);*/
                 $scope.showApplicationDetailsFlag = false;
                 $scope.showApplicationEditFlag = true;
             };
