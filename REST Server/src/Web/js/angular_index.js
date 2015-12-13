@@ -279,7 +279,7 @@ angular.module('main', [])
                 $scope.showBehaviorEditFlag = false;
                 $scope.showAddBehaviors = false;
             };
- $scope.menuAddObjects = function(){
+            $scope.menuAddObjects = function(){
                 $scope.showCreateApplication = false;
                 $scope.showAddBehaviors = false;
                 $scope.showObjectDetailsFlag = false;
