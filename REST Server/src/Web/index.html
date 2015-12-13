@@ -8,7 +8,6 @@
 <div class="title">
     hAPPi UI Prototype
 </div>
-
 <div class="div_workArea">
     <div class="div_menuArea">
         <div data-ng-show="showMenuArea">
@@ -50,6 +49,24 @@
             <div class="div_objectBlob" data-ng-click="addFirstObject()">
                 <span>+</span>
             </div>
+        </div>
+        <div class="div_CreationArea" ng-show="showAddBehaviors">
+            <span ng-repeat="behavior in behaviors track by $index">
+                <div class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
+                    <span >{{behavior.name}}</span>
+                    <div class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</div>
+                    <div class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</div>
+                </div>
+            </span>
+            <div class="div_objectBlob" data-ng-click="addFirstBehavior()">
+                <span>+</span>
+            </div>
+        </div>
+        <div class="div_applicationCreationArea" ng-show="showCreateApplication">
+            <form class="form_createApplication" data-ng-submit="createApplication(app_name)">
+                Name: <input type="text" data-ng-model="app_name">
+                <button type="submit">Create {{app_name}}</button>
+            </form>
         </div>
     </div>
     <div class="div_sideArea">
@@ -94,47 +111,46 @@
             <div class="behaviorDetailsSummary">
                 {{currentBehavior.name}}<br><hr>
             </div>
-
-            <div data-ng-show="showBehaviorEditFlag">
-                <form class="form_addNewObject" data-ng-submit="addBehavior()" data-ng-init="name=''">
-                    Name: <input type="text" data-ng-model="name">
-                    <hr>
-                    <button type="submit">Create Behavior</button>
-                </form>
+        </div>
+        <div data-ng-show="showBehaviorEditFlag">
+            <form class="form_addNewObject" data-ng-submit="addBehavior()" data-ng-init="name=''">
+                Name: <input type="text" data-ng-model="name">
+                <hr>
+                <button type="submit">Create Behavior</button>
+            </form>
+        </div>
+    </div>
+    <div class="div_applicationDetailsArea">
+        <div data-ng-show="showApplicationDetailsFlag">
+            <div class="applicationDetailsSummary">
+                {{currentApplication.name}}<br><hr>
+                <!-- <div data-ng-repeat="attr in currentObject.attributes track by $index">
+                     {{attr}}--> //TODO add platforms
             </div>
         </div>
-        <div class="div_applicationDetailsArea">
-            <div data-ng-show="showApplicationDetailsFlag">
-                <div class="applicationDetailsSummary">
-                    {{currentApplication.name}}<br><hr>
-                    <!-- <div data-ng-repeat="attr in currentObject.attributes track by $index">
-                         {{attr}}--> //TODO add platforms
-                </div>
-            </div>
-            <div class="div_addActionArea" ng-show="showActionsEditFlag">
-                <form class="form_addAction" data-ng-submit="addAction()"
-                      ng-init="all_acts[$index]={name:'', operator1:'', operand:'', operator2:''}">
-                    Name: <input type="text" data-ng-model="all_acts[numOfActions].name"><hr>
-                    <input type="text" ng-model="all_acts[numOfActions].operand1">
-                    <select ng-model="allActs[numOfActions].operator"></select>
-                    <input type="text" ng-model="all_acts[numOfActions].operand2">
-                    <button type="submit">Add Action</button>
-                </form>
+        <div class="div_addActionArea" ng-show="showActionsEditFlag">
+            <form class="form_addAction" data-ng-submit="addAction()"
+                  ng-init="all_acts[$index]={name:'', operator1:'', operand:'', operator2:''}">
+                Name: <input type="text" data-ng-model="all_acts[numOfActions].name"><hr>
+                <input type="text" ng-model="all_acts[numOfActions].operand1">
+                <select ng-model="allActs[numOfActions].operator"></select>
+                <input type="text" ng-model="all_acts[numOfActions].operand2">
+                <button type="submit">Add Action</button>
+            </form>
 
-            </div>
-            <div data-ng-show="showApplicationEditFlag">
-                <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name=''">
-                    Name: <input type="text" data-ng-model="name">
-                    <hr>
-                    <!--<form calss="form_getPlatform">-->
-                    <input type="checkbox" name="platform" value="android" data-ng-model="android"> Android<br>
-                    <input type="checkbox" name="platform" value="ios" data-ng-model="ios"> IOS<br>
-                    <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone"> Windows Phone<br>
-                    <!-- <input type="submit" value="Submit">-->
-                    <!-- </form>-->
-                    <button type="submit">Create Object</button>
-                </form>
-            </div>
+        </div>
+        <div data-ng-show="showApplicationEditFlag">
+            <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name=''">
+                Name: <input type="text" data-ng-model="name">
+                <hr>
+                <!--<form calss="form_getPlatform">-->
+                <input type="checkbox" name="platform" value="android" data-ng-model="android"> Android<br>
+                <input type="checkbox" name="platform" value="ios" data-ng-model="ios"> IOS<br>
+                <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone"> Windows Phone<br>
+                <!-- <input type="submit" value="Submit">-->
+                <!-- </form>-->
+                <button type="submit">Create Object</button>
+            </form>
         </div>
     </div>
 </div>
