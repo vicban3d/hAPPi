@@ -40,7 +40,6 @@ public class CordovaAppCompiler implements AppCompiler {
         Logger.INFO("application " + applicationName + " built.");
     }
 
-
     private void initializeFiles(String application){
         Logger.INFO("Initializing application files in " + application + "...");
         FileHandler.writeFile(application + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);

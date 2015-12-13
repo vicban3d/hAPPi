@@ -15,14 +15,14 @@ angular.module('main', [])
             $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
 
             $scope.showAddObjects = false;
-            $scope.showMenuArea = true;
+            $scope.showMenuArea = false;
             $scope.showCreateApplication = false;
-            $scope.showApplicationList = false;
+            $scope.showApplicationList = true;
             $scope.showApplictionDetailsFlag = false;
             $scope.showApplicationEditFlag = false;
             $scope.applications = [];
             $scope.currentApplication = '';
-            $scope.platform = '';
+            $scope.platforms = [];
             $scope.currentBehavior = '';
             $scope.showBehaviorDetailsFlag = false;
             $scope.showBehaviorEditFlag = false;
@@ -30,28 +30,40 @@ angular.module('main', [])
             $scope.showAddBehaviors = false;
 
             $scope.getPlatform = function(){
-                if($scope.android = true)
-                    $scope.platform = 'android';
-                else if($scope.ios = true)
-                    $scope.platform = 'ios';
-                else if($scope.windowsPhone = true)
-                    $scope.platform = 'windowsPhone';
+                if($scope.android == true)
+                    $scope.platforms.push('android');
+                if($scope.ios == true)
+                    $scope.platforms.push('ios');
+                if($scope.windowsPhone == true)
+                    $scope.platforms.push('windowsPhone');
             };
 
+   /*         $scope.addPlatforms = function(){
+                if($scope.android = true)
+                    $scope.platforms.push('android');
+                else if($scope.ios = true)
+                    $scope.platforms.push('ios');
+                else if($scope.windowsPhone = true)
+                    $scope.platforms.push('windowsPhone');
+            };*/
+
             $scope.addApplication = function(){
-                if ($scope.name == '' || $scope.name =='Invalid Name!'){
+                if ($scope.name == '' || $scope.name =='Invalid Name!') {
                     $scope.name = 'Invalid Name!'
                 }
-                getPlatform();
-                var newApplication = {name: $scope.name, platform: $scope.platform};//TODO : change the name to application or object name
+                $scope.getPlatform();
+                var newApplication = {name: $scope.name, platforms: $scope.platforms};//TODO : change the name to application or object name
                 $scope.applications.push(newApplication);
+                $scope.createApplication($scope.name);
                 $scope.name = '';
                 $scope.android = false;
                 $scope.ios = false;
                 $scope.windowsPhone = false;
-                $scope.showObjectDetails(newApplication);
-                sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(name));
-                //TODO: send request to add platform
+                $scope.platforms = [];
+                $scope.showApplicationDetails(newApplication);
+                for(i=0; i<$scope.platforms.length; i++){
+                    //TODO: send request to add platforms... or only in the end??
+                }
             };
 
             $scope.addObject = function() {
@@ -98,6 +110,15 @@ angular.module('main', [])
                 sendPOSTRequest(Paths.REMOVE_ENTITY, JSON.stringify(object));
             };
 
+            $scope.deleteApplication = function(application){
+                var index =  $scope.applications.indexOf(application);
+                $scope.applications.splice(index, 1);
+                if (application == $scope.currentApplication){
+                    $scope.currentApplication = {};
+                }
+                sendPOSTRequest(Paths.REMOVE_APP, JSON.stringify(application));
+            };
+
             $scope.getNumber = function(num) {
                 return new Array(num);
             };
@@ -133,7 +154,6 @@ angular.module('main', [])
                     $scope.currentApplication = application;
                     $scope.showApplicationDetailsFlag = 0
                 } else{
-                    /*$scope.currentApplication = '';*/
                     $scope.showApplicationDetailsFlag = 1
                 }
                 $scope.showApplicationEditFlag = false;
@@ -168,8 +188,7 @@ angular.module('main', [])
             };
 
             $scope.addNewApplication = function(){
-                var empty = {name:'new object'};
-                $scope.showApplicationDetails(empty);
+               /* $scope.showApplicationDetails(null);*/
                 $scope.showApplicationDetailsFlag = false;
                 $scope.showApplicationEditFlag = true;
             };
@@ -183,9 +202,9 @@ angular.module('main', [])
                 $scope.showBehaviorEditFlag = true;
             };
 
-            $scope.createApplication = function(app_name){
+            $scope.createApplication = function(name){
                 var newApplication = {
-                    name:  app_name
+                    name: name
                 };
                 sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
             };

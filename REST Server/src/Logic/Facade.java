@@ -58,4 +58,6 @@ public interface Facade {
     void connectToDatabase() throws DatabaseConnectionErrorException;
 
     void clearDatabase();
+
+    void removeApplication(String currentAppName);
 }

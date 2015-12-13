@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-
+import java.io.File;
 /**
  * Created by victor on 11/6/2015.
  *
@@ -76,5 +76,20 @@ public class FileHandler {
     public static void clearFile(String path) throws IOException {
         Files.delete(Paths.get(path));
         Files.createFile(Paths.get(path));
+    }
+
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if(files!=null) {
+            //some JVMs return null for empty dirs
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
     }
 }

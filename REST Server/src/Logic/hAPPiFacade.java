@@ -14,7 +14,14 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.io.File;
 /**
  * Created by victor on 11/10/2015.
  *
@@ -43,7 +50,6 @@ public class hAPPiFacade implements Facade {
         } catch (JSONException e) {
             Logger.ERROR("Error creating JSON object!", e.getMessage());
         }
-
     }
 
     @Override
@@ -127,5 +133,18 @@ public class hAPPiFacade implements Facade {
     @Override
     public void clearDatabase() {
         database.cleaAll();
+    }
+
+    @Override
+    public void removeApplication(String application){
+        database.removeData(application, null, null);
+        File file = null;
+        try {
+            JSONObject json = new JSONObject(application);
+            file = new File(Strings.PATH_APPS + "\\" + json.get("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+       FileHandler.deleteFolder(file);
     }
 }
