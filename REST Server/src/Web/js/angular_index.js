@@ -161,7 +161,7 @@ angular.module('main', [])
             };
 
             $scope.editObjectDetails = function(object){
-                    $scope.currentObject = object;
+                $scope.currentObject = object;
             };
 
             $scope.editBehaviorDetails = function(behavior){
@@ -206,7 +206,17 @@ angular.module('main', [])
                 var newApplication = {
                     name: name
                 };
-                sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
+                var result = sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
+                result.onreadystatechange = function(){
+                    if (result.readyState != 4 && result.status != 200){
+                        $scope.app = "Error";
+                        $scope.$apply();
+                    }
+                    else if (result.readyState == 4 && result.status == 200){
+                        $scope.aap = result.responseText;
+                        $scope.$apply();
+                    }
+                }
             };
 
             $scope.menuAddObjects = function(){
@@ -244,6 +254,16 @@ angular.module('main', [])
                 $scope.showAddBehaviors = true;
             };
 
+            $scope.test = function(){
+                $scope.showCreateApplication = false;
+                $scope.showAddObjects = false;
+                $scope.showObjectDetailsFlag = false;
+                $scope.showBehaviorEditFlag = false;
+                $scope.showObjectEditFlag = false;
+                $scope.showBehaviorDetailsFlag = false;
+                $scope.showAddBehaviors = false;
+                $scope.testCreation = true;
+            }
 
 
             $scope.deleteBehavior = function(behavior){

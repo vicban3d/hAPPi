@@ -32,12 +32,14 @@
                 <div class="div_objectBlob" data-ng-click="showApplicationDetails(application)">
                     <span >{{application.name}}</span>
                     <div class='div_deleteButton' data-ng-click="deleteApplication(application)">X</div>
-                    <div class='div_editButton' data-ng-click="editApplicationDetails(application)">?</div>
+                    <div class="div_editButton" data-ng-click="editApplicationDetails(application)">?</div>
                 </div>
             </span>
             <div class="div_objectBlob" data-ng-click="addNewApplication()">
                 <span>+</span>
             </div>
+            <br>
+            <label type="text">{{aap}}</label>
         </div>
         <div class="div_creationArea" data-ng-show="showAddObjects">
             <span data-ng-repeat="object in objects track by $index">
