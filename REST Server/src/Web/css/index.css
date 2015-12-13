@@ -197,3 +197,19 @@ body{
     margin: 5px;
     font-size: 180%;
 }
+
+.div_addActionArea{
+    position: absolute;
+    left: 50%;
+    top:0;
+    background-color: #5bc0de;
+    width: 50%;
+    height: 100%;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+}
+
+.form_addAction{
+    position: relative;
+    top: 4%;
+    left:4%;
+}

@@ -12,9 +12,6 @@
 <div class="div_workArea">
     <div class="div_menuArea">
         <div data-ng-show="showMenuArea">
-            <div class="div_menuButton" data-ng-click="menuCreateApplication()">
-                Create App
-            </div>
             <div class="div_menuButton" data-ng-click="menuAddObjects()">
                 Add Objects
             </div>
@@ -38,10 +35,10 @@
                     <div class='div_editApplicationButton' data-ng-click="editApplicationDetails(application)">?</div>
                 </div>
             </span>
-                <div class="div_objectBlob" data-ng-click="addNewApplication()">
-                    <span>+</span>
-                </div>
+            <div class="div_objectBlob" data-ng-click="addNewApplication()">
+                <span>+</span>
             </div>
+        </div>
         <div class="div_creationArea" data-ng-show="showAddObjects">
             <span data-ng-repeat="object in objects track by $index">
                 <div class="div_objectBlob" data-ng-click="showObjectDetails(object)">
@@ -59,29 +56,36 @@
         <div class="div_objectDetailsArea" data-ng-show="showObjectDetailsFlag">
             <div class="objectDetailsSummary">
                 {{currentObject.name}}<br><hr>
-                <div data-ng-repeat="attr in currentObject.attributes track by $index">
+                Attributes:<br>
+                <div ng-repeat="attr in currentObject.attributes track by $index">
                     {{attr}}
                 </div>
+                <hr>
+                Actions:<br>
+                <div ng-repeat="act in currentObject.actions track by $index">
+                    {{act.name + ": " + act.operand1 + " " + act.operator + " " + act.operand2}}
+                </div>
+                <hr>
             </div>
         </div>
-
         <div data-ng-show="showObjectEditFlag">
             <form class="form_addNewObject" data-ng-submit="addObject()" data-ng-init="name='';all_attrs=[]">
                 Name: <input type="text" data-ng-model="name">
                 <hr>
                 Attributes:<br>
-                <div data-ng-repeat="n in [].constructor(attributes) track by $index">
+                <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index">
                     {{$index + 1}} <input type="text" data-ng-model="all_attrs[$index]">
                 </div>
                 <div class="div_addAttributeButton" data-ng-click="addAttribute()">+</div>
                 <hr>
                 Actions:<br>
-                <div data-ng-repeat="n in [].constructor(2) track by $index">
-                    Action {{$index + 1}}
+                <div ng-repeat="n in [].constructor(numOfActions) track by $index">
+                    <div class="div_objectActionBlob">
+                        {{all_acts[$index].name}}
+                    </div>
                 </div>
-                <div class="div_addAttributeButton" data-ng-click="">+</div>
+                <div class="div_addAttributeButton" data-ng-click="addNewAction()">+</div>
                 <hr>
-
                 <button type="submit">Create Object</button>
             </form>
         </div>
@@ -106,6 +110,17 @@
                     <!-- <div data-ng-repeat="attr in currentObject.attributes track by $index">
                          {{attr}}--> //TODO add platforms
                 </div>
+            </div>
+            <div class="div_addActionArea" ng-show="showActionsEditFlag">
+                <form class="form_addAction" data-ng-submit="addAction()"
+                      ng-init="all_acts[$index]={name:'', operator1:'', operand:'', operator2:''}">
+                    Name: <input type="text" data-ng-model="all_acts[numOfActions].name"><hr>
+                    <input type="text" ng-model="all_acts[numOfActions].operand1">
+                    <select ng-model="allActs[numOfActions].operator"></select>
+                    <input type="text" ng-model="all_acts[numOfActions].operand2">
+                    <button type="submit">Add Action</button>
+                </form>
+
             </div>
             <div data-ng-show="showApplicationEditFlag">
                 <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name=''">

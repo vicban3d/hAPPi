@@ -2,15 +2,20 @@ angular.module('main', [])
     .controller('ctrl_main', [
         '$scope',
         function($scope){
-            $scope.attributes = 0;
+            $scope.numOfAttributes = 0;
+            $scope.numOfActions = 0;
             $scope.currentObject = '';
             $scope.all_attrs = [];
+            $scope.all_acts = [];
             $scope.showObjectDetailsFlag = false;
             $scope.showObjectEditFlag = false;
+            $scope.showActionsEditFlag = false;
             $scope.objects = [];
 
+            $scope.operations = ['+', '-', '*', '/'];
+
+            $scope.showAddObjects = false;
             $scope.showMenuArea = true;
-            $scope.showAddObjects = true;
             $scope.showCreateApplication = false;
             $scope.showApplicationList = false;
             $scope.showApplictionDetailsFlag = false;
@@ -54,10 +59,17 @@ angular.module('main', [])
                     $scope.name = 'Invalid Name!'
                 }
                 else {
-                    var newObject = {name: $scope.name, attributes: $scope.all_attrs.filter($scope.isValidAttribute)};
+                    var newObject = {
+                        name: $scope.name,
+                        attributes: $scope.all_attrs.filter($scope.isValidAttribute),
+                        actions: $scope.all_acts.filter($scope.isValidAction)
+                    };
+
                     $scope.objects.push(newObject);
                     $scope.all_attrs = [];
-                    $scope.attributes = 0;
+                    $scope.all_acts = [];
+                    $scope.numOfAttributes = 0;
+                    $scope.numOfActions = 0;
                     $scope.name = '';
                     $scope.showObjectDetails(newObject);
                     sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newObject));
@@ -89,7 +101,15 @@ angular.module('main', [])
                 return new Array(num);
             };
             $scope.addAttribute = function(){
-                $scope.attributes+=1;
+                $scope.numOfAttributes+=1;
+            };
+
+            $scope.addAction = function(){
+                $scope.numOfActions+=1;
+            };
+
+            $scope.addNewAction = function(){
+                $scope.showActionsEditFlag = true;
             };
 
             $scope.showObjectDetails = function(object){
@@ -130,6 +150,9 @@ angular.module('main', [])
                 $scope.currentApplication = application;
             };
             $scope.isValidAttribute = function(val){
+                return val != '';
+            };
+            $scope.isValidAction = function(val){
                 return val != '';
             };
 
