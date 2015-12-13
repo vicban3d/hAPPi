@@ -29,6 +29,11 @@ angular.module('main', [])
             $scope.behaviors = [];
             $scope.showAddBehaviors = false;
 
+            $scope.loader = {
+                loading : false
+            };
+            $scope.showMessage = false;
+
             $scope.getPlatform = function(){
                 if($scope.android == true)
                     $scope.platforms.push('android');
@@ -67,6 +72,8 @@ angular.module('main', [])
                 }
                 $scope.getPlatform();
                 var newApplication = {name: $scope.name, platforms: $scope.platforms};//TODO : change the name to application or object name
+                $scope.loader.loading = true;
+                $scope.showMessage = true;
                 $scope.applications.push(newApplication);
                 $scope.createApplication($scope.name, $scope.platforms);
                 $scope.name = '';
@@ -218,6 +225,7 @@ angular.module('main', [])
             };
 
             $scope.addNewApplication = function(){
+                $scope.message = '';
                 $scope.showApplicationDetailsFlag = false;
                 $scope.showApplicationEditFlag = true;
             };
@@ -243,6 +251,8 @@ angular.module('main', [])
                     }
                     else if (result.readyState == 4 && result.status == 200){
                         $scope.message = result.responseText;
+                        $scope.loader.loading = false;
+                        $scope.showMessage = false;
                         $scope.$apply();
                         $scope.addPlatforms(platformsToAdd);
                     }

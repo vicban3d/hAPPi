@@ -39,7 +39,8 @@
                 <span>+</span>
             </div>
             <br>
-            <label type="text">{{aap}}</label>
+
+            <label type="text">{{message}}</label>
         </div>
         <div class="div_creationArea" data-ng-show="showAddObjects">
             <span data-ng-repeat="object in objects track by $index">
@@ -152,6 +153,11 @@
                 <input type="text" ng-model="all_acts[numOfActions].operand2">
                 <button type="submit">Add Action</button>
             </form>
+        </div>
+    </div>
+    <div class="div_loadingArea" data-ng-show="showMessage">
+        <div>
+            <div ng-show="loader.loading" >Loading...</div>
         </div>
     </div>
 </div>
