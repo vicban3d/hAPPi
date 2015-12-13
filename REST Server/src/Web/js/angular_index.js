@@ -11,7 +11,7 @@ angular.module('main', [])
             $scope.showObjectEditFlag = false;
             $scope.showActionsEditFlag = false;
             $scope.objects = [];
-
+            $scope.showMyApps = false;
             $scope.showAddObjects = false;
             $scope.showMenuArea = false;
             $scope.showCreateApplication = false;
@@ -200,6 +200,7 @@ angular.module('main', [])
                 $scope.showMenuArea = true;
                 $scope.showCreateApplication = true;
                 $scope.showApplicationList = false;
+                $scope.showMyApps = true;
             };
 
             $scope.editObjectDetails = function(object){
@@ -278,6 +279,8 @@ angular.module('main', [])
                 $scope.showBehaviorDetailsFlag = false;
                 $scope.showBehaviorEditFlag = false;
                 $scope.showAddBehaviors = false;
+                $scope.message = "";
+                $scope.showMyApps = true;
             };
             $scope.menuAddObjects = function(){
                 $scope.showCreateApplication = false;
@@ -289,18 +292,7 @@ angular.module('main', [])
                 $scope.showApplicationList = false;
                 $scope.showActionsEditFlag = false;
                 $scope.showAddObjects = true;
-            };
-
-            $scope.menuCreateApplication = function(){
-                $scope.showAddObjects = false;
-                $scope.showApplicationList = false;
-                $scope.showAddBehaviors = false;
-                $scope.showObjectDetailsFlag = false;
-                $scope.showBehaviorEditFlag = false;
-                $scope.showObjectEditFlag = false;
-                $scope.showBehaviorDetailsFlag = false;
-                $scope.showActionsEditFlag = false;
-                $scope.showCreateApplication = true;
+                $scope.showMyApps = false;
             };
 
             $scope.menuAddBehaviors = function(){
@@ -312,6 +304,7 @@ angular.module('main', [])
                 $scope.showBehaviorDetailsFlag = false;
                 $scope.showActionsEditFlag = false;
                 $scope.showAddBehaviors = true;
+                $scope.showMyApps = false;
             };
 
             $scope.deleteBehavior = function(behavior){

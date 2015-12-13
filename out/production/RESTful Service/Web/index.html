@@ -69,6 +69,10 @@
                 <span>+</span>
             </div>
         </div>
+        <div class="div_CreationMyAppsArea" ng-show="showMyApps">
+            <br>
+            Application : {{currentApplication.name}}
+        </div>
     </div>
     <div class="div_sideArea">
         <div class="div_objectDetailsArea" data-ng-show="showObjectDetailsFlag">
@@ -154,8 +158,8 @@
         </div>
     </div>
     <div class="div_loadingArea" data-ng-show="showMessage">
-        <div>
-            <div ng-show="loader.loading" >Loading...</div>
+        <div class="div_childLoading">
+            <span ng-show="loader.loading">Loading...</span>
         </div>
     </div>
 </div>
