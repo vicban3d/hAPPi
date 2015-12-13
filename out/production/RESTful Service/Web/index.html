@@ -5,13 +5,12 @@
     <script src="js/angular_index.js"></script>
 </head>
 <body data-ng-app="main" data-ng-controller="ctrl_main">
-<div class="title">
+<div class="title" data-ng-show="areaFlags['titleArea']">
     hAPPi UI Prototype
 </div>
-
 <div class="div_workArea">
-    <div class="div_menuArea">
-        <div data-ng-show="showMenuArea">
+    <div class="div_menuArea" data-ng-show="areaFlags['menuArea']">
+        <div data-ng-show="areaFlags['menuButtonsArea']">
             <div class="div_menuButton" data-ng-click="menuHome()">
                 My Apps
             </div>
@@ -29,8 +28,8 @@
             </div>
         </div>
     </div>
-    <div class="div_centralArea">
-        <div class="div_creationArea" data-ng-show="showApplicationList">
+    <div class="div_centralArea" data-ng-show="areaFlags['centralArea']">
+        <div class="div_creationArea" data-ng-show="areaFlags['applicationListArea']">
             <span data-ng-repeat="application in applications track by $index">
                 <div class="div_objectBlob" data-ng-click="getApplication(application)">
                     <span >{{application.name}}</span>
@@ -45,7 +44,7 @@
 
             <label type="text">{{message}}</label>
         </div>
-        <div class="div_creationArea" data-ng-show="showAddObjects">
+        <div class="div_creationArea" data-ng-show="areaFlags['objectsAddArea']">
             <span data-ng-repeat="object in objects track by $index">
                 <div class="div_objectBlob" data-ng-click="showObjectDetails(object)">
                     <span >{{object.name}}</span>
@@ -57,7 +56,7 @@
                 <span>+</span>
             </div>
         </div>
-        <div class="div_CreationArea" ng-show="showAddBehaviors">
+        <div class="div_CreationArea" ng-show="areaFlags['behaviorAddArea']">
             <span ng-repeat="behavior in behaviors track by $index">
                 <div class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
                     <span >{{behavior.name}}</span>
@@ -69,13 +68,13 @@
                 <span>+</span>
             </div>
         </div>
-        <div class="div_CreationMyAppsArea" ng-show="showMyApps">
+        <div class="div_CreationMyAppsArea" ng-show="areaFlags['myApplicationsArea']">
             <br>
             Application : {{currentApplication.name}}
         </div>
     </div>
-    <div class="div_sideArea">
-        <div class="div_objectDetailsArea" data-ng-show="showObjectDetailsFlag">
+    <div class="div_sideArea" data-ng-show="areaFlags['sideArea']">
+        <div class="div_objectDetailsArea" data-ng-show="areaFlags['objectDetailsArea']">
             <div class="objectDetailsSummary">
                 {{currentObject.name}}<br><hr>
                 Attributes:<br>
@@ -90,7 +89,7 @@
                 <hr>
             </div>
         </div>
-        <div data-ng-show="showObjectEditFlag">
+        <div data-ng-show="areaFlags['objectEditArea']">
             <form class="form_addNewObject" data-ng-submit="addObject()" data-ng-init="name='';all_attrs=[]">
                 Name: <input type="text" data-ng-model="name">
                 <hr>
@@ -112,12 +111,12 @@
             </form>
         </div>
 
-        <div class="div_behaviorDetailsArea" data-ng-show="showBehaviorDetailsFlag">
+        <div class="div_behaviorDetailsArea" data-ng-show="areaFlags['behaviorDetailsArea']">
             <div class="behaviorDetailsSummary">
                 {{currentBehavior.name}}<br><hr>
             </div>
         </div>
-        <div data-ng-show="showBehaviorEditFlag">
+        <div data-ng-show="areaFlags['behaviorEditArea']">
             <form class="form_addNewObject" data-ng-submit="addBehavior()" data-ng-init="name=''">
                 Name: <input type="text" data-ng-model="name">
                 <hr>
@@ -125,7 +124,7 @@
             </form>
         </div>
         <div class="div_applicationDetailsArea">
-            <div data-ng-show="showApplicationDetailsFlag">
+            <div data-ng-show="areaFlags['applicationDetailsArea']">
                 <div class="applicationDetailsSummary">
                     {{currentApplication.name}}<br><hr>
                     Platforms:<br>
@@ -135,7 +134,7 @@
                 </div>
             </div>
 
-            <div data-ng-show="showApplicationEditFlag">
+            <div data-ng-show="areaFlags['applicationEditArea']">
                 <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name='' platforms=[]">
                     Name: <input type="text" data-ng-model="name">
                     <hr>
@@ -146,7 +145,7 @@
                 </form>
             </div>
         </div>
-        <div class="div_addActionArea" ng-show="showActionsEditFlag">
+        <div class="div_addActionArea" ng-show="areaFlags['actionsEditArea']">
             <form class="form_addAction" data-ng-submit="addNewAction()"
                   ng-init="actionName='';all_acts[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
                 Name: <input type="text" data-ng-model="actionName"><hr>
@@ -157,7 +156,7 @@
             </form>
         </div>
     </div>
-    <div class="div_loadingArea" data-ng-show="showMessage">
+    <div class="div_loadingArea" data-ng-show="areaFlags['loadingArea']">
         <div class="div_childLoading">
             <span ng-show="loader.loading">Loading...</span>
         </div>
