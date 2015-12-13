@@ -137,14 +137,17 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void removeApplication(String application){
-        database.removeData(application, null, null);
         File file = null;
+        String appName = "";
         try {
             JSONObject json = new JSONObject(application);
-            file = new File(Strings.PATH_APPS + "\\" + json.get("name"));
+            appName = (String) json.get("name");
+            database.removeData(appName, null, null);
+            file = new File(Strings.PATH_APPS + "\\" + appName);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-       FileHandler.deleteFolder(file);
+        FileHandler.deleteFolder(file);
+        Logger.INFO("The application " + appName + " was deleted.");
     }
 }

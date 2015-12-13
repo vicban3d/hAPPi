@@ -91,5 +91,6 @@ public class FileHandler {
             }
         }
         folder.delete();
+
     }
 }
