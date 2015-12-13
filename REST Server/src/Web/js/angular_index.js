@@ -15,9 +15,9 @@ angular.module('main', [])
             $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
 
             $scope.showAddObjects = false;
-            $scope.showMenuArea = false;
+            $scope.showMenuArea = true;
             $scope.showCreateApplication = false;
-            $scope.showApplicationList = true;
+            $scope.showApplicationList = false;
             $scope.showApplictionDetailsFlag = false;
             $scope.showApplicationEditFlag = false;
             $scope.applications = [];
@@ -38,14 +38,14 @@ angular.module('main', [])
                     $scope.platforms.push('windowsPhone');
             };
 
-   /*         $scope.addPlatforms = function(){
-                if($scope.android = true)
-                    $scope.platforms.push('android');
-                else if($scope.ios = true)
-                    $scope.platforms.push('ios');
-                else if($scope.windowsPhone = true)
-                    $scope.platforms.push('windowsPhone');
-            };*/
+            /*         $scope.addPlatforms = function(){
+             if($scope.android = true)
+             $scope.platforms.push('android');
+             else if($scope.ios = true)
+             $scope.platforms.push('ios');
+             else if($scope.windowsPhone = true)
+             $scope.platforms.push('windowsPhone');
+             };*/
 
             $scope.addApplication = function(){
                 if ($scope.name == '' || $scope.name =='Invalid Name!') {
@@ -127,12 +127,17 @@ angular.module('main', [])
             };
 
             $scope.addAction = function(){
-                $scope.showActionsEditFlag = false;
-                $scope.numOfActions+=1;
+                $scope.showActionsEditFlag = true;
             };
 
             $scope.addNewAction = function(){
-                $scope.showActionsEditFlag = true;
+                if ($scope.actionName == '' || $scope.actionName =='Invalid Name!'){
+                    $scope.actionName = 'Invalid Name!'
+                }
+                else {
+                    $scope.numOfActions += 1;
+                    $scope.showActionsEditFlag = false;
+                }
             };
 
             $scope.showObjectDetails = function(object){
@@ -161,7 +166,7 @@ angular.module('main', [])
             };
 
             $scope.editObjectDetails = function(object){
-                    $scope.currentObject = object;
+                $scope.currentObject = object;
             };
 
             $scope.editBehaviorDetails = function(behavior){
@@ -188,7 +193,7 @@ angular.module('main', [])
             };
 
             $scope.addNewApplication = function(){
-               /* $scope.showApplicationDetails(null);*/
+                /* $scope.showApplicationDetails(null);*/
                 $scope.showApplicationDetailsFlag = false;
                 $scope.showApplicationEditFlag = true;
             };
@@ -243,8 +248,6 @@ angular.module('main', [])
                 $scope.showActionsEditFlag = false;
                 $scope.showAddBehaviors = true;
             };
-
-
 
             $scope.deleteBehavior = function(behavior){
                 var index =  $scope.behaviors.indexOf(behavior);
