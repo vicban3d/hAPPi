@@ -12,6 +12,9 @@
 <div class="div_workArea">
     <div class="div_menuArea">
         <div data-ng-show="showMenuArea">
+            <div class="div_menuButton" data-ng-click="menuHome()">
+                My Apps
+            </div>
             <div class="div_menuButton" data-ng-click="menuAddObjects()">
                 Add Objects
             </div>
@@ -141,11 +144,11 @@
         </div>
         <div class="div_addActionArea" ng-show="showActionsEditFlag">
             <form class="form_addAction" data-ng-submit="addNewAction()"
-                  ng-init="actionName=''}">
-                Name: <input type="text" data-ng-model="all_acts[numOfActions].name"><hr>
-                <select ng-model="all_acts[numOfActions].operand1" ng-options="item as o for o in all_attrs.filter(isValidAttribute)"></select>
-                <select ng-model="all_acts[numOfActions].operator" ng-options="item as o for o in operators"></select>
-                <input type="text" ng-model="all_acts[numOfActions].operand2">
+                  ng-init="actionName='';all_acts[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
+                Name: <input type="text" data-ng-model="actionName"><hr>
+                <select ng-model="operand1" ng-options="operand1 as o for o in all_attrs.filter(isValidAttribute)"></select>
+                <select ng-model="operator" ng-options="operator as o for o in operators"></select>
+                <input type="text" ng-model="operand2">
                 <button type="submit">Add Action</button>
             </form>
         </div>

@@ -12,8 +12,6 @@ angular.module('main', [])
             $scope.showActionsEditFlag = false;
             $scope.objects = [];
 
-            $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-
             $scope.showAddObjects = false;
             $scope.showMenuArea = false;
             $scope.showCreateApplication = false;
@@ -28,6 +26,7 @@ angular.module('main', [])
             $scope.showBehaviorEditFlag = false;
             $scope.behaviors = [];
             $scope.showAddBehaviors = false;
+            $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
 
             $scope.loader = {
                 loading : false
@@ -153,6 +152,12 @@ angular.module('main', [])
                     $scope.actionName = 'Invalid Name!'
                 }
                 else {
+                    $scope.all_acts[$scope.numOfActions] = {
+                        name: $scope.actionName,
+                        operand1: $scope.operand1,
+                        operator: $scope.operator,
+                        operand2: $scope.operand2
+                    };
                     $scope.numOfActions += 1;
                     $scope.showActionsEditFlag = false;
                 }
@@ -260,7 +265,21 @@ angular.module('main', [])
 
             };
 
-            $scope.menuAddObjects = function(){
+            $scope.menuHome = function(){
+                $scope.showObjectDetailsFlag = false;
+                $scope.showObjectEditFlag = false;
+                $scope.showActionsEditFlag = false;
+                $scope.showAddObjects = false;
+                $scope.showMenuArea = false;
+                $scope.showCreateApplication = false;
+                $scope.showApplicationList = true;
+                $scope.showApplictionDetailsFlag = false;
+                $scope.showApplicationEditFlag = false;
+                $scope.showBehaviorDetailsFlag = false;
+                $scope.showBehaviorEditFlag = false;
+                $scope.showAddBehaviors = false;
+            };
+ $scope.menuAddObjects = function(){
                 $scope.showCreateApplication = false;
                 $scope.showAddBehaviors = false;
                 $scope.showObjectDetailsFlag = false;
