@@ -29,7 +29,7 @@
     <div class="div_centralArea">
         <div class="div_creationArea" data-ng-show="showApplicationList">
             <span data-ng-repeat="application in applications track by $index">
-                <div class="div_objectBlob" data-ng-click="showApplicationDetails(application)">
+                <div class="div_objectBlob" data-ng-click="getApplication(application)">
                     <span >{{application.name}}</span>
                     <div class='div_deleteButton' data-ng-click="deleteApplication(application)">X</div>
                     <div class="div_editButton" data-ng-click="editApplicationDetails(application)">?</div>
@@ -125,13 +125,16 @@
                         {{platform}}
                     </div>
                     <hr>
+                    <br>
+                    <label type="text">
+                        {{message}}
+                    </label>
                 </div>
             </div>
 
             <div data-ng-show="showApplicationEditFlag">
                 <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name='' platforms=[]">
                     Name: <input type="text" data-ng-model="name">
-                    {{name}}
                     <hr>
                     <input type="checkbox" name="platform" value="android" data-ng-model="android"> Android<br>
                     <input type="checkbox" name="platform" value="ios" data-ng-model="ios"> IOS<br>
