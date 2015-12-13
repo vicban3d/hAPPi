@@ -12,7 +12,7 @@ angular.module('main', [])
             $scope.showActionsEditFlag = false;
             $scope.objects = [];
 
-            $scope.operations = ['+', '-', '*', '/'];
+            $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
 
             $scope.showAddObjects = false;
             $scope.showMenuArea = true;
@@ -72,6 +72,7 @@ angular.module('main', [])
                     $scope.numOfActions = 0;
                     $scope.name = '';
                     $scope.showObjectDetails(newObject);
+                    $scope.showActionsEditFlag = false;
                     sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newObject));
                 }
             };
@@ -105,6 +106,7 @@ angular.module('main', [])
             };
 
             $scope.addAction = function(){
+                $scope.showActionsEditFlag = false;
                 $scope.numOfActions+=1;
             };
 
@@ -196,6 +198,7 @@ angular.module('main', [])
                 $scope.showBehaviorEditFlag = false;
                 $scope.showObjectEditFlag = false;
                 $scope.showApplicationList = false;
+                $scope.showActionsEditFlag = false;
                 $scope.showAddObjects = true;
             };
 
@@ -207,6 +210,7 @@ angular.module('main', [])
                 $scope.showBehaviorEditFlag = false;
                 $scope.showObjectEditFlag = false;
                 $scope.showBehaviorDetailsFlag = false;
+                $scope.showActionsEditFlag = false;
                 $scope.showCreateApplication = true;
             };
 
@@ -217,6 +221,7 @@ angular.module('main', [])
                 $scope.showBehaviorEditFlag = false;
                 $scope.showObjectEditFlag = false;
                 $scope.showBehaviorDetailsFlag = false;
+                $scope.showActionsEditFlag = false;
                 $scope.showAddBehaviors = true;
             };
 
