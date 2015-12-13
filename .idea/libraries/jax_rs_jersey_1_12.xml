@@ -1,6 +1,5 @@
 <component name="libraryTable">
-  <library name="jax-rs-jersey-1.12" type="JAX-RS">
-    <properties version="jersey-1.12" />
+  <library name="jax-rs-jersey-1.12">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/activation-1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/comresrcgen-1.0.jar!/" />

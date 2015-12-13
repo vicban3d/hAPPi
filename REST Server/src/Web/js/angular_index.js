@@ -8,16 +8,49 @@ angular.module('main', [])
             $scope.showObjectDetailsFlag = false;
             $scope.showObjectEditFlag = false;
             $scope.objects = [];
-            $scope.showAddObjects = false;
+
+            $scope.showMenuArea = true;
+            $scope.showAddObjects = true;
             $scope.showCreateApplication = false;
+            $scope.showApplicationList = false;
+            $scope.showApplictionDetailsFlag = false;
+            $scope.showApplicationEditFlag = false;
+            $scope.applications = [];
+            $scope.currentApplication = '';
+            $scope.platform = '';
             $scope.currentBehavior = '';
             $scope.showBehaviorDetailsFlag = false;
             $scope.showBehaviorEditFlag = false;
             $scope.behaviors = [];
             $scope.showAddBehaviors = false;
 
-            $scope.addObject = function(){
+            $scope.getPlatform = function(){
+                if($scope.android = true)
+                    $scope.platform = 'android';
+                else if($scope.ios = true)
+                    $scope.platform = 'ios';
+                else if($scope.windowsPhone = true)
+                    $scope.platform = 'windowsPhone';
+            };
+
+            $scope.addApplication = function(){
                 if ($scope.name == '' || $scope.name =='Invalid Name!'){
+                    $scope.name = 'Invalid Name!'
+                }
+                getPlatform();
+                var newApplication = {name: $scope.name, platform: $scope.platform};//TODO : change the name to application or object name
+                $scope.applications.push(newApplication);
+                $scope.name = '';
+                $scope.android = false;
+                $scope.ios = false;
+                $scope.windowsPhone = false;
+                $scope.showObjectDetails(newApplication);
+                sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(name));
+                //TODO: send request to add platform
+            };
+
+            $scope.addObject = function() {
+                if ($scope.name == '' || $scope.name == 'Invalid Name!') {
                     $scope.name = 'Invalid Name!'
                 }
                 else {
@@ -30,7 +63,6 @@ angular.module('main', [])
                     sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newObject));
                 }
             };
-
             $scope.addBehavior = function(){
                 if ($scope.name == '' || $scope.name =='Invalid Name!'){
                     $scope.name = 'Invalid Name!'
@@ -74,6 +106,18 @@ angular.module('main', [])
                 $scope.showObjectDetailsFlag = true;
             };
 
+            $scope.showApplicationDetails = function(application){
+                if ($scope.showApplicationDetailsFlag == 1 || application != $scope.currentApplication){
+                    $scope.currentApplication = application;
+                    $scope.showApplicationDetailsFlag = 0
+                } else{
+                    /*$scope.currentApplication = '';*/
+                    $scope.showApplicationDetailsFlag = 1
+                }
+                $scope.showApplicationEditFlag = false;
+                $scope.showApplicationDetailsFlag = true;
+            };
+
             $scope.editObjectDetails = function(object){
                     $scope.currentObject = object;
             };
@@ -82,6 +126,9 @@ angular.module('main', [])
                 $scope.currentBehavior = behavior;
             };
 
+            $scope.editApplicationDetails = function(application){
+                $scope.currentApplication = application;
+            };
             $scope.isValidAttribute = function(val){
                 return val != '';
             };
@@ -93,6 +140,13 @@ angular.module('main', [])
                 $scope.showBehaviorEditFlag = false;
                 $scope.showObjectDetailsFlag = false;
                 $scope.showObjectEditFlag = true;
+            };
+
+            $scope.addNewApplication = function(){
+                var empty = {name:'new object'};
+                $scope.showApplicationDetails(empty);
+                $scope.showApplicationDetailsFlag = false;
+                $scope.showApplicationEditFlag = true;
             };
 
             $scope.addFirstBehavior = function(){
@@ -118,11 +172,13 @@ angular.module('main', [])
                 $scope.showBehaviorDetailsFlag = false;
                 $scope.showBehaviorEditFlag = false;
                 $scope.showObjectEditFlag = false;
+                $scope.showApplicationList = false;
                 $scope.showAddObjects = true;
             };
 
             $scope.menuCreateApplication = function(){
                 $scope.showAddObjects = false;
+                $scope.showApplicationList = false;
                 $scope.showAddBehaviors = false;
                 $scope.showObjectDetailsFlag = false;
                 $scope.showBehaviorEditFlag = false;

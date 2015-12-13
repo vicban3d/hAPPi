@@ -4,31 +4,46 @@
     <script src="lib/js/angular.min.js"></script>
     <script src="js/angular_index.js"></script>
 </head>
-<body ng-app="main" ng-controller="ctrl_main">
+<body data-ng-app="main" data-ng-controller="ctrl_main">
 <div class="title">
     hAPPi UI Prototype
 </div>
+
 <div class="div_workArea">
     <div class="div_menuArea">
-        <div class="div_menuButton" data-ng-click="menuCreateApplication()">
-            Create App
-        </div>
-        <div class="div_menuButton" data-ng-click="menuAddObjects()">
-            Add Objects
-        </div>
-        <div class="div_menuButton" data-ng-click="menuAddBehaviors()">
-            Add Behaviors
-        </div>
-        <div class="div_menuButton" data-ng-click="">
-            Design
-        </div>
-        <div class="div_menuButton" data-ng-click="">
-            Release
+        <div data-ng-show="showMenuArea">
+            <div class="div_menuButton" data-ng-click="menuCreateApplication()">
+                Create App
+            </div>
+            <div class="div_menuButton" data-ng-click="menuAddObjects()">
+                Add Objects
+            </div>
+            <div class="div_menuButton" data-ng-click="menuAddBehaviors()">
+                Add Behaviors
+            </div>
+            <div class="div_menuButton" data-ng-click="">
+                Design
+            </div>
+            <div class="div_menuButton" data-ng-click="">
+                Release
+            </div>
         </div>
     </div>
-    <div class="div_CentralArea">
-        <div class="div_CreationArea" ng-show="showAddObjects">
-            <span ng-repeat="object in objects track by $index">
+    <div class="div_centralArea">
+        <div class="div_creationArea" data-ng-show="showApplicationList">
+            <span data-ng-repeat="application in applications track by $index">
+                <div class="div_applicationBlob" data-ng-click="showApplicationDetails(application)">
+                    <span >{{application.name}}</span>
+                    <div class='div_deleteApplicationButton' data-ng-click="deleteApplication(application)">X</div>
+                    <div class='div_editApplicationButton' data-ng-click="editApplicationDetails(application)">?</div>
+                </div>
+            </span>
+                <div class="div_objectBlob" data-ng-click="addNewApplication()">
+                    <span>+</span>
+                </div>
+            </div>
+        <div class="div_creationArea" data-ng-show="showAddObjects">
+            <span data-ng-repeat="object in objects track by $index">
                 <div class="div_objectBlob" data-ng-click="showObjectDetails(object)">
                     <span >{{object.name}}</span>
                     <div class='div_deleteButton' data-ng-click="deleteObject(object)">X</div>
@@ -39,47 +54,29 @@
                 <span>+</span>
             </div>
         </div>
-        <div class="div_CreationArea" ng-show="showAddBehaviors">
-            <span ng-repeat="behavior in behavior track by $index">
-                <div class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
-                    <span >{{behavior.name}}</span>
-                    <div class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</div>
-                    <div class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</div>
-                </div>
-            </span>
-            <div class="div_objectBlob" data-ng-click="addFirstBehavior()">
-                <span>+</span>
-            </div>
-        </div>
-        <div class="div_applicationCreationArea" ng-show="showCreateApplication">
-            <form class="form_createApplication" data-ng-submit="createApplication(app_name)">
-                Name: <input type="text" data-ng-model="app_name">
-                <button type="submit">Create {{app_name}}</button>
-            </form>
-        </div>
     </div>
     <div class="div_sideArea">
-        <div class="div_objectDetailsArea" ng-show="showObjectDetailsFlag">
+        <div class="div_objectDetailsArea" data-ng-show="showObjectDetailsFlag">
             <div class="objectDetailsSummary">
                 {{currentObject.name}}<br><hr>
-                <div ng-repeat="attr in currentObject.attributes track by $index">
+                <div data-ng-repeat="attr in currentObject.attributes track by $index">
                     {{attr}}
                 </div>
             </div>
         </div>
 
-        <div ng-show="showObjectEditFlag">
-            <form class="form_addNewObject" data-ng-submit="addObject()" ng-init="name='';all_attrs=[]">
+        <div data-ng-show="showObjectEditFlag">
+            <form class="form_addNewObject" data-ng-submit="addObject()" data-ng-init="name='';all_attrs=[]">
                 Name: <input type="text" data-ng-model="name">
                 <hr>
                 Attributes:<br>
-                <div ng-repeat="n in [].constructor(attributes) track by $index">
+                <div data-ng-repeat="n in [].constructor(attributes) track by $index">
                     {{$index + 1}} <input type="text" data-ng-model="all_attrs[$index]">
                 </div>
                 <div class="div_addAttributeButton" data-ng-click="addAttribute()">+</div>
                 <hr>
                 Actions:<br>
-                <div ng-repeat="n in [].constructor(2) track by $index">
+                <div data-ng-repeat="n in [].constructor(2) track by $index">
                     Action {{$index + 1}}
                 </div>
                 <div class="div_addAttributeButton" data-ng-click="">+</div>
@@ -89,16 +86,38 @@
             </form>
         </div>
 
-        <div class="div_behaviorDetailsArea" ng-show="showBehaviorDetailsFlag">
+        <div class="div_behaviorDetailsArea" data-ng-show="showBehaviorDetailsFlag">
             <div class="behaviorDetailsSummary">
                 {{currentBehavior.name}}<br><hr>
             </div>
 
-            <div ng-show="showBehaviorEditFlag">
-                <form class="form_addNewObject" data-ng-submit="addBehavior()" ng-init="name=''">
+            <div data-ng-show="showBehaviorEditFlag">
+                <form class="form_addNewObject" data-ng-submit="addBehavior()" data-ng-init="name=''">
                     Name: <input type="text" data-ng-model="name">
                     <hr>
                     <button type="submit">Create Behavior</button>
+                </form>
+            </div>
+        </div>
+        <div class="div_applicationDetailsArea">
+            <div data-ng-show="showApplicationDetailsFlag">
+                <div class="applicationDetailsSummary">
+                    {{currentApplication.name}}<br><hr>
+                    <!-- <div data-ng-repeat="attr in currentObject.attributes track by $index">
+                         {{attr}}--> //TODO add platforms
+                </div>
+            </div>
+            <div data-ng-show="showApplicationEditFlag">
+                <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name=''">
+                    Name: <input type="text" data-ng-model="name">
+                    <hr>
+                    <!--<form calss="form_getPlatform">-->
+                    <input type="checkbox" name="platform" value="android" data-ng-model="android"> Android<br>
+                    <input type="checkbox" name="platform" value="ios" data-ng-model="ios"> IOS<br>
+                    <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone"> Windows Phone<br>
+                    <!-- <input type="submit" value="Submit">-->
+                    <!-- </form>-->
+                    <button type="submit">Create Object</button>
                 </form>
             </div>
         </div>
