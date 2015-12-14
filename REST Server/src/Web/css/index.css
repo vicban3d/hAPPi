@@ -19,10 +19,10 @@ body{
 
 .div_loadingArea{
     position: absolute;
-    top: 0%;
-    left: 0;
-    height: 100%;
-    width: 100%;
+    top: -10%;
+    left: 5%;
+    height: 90%;
+    width: 96%;
     padding: 1%;
     overflow: hidden;
     text-align: center;
