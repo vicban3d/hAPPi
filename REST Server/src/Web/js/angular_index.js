@@ -269,6 +269,8 @@ angular.module('main', [])
                 var result = sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
                 result.onreadystatechange = function(){
                     if (result.readyState != 4 && result.status != 200){
+                        $scope.loader.loading = false;
+                        $scope.showMessage = false;
                         $scope.message = "Error";
                         $scope.$apply();
                     }
