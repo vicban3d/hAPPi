@@ -10,21 +10,9 @@
 </div>
 <div class="div_workArea">
     <div class="div_menuArea" data-ng-show="areaFlags['menuArea']">
-        <div data-ng-show="areaFlags['menuButtonsArea']">
-            <div class="div_menuButton" data-ng-click="menuHome()">
-                My Apps
-            </div>
-            <div class="div_menuButton" data-ng-click="menuAddObjects()">
-                Add Objects
-            </div>
-            <div class="div_menuButton" data-ng-click="menuAddBehaviors()">
-                Add Behaviors
-            </div>
-            <div class="div_menuButton" data-ng-click="">
-                Design
-            </div>
-            <div class="div_menuButton" data-ng-click="">
-                Release
+        <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
+            <div class="div_menuButton" data-ng-click="button.function()">
+               {{button.label}}
             </div>
         </div>
     </div>
@@ -135,7 +123,7 @@
             </div>
 
             <div data-ng-show="areaFlags['applicationEditArea']">
-                <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name='' platforms=[]">
+                <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name=''; platforms=[]">
                     Name: <input type="text" data-ng-model="name">
                     <hr>
                     <input type="checkbox" name="platform" value="android" data-ng-model="android"> Android<br>
