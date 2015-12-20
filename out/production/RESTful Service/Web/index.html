@@ -10,63 +10,51 @@
 </div>
 <div class="div_workArea">
     <div class="div_menuArea" data-ng-show="areaFlags['menuArea']">
-        <div data-ng-show="areaFlags['menuButtonsArea']">
-            <div class="div_menuButton" data-ng-click="menuHome()">
-                My Apps
-            </div>
-            <div class="div_menuButton" data-ng-click="menuAddObjects()">
-                Add Objects
-            </div>
-            <div class="div_menuButton" data-ng-click="menuAddBehaviors()">
-                Add Behaviors
-            </div>
-            <div class="div_menuButton" data-ng-click="">
-                Design
-            </div>
-            <div class="div_menuButton" data-ng-click="">
-                Release
+        <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
+            <div class="div_menuButton" data-ng-click="button.function()">
+                {{button.label}}
             </div>
         </div>
     </div>
     <div class="div_centralArea" data-ng-show="areaFlags['centralArea']">
         <div class="div_creationArea" data-ng-show="areaFlags['applicationListArea']">
             <span data-ng-repeat="application in applications track by $index">
-                <div class="div_objectBlob" data-ng-click="getApplication(application)">
-                    <span >{{application.name}}</span>
-                    <div class='div_deleteButton' data-ng-click="deleteApplication(application)">X</div>
-                    <div class="div_editButton" data-ng-click="editApplicationDetails(application)">?</div>
-                </div>
+                <span class="div_objectBlob" data-ng-click="getApplication(application)">
+                    <span>{{application.name}}</span>
+                    <span class='div_deleteButton' data-ng-click="deleteApplication(application)">X</span>
+                    <span class="div_editButton" data-ng-click="editApplicationDetails(application)">?</span>
+                </span>
             </span>
-            <div class="div_objectBlob" data-ng-click="addNewApplication()">
+            <span class="div_objectBlob" data-ng-click="addNewApplication()">
                 <span>+</span>
-            </div>
+            </span>
             <br>
 
-            <label type="text">{{message}}</label>
+            <label>{{message}}</label>
         </div>
         <div class="div_creationArea" data-ng-show="areaFlags['objectsAddArea']">
             <span data-ng-repeat="object in objects track by $index">
-                <div class="div_objectBlob" data-ng-click="showObjectDetails(object)">
-                    <span >{{object.name}}</span>
-                    <div class='div_deleteButton' data-ng-click="deleteObject(object)">X</div>
-                    <div class='div_editButton' data-ng-click="editObjectDetails(object)">?</div>
-                </div>
+                <span class="div_objectBlob" data-ng-click="showObjectDetails(object)">
+                    <span>{{object.name}}</span>
+                    <span class='div_deleteButton' data-ng-click="deleteObject(object)">X</span>
+                    <span class='div_editButton' data-ng-click="editObjectDetails(object)">?</span>
+                </span>
             </span>
-            <div class="div_objectBlob" data-ng-click="addFirstObject()">
+            <span class="div_objectBlob" data-ng-click="addFirstObject()">
                 <span>+</span>
-            </div>
+            </span>
         </div>
         <div class="div_CreationArea" ng-show="areaFlags['behaviorAddArea']">
             <span ng-repeat="behavior in behaviors track by $index">
-                <div class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
-                    <span >{{behavior.name}}</span>
-                    <div class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</div>
-                    <div class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</div>
-                </div>
+                <span class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
+                    <span>{{behavior.name}}</span>
+                    <span class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</span>
+                    <span class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</span>
+                </span>
             </span>
-            <div class="div_objectBlob" data-ng-click="addFirstBehavior()">
+            <span class="div_objectBlob" data-ng-click="addFirstBehavior()">
                 <span>+</span>
-            </div>
+            </span>
         </div>
         <div class="div_CreationMyAppsArea" ng-show="areaFlags['myApplicationsArea']">
             <br>
@@ -91,20 +79,20 @@
         </div>
         <div data-ng-show="areaFlags['objectEditArea']">
             <form class="form_addNewObject" data-ng-submit="addObject()" data-ng-init="name='';all_attrs=[]">
-                Name: <input type="text" data-ng-model="name">
+                Name: <input type="text" data-ng-model="name" title="Object Name">
                 <hr>
                 Attributes:<br>
                 <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index">
-                    {{$index + 1}} <input type="text" data-ng-model="all_attrs[$index]">
+                    {{$index + 1}} <input type="text" data-ng-model="all_attrs[$index]" title="Attribute">
                 </div>
                 <div class="div_addAttributeButton" data-ng-click="addAttribute()">+</div>
                 <hr>
                 Actions:<br>
-                <div ng-repeat="n in [].constructor(numOfActions) track by $index">
-                    <div class="div_objectActionBlob">
+                <span ng-repeat="n in [].constructor(numOfActions) track by $index">
+                    <span class="div_objectActionBlob">
                         {{all_acts[$index].name}}
-                    </div>
-                </div>
+                    </span>
+                </span>
                 <div class="div_addAttributeButton" data-ng-click="addAction()">+</div>
                 <hr>
                 <button type="submit">Create Object</button>
@@ -118,7 +106,7 @@
         </div>
         <div data-ng-show="areaFlags['behaviorEditArea']">
             <form class="form_addNewObject" data-ng-submit="addBehavior()" data-ng-init="name=''">
-                Name: <input type="text" data-ng-model="name">
+                Name: <input type="text" data-ng-model="name" title="Behavior Name">
                 <hr>
                 <button type="submit">Create Behavior</button>
             </form>
@@ -135,12 +123,12 @@
             </div>
 
             <div data-ng-show="areaFlags['applicationEditArea']">
-                <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name='' platforms=[]">
-                    Name: <input type="text" data-ng-model="name">
+                <form class="form_addNewApplication" data-ng-submit="addApplication()" data-ng-init="name=''; platforms=[]">
+                    Name: <input type="text" data-ng-model="name" title="Application Name">
                     <hr>
-                    <input type="checkbox" name="platform" value="android" data-ng-model="android"> Android<br>
-                    <input type="checkbox" name="platform" value="ios" data-ng-model="ios"> IOS<br>
-                    <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone"> Windows Phone<br>
+                    <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
+                    <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
+                    <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>
                     <button type="submit">Create Application</button>
                 </form>
             </div>
@@ -148,10 +136,10 @@
         <div class="div_addActionArea" ng-show="areaFlags['actionsEditArea']">
             <form class="form_addAction" data-ng-submit="addNewAction()"
                   ng-init="actionName='';all_acts[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
-                Name: <input type="text" data-ng-model="actionName"><hr>
-                <select ng-model="operand1" ng-options="operand1 as o for o in all_attrs.filter(isValidAttribute)"></select>
-                <select ng-model="operator" ng-options="operator as o for o in operators"></select>
-                <input type="text" ng-model="operand2">
+                Name: <input type="text" data-ng-model="actionName" title="Action Name"><hr>
+                <select ng-model="operand1" ng-options="operand1 as o for o in all_attrs.filter(isValidAttribute)"  title="Operand1"></select>
+                <select ng-model="operator" ng-options="operator as o for o in operators" title="Operator"></select>
+                <input type="text" ng-model="operand2" title="Operand2">
                 <button type="submit">Add Action</button>
             </form>
         </div>
