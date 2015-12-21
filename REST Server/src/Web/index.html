@@ -23,37 +23,37 @@
         <div class="div_creationArea" data-ng-show="areaFlags['applicationListArea']">
             <span data-ng-repeat="application in applications track by $index">
                 <span class="div_objectBlob" data-ng-click="getApplication(application)">
-                    <span>{{application.name}}</span>
+                    {{application.name}}
                     <span class='div_deleteButton' data-ng-click="deleteApplication(application)">X</span>
                     <span class="div_editButton" data-ng-click="editApplicationDetails(application)">?</span>
                 </span>
             </span>
             <span class="div_objectBlob" data-ng-click="addNewApplication()">
-                <span>+</span>
+                +
             </span>
         </div>
         <div class="div_creationArea" data-ng-show="areaFlags['objectsAddArea']">
             <span data-ng-repeat="object in objects track by $index">
                 <span class="div_objectBlob" data-ng-click="showObjectDetails(object)">
-                    <span>{{object.name}}</span>
+                    {{object.name}}
                     <span class='div_deleteButton' data-ng-click="deleteObject(object)">X</span>
-                    <span class='div_editButton' data-ng-click="editObjectDetails(object)">?</span>
+                   <span class='div_editButton' data-ng-click="editObjectDetails(object)">?</span>
                 </span>
             </span>
             <span class="div_objectBlob" data-ng-click="addFirstObject()">
-                <span>+</span>
+                +
             </span>
         </div>
         <div class="div_CreationArea" ng-show="areaFlags['behaviorAddArea']">
             <span ng-repeat="behavior in behaviors track by $index">
                 <span class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
-                    <span>{{behavior.name}}</span>
+                    {{behavior.name}}
                     <span class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</span>
                     <span class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</span>
                 </span>
             </span>
             <span class="div_objectBlob" data-ng-click="addFirstBehavior()">
-                <span>+</span>
+                +
             </span>
         </div>
         <div class="div_CreationMyAppsArea" ng-show="areaFlags['myApplicationsArea']">

@@ -156,6 +156,7 @@ body{
 
 .div_objectBlob{
     display: inline-block;
+    position: relative;
     background-color: #7aba7b;
     margin: 10px;
     width: 80px;
@@ -164,38 +165,49 @@ body{
     text-align: center;
     vertical-align: middle;
     line-height: 80px;
+    word-wrap: break-word;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
 .div_deleteButton{
     color: red;
     background-color: lightgrey;
-    width: 10px;
-    height: 10px;
-    position: relative;
-    left: 0;
-    top: -100%;
-    font-size: small;
+    display: inline-block;
+    min-width: 20%;
+    min-height: 20%;
+    max-width: 20%;
+    max-height: 20%;
+    width: 20%;
+    height: 20%;
+    position: absolute;
+    left: -10%;
+    top: -10%;
+    font-size: inherit;
     text-align: center;
     font-weight: bold;
     border-radius: 50%;
-    line-height: 10px;
+    line-height: 100%;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
 .div_editButton{
     color: yellow;
     background-color: lightgrey;
-    width: 10px;
-    height: 10px;
-    position: relative;
-    left: 20%;
-    top: -112%;
-    font-size: small;
+    display: inline-block;
+    min-width: 20%;
+    min-height: 20%;
+    max-width: 20%;
+    max-height: 20%;
+    width: 20%;
+    height: 20%;
+    position: absolute;
+    left: 14%;
+    top: -10%;
+    font-size: inherit;
     text-align: center;
     font-weight: bold;
     border-radius: 50%;
-    line-height: 10px;
+    line-height: 100%;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 

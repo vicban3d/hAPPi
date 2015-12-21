@@ -8,6 +8,9 @@
 <div class="title" data-ng-show="areaFlags['titleArea']">
     hAPPi UI Prototype
 </div>
+<div class="div_message">
+    <label type="text">{{message}}</label>
+</div>
 <div class="div_workArea">
     <div class="div_menuArea" data-ng-show="areaFlags['menuArea']">
         <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
@@ -18,40 +21,37 @@
     </div>
     <div class="div_centralArea" data-ng-show="areaFlags['centralArea']">
         <div class="div_creationArea" data-ng-show="areaFlags['applicationListArea']">
-            <span data-ng-repeat="application in applications track by $index">
-                <span class="div_objectBlob" data-ng-click="getApplication(application)">
-                    <span>{{application.name}}</span>
+            <div data-ng-repeat="application in applications track by $index">
+                <div class="div_objectBlob" data-ng-click="getApplication(application)">
+                    {{application.name}}
                     <span class='div_deleteButton' data-ng-click="deleteApplication(application)">X</span>
                     <span class="div_editButton" data-ng-click="editApplicationDetails(application)">?</span>
-                </span>
-            </span>
+                </div>
+            </div>
             <span class="div_objectBlob" data-ng-click="addNewApplication()">
                 <span>+</span>
             </span>
-            <br>
-
-            <label>{{message}}</label>
         </div>
         <div class="div_creationArea" data-ng-show="areaFlags['objectsAddArea']">
-            <span data-ng-repeat="object in objects track by $index">
-                <span class="div_objectBlob" data-ng-click="showObjectDetails(object)">
+            <div data-ng-repeat="object in objects track by $index">
+                <div class="div_objectBlob" data-ng-click="showObjectDetails(object)">
                     <span>{{object.name}}</span>
                     <span class='div_deleteButton' data-ng-click="deleteObject(object)">X</span>
-                    <span class='div_editButton' data-ng-click="editObjectDetails(object)">?</span>
-                </span>
-            </span>
+                   <span class='div_editButton' data-ng-click="editObjectDetails(object)">?</span>
+                </div>
+            </div>
             <span class="div_objectBlob" data-ng-click="addFirstObject()">
                 <span>+</span>
             </span>
         </div>
         <div class="div_CreationArea" ng-show="areaFlags['behaviorAddArea']">
-            <span ng-repeat="behavior in behaviors track by $index">
-                <span class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
+            <div ng-repeat="behavior in behaviors track by $index">
+                <div class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
                     <span>{{behavior.name}}</span>
                     <span class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</span>
                     <span class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</span>
-                </span>
-            </span>
+                </div>
+            </div>
             <span class="div_objectBlob" data-ng-click="addFirstBehavior()">
                 <span>+</span>
             </span>
