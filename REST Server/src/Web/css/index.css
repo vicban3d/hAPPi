@@ -257,3 +257,12 @@ body{
     top: 4%;
     left:4%;
 }
+
+.div_message{
+    position: absolute;
+    left: 55%;
+    width: 30%;
+    height: 20%;
+    text-align: right;
+    font-size: 150%;
+}

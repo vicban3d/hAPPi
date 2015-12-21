@@ -8,6 +8,9 @@
 <div class="title" data-ng-show="areaFlags['titleArea']">
     hAPPi UI Prototype
 </div>
+<div class="div_message">
+    <label type="text">{{message}}</label>
+</div>
 <div class="div_workArea">
     <div class="div_menuArea" data-ng-show="areaFlags['menuArea']">
         <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
@@ -28,9 +31,6 @@
             <span class="div_objectBlob" data-ng-click="addNewApplication()">
                 <span>+</span>
             </span>
-            <br>
-
-            <label>{{message}}</label>
         </div>
         <div class="div_creationArea" data-ng-show="areaFlags['objectsAddArea']">
             <span data-ng-repeat="object in objects track by $index">

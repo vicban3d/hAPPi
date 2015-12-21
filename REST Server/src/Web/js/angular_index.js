@@ -46,7 +46,7 @@ angular.module('main', []).
             $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
 
             $scope.loader = {
-                loading: false
+                loading : false
             };
 
             // General Functions //
@@ -90,16 +90,23 @@ angular.module('main', []).
             $scope.addPlatforms = function (platforms) {
                 for(var i=0; i<platforms.length; i++) {
                     var result;
-                    if (platforms[i] == 'android')
+                    var platform;
+                    if (platforms[i] == 'android'){
+                        platform = "android";
                         result = sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID, JSON.stringify(platforms[i]));
-                    else if(platforms[i] == 'ios')
+                    }
+                    else if(platforms[i] == 'ios'){
+                        platform = "ios";
                         result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS, JSON.stringify(platforms[i]));
-                    else if(platforms[i] == 'windowsPhone')
+                    }
+                    else if(platforms[i] == 'windowsPhone'){
+                        platform = "windosPhone";
                         result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE, JSON.stringify(platforms[i]));
+                    }
 
                     result.onreadystatechange = function(){
                         if (result.readyState != 4 && result.status != 200){
-                            $scope.message = "Error";
+                            $scope.message = "Error with adding " + platform + " platform";
                             $scope.$apply();
                         }
                         else if (result.readyState == 4 && result.status == 200){
@@ -313,6 +320,47 @@ angular.module('main', []).
                 $scope.hideArea("objectEditArea");
                 $scope.hideArea("behaviorDetailsArea");
                 $scope.showArea("behaviorEditArea");
+            };
+
+            $scope.createApplication = function(name, platformsToAdd){
+                var newApplication = {
+                    name: name
+                };
+                var result = sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
+                result.onreadystatechange = function(){
+                    if (result.readyState != 4 && result.status != 200){
+                        $scope.hideArea("loadingArea");
+                        $scope.message = "Error with creating the application " + name;
+                        $scope.$apply();
+                    }
+                    else if (result.readyState == 4 && result.status == 200){
+                        $scope.message = result.responseText;
+                        $scope.hideArea("loadingArea");
+                        $scope.$apply();
+                        $scope.addPlatforms(platformsToAdd);
+                    }
+                };
+
+            };
+
+            $scope.menuHome = function(){
+                $scope.hideAll();
+                $scope.showArea("applicationListArea");
+            };
+
+            $scope.menuAddObjects = function(){
+                $scope.hideAll();
+                $scope.showArea("objectsAddArea");
+            };
+
+            $scope.menuCreateApplication = function(){
+                $scope.hideAll();
+                $scope.showArea("applicationListArea");
+            };
+
+            $scope.menuAddBehaviors = function(){
+                $scope.hideAll();
+                $scope.showArea("behaviorAddArea");
             };
 
             $scope.deleteBehavior = function(behavior){
