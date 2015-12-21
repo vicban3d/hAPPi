@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" afterPath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
     <ignored path="HAPPY Server.iws" />
@@ -42,7 +39,14 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="82" column="35" selection-start-line="69" selection-start-column="18" selection-end-line="69" selection-end-column="35" />
-              <folding />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#1663#1664#0" expanded="false" />
+                <element signature="e#1692#1693#0" expanded="false" />
+                <element signature="e#4756#4757#0" expanded="false" />
+                <element signature="e#4839#4840#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1054,13 +1058,7 @@
       <workItem from="1449661868034" duration="6953000" />
       <workItem from="1449679803011" duration="1526000" />
       <workItem from="1449992873083" duration="56509000" />
-      <workItem from="1450693835361" duration="555000" />
-    </task>
-    <task id="LOCAL-00001" summary="Created a simple server">
-      <created>1446824947202</created>
-      <option name="number" value="00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1446824947202</updated>
+      <workItem from="1450693835361" duration="600000" />
     </task>
     <task id="LOCAL-00002" summary="Created a simple server">
       <created>1446825050523</created>
@@ -1350,11 +1348,17 @@
       <option name="project" value="LOCAL" />
       <updated>1450092672542</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Messages">
+      <created>1450694439385</created>
+      <option name="number" value="00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1450694439385</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="198978000" />
+    <option name="totallyTimeSpent" value="199023000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1465,7 +1469,8 @@
     <MESSAGE value="Behavior" />
     <MESSAGE value="Show feedback on creation of applications" />
     <MESSAGE value="Loading..." />
-    <option name="LAST_COMMIT_MESSAGE" value="Loading..." />
+    <MESSAGE value="Messages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Messages" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1482,7 +1487,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="51" selection-start-line="87" selection-start-column="51" selection-end-line="87" selection-end-column="51" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1663#1664#0" expanded="false" />
+            <element signature="e#1692#1693#0" expanded="false" />
+            <element signature="e#4756#4757#0" expanded="false" />
+            <element signature="e#4839#4840#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1518,7 +1530,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="81" column="43" selection-start-line="81" selection-start-column="43" selection-end-line="81" selection-end-column="43" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1663#1664#0" expanded="false" />
+            <element signature="e#1692#1693#0" expanded="false" />
+            <element signature="e#4756#4757#0" expanded="false" />
+            <element signature="e#4839#4840#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1540,7 +1559,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1663#1664#0" expanded="false" />
+            <element signature="e#1692#1693#0" expanded="false" />
+            <element signature="e#4756#4757#0" expanded="false" />
+            <element signature="e#4839#4840#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1548,7 +1574,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1663#1664#0" expanded="false" />
+            <element signature="e#1692#1693#0" expanded="false" />
+            <element signature="e#4756#4757#0" expanded="false" />
+            <element signature="e#4839#4840#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1810,7 +1843,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="82" column="35" selection-start-line="69" selection-start-column="18" selection-end-line="69" selection-end-column="35" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1663#1664#0" expanded="false" />
+            <element signature="e#1692#1693#0" expanded="false" />
+            <element signature="e#4756#4757#0" expanded="false" />
+            <element signature="e#4839#4840#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
