@@ -1,11 +1,16 @@
 <html>
-<head>
+<head>/
     <title>hAPPi - Human - Application Interpreter</title>
-    <script src="lib/js/angular.min.js"></script>
-    <script src="js/angular_index.js"></script>
+    <script src="http://localhost:8080/js/angular.min.js"></script>
+
 </head>
 <body data-ng-app="main" data-ng-controller="ctrl_main">
-<div class="title" data-ng-show="areaFlags['titleArea']">
+<script src="http://localhost:8080/js/strings.js"></script>
+<script src="http://localhost:8080/js/util.js"></script>
+<script src="http://localhost:8080/js/index.js"></script>
+<script src="http://localhost:8080/js/angular_index.js"></script>
+<style src="http://localhost:8080/css/index.css"></style>
+<div class="div_title" data-ng-show="areaFlags['titleArea']">
     hAPPi UI Prototype
 </div>
 <div class="div_message">
@@ -21,39 +26,48 @@
     </div>
     <div class="div_centralArea" data-ng-show="areaFlags['centralArea']">
         <div class="div_creationArea" data-ng-show="areaFlags['applicationListArea']">
-            <div data-ng-repeat="application in applications track by $index">
-                <div class="div_objectBlob" data-ng-click="getApplication(application)">
+            <div class="div_areaTitle">
+                Applications
+            </div>
+            <span data-ng-repeat="application in applications track by $index">
+                <span class="div_objectBlob" data-ng-click="getApplication(application)">
                     {{application.name}}
                     <span class='div_deleteButton' data-ng-click="deleteApplication(application)">X</span>
                     <span class="div_editButton" data-ng-click="editApplicationDetails(application)">?</span>
-                </div>
-            </div>
+                </span>
+            </span>
             <span class="div_objectBlob" data-ng-click="addNewApplication()">
-                <span>+</span>
+                +
             </span>
         </div>
         <div class="div_creationArea" data-ng-show="areaFlags['objectsAddArea']">
-            <div data-ng-repeat="object in objects track by $index">
-                <div class="div_objectBlob" data-ng-click="showObjectDetails(object)">
-                    <span>{{object.name}}</span>
+            <div class="div_areaTitle">
+                Objects
+            </div>
+            <span data-ng-repeat="object in objects track by $index">
+                <span class="div_objectBlob" data-ng-click="showObjectDetails(object)">
+                    {{object.name}}
                     <span class='div_deleteButton' data-ng-click="deleteObject(object)">X</span>
                    <span class='div_editButton' data-ng-click="editObjectDetails(object)">?</span>
-                </div>
-            </div>
-            <span class="div_objectBlob" data-ng-click="addFirstObject()">
-                <span>+</span>
+                </span>
+            </span>
+            <span class="div_objectBlob" data-ng-click="addNewObject()">
+                +
             </span>
         </div>
         <div class="div_CreationArea" ng-show="areaFlags['behaviorAddArea']">
-            <div ng-repeat="behavior in behaviors track by $index">
-                <div class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
-                    <span>{{behavior.name}}</span>
+            <div class="div_areaTitle">
+                Behavior
+            </div>
+            <span ng-repeat="behavior in behaviors track by $index">
+                <span class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
+                    {{behavior.name}}
                     <span class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</span>
                     <span class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</span>
-                </div>
-            </div>
-            <span class="div_objectBlob" data-ng-click="addFirstBehavior()">
-                <span>+</span>
+                </span>
+            </span>
+            <span class="div_objectBlob" data-ng-click="addNewBehavior()">
+                +
             </span>
         </div>
         <div class="div_CreationMyAppsArea" ng-show="areaFlags['myApplicationsArea']">
@@ -64,33 +78,34 @@
     <div class="div_sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="div_objectDetailsArea" data-ng-show="areaFlags['objectDetailsArea']">
             <div class="objectDetailsSummary">
-                {{currentObject.name}}<br><hr>
-                Attributes:<br>
+                <div class="div_areaTitle">{{currentObject.name}}</div>
+                <div class="div_areaSecondaryTitle">Attributes:</div>
                 <div ng-repeat="attr in currentObject.attributes track by $index">
-                    {{attr}}
+                    <div class="div_listEntry">{{attr.name + " - " + attr.type}}</div>
                 </div>
-                <hr>
-                Actions:<br>
+                <div class="div_areaSecondaryTitle">Actions:</div>
                 <div ng-repeat="act in currentObject.actions track by $index">
-                    {{act.name + ": " + act.operand1 + " " + act.operator + " " + act.operand2}}
+                    <div class="div_listEntry">{{act.name + ": " + act.operand1 + " " + act.operator + " " + act.operand2}}</div>
                 </div>
                 <hr>
             </div>
         </div>
         <div data-ng-show="areaFlags['objectEditArea']">
-            <form class="form_addNewObject" data-ng-submit="addObject()" data-ng-init="name='';all_attrs=[]">
+            <form class="form_addNewObject" data-ng-submit="addObject()" data-ng-init="name=''">
                 Name: <input type="text" data-ng-model="name" title="Object Name">
                 <hr>
                 Attributes:<br>
-                <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index">
-                    {{$index + 1}} <input type="text" data-ng-model="all_attrs[$index]" title="Attribute">
+                <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
+                    {{$index + 1}}. Name: <input type="text" data-ng-model="all_attrs[$index].name" title="Attribute">
+                    Type: <select ng-model="all_attrs[$index].type" ng-options="i as i for i in basic_types" title="Type">
+                </select>
                 </div>
                 <div class="div_addAttributeButton" data-ng-click="addAttribute()">+</div>
                 <hr>
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
                     <span class="div_objectActionBlob">
-                        {{all_acts[$index].name}}
+                        {{all_acts[$index].name}}<br>
                     </span>
                 </span>
                 <div class="div_addAttributeButton" data-ng-click="addAction()">+</div>
@@ -98,7 +113,6 @@
                 <button type="submit">Create Object</button>
             </form>
         </div>
-
         <div class="div_behaviorDetailsArea" data-ng-show="areaFlags['behaviorDetailsArea']">
             <div class="behaviorDetailsSummary">
                 {{currentBehavior.name}}<br><hr>
@@ -135,11 +149,11 @@
         </div>
         <div class="div_addActionArea" ng-show="areaFlags['actionsEditArea']">
             <form class="form_addAction" data-ng-submit="addNewAction()"
-                  ng-init="actionName='';all_acts[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
-                Name: <input type="text" data-ng-model="actionName" title="Action Name"><hr>
-                <select ng-model="operand1" ng-options="operand1 as o for o in all_attrs.filter(isValidAttribute)"  title="Operand1"></select>
-                <select ng-model="operator" ng-options="operator as o for o in operators" title="Operator"></select>
-                <input type="text" ng-model="operand2" title="Operand2">
+                  ng-init="all_acts[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
+                Name: <input type="text" data-ng-model="all_acts[numOfActions].name" title="Action Name"><hr>
+                <select ng-model="all_acts[numOfActions].operand1" ng-options="i.name for i in all_attrs" title="Operand1"></select>
+                <select ng-model="all_acts[numOfActions].operator" ng-options="i for i in operators" title="Operator"></select>
+                <input type="text" ng-model="all_acts[numOfActions].operand2" title="Operand2">
                 <button type="submit">Add Action</button>
             </form>
         </div>

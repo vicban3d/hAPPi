@@ -2,10 +2,14 @@ body{
     background-color: white;
     overflow: hidden;
 }
-.title{
+.div_title{
+    position: absolute;
+    top:0;
+    left:0;
     color: green;
-    font-size: 400%;
+    font-size: 4vw;
     font-family: "Monotype Corsiva", cursive;
+    width: 50%
 }
 .div_workArea{
     position: absolute;
@@ -158,20 +162,21 @@ body{
     display: inline-block;
     position: relative;
     background-color: #7aba7b;
-    margin: 10px;
+    margin-left: 4%;
+    margin-top: 4%;
     width: 80px;
     height: 80px;
+    line-height: 80px;
     border-radius: 10%;
     text-align: center;
     vertical-align: middle;
-    line-height: 80px;
     word-wrap: break-word;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+    box-shadow: 0 0 5px 1px rgba(0,0,0,0.75);
 }
 
 .div_deleteButton{
     color: red;
-    background-color: lightgrey;
+    background-color: transparent;
     display: inline-block;
     min-width: 20%;
     min-height: 20%;
@@ -180,19 +185,17 @@ body{
     width: 20%;
     height: 20%;
     position: absolute;
-    left: -10%;
-    top: -10%;
-    font-size: inherit;
-    text-align: center;
+    left: 2%;
+    top: 2%;
     font-weight: bold;
-    border-radius: 50%;
+    border-radius: 30%;
     line-height: 100%;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
 .div_editButton{
     color: yellow;
-    background-color: lightgrey;
+    background-color: transparent;
     display: inline-block;
     min-width: 20%;
     min-height: 20%;
@@ -201,12 +204,10 @@ body{
     width: 20%;
     height: 20%;
     position: absolute;
-    left: 14%;
-    top: -10%;
-    font-size: inherit;
-    text-align: center;
+    left: 26%;
+    top:2%;
     font-weight: bold;
-    border-radius: 50%;
+    border-radius: 30%;
     line-height: 100%;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
@@ -226,32 +227,37 @@ body{
 
 .div_addAttributeButton{
     color: green;
-    background-color: lightgrey;
-    border: solid;
-    width: 14px;
-    height: 14px;
     position: relative;
     left: 2%;
     top: 3px;
     font-size: medium;
     text-align: center;
     font-weight: bold;
-    border-radius: 50%;
+    border-radius: 30%;
+    background-color: transparent;
+    display: inline-block;
+    min-width: 2%;
+    min-height: 2%;
+    max-width: 2%;
+    max-height: 2%;
+    line-height: 130%;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
 .div_menuButton{
     position: relative;
     background-color: #5bc0de;
     border-radius:  20% 0 0 20%;
-    left: 28%;
-    top: 20px;
+    left: 30%;
+    top: 10%;
     width: 70%;
     height: 14%;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+    margin-top: 18%;
+    margin-bottom: 18%;
+    box-shadow: 0 0 6px 1px rgba(0,0,0,0.75);
     text-align: center;
-    line-height: 100px;
-    margin: 5px;
-    font-size: 160%;
+    line-height: 275%;
+    font-size: 1.8vw;
 }
 
 .div_addActionArea{
@@ -277,4 +283,41 @@ body{
     height: 20%;
     text-align: right;
     font-size: 150%;
+}
+
+.div_areaTitle{
+    position: relative;
+    top:1%;
+    text-align: center;
+    color: green;
+    font-size: 2vw;
+    font-family: "Monotype Corsiva", cursive;
+    font-weight: bold;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+    background-color: #7aba7b;
+}
+
+.div_areaSecondaryTitle{
+    position: relative;
+    top:1%;
+    color: black;
+    font-size: inherit;
+    font-family: inherit;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+    background-color: lightblue;
+    padding-left: 1%;
+}
+
+.div_listEntry{
+    position: relative;
+    top:1%;
+    left: 2%;
+    color: black;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: lightgrey;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+    padding-left: 1%;
+    margin: 1%;
+    width: 90%;
 }

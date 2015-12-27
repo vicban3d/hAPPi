@@ -11,7 +11,7 @@ angular.module('main', []).
             $scope.areaFlags["loadingArea"] = false;
             $scope.areaFlags["myApplicationAreaArea"] = false;
             $scope.areaFlags["menuArea"] = true;
-            $scope.areaFlags["menuButtonsArea"] = false;
+            $scope.areaFlags["menuButtonsArea"] = true;
             $scope.areaFlags["applicationListArea"] = true;
             $scope.areaFlags["applicationDetailsArea"] = false;
             $scope.areaFlags["applicationEditArea"] = false;
@@ -25,12 +25,14 @@ angular.module('main', []).
             $scope.areaFlags["behaviorEditArea"] = false;
 
             $scope.menuButtons = [
-                {'label': 'My Apps',        'function': function(){$scope.menuHome()}},
-                {'label': 'Add Objects',    'function': function(){$scope.menuAddObjects()}},
-                {'label': 'Add Behavior',   'function': function(){$scope.menuAddBehaviors()}},
+                {'label': 'Apps',        'function': function(){$scope.menuHome()}},
+                {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
+                {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
                 {'label': 'Design',         'function': function(){}},
                 {'label': 'Release',        'function':  function(){}}
             ];
+
+            $scope.basic_types = ["Number", "Text"];
 
             $scope.numOfAttributes = 0;
             $scope.numOfActions = 0;
@@ -238,6 +240,7 @@ angular.module('main', []).
                     $scope.currentObject = {};
                 }
                 sendPOSTRequest(Paths.REMOVE_ENTITY, JSON.stringify(object));
+                $scope.hideArea("objectDetailsArea");
             };
 
             $scope.addAttribute = function(){
@@ -253,12 +256,6 @@ angular.module('main', []).
                     $scope.actionName = 'Invalid Name!'
                 }
                 else {
-                    $scope.all_acts[$scope.numOfActions] = {
-                        name: $scope.actionName,
-                        operand1: $scope.operand1,
-                        operator: $scope.operator,
-                        operand2: $scope.operand2
-                    };
                     $scope.numOfActions += 1;
                     $scope.hideArea("actionsEditArea");
                 }
@@ -279,15 +276,21 @@ angular.module('main', []).
             };
 
             $scope.isValidAttribute = function(val){
-                return val != '';
+                return val.name != '' && val.type != '';
+
+            };
+
+            $scope.getAttributeName = function(val){
+                return val.name;
+
             };
 
             $scope.isValidAction = function(val){
                 return val != '';
             };
 
-            $scope.addFirstObject = function(){
-                var empty = {name:'new object', attributes: 'attrs'};
+            $scope.addNewObject = function(){
+                var empty = {name:'new object', attributes: [{name: 'attr', type: 'number'}]};
                 $scope.showObjectDetails(empty);
                 $scope.hideArea("behaviorDetailsArea");
                 $scope.hideArea("behaviorEditArea");
@@ -313,7 +316,7 @@ angular.module('main', []).
                 $scope.currentBehavior = behavior;
             };
 
-            $scope.addFirstBehavior = function(){
+            $scope.addNewBehavior = function(){
                 var empty = {name:'new behavior'};
                 $scope.showBehaviorDetails(empty);
                 $scope.hideArea("objectDetailsArea");

@@ -4,6 +4,9 @@ import Utility.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.Map;
+
 /**
  * Created by victor on 11/10/2015.
  *
@@ -16,7 +19,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class Entity {
 
     private String name; // The name of the entity.
-    private String[] attributes; // The attributes of the entity.
+    private Map<String, String> attributes; // The attributes of the entity.
 
     /**
      * Initiates the entity from a JSON compatible string.
@@ -26,7 +29,15 @@ public class Entity {
         try {
             JSONObject json = new JSONObject(data);
             this.name = json.getString("name");
-            this.attributes = json.getString("attributes").split(" ");
+            String[] attrs = json.getString("attributes").replace("[","").replace("]","").replace("{","").replace(",","").replace("}",",").split(",");
+
+            for (String attr: attrs) {
+                String name = attr.split("name\":\"")[1].split("\"")[0];
+                String type = attr.split("type\":\"")[1].split("\"")[0];
+                attributes.put(name, type);
+            }
+            System.out.println(attributes.toString());
+
         } catch (JSONException e) {
             Logger.ERROR("Failed to initialize entity!", e.getMessage());
         }
@@ -45,8 +56,8 @@ public class Entity {
      */
     public String getAttributes(){
         String res = "";
-        for (String attribute : attributes) {
-            res += attribute + " ";
+        for (String attribute : attributes.keySet()) {
+            res += attribute + " - " + attributes.get(attribute);
         }
         return res.substring(0, res.length() - 1);
     }

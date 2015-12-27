@@ -58,7 +58,7 @@ public class MongoDB implements Database {
         DBCollection project = db.getCollection(projectName);
         DBCollection category = project.getCollection(categoryName);
         DBObject jsonData = (DBObject)JSON.parse(data);
-        category.save(jsonData);
+//        category.save(jsonData);
         Logger.INFO("Added data to Database: " + projectName + " -> " + categoryName + " -> " + data);
     }
 
