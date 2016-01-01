@@ -14,7 +14,7 @@ angular.module('main', []).
             $scope.areaFlags["loadingArea"] = false;
             $scope.areaFlags["myApplicationAreaArea"] = false;
             $scope.areaFlags["menuArea"] = true;
-            $scope.areaFlags["menuButtonsArea"] = true;
+            $scope.areaFlags["menuButtonsArea"] = false;
             $scope.areaFlags["applicationListArea"] = true;
             $scope.areaFlags["applicationDetailsArea"] = false;
             $scope.areaFlags["applicationEditArea"] = false;
@@ -352,47 +352,6 @@ angular.module('main', []).
                 $scope.hideArea("objectEditArea");
                 $scope.hideArea("behaviorDetailsArea");
                 $scope.showArea("behaviorEditArea");
-            };
-
-            $scope.createApplication = function(name, platformsToAdd){
-                var newApplication = {
-                    name: name
-                };
-                var result = sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication));
-                result.onreadystatechange = function(){
-                    if (result.readyState != 4 && result.status != 200){
-                        $scope.hideArea("loadingArea");
-                        $scope.message = "Error with creating the application " + name;
-                        $scope.$apply();
-                    }
-                    else if (result.readyState == 4 && result.status == 200){
-                        $scope.message = result.responseText;
-                        $scope.hideArea("loadingArea");
-                        $scope.$apply();
-                        $scope.addPlatforms(platformsToAdd);
-                    }
-                };
-
-            };
-
-            $scope.menuHome = function(){
-                $scope.hideAll();
-                $scope.showArea("applicationListArea");
-            };
-
-            $scope.menuAddObjects = function(){
-                $scope.hideAll();
-                $scope.showArea("objectsAddArea");
-            };
-
-            $scope.menuCreateApplication = function(){
-                $scope.hideAll();
-                $scope.showArea("applicationListArea");
-            };
-
-            $scope.menuAddBehaviors = function(){
-                $scope.hideAll();
-                $scope.showArea("behaviorAddArea");
             };
 
             $scope.deleteBehavior = function(behavior){

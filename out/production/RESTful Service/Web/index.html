@@ -85,7 +85,7 @@
                 </div>
                 <div class="div_areaSecondaryTitle">Actions:</div>
                 <div ng-repeat="act in currentObject.actions track by $index">
-                    <div class="div_listEntry">{{act.name + ": " + act.operand1 + " " + act.operator + " " + act.operand2}}</div>
+                    <div class="div_listEntry">{{act.name + ": " + act.operand1.name + " " + act.operator + " " + act.operand2}}</div>
                 </div>
                 <hr>
             </div>
@@ -106,7 +106,8 @@
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
                     <span class="div_objectActionBlob">
-                        {{all_acts[$index].name}}<br>
+                        {{all_acts[$index].name + ": " + all_acts[$index].operand1.name + " " + all_acts[$index].operator + " " + all_acts[$index].operand2}}
+                        <br>
                     </span>
                 </span>
                 <div class="div_addAttributeButton" data-ng-click="addAction()">+</div>
