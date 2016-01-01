@@ -5,6 +5,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,6 +27,7 @@ public class Entity {
      * @param data - a JSON compatible string containing all entity parameters.
      */
     public Entity(String data){
+        attributes = new HashMap<>();
         try {
             JSONObject json = new JSONObject(data);
             this.name = json.getString("name");
@@ -36,7 +38,6 @@ public class Entity {
                 String type = attr.split("type\":\"")[1].split("\"")[0];
                 attributes.put(name, type);
             }
-            System.out.println(attributes.toString());
 
         } catch (JSONException e) {
             Logger.ERROR("Failed to initialize entity!", e.getMessage());

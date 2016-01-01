@@ -73,6 +73,7 @@ public class hAPPiFacade implements Facade {
 
         DBCollection entities = database.getData(applicationName, "Entities");
         DBCursor c =  entities.find();
+
         String result = "";
         int i=0;
         for (DBObject entity : c) {
@@ -86,6 +87,7 @@ public class hAPPiFacade implements Facade {
             }
         }
         //Edit index.html file with the entities
+        System.out.println(createHtmlContent(result));
         String indexPath = Strings.PATH_APPS + "\\" + applicationName + "\\www\\index.html";
         String content =  createHtmlContent(result);
         try {

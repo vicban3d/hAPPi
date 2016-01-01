@@ -1,6 +1,9 @@
 angular.module('main', []).
-    controller('ctrl_main', ['$scope',
-        function($scope) {
+    controller('ctrl_main', ['$scope', '$sce','$interval',
+        function($scope, $sce, $interval) {
+
+            var PATH_APPS = "http://localhost:80/";
+            var PATH_APP_INDEX = "/www/index.html";
 
             // Variable Declaration //
             $scope.areaFlags = [];
@@ -23,12 +26,13 @@ angular.module('main', []).
             $scope.areaFlags["behaviorEditArea"] = false;
             $scope.areaFlags["actionEditArea"] = false;
             $scope.areaFlags["behaviorEditArea"] = false;
+            $scope.areaFlags["designArea"] = false;
 
             $scope.menuButtons = [
                 {'label': 'Apps',        'function': function(){$scope.menuHome()}},
                 {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
                 {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
-                {'label': 'Design',         'function': function(){}},
+                {'label': 'Design',         'function': function(){$scope.menuDesign()}},
                 {'label': 'Release',        'function':  function(){}}
             ];
 
@@ -45,6 +49,7 @@ angular.module('main', []).
             $scope.platforms = [];
             $scope.currentBehavior = '';
             $scope.behaviors = [];
+            $scope.currentAppURL = '';
             $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
 
             $scope.loader = {
@@ -66,6 +71,28 @@ angular.module('main', []).
             $scope.menuAddBehaviors = function(){
                 $scope.hideAll();
                 $scope.showArea("behaviorAddArea");
+            };
+
+
+            Object.prototype.each = function(f){
+                var l = this.length;
+                for(var i=0;i<l;i++)
+                {
+                    try {
+                        this[i].eachCall = f;
+                        this[i].eachCall(this[i]);
+                    } catch(e){ throw e; }
+                }
+            };
+
+            $scope.refreshIframe = function(){
+                document.getElementsByTagName('iframe').each(function(){this.src=this.src;});
+            };
+
+            $scope.menuDesign = function(){
+                $scope.refreshIframe();
+                $scope.hideAll();
+                $scope.showArea("designArea");
             };
 
             $scope.hideAll = function () {
@@ -95,15 +122,15 @@ angular.module('main', []).
                     var platform;
                     if (platforms[i] == 'android'){
                         platform = "android";
-                        result = sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID, JSON.stringify(platforms[i]));
+                        result = sendPOSTRequest(Paths.ADD_PLATFORM_ANDROID, angular.toJson(platforms[i]));
                     }
                     else if(platforms[i] == 'ios'){
                         platform = "ios";
-                        result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS, JSON.stringify(platforms[i]));
+                        result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS, angular.toJson(platforms[i]));
                     }
                     else if(platforms[i] == 'windowsPhone'){
                         platform = "windosPhone";
-                        result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE, JSON.stringify(platforms[i]));
+                        result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE, angular.toJson(platforms[i]));
                     }
 
                     result.onreadystatechange = function(){
@@ -133,8 +160,9 @@ angular.module('main', []).
                 $scope.applications.splice(index, 1);
                 if (application == $scope.currentApplication){
                     $scope.currentApplication = {};
+                    $scope.currentAppURL = '';
                 }
-                sendPOSTRequest(Paths.REMOVE_APP, JSON.stringify(application));
+                sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application));
             };
 
             $scope.addApplication = function(){
@@ -171,6 +199,7 @@ angular.module('main', []).
                     $scope.showApplicationDetailsFlag = 1
                 }
                 $scope.currentApplication = application;
+                $scope.currentAppURL = $sce.trustAsResourceUrl($scope.currentAppURL = PATH_APPS + application.name + PATH_APP_INDEX);
                 $scope.hideArea("applicationEditArea");
                 $scope.hideArea("applicationDetailsArea");
                 $scope.hideArea("applicationListArea");
@@ -191,7 +220,7 @@ angular.module('main', []).
                 var newApplication = {
                     name: name
                 };
-                var result = sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
+                var result = sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication));
                 result.onreadystatechange = function(){
                     if (result.readyState != 4 && result.status != 200){
                         $scope.loader.loading = false;
@@ -229,7 +258,7 @@ angular.module('main', []).
                     $scope.name = '';
                     $scope.showObjectDetails(newObject);
                     $scope.hideArea("actionsEditArea");
-                    sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newObject));
+                    sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newObject));
                 }
             };
 
@@ -239,7 +268,7 @@ angular.module('main', []).
                 if (object == $scope.currentObject){
                     $scope.currentObject = {};
                 }
-                sendPOSTRequest(Paths.REMOVE_ENTITY, JSON.stringify(object));
+                sendPOSTRequest(Paths.REMOVE_ENTITY, angular.toJson(object));
                 $scope.hideArea("objectDetailsArea");
             };
 
@@ -286,7 +315,7 @@ angular.module('main', []).
             };
 
             $scope.isValidAction = function(val){
-                return val != '';
+                return val.name != '' && val.operand1 != '' && val.operator != '' && val.operand2 != '';
             };
 
             $scope.addNewObject = function(){
@@ -308,7 +337,7 @@ angular.module('main', []).
                     $scope.behaviors.push(newBehavior);
                     $scope.name = '';
                     $scope.showBehaviorDetails(newBehavior);
-                    sendPOSTRequest(Paths.CREATE_ENTITY, JSON.stringify(newBehavior));
+                    sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newBehavior));
                 }
             };
 
@@ -329,7 +358,7 @@ angular.module('main', []).
                 var newApplication = {
                     name: name
                 };
-                var result = sendPOSTRequest(Paths.CREATE_APP, JSON.stringify(newApplication));
+                var result = sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication));
                 result.onreadystatechange = function(){
                     if (result.readyState != 4 && result.status != 200){
                         $scope.hideArea("loadingArea");
@@ -372,7 +401,7 @@ angular.module('main', []).
                 if (behavior == $scope.currentBehavior){
                     $scope.currentBehavior = {};
                 }
-                sendPOSTRequest(Paths.REMOVE_ENTITY, JSON.stringify(behavior));
+                sendPOSTRequest(Paths.REMOVE_ENTITY, angular.toJson(behavior));
             };
 
             $scope.showBehaviorDetails = function(behavior){
@@ -389,5 +418,10 @@ angular.module('main', []).
             };
 
             // Design //
+
             // Release //
+
         }]);
+
+
+

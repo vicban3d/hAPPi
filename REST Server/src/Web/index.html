@@ -1,20 +1,14 @@
 <html>
 <head>/
     <title>hAPPi - Human - Application Interpreter</title>
-    <script src="http://localhost:8080/js/angular.min.js"></script>
-
 </head>
 <body data-ng-app="main" data-ng-controller="ctrl_main">
-<script src="http://localhost:8080/js/strings.js"></script>
-<script src="http://localhost:8080/js/util.js"></script>
-<script src="http://localhost:8080/js/index.js"></script>
-<script src="http://localhost:8080/js/angular_index.js"></script>
-<style src="http://localhost:8080/css/index.css"></style>
 <div class="div_title" data-ng-show="areaFlags['titleArea']">
     hAPPi UI Prototype
 </div>
 <div class="div_message">
-    <label type="text">{{message}}</label>
+    <label>{{message}}</label>
+    {{currentAppURL}}
 </div>
 <div class="div_workArea">
     <div class="div_menuArea" data-ng-show="areaFlags['menuArea']">
@@ -74,6 +68,12 @@
             <br>
             Application : {{currentApplication.name}}
         </div>
+        <div class="div_designArea"  ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()">
+            <div class="div_areaTitle">
+                Design
+            </div>
+            <iframe id="designIframe" class="emulator" data-ng-src="{{currentAppURL}}"></iframe>
+        </div>
     </div>
     <div class="div_sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="div_objectDetailsArea" data-ng-show="areaFlags['objectDetailsArea']">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="div_areaSecondaryTitle">Actions:</div>
                 <div ng-repeat="act in currentObject.actions track by $index">
-                    <div class="div_listEntry">{{act.name + ": " + act.operand1 + " " + act.operator + " " + act.operand2}}</div>
+                    <div class="div_listEntry">{{act.name + ": " + act.operand1.name + " " + act.operator + " " + act.operand2}}</div>
                 </div>
                 <hr>
             </div>
@@ -96,8 +96,9 @@
                 <hr>
                 Attributes:<br>
                 <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
-                    {{$index + 1}}. Name: <input type="text" data-ng-model="all_attrs[$index].name" title="Attribute">
-                    Type: <select ng-model="all_attrs[$index].type" ng-options="i as i for i in basic_types" title="Type">
+                    {{$index + 1}}.
+                    Name: <input type="text" data-ng-model="all_attrs[$index].name" title="Attribute">
+                    Type: <select ng-model="all_attrs[$index].type" ng-options="i for i in basic_types" title="Type">
                 </select>
                 </div>
                 <div class="div_addAttributeButton" data-ng-click="addAttribute()">+</div>
@@ -105,7 +106,8 @@
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
                     <span class="div_objectActionBlob">
-                        {{all_acts[$index].name}}<br>
+                        {{all_acts[$index].name + ": " + all_acts[$index].operand1.name + " " + all_acts[$index].operator + " " + all_acts[$index].operand2}}
+                        <br>
                     </span>
                 </span>
                 <div class="div_addAttributeButton" data-ng-click="addAction()">+</div>
