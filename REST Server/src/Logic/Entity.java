@@ -21,6 +21,7 @@ public class Entity {
 
     private String name; // The name of the entity.
     private Map<String, String> attributes; // The attributes of the entity.
+    private  Map<String, String[]> actions;
 
     /**
      * Initiates the entity from a JSON compatible string.
@@ -28,15 +29,44 @@ public class Entity {
      */
     public Entity(String data){
         attributes = new HashMap<>();
+        actions = new HashMap<>();
         try {
             JSONObject json = new JSONObject(data);
+
             this.name = json.getString("name");
-            String[] attrs = json.getString("attributes").replace("[","").replace("]","").replace("{","").replace(",","").replace("}",",").split(",");
+            String[] attrs = json.getString("attributes").substring(1,json.getString("attributes").length()-1).split("},\\{");
+            String[] acts = json.getString("actions").substring(1,json.getString("actions").length()-1).split("},\\{");
 
             for (String attr: attrs) {
-                String name = attr.split("name\":\"")[1].split("\"")[0];
-                String type = attr.split("type\":\"")[1].split("\"")[0];
+                if (attr.charAt(0) != '{'){
+                    attr = "{" + attr;
+                }
+                if (attr.charAt(attr.length()-1) != '}'){
+                    attr = attr + "}";
+                }
+                JSONObject jattr = new JSONObject(attr);
+                String name = jattr.getString("name");
+                String type = jattr.getString("type");
                 attributes.put(name, type);
+            }
+            for (String act: acts) {
+                if (act.charAt(0) != '{'){
+                    act = "{" + act;
+                }
+                if (act.charAt(act.length()-1) != '}'){
+                    act = act + "}";
+                }
+                System.out.println(act);
+                JSONObject jact = new JSONObject(act);
+                String name = jact.getString("name");
+                String o1 = new JSONObject(jact.getString("operand1")).getString("name");
+                String op = jact.getString("operator");
+                String o2 = jact.getString("operand2");
+                String[] arr = new String[3];
+                arr[0] = o1;
+                arr[1] = op;
+                arr[2] = o2;
+                actions.put(name, arr);
             }
 
         } catch (JSONException e) {
@@ -58,8 +88,16 @@ public class Entity {
     public String getAttributes(){
         String res = "";
         for (String attribute : attributes.keySet()) {
-            res += attribute + " - " + attributes.get(attribute);
+            res += attribute + " - " + attributes.get(attribute) + " ";
         }
-        return res.substring(0, res.length() - 1);
+        return res;
+    }
+
+    public String getActions() {
+        String res = "";
+        for (String action : actions.keySet()) {
+            res += action + " - " + actions.get(action)[0] + " " + actions.get(action)[1]+ " " + actions.get(action)[2]  + "\n";
+        }
+        return res;
     }
 }

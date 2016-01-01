@@ -70,32 +70,6 @@ public class hAPPiFacade implements Facade {
     @Override
     public void buildApplication(String applicationName) throws CordovaRuntimeException {
         compiler.buildApplication(applicationName);
-
-        DBCollection entities = database.getData(applicationName, "Entities");
-        DBCursor c =  entities.find();
-
-        String result = "";
-        int i=0;
-        for (DBObject entity : c) {
-            try {
-                JSONObject json = new JSONObject(String.format("%s",entity));
-                String name  = json.getString("name");
-                String attributes = json.getString("attributes");
-                result += i++ + ") Name: " + name + "\n   Attributes: " + attributes + "\n" + "<hr>";
-            } catch (JSONException e) {
-                Logger.ERROR("Failed while handling JSON object.", e.getMessage());
-            }
-        }
-        //Edit index.html file with the entities
-        System.out.println(createHtmlContent(result));
-        String indexPath = Strings.PATH_APPS + "\\" + applicationName + "\\www\\index.html";
-        String content =  createHtmlContent(result);
-        try {
-            FileHandler.clearFile(indexPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FileHandler.writeFile(indexPath, content);
     }
 
     private String createHtmlContent(String content){
@@ -116,6 +90,33 @@ public class hAPPiFacade implements Facade {
         String jsValue = jsCreator.create(newEntity);
         String path = Strings.PATH_APPS + "\\" + application + "\\www\\js\\entities.js";
         FileHandler.writeFile(path, jsValue);
+
+        DBCollection entities = database.getData(application, "Entities");
+        DBCursor c =  entities.find();
+
+        String result = "";
+        int i=0;
+        for (DBObject en : c) {
+            try {
+                JSONObject json = new JSONObject(String.format("%s",en));
+                String name  = json.getString("name");
+                String attributes = json.getString("attributes");
+                String actions = json.getString("actions");
+                result += i++ + ") Name: " + name + "\n   Attributes: " + attributes + "\n" + "Actions: " + actions+ "<hr>";
+            } catch (JSONException e) {
+                Logger.ERROR("Failed while handling JSON object.", e.getMessage());
+            }
+        }
+        System.out.println(result);
+        //Edit index.html file with the entities
+        String indexPath = Strings.PATH_APPS + "\\" + application + "\\www\\index.html";
+        String content =  createHtmlContent(result);
+        try {
+            FileHandler.clearFile(indexPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FileHandler.writeFile(indexPath, content);
     }
 
     @Override
