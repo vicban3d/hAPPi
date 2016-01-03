@@ -3,8 +3,6 @@ package Logic;
 import Utility.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +18,8 @@ import java.util.Map;
 public class Entity {
 
     private String name; // The name of the entity.
-    private Map<String, String> attributes; // The attributes of the entity.
-    private  Map<String, String[]> actions;
+    private final Map<String, String> attributes; // The attributes of the entity.
+    private  final Map<String, String[]> actions;
 
     /**
      * Initiates the entity from a JSON compatible string.
@@ -32,41 +30,46 @@ public class Entity {
         actions = new HashMap<>();
         try {
             JSONObject json = new JSONObject(data);
-
             this.name = json.getString("name");
-            String[] attrs = json.getString("attributes").substring(1,json.getString("attributes").length()-1).split("},\\{");
-            String[] acts = json.getString("actions").substring(1,json.getString("actions").length()-1).split("},\\{");
 
-            for (String attr: attrs) {
-                if (attr.charAt(0) != '{'){
-                    attr = "{" + attr;
+            if (!json.getString("attributes").equals("[]")) {
+                String[] attrs = json.getString("attributes").substring(1, json.getString("attributes").length() - 1).split("},\\{");
+
+                for (String attr : attrs) {
+                    if (attr.charAt(0) != '{') {
+                        attr = "{" + attr;
+                    }
+                    if (attr.charAt(attr.length() - 1) != '}') {
+                        attr = attr + "}";
+                    }
+                    JSONObject jattr = new JSONObject(attr);
+                    String name = jattr.getString("name");
+                    String type = jattr.getString("type");
+                    attributes.put(name, type);
                 }
-                if (attr.charAt(attr.length()-1) != '}'){
-                    attr = attr + "}";
-                }
-                JSONObject jattr = new JSONObject(attr);
-                String name = jattr.getString("name");
-                String type = jattr.getString("type");
-                attributes.put(name, type);
+
             }
-            for (String act: acts) {
-                if (act.charAt(0) != '{'){
-                    act = "{" + act;
+            if (!json.getString("actions").equals("[]")) {
+                String[] acts = json.getString("actions").substring(1, json.getString("actions").length() - 1).split("},\\{");
+                for (String act : acts) {
+                    if (act.charAt(0) != '{') {
+                        act = "{" + act;
+                    }
+                    if (act.charAt(act.length() - 1) != '}') {
+                        act = act + "}";
+                    }
+                    System.out.println(act);
+                    JSONObject jact = new JSONObject(act);
+                    String name = jact.getString("name");
+                    String o1 = new JSONObject(jact.getString("operand1")).getString("name");
+                    String op = jact.getString("operator");
+                    String o2 = jact.getString("operand2");
+                    String[] arr = new String[3];
+                    arr[0] = o1;
+                    arr[1] = op;
+                    arr[2] = o2;
+                    actions.put(name, arr);
                 }
-                if (act.charAt(act.length()-1) != '}'){
-                    act = act + "}";
-                }
-                System.out.println(act);
-                JSONObject jact = new JSONObject(act);
-                String name = jact.getString("name");
-                String o1 = new JSONObject(jact.getString("operand1")).getString("name");
-                String op = jact.getString("operator");
-                String o2 = jact.getString("operand2");
-                String[] arr = new String[3];
-                arr[0] = o1;
-                arr[1] = op;
-                arr[2] = o2;
-                actions.put(name, arr);
             }
 
         } catch (JSONException e) {

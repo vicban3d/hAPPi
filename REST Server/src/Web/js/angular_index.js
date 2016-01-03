@@ -1,8 +1,9 @@
-angular.module('main', []).
-    controller('ctrl_main', ['$scope', '$sce','$interval',
-        function($scope, $sce, $interval) {
+var main_module = angular.module('main', []);
 
-            var PATH_APPS = "http://localhost:80/";
+main_module.controller('ctrl_main', ['$scope', '$sce',
+        function($scope, $sce) {
+
+            var PATH_APPS = "http://localhost:80/Applications/";
             var PATH_APP_INDEX = "/www/index.html";
 
             // Variable Declaration //
@@ -14,7 +15,7 @@ angular.module('main', []).
             $scope.areaFlags["loadingArea"] = false;
             $scope.areaFlags["myApplicationAreaArea"] = false;
             $scope.areaFlags["menuArea"] = true;
-            $scope.areaFlags["menuButtonsArea"] = false;
+            $scope.areaFlags["menuButtonsArea"] = true;
             $scope.areaFlags["applicationListArea"] = true;
             $scope.areaFlags["applicationDetailsArea"] = false;
             $scope.areaFlags["applicationEditArea"] = false;
@@ -73,31 +74,16 @@ angular.module('main', []).
                 $scope.showArea("behaviorAddArea");
             };
 
-
-            Object.prototype.each = function(f){
-                var l = this.length;
-                for(var i=0;i<l;i++)
-                {
-                    try {
-                        this[i].eachCall = f;
-                        this[i].eachCall(this[i]);
-                    } catch(e){ throw e; }
-                }
-            };
-
-            $scope.refreshIframe = function(){
-                document.getElementsByTagName('iframe').each(function(){this.src=this.src;});
-            };
-
             $scope.menuDesign = function(){
-                $scope.refreshIframe();
                 $scope.hideAll();
                 $scope.showArea("designArea");
             };
 
             $scope.hideAll = function () {
                 for (var f in $scope.areaFlags) {
-                    $scope.areaFlags[f] = false;
+                    if ($scope.areaFlags.hasOwnProperty(f)) {
+                        $scope.areaFlags[f] = false;
+                    }
                 }
                 $scope.areaFlags["titleArea"] = true;
                 $scope.areaFlags["workArea"] = true;
@@ -129,13 +115,13 @@ angular.module('main', []).
                         result = sendPOSTRequest(Paths.ADD_PLATFORM_IOS, angular.toJson(platforms[i]));
                     }
                     else if(platforms[i] == 'windowsPhone'){
-                        platform = "windosPhone";
+                        platform = "windowsPhone";
                         result = sendPOSTRequest(Paths.ADD_PLATFORM_WINDOWS_PHONE, angular.toJson(platforms[i]));
                     }
 
                     result.onreadystatechange = function(){
                         if (result.readyState != 4 && result.status != 200){
-                            $scope.message = "Error with adding " + platform + " platform";
+                            $scope.message = "Error adding " + platform + " platform";
                             $scope.$apply();
                         }
                         else if (result.readyState == 4 && result.status == 200){

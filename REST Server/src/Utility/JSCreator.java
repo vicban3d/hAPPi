@@ -24,18 +24,6 @@ public class JSCreator {
             "}";
 
     /**
-     * Initializes a JavaScript file in the given application with all relevant helper functions.
-     * @param applicationName - the name of the application.
-     * @param name - the name of the file.
-     */
-    public void initializeFile(String applicationName, String name){
-        String text = "";
-        text+= FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\helper_functions.js");
-        // Add more initial file content here.
-        FileHandler.writeFile(Strings.PATH_APPS + "\\" + applicationName + "\\www\\js\\" + name + ".js", text);
-    }
-
-    /**
      * Creates an entity deceleration in JavaScript.
      * @param newEntity - the entity to create.
      * @return a string containing the relevant JavaScript command.

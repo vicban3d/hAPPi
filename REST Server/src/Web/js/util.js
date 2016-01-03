@@ -21,18 +21,11 @@ function createRequest() {
     return result;
 }
 
-function sendPOSTRequest(path, data){
+function sendPOSTRequest(path, data) {
     var req = createRequest();
     req.open("POST", Paths.ROOT + path, true);
     req.setRequestHeader("Content-Type", "text/plain");
     req.send(data);
     return req;
-}
-
-function sendGETRequest(path, data){
-    var req = createRequest();
-    req.open("GET", Paths.ROOT + path, true);
-    req.setRequestHeader("Content-Type", "text/plain");
-    req.send(data);
 }
 

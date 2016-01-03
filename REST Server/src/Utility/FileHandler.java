@@ -38,31 +38,32 @@ public class FileHandler {
      * @param path - the path of the relevant file.
      * @param content - the content which should be written to the file.
      */
-    public static void writeFile(String path, String content){
+    public static void writeFile(String path, String content) throws IOException {
         Path filePath = Paths.get(path);
         if (!Files.exists(filePath)){
             try {
                 Files.createFile(filePath);
             } catch (IOException e) {
                 Logger.ERROR("Failed to write to file " + path + "!", e.getMessage());
-                return;
+                throw e;
             }
         }
         try {
             Files.write(filePath, content.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             Logger.ERROR("Failed to write to file " + path + "!", e.getMessage());
+            throw e;
         }
     }
 
-    public static void removeFromFile(String path, String jsValue) {
+    public static void removeFromFile(String path, String jsValue) throws IOException {
         Path filePath = Paths.get(path);
         byte[] encoded;
         try {
             encoded = Files.readAllBytes(Paths.get(path));
         } catch (IOException e) {
             Logger.ERROR("Failed to read from file " + path + "!", e.getMessage());
-            return;
+            throw e;
         }
         String content = new String(encoded).replace(jsValue, "");
         try {
@@ -70,6 +71,7 @@ public class FileHandler {
             Files.write(filePath, content.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             Logger.ERROR("Failed to write to file " + path + "!", e.getMessage());
+            throw e;
         }
     }
 

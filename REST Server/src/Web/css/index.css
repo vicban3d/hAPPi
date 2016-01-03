@@ -2,7 +2,9 @@ body{
     background-color: white;
     overflow: hidden;
 }
-.div_title{
+
+/*noinspection ALL*/
+.title{
     position: absolute;
     top:0;
     left:0;
@@ -11,7 +13,8 @@ body{
     font-family: "Monotype Corsiva", cursive;
     width: 50%
 }
-.div_workArea{
+
+.workArea{
     position: absolute;
     top: 10%;
     left: 0;
@@ -21,7 +24,7 @@ body{
     overflow: hidden;
 }
 
-.div_loadingArea{
+.loadingArea{
     position: absolute;
     border-radius: 70%;
     top: 20%;
@@ -31,18 +34,18 @@ body{
     padding: 1%;
     overflow: hidden;
     text-align: center;
-    box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px 10px rgba(0,0,0,0.3);
     background-color: lightyellow;
 }
 
-.div_loadingArea:before {      /* create a full-height inline block pseudo-element */
+.loadingArea:before {      /* create a full-height inline block pseudo-element */
     content: ' ';
     display: inline-flex;
     vertical-align: middle; /* vertical alignment of the inline element */
     height: 100%;
 }
 
-.div_childLoading {
+.childLoading {
     display: inline-flex;
     vertical-align: middle;          /* vertical alignment of the inline element */
     padding: 5px;
@@ -52,34 +55,57 @@ body{
     font-size:500%;
 }
 
-.div_menuArea{
+.workAreaComponent{
     float: left;
     position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: darkgray;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+}
+
+.menuArea{
+
     left: 2%;
     width: 10%;
     height: 90%;
-    background-color: darkgrey;
     border-radius: 50% 0 0 50%;
-    overflow: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
     margin-right: 2%;
 }
 
-.div_centralArea{
-    float: left;
-    position: relative;
+.centralArea{
     width: 30%;
     height: 90%;
-    overflow: auto;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
-    background-color: darkgray;
 }
 
-.div_sideArea{
-    float: left;
-    position: relative;
+.sideArea{
     width: 46%;
     height: 90%;
+    border-radius: 0 10% 10% 0;
+}
+
+.centralAreaComponent{
+    float: left;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+}
+
+.designArea{
+    background: grey url("http://localhost:5555/img/phone.png") no-repeat center;
+    background-size: 62%;
+    background-position-y: 90%;
+}
+
+.sideAreaComponent {
+    float: left;
+    position: relative;
+    width: 100%;
+    height: 100%;
     background-color: darkgrey;
     border-radius: 0 10% 10% 0;
     overflow-y: auto;
@@ -87,93 +113,65 @@ body{
     box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
 }
 
-.div_creationArea{
-    float: left;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: lightblue;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
-}
-
-.div_CreationMyAppsArea{
-    float: left;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: lightblue;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+.designAreaToolbar{
+    width: 12%;
+    height: 90%;
+    position: absolute;
+    top:8%;
+    left:2%;
+    background: #7aba7b;
     text-align: center;
+    box-shadow: 0 0 5px 3px rgba(0,0,0,0.75);
 }
 
-.div_applicationsListArea{
-    float: left;
+.designAreaToolbarButton{
     position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: darkgrey;
-    border-radius: 0 10% 10% 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
-}
-
-.div_designArea{
-    float: left;
-    position: relative;
-    width: 100%;
-    height: 100%;
+    display: inline-block;
+    width: 50%;
+    height:5%;
+    margin: 10%;
+    padding:10%;
+    border-radius: 20%;
     background-color: lightblue;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
-    text-align: center;
+    box-shadow: 0 0 3px 3px rgba(0,0,0,0.75);
 }
 
-.div_objectDetailsArea{
-    float: left;
-    position: relative;
-    width: 100%;
+.designWidgetsToolbar{
+    width: 25%;
     height: 100%;
-    background-color: darkgrey;
-    border-radius: 0 10% 10% 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+    position: absolute;
+    top:0;
+    left:0;
+    background: lightblue;
+    box-shadow: 0 0 5px 3px rgba(0,0,0,0.75);
 }
 
-.div_behaviorDetailsArea{
+.designAreaGrid{
     float: left;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: darkgrey;
-    border-radius: 0 10% 10% 0;
-    overflow-y: auto;
+    position: absolute;
+    display: inline-block;
+    width: 56.5%;
+    height:72%;
+    top: 18.5%;
+    left: 21.75%;
+    background: white;
+    overflow-y: hidden;
     overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+    z-index: 2;
 }
 
-.detailsSummary{
-    position: relative;
-    left: 5%;
-    top:10px;
+.designAreaGridCell{
+    width: 19.26%;
+    height: 9.673%;
+    float: left;
+    border: dashed thin lightgrey;
+    z-index: 3;
 }
 
-.applicationDetailsSummary{
-    position: relative;
-    left: 5%;
-    top:10px;
-}
-
-.div_objectBlob{
+.componentButton{
     display: inline-block;
     position: relative;
-    background-color: #7aba7b;
+    background: #7aba7b;
     margin-left: 4%;
     margin-top: 4%;
     width: 80px;
@@ -186,9 +184,16 @@ body{
     box-shadow: 0 0 5px 1px rgba(0,0,0,0.75);
 }
 
-.div_deleteButton{
-    color: red;
-    background-color: transparent;
+.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .menuButton:hover, .designAreaToolbarButton:hover {
+    box-shadow: 0 0 5px 4px rgba(255, 28, 0, 0.5);
+}
+
+.componentButtonAdd{
+    background: transparent url("http://localhost:5555/img/plus-icon.png") no-repeat center;
+    background-size: 50%;
+}
+
+.componentButtonControl {
     display: inline-block;
     min-width: 20%;
     min-height: 20%;
@@ -197,47 +202,36 @@ body{
     width: 20%;
     height: 20%;
     position: absolute;
-    left: 2%;
     top: 2%;
     font-weight: bold;
     border-radius: 30%;
     line-height: 100%;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+
 }
 
-.div_editButton{
+.componentButtonControlDelete{
+    color: red;
+    background: transparent url("http://localhost:5555/img/red-x-icon.png") no-repeat center;
+    background-size: contain;
+    left: 2%;
+
+}
+
+.componentButtonControlEdit{
     color: yellow;
-    background-color: transparent;
-    display: inline-block;
-    min-width: 20%;
-    min-height: 20%;
-    max-width: 20%;
-    max-height: 20%;
-    width: 20%;
-    height: 20%;
-    position: absolute;
+    background: transparent url("http://localhost:5555/img/config-icon.png") no-repeat center;
+    background-size: contain;
     left: 26%;
-    top:2%;
-    font-weight: bold;
-    border-radius: 30%;
-    line-height: 100%;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
-.form_addNewObject{
+.editArea {
     position: relative;
     left: 5%;
     top:10px;
 }
 
-.form_addNewApplication{
-    position: relative;
-    left: 5%;
-    top:10px;
-
-}
-
-.div_addAttributeButton{
+.addFormFieldsButton{
     color: green;
     position: relative;
     left: 2%;
@@ -245,18 +239,17 @@ body{
     font-size: medium;
     text-align: center;
     font-weight: bold;
-    border-radius: 30%;
-    background-color: transparent;
+    border-radius: 50%;
+    background: transparent url("http://localhost:5555/img/plus-icon.png") no-repeat center;
+    background-size: contain;
     display: inline-block;
     min-width: 2%;
     min-height: 2%;
     max-width: 2%;
     max-height: 2%;
-    line-height: 130%;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
-.div_menuButton{
+.menuButton{
     position: relative;
     background-color: #5bc0de;
     border-radius:  20% 0 0 20%;
@@ -272,7 +265,7 @@ body{
     font-size: 1.8vw;
 }
 
-.div_addActionArea{
+.addActionArea{
     position: absolute;
     left: 50%;
     top:0;
@@ -282,22 +275,7 @@ body{
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
-.form_addAction{
-    position: relative;
-    top: 4%;
-    left:4%;
-}
-
-.div_message{
-    position: absolute;
-    left: 55%;
-    width: 30%;
-    height: 20%;
-    text-align: right;
-    font-size: 150%;
-}
-
-.div_areaTitle{
+.componentMainTitle{
     position: relative;
     top:1%;
     text-align: center;
@@ -309,7 +287,7 @@ body{
     background-color: #7aba7b;
 }
 
-.div_areaSecondaryTitle{
+.componentListTitle{
     position: relative;
     top:1%;
     color: black;
@@ -320,7 +298,7 @@ body{
     padding-left: 1%;
 }
 
-.div_listEntry{
+.componentListEntry{
     position: relative;
     top:1%;
     left: 2%;
@@ -334,10 +312,7 @@ body{
     width: 90%;
 }
 
-.emulator{
-    position: absolute;
-    width: 80%;
-    height:80%;
-    top: 10%;
-    left: 10%;
+.draggableComponent{
+    z-index: 4;
+    margin: 10%;
 }

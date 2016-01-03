@@ -1,7 +1,8 @@
 package Database;
 
-import Exceptions.DatabaseConnectionErrorException;
 import com.mongodb.DBCollection;
+
+import java.io.IOException;
 
 /**
  * Created by victor on 11/12/2015.
@@ -12,7 +13,7 @@ public interface Database {
     /**
      * Connects to Mongo database.
      */
-    void connect() throws DatabaseConnectionErrorException;
+    void connect() throws IOException;
 
     /**
      * Adds given data to a given project in the database.

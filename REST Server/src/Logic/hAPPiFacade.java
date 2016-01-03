@@ -3,25 +3,15 @@ package Logic;
 import Database.Database;
 import Database.MongoDB;
 import Exceptions.CordovaRuntimeException;
-import Exceptions.DatabaseConnectionErrorException;
 import Utility.*;
-import Utility.FileHandler;
-import Utility.Logger;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.io.File;
+import java.io.IOException;
 /**
  * Created by victor on 11/10/2015.
  *
@@ -42,14 +32,14 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createApplication(String application) throws CordovaRuntimeException {
+    public void createApplication(String application) throws CordovaRuntimeException, JSONException, IOException {
         JSONObject json;
-        try {
-            json = new JSONObject(application);
-            compiler.createApplication(json);
-        } catch (JSONException e) {
-            Logger.ERROR("Error creating JSON object!", e.getMessage());
-        }
+        json = new JSONObject(application);
+        compiler.createApplication(json);
+        String indexPath = Strings.PATH_APPS + "\\" + json.getString("name") + "\\www\\index.html";
+        String content =  createHtmlContent("<h1>Hello World!</h1>");
+        FileHandler.clearFile(indexPath);
+        FileHandler.writeFile(indexPath, content);
     }
 
     @Override
@@ -84,7 +74,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createEntity(String application, String entity){
+    public void createEntity(String application, String entity) throws IOException, JSONException {
         database.addData(application, "Entities", entity);
         Entity newEntity = new Entity(entity);
         String jsValue = jsCreator.create(newEntity);
@@ -97,30 +87,21 @@ public class hAPPiFacade implements Facade {
         String result = "";
         int i=0;
         for (DBObject en : c) {
-            try {
-                JSONObject json = new JSONObject(String.format("%s",en));
-                String name  = json.getString("name");
-                String attributes = json.getString("attributes");
-                String actions = json.getString("actions");
-                result += i++ + ") Name: " + name + "\n   Attributes: " + attributes + "\n" + "Actions: " + actions+ "<hr>";
-            } catch (JSONException e) {
-                Logger.ERROR("Failed while handling JSON object.", e.getMessage());
-            }
+            JSONObject json = new JSONObject(String.format("%s",en));
+            String name  = json.getString("name");
+            String attributes = json.getString("attributes");
+            String actions = json.getString("actions");
+            result += i++ + ") Name: " + name + "\n   Attributes: " + attributes + "\n" + "Actions: " + actions+ "<hr>";
         }
-        System.out.println(result);
         //Edit index.html file with the entities
         String indexPath = Strings.PATH_APPS + "\\" + application + "\\www\\index.html";
         String content =  createHtmlContent(result);
-        try {
-            FileHandler.clearFile(indexPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileHandler.clearFile(indexPath);
         FileHandler.writeFile(indexPath, content);
     }
 
     @Override
-    public void removeEntity(String application, String entity) {
+    public void removeEntity(String application, String entity) throws IOException {
         database.removeData(application, "Entities", entity);
         Entity newEntity = new Entity(entity);
         String jsValue = jsCreator.create(newEntity);
@@ -129,7 +110,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void connectToDatabase() throws DatabaseConnectionErrorException {
+    public void connectToDatabase() throws IOException {
         database.connect();
     }
 
@@ -139,17 +120,11 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void removeApplication(String application){
-        File file = null;
-        String appName = "";
-        try {
-            JSONObject json = new JSONObject(application);
-            appName = (String) json.get("name");
-            database.removeData(appName, null, null);
-            file = new File(Strings.PATH_APPS + "\\" + appName);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void removeApplication(String application) throws JSONException {
+        JSONObject json = new JSONObject(application);
+        String appName = (String) json.get("name");
+        database.removeData(appName, null, null);
+        File file = new File(Strings.PATH_APPS + "\\" + appName);
         FileHandler.deleteFolder(file);
         Logger.INFO("The application " + appName + " was deleted.");
     }

@@ -1,10 +1,13 @@
 package Database;
 
-import Exceptions.DatabaseConnectionErrorException;
 import Utility.Logger;
 import Utility.Strings;
-import com.mongodb.*;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
 import com.mongodb.util.JSON;
+
 import java.io.IOException;
 
 /**
@@ -36,19 +39,10 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void connect() throws DatabaseConnectionErrorException {
-        try {
+    public void connect() throws IOException {
             Runtime.getRuntime().exec("mongod");
-        } catch (IOException e) {
-            Logger.ERROR("Failed to start database!", e.getMessage());
-            throw new DatabaseConnectionErrorException("Failed to start database");
-        }
-        try{
             mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT);
-        }catch(Exception e){
-            Logger.ERROR("Failed to connect to database!", e.getMessage());
-        }
-        Logger.SEVERE("Database started.");
+            Logger.SEVERE("Database started.");
     }
 
     @Override
@@ -58,7 +52,7 @@ public class MongoDB implements Database {
         DBCollection project = db.getCollection(projectName);
         DBCollection category = project.getCollection(categoryName);
         DBObject jsonData = (DBObject)JSON.parse(data);
-//        category.save(jsonData);
+        category.save(jsonData);
         Logger.INFO("Added data to Database: " + projectName + " -> " + categoryName + " -> " + data);
     }
 

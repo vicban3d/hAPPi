@@ -6,7 +6,6 @@
 package Server;
 
 import Exceptions.CordovaRuntimeException;
-import Exceptions.DatabaseConnectionErrorException;
 import Exceptions.ServerConnectionErrorException;
 import Logic.Facade;
 import Logic.hAPPiFacade;
@@ -27,7 +26,7 @@ import java.io.IOException;
  * The server will host at the URL http://loaclhost/hAPPi on port 9998
  */
 @Singleton
-@Path("/hAPPi")
+@Path(Strings.SRV_MAIN)
 public class Server {
 
     private static Facade facade;
@@ -42,35 +41,31 @@ public class Server {
     @Path(Strings.PATH_MAIN)
     @Produces(MediaType.WILDCARD)
     public String getMainPage() {
-        String script = getPage("js/strings.js") + getPage("js/util.js") + getPage("js/index.js") + getPage("js/angular_index.js") + getPage("js/emulator_script.js");
-        String style = getPage("css/index.css");
-        String page = getPage("index.html");
-        return assemblePage(script, style, page);
+        return getPage("index.html");
     }
 
-    /**
-     * Returns the application page of the current application - "index.html".
-     *
-     * @return the HTML content of the main page.
-     */
-    @GET
-    @Path(Strings.PATH_EMULATE_ANDROID)
-    @Produces(MediaType.WILDCARD)
-    public String emulateAndroid() {
-        return "aaaa";
-    }
-
-    /**
+     /**
      * Creates a new Cordova project in PATH_APPS according to user parameters.
      */
     @POST
     @Path(Strings.PATH_CREATE_APP)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
-    public String createApplication(String data) throws JSONException, CordovaRuntimeException {
-        JSONObject json = new JSONObject(data);
-        this.currentAppName = json.getString("name");
-        facade.createApplication(data);
+    public String createApplication(String data) {
+        try {
+            JSONObject json = new JSONObject(data);
+            this.currentAppName = json.getString("name");
+            facade.createApplication(data);
+        } catch (IOException e) {
+            Logger.ERROR("Failed to create application", e.getMessage());
+            return "Error: failed to create application!";
+        } catch (CordovaRuntimeException e) {
+            Logger.ERROR("Failed execute cordova command", e.getMessage());
+            return "Error: failed to create application!";
+        } catch (JSONException e) {
+            Logger.ERROR("Incorrect JSON format", e.getMessage());
+            return "Error: failed to create application!";
+        }
         return "The application " + currentAppName + " was created successfully";
     }
 
@@ -80,9 +75,15 @@ public class Server {
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_ANDROID)
     @Produces(MediaType.TEXT_XML)
-    public String addAndroidModule() throws CordovaRuntimeException {
-        facade.addAndroidToApplication(currentAppName);
-        return "Added android to " + currentAppName + "!";
+    public String addAndroidModule() {
+        try {
+            facade.addAndroidToApplication(currentAppName);
+            return "Added android to " + currentAppName + "!";
+        } catch (CordovaRuntimeException e) {
+            Logger.ERROR("Failed to add android platform", e.getMessage());
+            return "Error: failed to create object!";
+        }
+
     }
 
     /**
@@ -91,9 +92,14 @@ public class Server {
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_IOS)
     @Produces(MediaType.TEXT_XML)
-    public String addIOModuleS() throws CordovaRuntimeException {
-        facade.addIOSToApplication(currentAppName);
-        return "Added ios to " + currentAppName + "!";
+    public String addIOSModule() {
+        try {
+            facade.addIOSToApplication(currentAppName);
+            return "Added ios to " + currentAppName + "!";
+        } catch (CordovaRuntimeException e) {
+            Logger.ERROR("Failed to add ios platform", e.getMessage());
+            return "Error: failed to create object!";
+        }
     }
 
     /**
@@ -102,9 +108,15 @@ public class Server {
     @POST
     @Path(Strings.PATH_ADD_PLATFORM_WINDOWS_PHONE)
     @Produces(MediaType.TEXT_XML)
-    public String addWindowsPhoneModule() throws CordovaRuntimeException {
-        facade.addWindowsPhoneToApplication(currentAppName);
-        return "Added windows phone to " + currentAppName + "!";
+    public String addWindowsPhoneModule() {
+        try {
+            facade.addWindowsPhoneToApplication(currentAppName);
+            return "Added windows phone to " + currentAppName + "!";
+        } catch (CordovaRuntimeException e) {
+            Logger.ERROR("Failed to add wp8 platform", e.getMessage());
+            return "Error: failed to create object!";
+        }
+
     }
 
     /**
@@ -113,9 +125,14 @@ public class Server {
     @POST
     @Path(Strings.PATH_BUILD_APP)
     @Produces(MediaType.TEXT_XML)
-    public String buildApplication() throws CordovaRuntimeException {
-        facade.buildApplication(currentAppName);
-        return currentAppName + " built successfully!";
+    public String buildApplication() {
+        try {
+            facade.buildApplication(currentAppName);
+            return currentAppName + " built successfully!";
+        } catch (CordovaRuntimeException e) {
+            Logger.ERROR("Failed to build application", e.getMessage());
+            return "Error building application " + currentAppName;
+        }
     }
 
     /**
@@ -126,7 +143,15 @@ public class Server {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
     public String createEntity(String data) {
-        facade.createEntity(currentAppName, data);
+        try {
+            facade.createEntity(currentAppName, data);
+        } catch (IOException e) {
+            Logger.ERROR("Failed to create object", e.getMessage());
+            return "Error: failed to create object!";
+        } catch (JSONException e) {
+            Logger.ERROR("Incorrect data format", e.getMessage());
+            return "Error: failed to create object!";
+        }
         return "Object added!";
     }
 
@@ -138,7 +163,12 @@ public class Server {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
     public String removeEntity(String data) {
-        facade.removeEntity(currentAppName, data);
+        try {
+            facade.removeEntity(currentAppName, data);
+        } catch (IOException e) {
+            Logger.ERROR("Failed to remove object", e.getMessage());
+            return "Error: failed to remove object!";
+        }
         return "Object Removed!";
     }
 
@@ -150,7 +180,12 @@ public class Server {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
     public String removeApplication(String data) {
-        facade.removeApplication(data);
+        try {
+            facade.removeApplication(data);
+        } catch (JSONException e) {
+            Logger.ERROR("Failed to remove application", e.getMessage());
+            return "Error: failed to remove application!";
+        }
         return "Application Removed!";
     }
 
@@ -165,29 +200,16 @@ public class Server {
     }
 
     /**
-     * Assembles a web page from components
-     * @param script - the concatenated string of script files.
-     * @param style - the concatenated string of stylesheet files.
-     * @param page - the HTML file.
-     * @return the assembled web page.
-     */
-    private String assemblePage(String script, String style, String page){
-        page = page.replace("<html>","").replace("<head>", "").replace("</head>", "").replace("<body>", "");
-        return "<html><head><script src=\"http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js\">" +
-                "<script src=\"http://code.jquery.com/jquery-2.1.4.min.js\">" +
-                "</script></head><body><script>" + script + "</script><style>" + style +"</style>" + page;
-    }
-
-    /**
      * Starts the Server.
      */
-    private static void start() throws ServerConnectionErrorException {
+    private static void start() {
         HttpServer server;
         try {
             server = HttpServerFactory.create(Strings.SRV_HOST + ":" + Strings.SRV_PORT + "/");
             server.start();
         } catch (IOException e) {
-            throw new ServerConnectionErrorException(e.getMessage());
+            Logger.ERROR("Failed to start server", e.getMessage());
+            return;
         }
         Logger.SEVERE("Server running.");
 
@@ -214,9 +236,13 @@ public class Server {
      * Main - starts the server and awaits termination.
      * @param args - null
      */
-    public static void main(String[] args) throws ServerConnectionErrorException, DatabaseConnectionErrorException {
+    public static void main(String[] args) {
         facade = new hAPPiFacade();
-        facade.connectToDatabase();
-        start();
+        try {
+            facade.connectToDatabase();
+            start();
+        } catch (IOException e) {
+            Logger.ERROR("Error connecting to database!", e.getMessage());
+        }
     }
 }

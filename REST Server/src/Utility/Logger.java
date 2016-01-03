@@ -16,9 +16,6 @@ public class Logger {
         logger.severe(s);
     }
 
-    public static void WARNING(String s){
-        logger.warning(s);
-    }
     public static void ERROR(String cause, String message){
         logger.severe(cause + "\n*** " + message);
     }

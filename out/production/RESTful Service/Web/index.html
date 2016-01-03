@@ -1,14 +1,24 @@
 <html>
-<head>/
+<head>
     <title>hAPPi - Human - Application Interpreter</title>
+    <script type="text/javascript" src="http://localhost:5555/lib/angular.min.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/js/strings.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/js/util.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/js/index.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/js/angular_index.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/js/drag-n-drop.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://localhost:5555/css/index.css">
+
+
 </head>
 <body data-ng-app="main" data-ng-controller="ctrl_main">
+
 <div class="div_title" data-ng-show="areaFlags['titleArea']">
     hAPPi UI Prototype
 </div>
 <div class="div_message">
     <label>{{message}}</label>
-    {{currentAppURL}}
 </div>
 <div class="div_workArea">
     <div class="div_menuArea" data-ng-show="areaFlags['menuArea']">
@@ -26,12 +36,12 @@
             <span data-ng-repeat="application in applications track by $index">
                 <span class="div_objectBlob" data-ng-click="getApplication(application)">
                     {{application.name}}
-                    <span class='div_deleteButton' data-ng-click="deleteApplication(application)">X</span>
-                    <span class="div_editButton" data-ng-click="editApplicationDetails(application)">?</span>
+                    <span class='div_deleteButton' data-ng-click="deleteApplication(application)"></span>
+                    <span class="div_editButton" data-ng-click="editApplicationDetails(application)"></span>
                 </span>
             </span>
-            <span class="div_objectBlob" data-ng-click="addNewApplication()">
-                +
+            <span class="div_addObjectBlob" data-ng-click="addNewApplication()">
+
             </span>
         </div>
         <div class="div_creationArea" data-ng-show="areaFlags['objectsAddArea']">
@@ -39,14 +49,14 @@
                 Objects
             </div>
             <span data-ng-repeat="object in objects track by $index">
-                <span class="div_objectBlob" data-ng-click="showObjectDetails(object)">
+                <span class="div_objectBlob" data-ng-mouseover="showObjectDetails(object)">
                     {{object.name}}
-                    <span class='div_deleteButton' data-ng-click="deleteObject(object)">X</span>
-                   <span class='div_editButton' data-ng-click="editObjectDetails(object)">?</span>
+                    <span class='div_deleteButton' data-ng-click="deleteObject(object)"></span>
+                   <span class='div_editButton' data-ng-click="editObjectDetails(object)"></span>
                 </span>
             </span>
-            <span class="div_objectBlob" data-ng-click="addNewObject()">
-                +
+            <span class="div_addObjectBlob" data-ng-click="addNewObject()">
+
             </span>
         </div>
         <div class="div_CreationArea" ng-show="areaFlags['behaviorAddArea']">
@@ -56,24 +66,34 @@
             <span ng-repeat="behavior in behaviors track by $index">
                 <span class="div_objectBlob" data-ng-click="showBehaviorDetails(behavior)">
                     {{behavior.name}}
-                    <span class='div_deleteButton' data-ng-click="deleteBehavior(behavior)">X</span>
-                    <span class='div_editButton' data-ng-click="editBehaviorDetails(behavior)">?</span>
+                    <span class='div_deleteButton' data-ng-click="deleteBehavior(behavior)"></span>
+                    <span class='div_editButton' data-ng-click="editBehaviorDetails(behavior)"></span>
                 </span>
             </span>
-            <span class="div_objectBlob" data-ng-click="addNewBehavior()">
-                +
+            <span class="div_addObjectBlob" data-ng-click="addNewBehavior()">
+
             </span>
         </div>
         <div class="div_CreationMyAppsArea" ng-show="areaFlags['myApplicationsArea']">
             <br>
             Application : {{currentApplication.name}}
         </div>
-        <div class="div_designArea"  ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()">
+        <div class="div_designArea"  ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()" ondragover="allowDrop(event)">
             <div class="div_areaTitle">
                 Design
             </div>
-            <iframe id="designIframe" class="emulator" data-ng-src="{{currentAppURL}}"></iframe>
+            <div class="div_designToolbar" ondragover="allowDrop(event)">
+                <img class="div_dragToolbarButton" src="http://localhost:5555/img/trash.png" ondrop="dropDelete(event)" ondragover="allowDrop(event)">
+                <img class="div_dragToolbarButton" src="http://localhost:5555/img/grid.png">
+            </div>
+            <div class="div_designGrid" ondragover="allowDrop(event)">
+                <div data-ng-repeat="n in [].constructor(50) track by $index" ondragover="allowDrop(event)">
+                    <span class="div_gridCellOn" ondrop="drop(event)" ondragover="allowDrop(event)"></span>
+                </div>
+            </div>
+            <!--<iframe id="designIframe" class="emulator" data-ng-src="{{currentAppURL}}" ondragover="allowDrop(event)"></iframe>-->
         </div>
+
     </div>
     <div class="div_sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="div_objectDetailsArea" data-ng-show="areaFlags['objectDetailsArea']">
@@ -101,7 +121,7 @@
                     Type: <select ng-model="all_attrs[$index].type" ng-options="i for i in basic_types" title="Type">
                 </select>
                 </div>
-                <div class="div_addAttributeButton" data-ng-click="addAttribute()">+</div>
+                <div class="div_addAttributeButton" data-ng-click="addAttribute()"></div>
                 <hr>
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
@@ -110,7 +130,7 @@
                         <br>
                     </span>
                 </span>
-                <div class="div_addAttributeButton" data-ng-click="addAction()">+</div>
+                <div class="div_addAttributeButton" data-ng-click="addAction()"></div>
                 <hr>
                 <button type="submit">Create Object</button>
             </form>
@@ -159,6 +179,24 @@
                 <button type="submit">Add Action</button>
             </form>
         </div>
+        <div class="div_designEditArea" ng-show="areaFlags['designArea']">
+            <div class="div_objectsToolbar">
+                <div class="div_areaTitle">
+                    Widgets
+                </div>
+                <div class="div_draggableObject" id="drag2" draggable="true" ondragstart="drag(event)">
+                   <button>BUTTON</button>
+                </div>
+                <div class="div_draggableObject" id="drag3" draggable="true" ondragstart="drag(event)">
+                   <textarea>TEXT</textarea>
+                </div>
+                <div class="div_draggableObject" id="drag4" draggable="true" ondragstart="drag(event)">
+                    <label>LABEL</label>
+                </div>
+            </div>
+        </div>
+
+
     </div>
     <div class="div_loadingArea" data-ng-show="areaFlags['loadingArea']">
         <div class="div_childLoading">

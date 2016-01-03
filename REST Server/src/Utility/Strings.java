@@ -13,11 +13,11 @@ import java.net.InetAddress;
  */
 public class Strings {
     private static final String username = System.getProperty("user.name");
-    public static final String SRV_IP = "132.72.665.110";
     public static final String SRV_HOST;
     static{
         String temp;
         try {
+            String SRV_IP = "132.72.665.110";
             temp = (InetAddress.getByName(SRV_IP).isReachable(10)) ? ("http://" + SRV_IP) : ("http://localhost");
         } catch (IOException e) {
             temp = "http://localhost";
@@ -33,7 +33,6 @@ public class Strings {
     public static final String PATH_APPS = "C:\\users\\" + username + "\\HAPPI\\Applications";
 
     public static final String PATH_MAIN = "/main";
-    public static final String PATH_EMULATE_ANDROID = "/emulateAndroid";
     public static final String PATH_CREATE_APP = "/createApplication";
     public static final String PATH_ADD_PLATFORM_ANDROID = "/addAndroid";
     public static final String PATH_ADD_PLATFORM_IOS = "/addIOS";

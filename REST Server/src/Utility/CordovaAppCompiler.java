@@ -14,16 +14,12 @@ import java.io.IOException;
 public class CordovaAppCompiler implements AppCompiler {
 
     @Override
-    public void createApplication(JSONObject application) throws CordovaRuntimeException {
-        try {
+    public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException, IOException {
             String name = application.getString("name");
             Logger.INFO("Creating new application: " + name + "...");
             executeCommand("","create \"" + Strings.PATH_APPS + "\\" + name + "\" com.example.hello \"" + name + "\"");
             Logger.INFO("Created new application: " + name + ".");
             initializeFiles(Strings.PATH_APPS + "\\" + name);
-        } catch (JSONException e) {
-            Logger.ERROR("Error while handling JSON object!", e.getMessage());
-        }
     }
 
     @Override
@@ -40,7 +36,7 @@ public class CordovaAppCompiler implements AppCompiler {
         Logger.INFO("application " + applicationName + " built.");
     }
 
-    private void initializeFiles(String application){
+    private void initializeFiles(String application) throws IOException {
         Logger.INFO("Initializing application files in " + application + "...");
         FileHandler.writeFile(application + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
         Logger.INFO("Initialized application files " + application + ".");
