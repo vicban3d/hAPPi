@@ -148,11 +148,12 @@ body{
 
 .designAreaGrid{
     float: left;
-    position: absolute;
+
+    position: relative;
     display: inline-block;
     width: 56.5%;
-    height:72%;
-    top: 18.5%;
+    height:73%;
+    top: 11.5%;
     left: 21.75%;
     background: white;
     overflow-y: hidden;
@@ -161,10 +162,11 @@ body{
 }
 
 .designAreaGridCell{
-    width: 19.26%;
-    height: 9.673%;
+    width: 19.2%;
+    height: 9.55%;
     float: left;
-    border: dashed thin lightgrey;
+    border: 1px dashed lightgrey;
+
     z-index: 3;
 }
 
