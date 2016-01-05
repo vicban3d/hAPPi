@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" afterPath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" afterPath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
     <ignored path="HAPPY Server.iws" />
@@ -41,8 +37,8 @@
       <file leaf-file-name="angular_index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.437247">
-              <caret line="197" column="56" selection-start-line="197" selection-start-column="56" selection-end-line="197" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.6736597">
+              <caret line="56" column="33" selection-start-line="56" selection-start-column="33" selection-end-line="56" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -1044,13 +1040,7 @@
       <workItem from="1449992873083" duration="56509000" />
       <workItem from="1450693835361" duration="9953000" />
       <workItem from="1451305192521" duration="3597000" />
-      <workItem from="1451910916324" duration="31441000" />
-    </task>
-    <task id="LOCAL-00003" summary="Created a simple server">
-      <created>1446826212565</created>
-      <option name="number" value="00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1446826212565</updated>
+      <workItem from="1451910916324" duration="31848000" />
     </task>
     <task id="LOCAL-00004" summary="Created a simple server">
       <created>1446826740964</created>
@@ -1340,11 +1330,17 @@
       <option name="project" value="LOCAL" />
       <updated>1450694449332</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Create behavior window">
+      <created>1452024892117</created>
+      <option name="number" value="00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1452024892128</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="243414000" />
+    <option name="totallyTimeSpent" value="243821000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1367,7 +1363,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47981367" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14440994" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24534161" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32989025" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1456,7 +1452,8 @@
     <MESSAGE value="Show feedback on creation of applications" />
     <MESSAGE value="Loading..." />
     <MESSAGE value="Messages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Messages" />
+    <MESSAGE value="Create behavior window" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create behavior window" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1848,8 +1845,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.437247">
-          <caret line="197" column="56" selection-start-line="197" selection-start-column="56" selection-end-line="197" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.6736597">
+          <caret line="56" column="33" selection-start-line="56" selection-start-column="33" selection-end-line="56" selection-end-column="33" />
           <folding />
         </state>
       </provider>
