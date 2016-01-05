@@ -15,7 +15,7 @@
 <div class="title" data-ng-show="areaFlags['titleArea']">
     hAPPi UI Prototype
 </div>
-<div class="message">
+<div class="message" data-ng-show="areaFlags['messageArea']">
     <label>{{message}}</label>
 </div>
 <div class="workArea">
@@ -33,7 +33,7 @@
             </div>
             <span data-ng-repeat="application in applications track by $index">
                 <span class="componentButton" data-ng-click="getApplication(application)">
-                    {{application.name}}
+                    <div class="textInButton">{{application.name}}</div>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteApplication(application)"></span>
                     <span class="componentButtonControl componentButtonControlEdit" data-ng-click="editApplicationDetails(application)"></span>
                 </span>
@@ -48,13 +48,12 @@
             </div>
             <span data-ng-repeat="object in objects track by $index">
                 <span class="componentButton" data-ng-mouseover="showObjectDetails(object)">
-                    {{object.name}}
+                    <div class="textInButton">{{object.name}}</div>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteObject(object)"></span>
                    <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editObjectDetails(object)"></span>
                 </span>
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewObject()">
-
             </span>
         </div>
         <div class="centralAreaComponent" ng-show="areaFlags['behaviorAddArea']">
@@ -62,14 +61,13 @@
                 Behavior
             </div>
             <span ng-repeat="behavior in behaviors track by $index">
-                <span class="componentButton" data-ng-click="showBehaviorDetails(behavior)">
-                    {{behavior.name}}
+                <span class="componentButton" data-ng-mouseover="showBehaviorDetails(behavior)">
+                    <div class="textInButton">{{behavior.name}}</div>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteBehavior(behavior)"></span>
                     <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editBehaviorDetails(behavior)"></span>
                 </span>
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewBehavior()">
-
             </span>
         </div>
         <div class="centralAreaComponent designArea"  ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()" ondragover="allowDrop(event)">
@@ -86,7 +84,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['objectDetailsArea']">
@@ -101,7 +98,7 @@
                 </div>
                 <hr>
         </div>
-        <div data-ng-show="areaFlags['objectEditArea']">
+        <div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
             <form class="editArea" data-ng-submit="addObject()" data-ng-init="name=''">
                 Name: <input type="text" data-ng-model="name" title="Object Name">
                 <hr>
@@ -116,22 +113,32 @@
                 <hr>
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
-                    <span class="div_objectActionBlob">
-                        {{all_acts[$index].name + ": " + all_acts[$index].operand1.name + " " + all_acts[$index].operator + " " + all_acts[$index].operand2}}
+                        {{all_acts_Object[$index].name + ": " + all_acts_Object[$index].operand1.name + " " + all_acts_Object[$index].operator + " " + all_acts_Object[$index].operand2}}
                         <br>
-                    </span>
                 </span>
-                <div class="addFormFieldsButton" data-ng-click="addAction()"></div>
+                <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
                 <hr>
                 <button type="submit">Create Object</button>
             </form>
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
-                {{currentBehavior.name}}<br><hr>
+            <div class="componentMainTitle">{{currentBehavior.name}}</div>
+            <div class="componentListTitle">Actions:</div>
+            <div ng-repeat="act in currentBehavior.actions track by $index">
+                <div class="componentListEntry">{{act.name + ": " + act.operandObject.name + " " + act.operandAttribute.name + " " + act.operator + " " + act.operand2}}</div>
+            </div>
+            <hr>
         </div>
-        <div data-ng-show="areaFlags['behaviorEditArea']">
+        <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorEditArea']">
             <form class="editArea" data-ng-submit="addBehavior()" data-ng-init="name=''">
                 Name: <input type="text" data-ng-model="name" title="Behavior Name">
+                <hr>
+                Actions:<br>
+                <span ng-repeat="n in [].constructor(numOfActions) track by $index">
+                        {{all_acts_Behavior[$index].name + ": " + all_acts_Behavior[$index].operandObject.name + all_acts_Behavior[$index].operandAttribute.name + " " + all_acts_Behavior[$index].operator + " " + all_acts_Behavior[$index].operand2}}
+                        <br>
+                </span>
+                <div class="addFormFieldsButton" data-ng-click="addActionBehavior()"></div>
                 <hr>
                 <button type="submit">Create Behavior</button>
             </form>
@@ -156,13 +163,24 @@
                 </form>
             </div>
         </div>
-        <div class="addActionArea" ng-show="areaFlags['actionsEditArea']">
+        <div class="addActionArea" ng-show="areaFlags['actionsEditAreaForObject']">
             <form class="editArea" data-ng-submit="addNewAction()"
-                  ng-init="all_acts[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
-                Name: <input type="text" data-ng-model="all_acts[numOfActions].name" title="Action Name" data-ng-init="all_acts[numOfActions].operator=operators[0]"><hr>
-                <select ng-model="all_acts[numOfActions].operand1" ng-options="i.name for i in all_attrs" title="Operand1"></select>
-                <select ng-model="all_acts[numOfActions].operator" ng-options="i for i in operators" title="Operator"></select>
-                <input type="text" ng-model="all_acts[numOfActions].operand2" title="Operand2">
+                  ng-init="all_acts_Object[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}"><!--TODO what is this >?-->
+                Name: <input type="text" data-ng-model="all_acts_Object[numOfActions].name" title="Action Name" data-ng-init="all_acts_Object[numOfActions].operator=operators[0]"><hr>
+                <select ng-model="all_acts_Object[numOfActions].operand1" ng-options="i.name for i in all_attrs" title="Operand1"></select>
+                <select ng-model="all_acts_Object[numOfActions].operator" ng-options="i for i in operators" title="Operator"></select>
+                <input type="text" ng-model="all_acts_Object[numOfActions].operand2" title="Operand2">
+                <button type="submit">Add Action</button>
+            </form>
+        </div>
+        <div class="addActionArea" ng-show="areaFlags['actionsEditAreaForBehavior']">
+            <form class="editArea" data-ng-submit="addNewAction()"
+                  ng-init="all_acts_Behavior[numOfActions] = {name:'',operandObject:'',operandAttribute:'',operator:'',operand2:''}">
+                Name: <input type="text" data-ng-model="all_acts_Behavior[numOfActions].name" title="Action Name" data-ng-init="all_acts_Behavior[numOfActions].operator=operators[0]"><hr>
+                <select ng-model="all_acts_Behavior[numOfActions].operandObject" ng-options="item as item.name for item in objects" title="operandObject"></select>
+                <select ng-model="all_acts_Behavior[numOfActions].operandAttribute" ng-options="item as item.name for item in all_acts_Behavior[numOfActions].operandObject.attributes" title="operandAttribute"></select>
+                <select ng-model="all_acts_Behavior[numOfActions].operator" ng-options="i for i in operators" title="Operator"></select>
+                <input type="text" ng-model="all_acts_Behavior[numOfActions].operand2" title="Operand2">
                 <button type="submit">Add Action</button>
             </form>
         </div>
@@ -181,11 +199,6 @@
                     <label>LABEL</label>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="loadingArea" data-ng-show="areaFlags['loadingArea']">
-        <div class="childLoading">
-            <span ng-show="loader.loading">Loading...</span>
         </div>
     </div>
 </div>

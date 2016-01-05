@@ -178,12 +178,18 @@ body{
     margin-top: 4%;
     width: 80px;
     height: 80px;
-    line-height: 80px;
     border-radius: 10%;
+   /* line-height: 80px;*/
     text-align: center;
     vertical-align: middle;
     word-wrap: break-word;
     box-shadow: 0 0 5px 1px rgba(0,0,0,0.75);
+    overflow: hidden;
+}
+.textInButton{
+    top: 20px;
+    position: relative;
+    text-align: center;
 }
 
 .componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .menuButton:hover, .designAreaToolbarButton:hover {
@@ -209,7 +215,6 @@ body{
     border-radius: 30%;
     line-height: 100%;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
-
 }
 
 .componentButtonControlDelete{
@@ -217,7 +222,6 @@ body{
     background: transparent url("http://localhost:5555/img/red-x-icon.png") no-repeat center;
     background-size: contain;
     left: 2%;
-
 }
 
 .componentButtonControlEdit{
@@ -317,4 +321,10 @@ body{
 .draggableComponent{
     z-index: 4;
     margin: 10%;
+}
+.message{
+    position: absolute;
+    left: 55%;
+    top: 7%;
+    font-size: 150%;
 }
