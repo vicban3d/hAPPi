@@ -234,7 +234,7 @@ body{
     z-index: 2;
     border: thin dashed black;
     margin-left: 4%;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .designAreaOutput{

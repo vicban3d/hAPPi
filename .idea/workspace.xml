@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
+    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="Changed emulation">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" afterPath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
@@ -38,11 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.0384617">
-              <caret line="173" column="26" selection-start-line="173" selection-start-column="26" selection-end-line="173" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.6233108">
+              <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
               <folding>
                 <element signature="e#247#373#0" expanded="false" />
                 <element signature="e#883#1109#0" expanded="false" />
@@ -51,19 +51,22 @@
                 <element signature="e#1428#1464#0" expanded="false" />
                 <element signature="e#1475#1543#0" expanded="false" />
                 <element signature="e#1566#1771#0" expanded="false" />
-                <marker date="1452098723541" expanded="true" signature="387:388" placeholder="{...}" />
-                <marker date="1452098723541" expanded="true" signature="1784:1786" placeholder="{...}" />
+                <marker date="1452113809300" expanded="true" signature="387:388" placeholder="{...}" />
+                <marker date="1452113809300" expanded="true" signature="1784:1786" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5945946">
-              <caret line="85" column="22" selection-start-line="85" selection-start-column="22" selection-end-line="85" selection-end-column="22" />
-              <folding />
+            <state vertical-scroll-proportion="-10.923077">
+              <caret line="90" column="45" selection-start-line="90" selection-start-column="28" selection-end-line="90" selection-end-column="45" />
+              <folding>
+                <element signature="n#style#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -72,7 +75,7 @@
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="161" column="44" selection-start-line="161" selection-start-column="44" selection-end-line="161" selection-end-column="44" />
+              <caret line="405" column="14" selection-start-line="405" selection-start-column="14" selection-end-line="405" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -153,8 +156,8 @@
         <option value="$PROJECT_DIR$/REST Server/src/Utility/CordovaAppCompiler.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Server/Server.java" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js" />
-        <option value="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/index.html" />
+        <option value="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
       </list>
     </option>
   </component>
@@ -883,13 +886,7 @@
       <workItem from="1451910813889" duration="6017000" />
       <workItem from="1452013967922" duration="9864000" />
       <workItem from="1452084733905" duration="817000" />
-      <workItem from="1452090439566" duration="7964000" />
-    </task>
-    <task id="LOCAL-00013" summary="Added logger and fixed receiving of messages by the server.">
-      <created>1447004553921</created>
-      <option name="number" value="00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1447004553921</updated>
+      <workItem from="1452090439566" duration="20250000" />
     </task>
     <task id="LOCAL-00014" summary="Added logger and fixed receiving of messages by the server.">
       <created>1447069463619</created>
@@ -1179,11 +1176,17 @@
       <option name="project" value="LOCAL" />
       <updated>1452084772070</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Changed emulation">
+      <created>1452099737137</created>
+      <option name="number" value="00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1452099737138</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="356483000" />
+    <option name="totallyTimeSpent" value="368769000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1272,7 +1275,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added database interface to decrease cohesion" />
     <MESSAGE value="Added buttons for other platforms" />
     <MESSAGE value="Fixed add android function" />
     <MESSAGE value="Fixed." />
@@ -1297,7 +1299,8 @@
     <MESSAGE value="Removed duplicate functions" />
     <MESSAGE value="Added an emulator&#10;Changed resources location to an IIS server&#10;Refined index.css&#10;" />
     <MESSAGE value="commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+    <MESSAGE value="Changed emulation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed emulation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1314,7 +1317,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1322,7 +1328,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1639,15 +1648,26 @@
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="161" column="44" selection-start-line="161" selection-start-column="44" selection-end-line="161" selection-end-column="44" />
+          <caret line="405" column="14" selection-start-line="405" selection-start-column="14" selection-end-line="405" selection-end-column="14" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.923077">
+          <caret line="90" column="45" selection-start-line="90" selection-start-column="28" selection-end-line="90" selection-end-column="45" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#2;n#div#1;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0384617">
-          <caret line="173" column="26" selection-start-line="173" selection-start-column="26" selection-end-line="173" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.6233108">
+          <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
           <folding>
             <element signature="e#247#373#0" expanded="false" />
             <element signature="e#883#1109#0" expanded="false" />
@@ -1656,17 +1676,9 @@
             <element signature="e#1428#1464#0" expanded="false" />
             <element signature="e#1475#1543#0" expanded="false" />
             <element signature="e#1566#1771#0" expanded="false" />
-            <marker date="1452098723541" expanded="true" signature="387:388" placeholder="{...}" />
-            <marker date="1452098723541" expanded="true" signature="1784:1786" placeholder="{...}" />
+            <marker date="1452113809300" expanded="true" signature="387:388" placeholder="{...}" />
+            <marker date="1452113809300" expanded="true" signature="1784:1786" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5945946">
-          <caret line="85" column="22" selection-start-line="85" selection-start-column="22" selection-end-line="85" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
