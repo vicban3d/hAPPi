@@ -99,6 +99,7 @@ body{
     background: grey url("http://localhost:5555/img/phone.png") no-repeat center;
     background-size: 62%;
     background-position-y: 90%;
+    position: relative;
 }
 
 .sideAreaComponent {
@@ -134,6 +135,7 @@ body{
     border-radius: 20%;
     background-color: lightblue;
     box-shadow: 0 0 3px 3px rgba(0,0,0,0.75);
+    cursor: pointer;
 }
 
 .designWidgetsToolbar{
@@ -147,27 +149,25 @@ body{
 }
 
 .designAreaGrid{
-    float: left;
-
     position: relative;
-    display: inline-block;
     width: 56.5%;
-    height:73%;
-    top: 11.5%;
+    height: 72%;
+    top: 110px;
     left: 21.75%;
     background: white;
-    overflow-y: hidden;
-    overflow-x: hidden;
     z-index: 2;
+    table-layout: fixed;
 }
 
-.designAreaGridCell{
-    width: 19.2%;
-    height: 9.55%;
-    float: left;
-    border: 1px dashed lightgrey;
 
+.designAreaGridCell{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
     z-index: 3;
+    overflow: hidden;
+    background-color: cyan;
+
 }
 
 .componentButton{
@@ -184,15 +184,17 @@ body{
     vertical-align: middle;
     word-wrap: break-word;
     box-shadow: 0 0 5px 1px rgba(0,0,0,0.75);
+    cursor: pointer;
 }
 
-.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .menuButton:hover, .designAreaToolbarButton:hover {
+.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .menuButton:hover, .designAreaToolbarButton:hover .draggableComponent:hover{
     box-shadow: 0 0 5px 4px rgba(255, 28, 0, 0.5);
 }
 
 .componentButtonAdd{
     background: transparent url("http://localhost:5555/img/plus-icon.png") no-repeat center;
     background-size: 50%;
+    cursor: pointer;
 }
 
 .componentButtonControl {
@@ -209,6 +211,7 @@ body{
     border-radius: 30%;
     line-height: 100%;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+
 
 }
 
@@ -265,6 +268,7 @@ body{
     text-align: center;
     line-height: 275%;
     font-size: 1.8vw;
+    cursor: pointer;
 }
 
 .addActionArea{
@@ -315,6 +319,97 @@ body{
 }
 
 .draggableComponent{
-    z-index: 4;
-    margin: 10%;
+    z-index: 2;
+    margin: 5%;
+    cursor: all-scroll;
+}
+
+.draggableButton{
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    float: none;
+    z-index: auto;
+    width: auto;
+    height: auto;
+    position: static;
+    opacity: 1;
+    overflow: visible;
+    border: none;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    font: normal 18px/normal "Quantico", Helvetica, sans-serif;
+    color: rgba(255,255,255,0.9);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgb(125, 213, 105);
+    -webkit-background-origin: padding-box;
+    background-origin: padding-box;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-background-size: 24px auto;
+    background-size: 24px auto;
+    -webkit-box-shadow: 1px 1px 0 0 #599f3f ;
+    box-shadow: 1px 1px 0 0 #599f3f ;
+    text-shadow: 1px 1px 0 rgba(168,168,168,0.66) ;
+    -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transform-origin: 50% 50% 0;
+    transform-origin: 50% 50% 0;
+}
+
+.draggableTextInput{
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    float: none;
+    z-index: auto;
+    width: auto;
+    height: auto;
+    position: static;
+    opacity: 1;
+    padding: 5px 10px;
+    overflow: visible;
+    border: 1px solid #b7b7b7;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font: normal 12px/normal "Times New Roman", Times, serif;
+    color: rgba(0,142,198,1);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgba(252,252,252,1);
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) inset;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) inset;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.66) ;
+    -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transform-origin: 50% 50% 0;
+    transform-origin: 50% 50% 0;
+}
+
+.draggableLabel{
+    background-color: white;
+}
+
+.draggableListView{
+    background-color: white;
+    min-width: 160px;
+    max-width: 160px;
+    overflow: auto;
+    min-height: 80px;
+    max-height: 80px;
+}
+
+.draggableSelect{
+    background-color: white;
 }
