@@ -159,7 +159,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 }
                 $scope.getPlatform();
                 var newApplication = {name: $scope.name, platforms: $scope.platforms};//TODO : change the name to application or object name
-                $scope.message = "Create new application...";
+                $scope.message = "Creating a new application...";
                 $scope.showArea("messageArea");
                 $scope.applications.push(newApplication);
                 $scope.createApplication($scope.name, $scope.platforms);

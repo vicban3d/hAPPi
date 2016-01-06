@@ -74,15 +74,25 @@
             <div class="componentMainTitle">
                 Design
             </div>
-            <div class="designAreaToolbar" ondragover="allowDrop(event)">
-                <img class="designAreaToolbarButton" src="http://localhost:5555/img/trash.png" ondrop="dropDelete(event)" ondragover="allowDrop(event)">
-                <img class="designAreaToolbarButton" src="http://localhost:5555/img/grid.png">
+            <img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/phone.png">
+            <!--<div class="designAreaToolbar" ondragover="allowDrop(event)">-->
+                <!--<img class="designAreaToolbarButton" src="http://localhost:5555/img/trash.png" ondrop="dropDelete(event)" ondragover="allowDrop(event)">-->
+                <!--<img class="designAreaToolbarButton" src="http://localhost:5555/img/grid.png">-->
+            <!--</div>-->
+            <div class="designAreaEmulator designAreaGrid">
+                <div class="designAreaTabs">
+                    <button class="designAreaTab" ng-repeat="object in objects track by $index">{{object.name}}</button>
+                    <br><button class="designAreaTab">F></button>
+                </div>
+
+                <div class="designAreaButtons">
+                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index">{{behavior.name}}</button><br>
+                </div>
+                <div class="designAreaOutput">
+                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:</label>
+                </div>
             </div>
-            <table class="designAreaGrid" ondragover="allowDrop(event)">
-                <tr ng-repeat="n in [].constructor(20) track by $index">
-                    <td ng-repeat="n in [].constructor(10) track by $index"><div class="designAreaGridCell" ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
-                </tr>
-            </table>
+
         </div>
     </div>
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
@@ -185,22 +195,22 @@
             </form>
         </div>
         <div class="sideAreaComponent" ng-show="areaFlags['designArea']">
-            <div class="designWidgetsToolbar"  ondrop="dropDelete(event)" ondragover="allowDrop(event)">
-                <div class="componentMainTitle">
-                    Widgets
-                </div>
-                    <button class="draggableComponent draggableButton" id="drag1" draggable="true" ondragstart="drag(event)">BUTTON</button>
-                    <input type="text" class="draggableComponent draggableTextInput" id="drag2" placeholder="INPUT" draggable="true" ondragstart="drag(event)">
-                    <label class="draggableComponent draggableLabel" id="drag3" draggable="true" ondragstart="drag(event)">LABEL</label>
-                    <div class="draggableComponent draggableListView" id="drag4" draggable="true" ondragstart="drag(event)">
-                        List:
-                        <hr>
-                        <label>Item_1</label><hr>
-                        <label>Item_2</label><hr>
-                        <label>:</label><hr>
-                        <label>Item_n</label><hr>
-                    </div>
-            </div>
+            <!--<div class="designWidgetsToolbar"  ondrop="dropDelete(event)" ondragover="allowDrop(event)">-->
+                <!--<div class="componentMainTitle">-->
+                    <!--Widgets-->
+                <!--</div>-->
+                    <!--<button class="draggableComponent draggableButton" id="drag1" draggable="true" ondragstart="drag(event)">BUTTON</button>-->
+                    <!--<input type="text" class="draggableComponent draggableTextInput" id="drag2" placeholder="INPUT" draggable="true" ondragstart="drag(event)">-->
+                    <!--<label class="draggableComponent draggableLabel" id="drag3" draggable="true" ondragstart="drag(event)">LABEL</label>-->
+                    <!--<div class="draggableComponent draggableListView" id="drag4" draggable="true" ondragstart="drag(event)">-->
+                        <!--List:-->
+                        <!--<hr>-->
+                        <!--<label>Item_1</label><hr>-->
+                        <!--<label>Item_2</label><hr>-->
+                        <!--<label>:</label><hr>-->
+                        <!--<label>Item_n</label><hr>-->
+                    <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 </div>
