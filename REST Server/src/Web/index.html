@@ -33,10 +33,8 @@
             <span data-ng-repeat="application in applications track by $index">
                 <span class="componentButton" data-ng-click="getApplication(application)">
                     <div class="textInButton">{{application.name}}</div>
-                    <span class='componentButtonControl componentButtonControlDelete'
-                          data-ng-click="deleteApplication(application)"></span>
-                    <span class="componentButtonControl componentButtonControlEdit"
-                          data-ng-click="editApplicationDetails(application)"></span>
+                    <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteApplication(application)"></span>
+                    <span class="componentButtonControl componentButtonControlEdit" data-ng-click="editApplicationDetails(application)"></span>
                 </span>
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()">
@@ -50,10 +48,8 @@
             <span data-ng-repeat="object in objects track by $index">
                 <span class="componentButton" data-ng-mouseover="showObjectDetails(object)">
                     <div class="textInButton">{{object.name}}</div>
-                    <span class='componentButtonControl componentButtonControlDelete'
-                          data-ng-click="deleteObject(object)"></span>
-                   <span class='componentButtonControl componentButtonControlEdit'
-                         data-ng-click="editObjectDetails(object)"></span>
+                    <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteObject(object)"></span>
+                   <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editObjectDetails(object)"></span>
                 </span>
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewObject()">
@@ -66,65 +62,91 @@
             <span ng-repeat="behavior in behaviors track by $index">
                 <span class="componentButton" data-ng-mouseover="showBehaviorDetails(behavior)">
                     <div class="textInButton">{{behavior.name}}</div>
-                    <span class='componentButtonControl componentButtonControlDelete'
-                          data-ng-click="deleteBehavior(behavior)"></span>
-                    <span class='componentButtonControl componentButtonControlEdit'
-                          data-ng-click="editBehaviorDetails(behavior)"></span>
+                    <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteBehavior(behavior)"></span>
+                    <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editBehaviorDetails(behavior)"></span>
                 </span>
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewBehavior()">
             </span>
         </div>
-        <div class="centralAreaComponent designArea" ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()"
-             ondragover="allowDrop(event)">
+        <div class="centralAreaComponent designArea"  ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()" ondragover="allowDrop(event)">
             <div class="componentMainTitle">
                 Design
             </div>
-            <div class="designAreaToolbar" ondragover="allowDrop(event)">
-                <img class="designAreaToolbarButton" src="http://localhost:5555/img/trash.png"
-                     ondrop="dropDelete(event)" ondragover="allowDrop(event)">
-                <img class="designAreaToolbarButton" src="http://localhost:5555/img/grid.png">
-            </div>
-            <div class="designAreaGrid" ondragover="allowDrop(event)">
-                <div data-ng-repeat="n in [].constructor(50) track by $index" ondragover="allowDrop(event)">
-                    <span class="designAreaGridCell" ondrop="drop(event)" ondragover="allowDrop(event)"></span>
+            <img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/phone.png">
+            <!--<div class="designAreaToolbar" ondragover="allowDrop(event)">-->
+                <!--<img class="designAreaToolbarButton" src="http://localhost:5555/img/trash.png" ondrop="dropDelete(event)" ondragover="allowDrop(event)">-->
+                <!--<img class="designAreaToolbarButton" src="http://localhost:5555/img/grid.png">-->
+            <!--</div>-->
+            <div class="designAreaEmulator designAreaGrid">
+                <div class="designAreaTabs">
+                    <button class="designAreaTab" ng-repeat="object in objects track by $index" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</button>
+                    <br><button class="designAreaTab" data-ng-click="designDisplayBehaviorPage()">F></button>
+                </div>
+
+                <div class="designAreaButtons" data-ng-show="showBehaviors">
+                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index">{{behavior.name}}</button><br>
+                </div>
+                <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="vals=[]">
+                    {{currentInstance.name}}<hr>
+                    <div data-ng-repeat="attr in currentInstance.attributes track by $index">
+                        {{index}} {{attr.name}} : <input type="text" data-ng-model="vals[$index]"><br>
+                    </div>
+                    <button class="draggableButton" data-ng-click="addInstance()">Add</button><hr>
+                    Index:<input type="text" data-ng-model="idToRemove"><br>
+                    <button class="draggableButton" data-ng-click="removeInstance(idToRemove)">Remove</button>
+                    <hr>
+                    <table style="width: 100%" border="1px">
+                        <tr>
+                            <th style="width: 10%">Idx</th>
+                            <th data-ng-repeat="attr in currentInstance.attributes track by $index">
+                                {{attr.name}}
+                            </th>
+                        </tr>
+                        <tr data-ng-repeat="instance in instances track by $index">
+                            <td>{{$index}}</td>
+                            <td data-ng-repeat="val in instance">
+                                {{val}}
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="designAreaOutput">
+                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:</label>
                 </div>
             </div>
         </div>
     </div>
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['objectDetailsArea']">
-            <div class="componentMainTitle">{{currentObject.name}}</div>
-            <div class="componentListTitle">Attributes:</div>
-            <div ng-repeat="attr in currentObject.attributes track by $index">
-                <div class="componentListEntry">{{attr.name + " - " + attr.type}}</div>
-            </div>
-            <div class="componentListTitle">Actions:</div>
-            <div ng-repeat="act in currentObject.actions track by $index">
-                <div class="componentListEntry">{{act.name + ": " + act.operand1.name + " " + act.operator + " " +
-                    act.operand2}}
+                <div class="componentMainTitle">{{currentObject.name}}</div>
+                <div class="componentListTitle">Attributes:</div>
+                <div ng-repeat="attr in currentObject.attributes track by $index">
+                    <div class="componentListEntry">{{attr.name + " - " + attr.type}}</div>
                 </div>
-            </div>
-            <hr>
+                <div class="componentListTitle">Actions:</div>
+                <div ng-repeat="act in currentObject.actions track by $index">
+                    <div class="componentListEntry">{{act.name + ": " + act.operand1.name + " " + act.operator + " " + act.operand2}}</div>
+                </div>
+                <hr>
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
             <form class="editArea" data-ng-submit="addObject()" data-ng-init="name=''">
                 Name: <input type="text" data-ng-model="name" title="Object Name">
                 <hr>
                 Attributes:<br>
-                <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index"
-                     data-ng-init="all_attrs[$index]={name:'', type:''}">
+                <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
                     {{$index + 1}}.
-                    Name: <input type="text" data-ng-model="all_attrs[$index].name" title="Attribute"
-                                 data-ng-init="all_attrs[$index].type=basic_types[0]">
-                    Type: <select ng-model="all_attrs[$index].type" ng-options="i for i in basic_types"
-                                  title="Type"></select>
+                    Name: <input type="text" data-ng-model="all_attrs[$index].name" title="Attribute" data-ng-init="all_attrs[$index].type=basic_types[0]">
+                    Type: <select ng-model="all_attrs[$index].type" ng-options="i for i in basic_types" title="Type">
+                </select>
                 </div>
                 <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
                 <hr>
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
-                        {{all_acts_Object[$index].name + ": " + all_acts_Object[$index].operand1 + " " + all_acts_Object[$index].operator + " " + all_acts_Object[$index].operand2}}
+                        {{all_acts_Object[$index].name + ": " + all_acts_Object[$index].operand1.name + " " + all_acts_Object[$index].operator + " " + all_acts_Object[$index].operand2}}
                         <br>
                 </span>
                 <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
@@ -136,9 +158,7 @@
             <div class="componentMainTitle">{{currentBehavior.name}}</div>
             <div class="componentListTitle">Actions:</div>
             <div ng-repeat="act in currentBehavior.actions track by $index">
-                <div class="componentListEntry">{{act.name + ": " + act.operandObject.name + " " +
-                    act.operandAttribute.name + " " + act.operator + " " + act.operand2}}
-                </div>
+                <div class="componentListEntry">{{act.name + ": " + act.operandObject.name + " " + act.operandAttribute.name + " " + act.operator + " " + act.operand2}}</div>
             </div>
             <hr>
         </div>
@@ -227,21 +247,23 @@
                 <button type="submit">Add Action</button>
             </form>
         </div>
-        <div class="sideAreaComponent" data-ng-show="areaFlags['designArea']">
-            <div class="designWidgetsToolbar">
-                <div class="componentMainTitle">
-                    Widgets
-                </div>
-                <div class="draggableComponent" id="drag2" draggable="true" ondragstart="drag(event)">
-                    <button>BUTTON</button>
-                </div>
-                <div class="draggableComponent" id="drag3" draggable="true" ondragstart="drag(event)">
-                    <textarea>TEXT</textarea>
-                </div>
-                <div class="draggableComponent" id="drag4" draggable="true" ondragstart="drag(event)">
-                    <label>LABEL</label>
-                </div>
-            </div>
+        <div class="sideAreaComponent" ng-show="areaFlags['designArea']">
+            <!--<div class="designWidgetsToolbar"  ondrop="dropDelete(event)" ondragover="allowDrop(event)">-->
+                <!--<div class="componentMainTitle">-->
+                    <!--Widgets-->
+                <!--</div>-->
+                    <!--<button class="draggableComponent draggableButton" id="drag1" draggable="true" ondragstart="drag(event)">BUTTON</button>-->
+                    <!--<input type="text" class="draggableComponent draggableTextInput" id="drag2" placeholder="INPUT" draggable="true" ondragstart="drag(event)">-->
+                    <!--<label class="draggableComponent draggableLabel" id="drag3" draggable="true" ondragstart="drag(event)">LABEL</label>-->
+                    <!--<div class="draggableComponent draggableListView" id="drag4" draggable="true" ondragstart="drag(event)">-->
+                        <!--List:-->
+                        <!--<hr>-->
+                        <!--<label>Item_1</label><hr>-->
+                        <!--<label>Item_2</label><hr>-->
+                        <!--<label>:</label><hr>-->
+                        <!--<label>Item_n</label><hr>-->
+                    <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 </div>

@@ -54,7 +54,11 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.currentBehavior = '';
             $scope.behaviors = [];
             $scope.currentAppURL = '';
+            $scope.instances = [];
             $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
+
+            $scope.showBehaviors = true;
+            $scope.showInstance = false;
 
             // General Functions //
             $scope.menuHome = function(){
@@ -163,7 +167,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 }
                 $scope.getPlatform();
                 var newApplication = {name: $scope.name, platforms: $scope.platforms};//TODO : change the name to application or object name
-                $scope.message = "Create new application...";
+                $scope.message = "Creating a new application...";
                 $scope.showArea("messageArea");
                 $scope.applications.push(newApplication);
                 $scope.createApplication($scope.name, $scope.platforms);
@@ -396,8 +400,28 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.all_conditions = [];
             };
 
+            $scope.currentInstance = '';
+            $scope.vals = [];
             // Design //
+            $scope.designDisplayObjectPage = function(object){
+                $scope.currentInstance = object;
+                $scope.showBehaviors = false;
+                $scope.showInstance = true;
+            };
 
+            $scope.designDisplayBehaviorPage = function(){
+                $scope.showBehaviors = true;
+                $scope.showInstance = false;
+            };
+
+            $scope.addInstance = function(){
+                    $scope.instances.push($scope.vals);
+                    $scope.vals = [];
+            };
+
+            $scope.removeInstance = function(id){
+                $scope.instances.splice(parseInt(id),1);
+            };
             // Release //
 
         }]);
