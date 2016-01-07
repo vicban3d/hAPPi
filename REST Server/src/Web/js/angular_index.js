@@ -36,11 +36,15 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             ];
 
             $scope.basic_types = ["Number", "Text"];
+            $scope.conditions = ["Or", "And"];
+            $scope.logic_types = ["Bigger Than", "Smaller Than"];
 
             $scope.numOfAttributes = 0;
+            $scope.numOfConditions = 0;
             $scope.numOfActions = 0;
             $scope.currentObject = '';
             $scope.all_attrs = [];
+            $scope.all_conditions = [];
             $scope.all_acts_Object = [];
             $scope.all_acts_Behavior = [];
             $scope.objects = [];
@@ -219,7 +223,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                         $scope.$apply();
                     }
                     else if (result.readyState == 4 && result.status == 200){
-                        $scope.hideArea("messageArea");
                         $scope.message = result.responseText;
                         $scope.showArea("messageArea");
                         $timeout(function () {
@@ -248,10 +251,12 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     $scope.all_acts_Object = [];
                     $scope.numOfAttributes = 0;
                     $scope.numOfActions = 0;
+                    $scope.numOfConditions = 0;
+                    $scope.all_conditions = [];
                     $scope.name = '';
                     $scope.showObjectDetails(newObject);
-                    $scope.hideArea("actionsEditAreaForObject");
-                    $scope.hideArea("actionsEditAreaForBehavior");
+                    $scope.hideArea("actionsEditAreaObject");
+                    $scope.hideArea("actionsEditAreaBehavior");
                     sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newObject));
                 }
             };
@@ -270,8 +275,12 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.numOfAttributes+=1;
             };
 
+            $scope.addCondition = function(){
+                $scope.numOfConditions+=1;
+            }
+
             $scope.addActionObject = function(){
-                $scope.showArea("actionsEditAreaForObject");
+                $scope.showArea("actionsEditAreaObject");
             };
 
             $scope.addNewAction = function(){
@@ -280,8 +289,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 }
                 else {
                     $scope.numOfActions += 1;
-                    $scope.hideArea("actionsEditAreaForObject");
-                    $scope.hideArea("actionsEditAreaForBehavior");
+                    $scope.hideArea("actionsEditAreaObject");
+                    $scope.hideArea("actionsEditAreaBehavior");
                 }
             };
 
@@ -333,14 +342,17 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     var newBehavior = {
                         name: $scope.name,
                         actions: $scope.all_acts_Behavior.filter($scope.isValidActionBehavior)
+                        //TODO - add conditions: $scope.all_conditions.filter($scope.isValidConditionBehavior)
                     };
                     $scope.behaviors.push(newBehavior);
                     $scope.all_acts_Behavior = [];
+                    $scope.all_conditions = [];
                     $scope.numOfActions = 0;
+                    $scope.numOfConditions = 0;
                     $scope.name = '';
                     $scope.showBehaviorDetails(newBehavior);
-                    $scope.hideArea("actionsEditAreaForObject");
-                    $scope.hideArea("actionsEditAreaForBehavior");
+                    $scope.hideArea("actionsEditAreaObject");
+                    $scope.hideArea("actionsEditAreaBehavior");
                     sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newBehavior));
                 }
             };
@@ -379,7 +391,9 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             };
 
             $scope.addActionBehavior = function(){
-                $scope.showArea("actionsEditAreaForBehavior");
+                $scope.showArea("actionsEditAreaBehavior");
+                $scope.numOfConditions = 0;
+                $scope.all_conditions = [];
             };
 
             // Design //
