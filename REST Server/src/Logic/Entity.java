@@ -58,7 +58,6 @@ public class Entity {
                     if (act.charAt(act.length() - 1) != '}') {
                         act = act + "}";
                     }
-                    System.out.println(act);
                     JSONObject jact = new JSONObject(act);
                     String name = jact.getString("name");
                     String o1 = new JSONObject(jact.getString("operand1")).getString("name");
