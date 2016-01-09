@@ -103,7 +103,7 @@ public class FileHandler {
     public static void renameFolder(String oldName, String newName) throws IOException{
         File oldFile = new File(Strings.PATH_APPS + "\\" + oldName);
         File newFile = new File(Strings.PATH_APPS + "\\" + newName);
-        if (newFile.exists())
+        if (newFile.exists() && !oldFile.equals(newFile))
             throw new java.io.IOException("file exists");
         oldFile.renameTo(newFile);
     }

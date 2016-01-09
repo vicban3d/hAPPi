@@ -14,8 +14,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.areaFlags["sideArea"] = true;
             $scope.areaFlags["messageArea"] = false;
             $scope.areaFlags["menuArea"] = true;
-            $scope.areaFlags["menuButtonsArea"] = false;
-            $scope.areaFlags["applicationListArea"] = true;
+            $scope.areaFlags["menuButtonsArea"] = true;
+            $scope.areaFlags["applicationListArea"] = false;
             $scope.areaFlags["applicationDetailsArea"] = false;
             $scope.areaFlags["applicationEditArea"] = false;
             $scope.areaFlags["applicationCreateArea"] = false;
@@ -51,13 +51,16 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.all_acts_Behavior = [];
             $scope.objects = [];
             $scope.applications = [];
-            $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};
             $scope.platforms = [];
+            $scope.name = '';
+            $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};
+
             $scope.currentBehavior = '';
             $scope.behaviors = [];
             $scope.currentAppURL = '';
             $scope.instances = [];
             $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
+            $scope.behaviorOperators = ['Sum of all', 'product of all', 'max', 'min'];
 
             $scope.showBehaviors = true;
             $scope.showInstance = false;
@@ -116,6 +119,18 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     $scope.platforms.push("windowsPhone");
             };
 
+            $scope.showCurrentPlatforms = function(){
+                for(var i=0; i<$scope.currentApplication.platforms.length; i++)
+                {
+                    if($scope.currentApplication.platforms[i] == "android")
+                        $scope.android = true;
+                    else if($scope.currentApplication.platforms[i] == "ios")
+                        $scope.ios = true;
+                    else if($scope.currentApplication.platforms[i] == "windowsPhone")
+                        $scope.windowsPhone = true;
+                }
+            };
+
             function generateUUID() {
                 var d = new Date().getTime();
                 var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -140,44 +155,48 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 if ($scope.name == '' || $scope.name =='Invalid Name!') {
                     $scope.name = 'Invalid Name!'
                 }
-                $scope.getPlatform();
-                var appId = generateUUID();
-                var newApplication = {id: appId, name: $scope.name, platforms: $scope.platforms};//TODO : change the name to application or object name
-                $scope.currentApplication = newApplication;
-                $scope.message = "Create new application...";
-                $scope.showArea("messageArea");
-                $scope.applications.push(newApplication);
-                $scope.createApplication(appId, $scope.name, $scope.platforms);
-                $scope.name = '';
-                $scope.android = false;
-                $scope.ios = false;
-                $scope.windowsPhone = false;
-                $scope.platforms = [];
-                $scope.showApplicationDetails(newApplication);
+                else{
+                    $scope.getPlatform();
+                    var appId = generateUUID();
+                    var newApplication = {id: appId, name: $scope.name, platforms: $scope.platforms};
+                    $scope.currentApplication = newApplication;
+                    $scope.message = "Create new application...";
+                    $scope.showArea("messageArea");
+                    $scope.applications.push(newApplication);
+                    $scope.createApplication(appId, $scope.name, $scope.platforms);
+                    $scope.name = '';
+                    $scope.android = false;
+                    $scope.ios = false;
+                    $scope.windowsPhone = false;
+                    $scope.platforms = [];
+                    $scope.showApplicationDetails(newApplication);
+                }
             };
 
             $scope.editApplication = function(){
                 if ($scope.name == '' || $scope.name =='Invalid Name!') {
                     $scope.name = 'Invalid Name!'
                 }
-                $scope.getPlatform();
-                var newApplication = {id: $scope.currentApplication.id ,name: $scope.name, platforms: $scope.platforms};//TODO : change the name to application or object name
-                $scope.message = "Updating application...";
-                $scope.showArea("messageArea");
-                $scope.removeApplication($scope.currentApplication.id);
-                $scope.applications.push(newApplication);
-                $scope.updateApplication($scope.currentApplication.id, $scope.name, $scope.platforms);
-                $scope.name = '';
-                $scope.android = false;
-                $scope.ios = false;
-                $scope.windowsPhone = false;
-                $scope.platforms = [];
-                $scope.showApplicationDetails(newApplication);
-                $scope.currentApplication = newApplication;
-                $scope.hideArea("menuButtonsArea");
-                $scope.hideArea("applicationEditArea");
-                $scope.showArea("centralArea");
-                $scope.showArea("applicationListArea");
+                else{
+                    $scope.getPlatform();
+                    var newApplication = {id: $scope.currentApplication.id ,name: $scope.name, platforms: $scope.platforms};
+                    $scope.message = "Updating application...";
+                    $scope.showArea("messageArea");
+                    $scope.removeApplication($scope.currentApplication.id);
+                    $scope.applications.push(newApplication);
+                    $scope.updateApplication($scope.currentApplication.id, $scope.name, $scope.platforms);
+                    $scope.name = '';
+                    $scope.android = false;
+                    $scope.ios = false;
+                    $scope.windowsPhone = false;
+                    $scope.platforms = [];
+                    $scope.showApplicationDetails(newApplication);
+                    $scope.currentApplication = newApplication;
+                    $scope.hideArea("menuButtonsArea");
+                    $scope.hideArea("applicationEditArea");
+                    $scope.showArea("centralArea");
+                    $scope.showArea("applicationListArea");
+                }
             };
 
             $scope.removeApplication = function(id){
@@ -235,10 +254,14 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.editApplicationDetails = function(application){
                 $scope.currentApplication = application;
                 //TODO
+
+                $scope.showCurrentPlatforms();
+                $scope.name = $scope.currentApplication.name;
                 $scope.showArea("applicationEditArea");
-                $scope.hideArea("menuButtonsArea");
+
+               /* $scope.hideArea("menuButtonsArea");
                 $scope.showArea("centralArea");
-                $scope.showArea("applicationListArea");
+                $scope.showArea("applicationListArea");*/
             };
 
             $scope.addNewApplication = function(){
@@ -336,7 +359,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             };
 
             $scope.isValidActionBehavior = function(val){
-                return val.name != '' && val.operandObject != '' && val.operandAttribute != '' && val.operator != '' && val.operand2 != '';
+                return val.operandObject != '' && val.operandAttribute != '' && val.operator != '';
             };
 
             $scope.addNewObject = function(){
@@ -385,11 +408,11 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showArea("behaviorEditArea");
             };
 
-            $scope.createApplication = function(id, name, platformsToAdd){
+            $scope.createApplication = function(id, name, platforms){
                 var newApplication = {
                     id: id,
                     name: name,
-                    platforms: platformsToAdd
+                    platforms: platforms
                 };
                 var result = sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication));
                 result.onreadystatechange = function(){

@@ -81,6 +81,8 @@ public class hAPPiFacade implements Facade {
 
 
     private void createPlatforms(String platforms, String applicationName) throws CordovaRuntimeException {
+        if(platforms == null || platforms.isEmpty() || platforms.equals("[]"))
+            return;
         String[] split = platforms.replace("[", "").replace("]", "").split(",");
         for (String s: split) {
             s = s.substring(1,s.length() -1);
