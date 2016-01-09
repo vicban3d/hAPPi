@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="designAreaButtons" data-ng-show="showBehaviors">
-                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index">{{behavior.name}}</button><br>
+                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
                 <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="vals=[]">
                     {{currentInstance.name}}<hr>
@@ -99,7 +99,7 @@
                                 {{attr.name}}
                             </th>
                         </tr>
-                        <tr data-ng-repeat="instance in instances track by $index">
+                        <tr data-ng-repeat="instance in instances[currentInstance.name] track by $index">
                             <td>{{$index}}</td>
                             <td data-ng-repeat="val in instance">
                                 {{val}}
@@ -109,7 +109,7 @@
                     </table>
                 </div>
                 <div class="designAreaOutput">
-                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:</label>
+                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{emulatorOutput}}</label>
                 </div>
             </div>
         </div>
@@ -201,7 +201,6 @@
                 <button type="submit">Edit Application</button>
             </form>
         </div>
-
         <div class="addActionArea" data-ng-show="areaFlags['actionsEditAreaObject']">
             <form class="editArea" data-ng-submit="addNewAction()"
                   ng-init="all_acts_Object[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">

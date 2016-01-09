@@ -1,10 +1,10 @@
 var main_module = angular.module('main', []);
 
 main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
-        function($scope, $timeout, $sce) {
+    function($scope, $timeout, $sce) {
 
-            var PATH_APPS = "http://localhost:80/Applications/";
-            var PATH_APP_INDEX = "/www/index.html";
+        var PATH_APPS = "http://localhost:80/Applications/";
+        var PATH_APP_INDEX = "/www/index.html";
 
             // Variable Declaration //
             $scope.areaFlags = [];
@@ -29,85 +29,85 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.areaFlags["actionEditArea"] = false;
             $scope.areaFlags["designArea"] = false;
 
-            $scope.menuButtons = [
-                {'label': 'Apps',        'function': function(){$scope.menuHome()}},
-                {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
-                {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
-                {'label': 'Design',         'function': function(){$scope.menuDesign()}},
-                {'label': 'Release',        'function':  function(){}}
-            ];
+        $scope.menuButtons = [
+            {'label': 'Apps',        'function': function(){$scope.menuHome()}},
+            {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
+            {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
+            {'label': 'Design',         'function': function(){$scope.menuDesign()}},
+            {'label': 'Release',        'function':  function(){}}
+        ];
 
             $scope.basic_types = ["Number", "Text"];
             $scope.conditions = ["Or", "And"];
             $scope.logic_types = ["Bigger Than", "Smaller Than"];
 
             $scope.numOfAttributes = 0;
-            $scope.numOfConditions = 0;
             $scope.numOfActions = 0;
             $scope.currentObject = '';
             $scope.all_attrs = [];
+            $scope.all_acts_Object = []
             $scope.all_conditions = [];
-            $scope.all_acts_Object = [];
             $scope.all_acts_Behavior = [];
             $scope.objects = [];
             $scope.applications = [];
-            $scope.platforms = [];
-            $scope.name = '';
-            $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};
-
+            $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};            $scope.platforms = [];
             $scope.currentBehavior = '';
             $scope.behaviors = [];
             $scope.currentAppURL = '';
             $scope.instances = [];
+            $scope.name = '';
+            $scope.applications = [];
+            $scope.platforms = [];
             $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-            $scope.behaviorOperators = ['Sum of all', 'product of all', 'max', 'min'];
+            $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
+            $scope.emulatorOutput = '';
 
-            $scope.showBehaviors = true;
+        $scope.showBehaviors = true;
             $scope.showInstance = false;
 
-            // General Functions //
-            $scope.menuHome = function(){
-                $scope.hideAll();
-                $scope.hideArea("menuButtonsArea");
-                $scope.showArea("applicationListArea");
-            };
+        // General Functions //
+        $scope.menuHome = function(){
+            $scope.hideAll();
+            $scope.hideArea("menuButtonsArea");
+            $scope.showArea("applicationListArea");
+        };
 
-            $scope.menuAddObjects = function(){
-                $scope.hideAll();
-                $scope.showArea("objectsAddArea");
-            };
+        $scope.menuAddObjects = function(){
+            $scope.hideAll();
+            $scope.showArea("objectsAddArea");
+        };
 
-            $scope.menuAddBehaviors = function(){
-                $scope.hideAll();
-                $scope.showArea("behaviorAddArea");
-            };
+        $scope.menuAddBehaviors = function(){
+            $scope.hideAll();
+            $scope.showArea("behaviorAddArea");
+        };
 
-            $scope.menuDesign = function(){
-                $scope.hideAll();
-                $scope.showArea("designArea");
-            };
+        $scope.menuDesign = function(){
+            $scope.hideAll();
+            $scope.showArea("designArea");
+        };
 
-            $scope.hideAll = function () {
-                for (var f in $scope.areaFlags) {
-                    if ($scope.areaFlags.hasOwnProperty(f)) {
-                        $scope.areaFlags[f] = false;
-                    }
+        $scope.hideAll = function () {
+            for (var f in $scope.areaFlags) {
+                if ($scope.areaFlags.hasOwnProperty(f)) {
+                    $scope.areaFlags[f] = false;
                 }
-                $scope.areaFlags["titleArea"] = true;
-                $scope.areaFlags["workArea"] = true;
-                $scope.areaFlags["centralArea"] = true;
-                $scope.areaFlags["sideArea"] = true;
-                $scope.areaFlags["menuArea"] = true;
-                $scope.areaFlags["menuButtonsArea"] = true;
-            };
+            }
+            $scope.areaFlags["titleArea"] = true;
+            $scope.areaFlags["workArea"] = true;
+            $scope.areaFlags["centralArea"] = true;
+            $scope.areaFlags["sideArea"] = true;
+            $scope.areaFlags["menuArea"] = true;
+            $scope.areaFlags["menuButtonsArea"] = true;
+        };
 
-            $scope.showArea = function (area) {
-                $scope.areaFlags[area] = true;
-            };
+        $scope.showArea = function (area) {
+            $scope.areaFlags[area] = true;
+        };
 
-            $scope.hideArea = function (area) {
-                $scope.areaFlags[area] = false;
-            };
+        $scope.hideArea = function (area) {
+            $scope.areaFlags[area] = false;
+        };
 
             $scope.getPlatform = function(){
                 $scope.platforms = [];
@@ -141,15 +141,15 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 return uuid;
             };
 
-            $scope.deleteApplication = function(application){
-                var index =  $scope.applications.indexOf(application);
-                $scope.applications.splice(index, 1);
-                if (application == $scope.currentApplication){
-                    $scope.currentApplication = {};
-                    $scope.currentAppURL = '';
-                }
-                sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application));
-            };
+        $scope.deleteApplication = function(application){
+            var index =  $scope.applications.indexOf(application);
+            $scope.applications.splice(index, 1);
+            if (application == $scope.currentApplication){
+                $scope.currentApplication = {};
+                $scope.currentAppURL = '';
+            }
+            sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application));
+        };
 
             $scope.addApplication = function(){
                 if ($scope.name == '' || $scope.name =='Invalid Name!') {
@@ -260,7 +260,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showArea("applicationEditArea");
 
                /* $scope.hideArea("menuButtonsArea");
-                $scope.showArea("centralArea");c
+                $scope.showArea("centralArea");
                 $scope.showArea("applicationListArea");*/
             };
 
@@ -271,17 +271,17 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             };
 
 
-            // Object Creation //
-            $scope.addObject = function() {
-                if ($scope.name == '' || $scope.name == 'Invalid Name!') {
-                    $scope.name = 'Invalid Name!'
-                }
-                else {
-                    var newObject = {
-                        name: $scope.name,
-                        attributes: $scope.all_attrs.filter($scope.isValidAttribute),
-                        actions: $scope.all_acts_Object.filter($scope.isValidActionObject)
-                    };
+        // Object Creation //
+        $scope.addObject = function() {
+            if ($scope.name == '' || $scope.name == 'Invalid Name!') {
+                $scope.name = 'Invalid Name!'
+            }
+            else {
+                var newObject = {
+                    name: $scope.name,
+                    attributes: $scope.all_attrs.filter($scope.isValidAttribute),
+                    actions: $scope.all_acts_Object.filter($scope.isValidActionObject)
+                };
 
                     $scope.objects.push(newObject);
                     $scope.all_attrs = [];
@@ -298,19 +298,19 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 }
             };
 
-            $scope.deleteObject = function(object){
-                var index =  $scope.objects.indexOf(object);
-                $scope.objects.splice(index, 1);
-                if (object == $scope.currentObject){
-                    $scope.currentObject = {};
-                }
-                sendPOSTRequest(Paths.REMOVE_ENTITY, angular.toJson(object));
-                $scope.hideArea("objectDetailsArea");
-            };
+        $scope.deleteObject = function(object){
+            var index =  $scope.objects.indexOf(object);
+            $scope.objects.splice(index, 1);
+            if (object == $scope.currentObject){
+                $scope.currentObject = {};
+            }
+            sendPOSTRequest(Paths.REMOVE_ENTITY, angular.toJson(object));
+            $scope.hideArea("objectDetailsArea");
+        };
 
-            $scope.addAttribute = function(){
-                $scope.numOfAttributes+=1;
-            };
+        $scope.addAttribute = function(){
+            $scope.numOfAttributes+=1;
+        };
 
             $scope.addCondition = function(){
                 $scope.numOfConditions+=1;
@@ -331,45 +331,45 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 }
             };
 
-            $scope.showObjectDetails = function(object){
-                if ($scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
-                    $scope.currentObject = object;
-                    $scope.hideArea("behaviorDetailsArea");
-                    $scope.hideArea("behaviorEditArea");
-                    $scope.hideArea("objectEditArea");
-                    $scope.showArea("objectDetailsArea");
-                }
-            };
+        $scope.showObjectDetails = function(object){
+            if ($scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
+                $scope.currentObject = object;
+                $scope.hideArea("behaviorDetailsArea");
+                $scope.hideArea("behaviorEditArea");
+                $scope.hideArea("objectEditArea");
+                $scope.showArea("objectDetailsArea");
+            }
+        };
 
             $scope.editObjectDetails = function(object){
                 $scope.currentObject = object;
                 $scope.showArea("objectEditArea");
             };
 
-            $scope.isValidAttribute = function(val){
-                return val.name != '' && val.type != '';
-            };
+        $scope.isValidAttribute = function(val){
+            return val.name != '' && val.type != '';
+        };
 
-            $scope.getAttributeName = function(val){
-                return val.name;
-            };
+        $scope.getAttributeName = function(val){
+            return val.name;
+        };
 
-            $scope.isValidActionObject = function(val){
-                return val.name != '' && val.operand1 != '' && val.operator != '' && val.operand2 != '';
-            };
+        $scope.isValidActionObject = function(val){
+            return val.name != '' && val.operand1 != '' && val.operator != '' && val.operand2 != '';
+        };
 
             $scope.isValidActionBehavior = function(val){
                 return val.operandObject != '' && val.operandAttribute != '' && val.operator != '';
             };
 
-            $scope.addNewObject = function(){
-                var empty = {name:'new object', attributes: [{name: 'attr', type: 'number'}]};
-                $scope.showObjectDetails(empty);
-                $scope.hideArea("behaviorDetailsArea");
-                $scope.hideArea("behaviorEditArea");
-                $scope.hideArea("objectDetailsArea");
-                $scope.showArea("objectEditArea");
-            };
+        $scope.addNewObject = function(){
+            var empty = {name:'new object', attributes: [{name: 'attr', type: 'number'}]};
+            $scope.showObjectDetails(empty);
+            $scope.hideArea("behaviorDetailsArea");
+            $scope.hideArea("behaviorEditArea");
+            $scope.hideArea("objectDetailsArea");
+            $scope.showArea("objectEditArea");
+        };
 
             // Behavior Creation //
             $scope.addBehavior = function(){
@@ -399,14 +399,64 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.currentBehavior = behavior;
             };
 
-            $scope.addNewBehavior = function(){
-                var empty = {name:'new behavior'};
-                $scope.showBehaviorDetails(empty);
-                $scope.hideArea("objectDetailsArea");
-                $scope.hideArea("objectEditArea");
-                $scope.hideArea("behaviorDetailsArea");
-                $scope.showArea("behaviorEditArea");
-            };
+        function getBehaviorAction(object, actionName){
+            if (actionName == "Sum of All"){
+                return function (operand){
+                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+                    var result = 0;
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        result += parseFloat($scope.instances[object.name][i][index]);
+                    }
+                    return result;
+                };
+            } else if (actionName == "Maximum") {
+                return function (operand){
+                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+                    var result = 0;
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        if (result < parseFloat($scope.instances[object.name][i][index])) {
+                            result = parseFloat($scope.instances[object.name][i][index]);
+                        }
+                    }
+                    return result;
+                };
+            } else if (actionName == "Minimum"){
+                return function (operand){
+                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+                    var result = 0;
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        if (result > parseFloat($scope.instances[object.name][i][index])) {
+                            result = parseFloat($scope.instances[object.name][i][index]);
+                        }
+                    }
+                    return result;
+                };
+            } else if (actionName == "Product of All"){
+                return function (operand){
+                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+                    var result = 1;
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        result *= parseFloat($scope.instances[object.name][i][index]);
+                    }
+                    return result;
+                };
+            } else {
+                return "UNSUPPORTED";
+            }
+        }
+
+        $scope.editBehaviorDetails = function(behavior){
+            $scope.currentBehavior = behavior;
+        };
+
+        $scope.addNewBehavior = function(){
+            var empty = {name:'new behavior'};
+            $scope.showBehaviorDetails(empty);
+            $scope.hideArea("objectDetailsArea");
+            $scope.hideArea("objectEditArea");
+            $scope.hideArea("behaviorDetailsArea");
+            $scope.showArea("behaviorEditArea");
+        };
 
             $scope.createApplication = function(id, name, platforms){
                 var newApplication = {
@@ -459,15 +509,15 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.hideArea("behaviorDetailsArea");
             };
 
-            $scope.showBehaviorDetails = function(behavior){
-                if ($scope.areaFlags["behaviorDetailsArea"] == false || behavior != $scope.currentBehavior) {
-                    $scope.currentBehavior = behavior;
-                    $scope.hideArea("objectDetailsArea");
-                    $scope.hideArea("objectEditArea");
-                    $scope.hideArea("behaviorEditArea");
-                    $scope.showArea("behaviorDetailsArea");
-                }
-            };
+        $scope.showBehaviorDetails = function(behavior){
+            if ($scope.areaFlags["behaviorDetailsArea"] == false || behavior != $scope.currentBehavior) {
+                $scope.currentBehavior = behavior;
+                $scope.hideArea("objectDetailsArea");
+                $scope.hideArea("objectEditArea");
+                $scope.hideArea("behaviorEditArea");
+                $scope.showArea("behaviorDetailsArea");
+            }
+        };
 
             $scope.addActionBehavior = function(){
                 $scope.showArea("actionsEditAreaBehavior");
@@ -475,27 +525,38 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.all_conditions = [];
             };
 
-            $scope.currentInstance = '';
+        $scope.currentInstance = '';
+        $scope.vals = [];
+        // Design //
+        $scope.designDisplayObjectPage = function(object){
+            $scope.currentInstance = object;
+            $scope.showBehaviors = false;
+            $scope.showInstance = true;
+        };
+
+        $scope.designDisplayBehaviorPage = function(){
+            $scope.showBehaviors = true;
+            $scope.showInstance = false;
+        };
+
+        $scope.addInstance = function(){
+            if ($scope.instances[$scope.currentInstance.name] == undefined){
+                $scope.instances[$scope.currentInstance.name] = [];
+            }
+            $scope.instances[$scope.currentInstance.name].push($scope.vals);
             $scope.vals = [];
-            // Design //
-            $scope.designDisplayObjectPage = function(object){
-                $scope.currentInstance = object;
-                $scope.showBehaviors = false;
-                $scope.showInstance = true;
-            };
+        };
 
-            $scope.designDisplayBehaviorPage = function(){
-                $scope.showBehaviors = true;
-                $scope.showInstance = false;
-            };
+        $scope.removeInstance = function(id){
+            $scope.instances[$scope.currentInstance.name].splice(parseInt(id),1);
+        };
 
-            $scope.addInstance = function(){
-                    $scope.instances.push($scope.vals);
-                    $scope.vals = [];
-            };
+        $scope.performBehaviorAction = function(behavior){
+            var object = behavior.actions[0].operandObject;
+            var operand1 = behavior.actions[0].operandAttribute.name;
+            var action = getBehaviorAction(object, behavior.actions[0].operator);
+            $scope.emulatorOutput = action(operand1);
+        };
+        // Release //
 
-            $scope.removeInstance = function(id){
-                $scope.instances.splice(parseInt(id),1);
-            };
-            // Release //
-        }]);
+    }]);

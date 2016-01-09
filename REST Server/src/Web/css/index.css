@@ -177,7 +177,7 @@ body{
     margin-top: 22%;
     margin-left: 4%;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     white-space: nowrap;
 }
 
