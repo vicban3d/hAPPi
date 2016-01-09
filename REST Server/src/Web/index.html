@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="designAreaButtons" data-ng-show="showBehaviors">
-                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index">{{behavior.name}}</button><br>
+                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
                 <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="vals=[]">
                     {{currentInstance.name}}<hr>
@@ -104,7 +104,7 @@
                                 {{attr.name}}
                             </th>
                         </tr>
-                        <tr data-ng-repeat="instance in instances track by $index">
+                        <tr data-ng-repeat="instance in instances[currentInstance.name] track by $index">
                             <td>{{$index}}</td>
                             <td data-ng-repeat="val in instance">
                                 {{val}}
@@ -114,7 +114,7 @@
                     </table>
                 </div>
                 <div class="designAreaOutput">
-                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:</label>
+                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{emulatorOutput}}</label>
                 </div>
             </div>
 
@@ -213,8 +213,8 @@
                   ng-init="all_acts_Behavior[numOfActions] = {name:'',operandObject:'',operandAttribute:'',operator:'',operand2:''}">
                 Name: <input type="text" data-ng-model="all_acts_Behavior[numOfActions].name" title="Action Name" data-ng-init="all_acts_Behavior[numOfActions].operator=operators[0]"><hr>
                 <select ng-model="all_acts_Behavior[numOfActions].operandObject" ng-options="item as item.name for item in objects" title="operandObject"></select>
-                <select ng-model="all_acts_Behavior[numOfActions].operandAttribute" ng-options="item as item.name for item in all_acts_Behavior[numOfActions].operandObject.attributes" title="operandAttribute"></select>
-                <select ng-model="all_acts_Behavior[numOfActions].operator" ng-options="i for i in operators" title="Operator"></select>
+                <select ng-model="all_acts_Behavior[numOfActions].operandAttribute" ng-options="item as item.name for item in all_acts_Behavior[numOfActions].operandObject.attributes.concat(all_acts_Behavior[numOfActions].operandObject.actions)" title="operandAttribute"></select>
+                <select ng-model="all_acts_Behavior[numOfActions].operator" ng-options="i for i in behaviorOperators" title="Operator"></select>
                 <input type="text" ng-model="all_acts_Behavior[numOfActions].operand2" title="Operand2">
                 <button type="submit">Add Action</button>
             </form>
