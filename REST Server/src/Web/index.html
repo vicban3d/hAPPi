@@ -132,8 +132,8 @@
             <hr>
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
-            <form class="editArea" data-ng-submit="addObject()" data-ng-init="name=''">
-                Name: <input type="text" data-ng-model="name" title="Object Name">
+            <form class="editArea" data-ng-submit="addObject()" data-ng-init="objectName=''">
+                Name: <input type="text" data-ng-model="objectName" title="Object Name">
                 <hr>
                 Attributes:<br>
                 <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
@@ -163,8 +163,8 @@
             <hr>
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorEditArea']">
-            <form class="editArea" data-ng-submit="addBehavior()" data-ng-init="name=''">
-                Name: <input type="text" data-ng-model="name" title="Behavior Name">
+            <form class="editArea" data-ng-submit="addBehavior()" data-ng-init="behaviorName=''">
+                Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name">
                 <hr>
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
@@ -186,7 +186,7 @@
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['applicationCreateArea']"><!--data-ng-init="name=''; platforms=[]"-->
             <form class="editArea" data-ng-submit="addApplication()">
-                Name: <input type="text" data-ng-model="name" title="Application Name">
+                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
                 <hr>
                 <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
                 <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
@@ -197,7 +197,7 @@
 
         <div class="sideAreaComponent" data-ng-show="areaFlags['applicationEditArea']"> <!--data-ng-init="name=''; platforms=[]"-->
             <form class="editArea" data-ng-submit="editApplication()">
-                Name: <input type="text" data-ng-model="name" title="Application Name">
+                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
                 <hr>
                 <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
                 <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>

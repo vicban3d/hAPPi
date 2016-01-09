@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="designAreaButtons" data-ng-show="showBehaviors">
-                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index">{{behavior.name}}</button><br>
+                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
                 <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="vals=[]">
                     {{currentInstance.name}}<hr>
@@ -103,7 +103,7 @@
                                 {{attr.name}}
                             </th>
                         </tr>
-                        <tr data-ng-repeat="instance in instances track by $index">
+                        <tr data-ng-repeat="instance in instances[currentInstance.name] track by $index">
                             <td>{{$index}}</td>
                             <td data-ng-repeat="val in instance">
                                 {{val}}
@@ -113,7 +113,7 @@
                     </table>
                 </div>
                 <div class="designAreaOutput">
-                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:</label>
+                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{emulatorOutput}}</label>
                 </div>
             </div>
         </div>
@@ -132,8 +132,8 @@
             <hr>
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
-            <form class="editArea" data-ng-submit="addObject()" data-ng-init="name=''">
-                Name: <input type="text" data-ng-model="name" title="Object Name">
+            <form class="editArea" data-ng-submit="addObject()" data-ng-init="objectName=''">
+                Name: <input type="text" data-ng-model="objectName" title="Object Name">
                 <hr>
                 Attributes:<br>
                 <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
@@ -163,8 +163,8 @@
             <hr>
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorEditArea']">
-            <form class="editArea" data-ng-submit="addBehavior()" data-ng-init="name=''">
-                Name: <input type="text" data-ng-model="name" title="Behavior Name">
+            <form class="editArea" data-ng-submit="addBehavior()" data-ng-init="behaviorName=''">
+                Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name">
                 <hr>
                 Actions:<br>
                 <span ng-repeat="n in [].constructor(numOfActions) track by $index">
@@ -186,7 +186,7 @@
         </div>
         <div class="sideAreaComponent" data-ng-show="areaFlags['applicationCreateArea']"><!--data-ng-init="name=''; platforms=[]"-->
             <form class="editArea" data-ng-submit="addApplication()">
-                Name: <input type="text" data-ng-model="name" title="Application Name">
+                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
                 <hr>
                 <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
                 <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
@@ -197,7 +197,7 @@
 
         <div class="sideAreaComponent" data-ng-show="areaFlags['applicationEditArea']"> <!--data-ng-init="name=''; platforms=[]"-->
             <form class="editArea" data-ng-submit="editApplication()">
-                Name: <input type="text" data-ng-model="name" title="Application Name">
+                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
                 <hr>
                 <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
                 <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
@@ -205,7 +205,6 @@
                 <button type="submit">Edit Application</button>
             </form>
         </div>
-
         <div class="addActionArea" data-ng-show="areaFlags['actionsEditAreaObject']">
             <form class="editArea" data-ng-submit="addNewAction()"
                   ng-init="all_acts_Object[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">

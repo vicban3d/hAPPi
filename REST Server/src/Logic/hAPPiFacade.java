@@ -148,7 +148,7 @@ public class hAPPiFacade implements Facade {
             String name  = json.getString("name");
             String attributes = json.getString("attributes");
             String actions = json.getString("actions");
-            result += i++ + ") Name: " + name + "\n   Attributes: " + attributes + "\n" + "Actions: " + actions+ "<hr>";
+            result += i++ + ") name: " + name + "\n   attributes: " + attributes + "\n" + "actions: " + actions+ "<hr>";
         }
         //Edit index.html file with the entities
         String indexPath = Strings.PATH_APPS + "\\" + appName + "\\www\\index.html";
