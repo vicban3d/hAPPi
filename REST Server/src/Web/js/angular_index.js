@@ -427,7 +427,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                         $scope.$apply();
                     }
                 };
-
             };
 
             $scope.menuHome = function(){
