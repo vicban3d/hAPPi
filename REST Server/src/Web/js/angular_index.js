@@ -41,29 +41,30 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.conditions = ["Or", "And"];
         $scope.logic_types = ["Bigger Than", "Smaller Than"];
 
-        $scope.numOfAttributes = 0;
-        $scope.numOfActions = 0;
-        $scope.currentObject = '';
-        $scope.all_attrs = [];
-        $scope.all_acts_Object = [];
-        $scope.all_conditions = [];
-        $scope.all_acts_Behavior = [];
-        $scope.objects = [];
-        $scope.applications = [];
-        $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};
-        $scope.platforms = [];
-        $scope.currentBehavior = '';
-        $scope.behaviors = [];
-        $scope.currentAppURL = '';
-        $scope.instances = [];
-        $scope.name = '';
-        $scope.applications = [];
-        $scope.platforms = [];
-        $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
-        $scope.emulatorOutput = '';
-        $scope.showBehaviors = true;
-        $scope.showInstance = false;
+            $scope.numOfAttributes = 0;
+            $scope.numOfActions = 0;
+            $scope.currentObject = '';
+            $scope.all_attrs = [];
+            $scope.all_acts_Object = []
+            $scope.all_conditions = [];
+            $scope.all_acts_Behavior = [];
+            $scope.objects = [];
+            $scope.applications = [];
+            $scope.currentApplication = {id: "", name: $scope.applicationName, platforms: $scope.platforms};            $scope.platforms = [];
+            $scope.currentBehavior = '';
+            $scope.behaviors = [];
+            $scope.currentAppURL = '';
+            $scope.instances = [];
+            $scope.applicationName = '';
+            $scope.behaviorName = '';
+            $scope.objectName = '';
+            $scope.applications = [];
+            $scope.platforms = [];
+            $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
+            $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
+            $scope.emulatorOutput = '';
+            $scope.showBehaviors = true;
+            $scope.showInstance = false;
 
         // General Functions //
         $scope.menuHome = function(){
@@ -152,61 +153,61 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application));
         };
 
-        $scope.addApplication = function(){
-            if ($scope.name == '' || $scope.name =='Invalid Name!') {
-                $scope.name = 'Invalid Name!'
-            }
-            else{
-                $scope.getPlatform();
-                var appId = generateUUID();
-                var newApplication = {id: appId, name: $scope.name, platforms: $scope.platforms};
-                $scope.currentApplication = newApplication;
-                $scope.message = "Create new application...";
-                $scope.showArea("messageArea");
-                $scope.applications.push(newApplication);
-                $scope.createApplication(appId, $scope.name, $scope.platforms);
-                $scope.name = '';
-                $scope.android = false;
-                $scope.ios = false;
-                $scope.windowsPhone = false;
-                $scope.platforms = [];
-                $scope.showApplicationDetails(newApplication);
-            }
-        };
-
-        $scope.editApplication = function(){
-            if ($scope.name == '' || $scope.name =='Invalid Name!') {
-                $scope.name = 'Invalid Name!'
-            }
-            else{
-                $scope.getPlatform();
-                var newApplication = {id: $scope.currentApplication.id ,name: $scope.name, platforms: $scope.platforms};
-                $scope.message = "Updating application...";
-                $scope.showArea("messageArea");
-                $scope.removeApplication($scope.currentApplication.id);
-                $scope.applications.push(newApplication);
-                $scope.updateApplication($scope.currentApplication.id, $scope.name, $scope.platforms);
-                $scope.name = '';
-                $scope.android = false;
-                $scope.ios = false;
-                $scope.windowsPhone = false;
-                $scope.platforms = [];
-                $scope.showApplicationDetails(newApplication);
-                $scope.currentApplication = newApplication;
-                $scope.hideArea("menuButtonsArea");
-                $scope.hideArea("applicationEditArea");
-                $scope.showArea("centralArea");
-                $scope.showArea("applicationListArea");
-            }
-        };
-
-        $scope.removeApplication = function(id){
-            for(var i = $scope.applications.length - 1; i >= 0; i--){
-                if($scope.applications[i].id == id){
-                    $scope.applications.splice(i,1);
+            $scope.addApplication = function(){
+                if ($scope.applicationName == '' || $scope.applicationName =='Invalid Name!') {
+                    $scope.applicationName = 'Invalid Name!'
                 }
-            }
-        };
+                else{
+                    $scope.getPlatform();
+                    var appId = generateUUID();
+                    var newApplication = {id: appId, name: $scope.applicationName, platforms: $scope.platforms};
+                    $scope.currentApplication = newApplication;
+                    $scope.message = "Create new application...";
+                    $scope.showArea("messageArea");
+                    $scope.applications.push(newApplication);
+                    $scope.createApplication(appId, $scope.applicationName, $scope.platforms);
+                    $scope.applicationName = '';
+                    $scope.android = false;
+                    $scope.ios = false;
+                    $scope.windowsPhone = false;
+                    $scope.platforms = [];
+                    $scope.showApplicationDetails(newApplication);
+                }
+            };
+
+            $scope.editApplication = function(){
+                if ($scope.applicationName == '' || $scope.applicationName =='Invalid Name!') {
+                    $scope.applicationName = 'Invalid Name!'
+                }
+                else{
+                    $scope.getPlatform();
+                    var newApplication = {id: $scope.currentApplication.id ,name: $scope.applicationName, platforms: $scope.platforms};
+                    $scope.message = "Updating application...";
+                    $scope.showArea("messageArea");
+                    $scope.removeApplicationFromAppList($scope.currentApplication.id);
+                    $scope.applications.push(newApplication);
+                    $scope.updateApplication($scope.currentApplication.id, $scope.applicationName, $scope.platforms);
+                    $scope.applicationName = '';
+                    $scope.android = false;
+                    $scope.ios = false;
+                    $scope.windowsPhone = false;
+                    $scope.platforms = [];
+                    $scope.showApplicationDetails(newApplication);
+                    $scope.currentApplication = newApplication;
+                    $scope.hideArea("menuButtonsArea");
+                    $scope.hideArea("applicationEditArea");
+                    $scope.showArea("centralArea");
+                    $scope.showArea("applicationListArea");
+                }
+            };
+
+            $scope.removeApplicationFromAppList = function(id){
+                for(var i = $scope.applications.length - 1; i >= 0; i--){
+                    if($scope.applications[i].id == id){
+                        $scope.applications.splice(i,1);
+                    }
+                }
+            };
 
         $scope.updateApplication = function(id, name, platforms){
             var newApplication = {
@@ -237,35 +238,35 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             };
         };
 
-        $scope.showApplicationDetails = function(application){
-            if ($scope.areaFlags["applicationDetailsArea"] == false || application != $scope.currentApplication){
+            $scope.showApplicationDetails = function(application){
+                if ($scope.areaFlags["applicationDetailsArea"] == false || application != $scope.currentApplication){
+                    $scope.currentApplication = application;
+                    $scope.hideArea("applicationCreateArea");
+                    $scope.hideArea("applicationEditArea");
+                    $scope.showArea("applicationDetailsArea");
+                }
+            };
+
+            $scope.getApplication = function(application){
+                if ($scope.showApplicationDetailsFlag == 1 || application != $scope.currentApplication){
+                    $scope.currentApplication = application;
+                    $scope.showApplicationDetailsFlag = 0
+                } else{
+                    $scope.showApplicationDetailsFlag = 1
+                }
                 $scope.currentApplication = application;
                 $scope.hideArea("applicationCreateArea");
-                $scope.hideArea("applicationEditArea");
-                $scope.showArea("applicationDetailsArea");
-            }
-        };
+                $scope.hideArea("applicationDetailsArea");
+                $scope.hideArea("applicationListArea");
+                $scope.showArea("menuButtonsArea");
+            };
 
-        $scope.getApplication = function(application){
-            if ($scope.showApplicationDetailsFlag == 1 || application != $scope.currentApplication){
+            $scope.editApplicationDetails = function(application){
                 $scope.currentApplication = application;
-                $scope.showApplicationDetailsFlag = 0
-            } else{
-                $scope.showApplicationDetailsFlag = 1
-            }
-            $scope.currentApplication = application;
-            $scope.hideArea("applicationCreateArea");
-            $scope.hideArea("applicationDetailsArea");
-            $scope.hideArea("applicationListArea");
-            $scope.showArea("menuButtonsArea");
-        };
-
-        $scope.editApplicationDetails = function(application){
-            $scope.currentApplication = application;
-            //TODO
+                //TODO
 
             $scope.showCurrentPlatforms();
-            $scope.name = $scope.currentApplication.name;
+            $scope.applicationName = $scope.currentApplication.name;
             $scope.showArea("applicationEditArea");
 
             /* $scope.hideArea("menuButtonsArea");
@@ -282,30 +283,30 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         // Object Creation //
         $scope.addObject = function() {
-            if ($scope.name == '' || $scope.name == 'Invalid Name!') {
-                $scope.name = 'Invalid Name!'
+            if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
+                $scope.objectName = 'Invalid Name!'
             }
             else {
                 var newObject = {
-                    name: $scope.name,
+                    name: $scope.objectName,
                     attributes: $scope.all_attrs.filter($scope.isValidAttribute),
                     actions: $scope.all_acts_Object.filter($scope.isValidActionObject)
                 };
 
-                $scope.objects.push(newObject);
-                $scope.all_attrs = [];
-                $scope.all_acts_Object = [];
-                $scope.numOfAttributes = 0;
-                $scope.numOfActions = 0;
-                $scope.numOfConditions = 0;
-                $scope.all_conditions = [];
-                $scope.name = '';
-                $scope.showObjectDetails(newObject);
-                $scope.hideArea("actionsEditAreaObject");
-                $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newObject));
-            }
-        };
+                    $scope.objects.push(newObject);
+                    $scope.all_attrs = [];
+                    $scope.all_acts_Object = [];
+                    $scope.numOfAttributes = 0;
+                    $scope.numOfActions = 0;
+                    $scope.numOfConditions = 0;
+                    $scope.all_conditions = [];
+                    $scope.objectName = '';
+                    $scope.showObjectDetails(newObject);
+                    $scope.hideArea("actionsEditAreaObject");
+                    $scope.hideArea("actionsEditAreaBehavior");
+                    sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newObject));
+                }
+            };
 
         $scope.deleteObject = function(object){
             var index =  $scope.objects.indexOf(object);
@@ -380,29 +381,29 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.showArea("objectEditArea");
         };
 
-        // Behavior Creation //
-        $scope.addBehavior = function(){
-            if ($scope.name == '' || $scope.name =='Invalid Name!'){
-                $scope.name = 'Invalid Name!'
-            }
-            else {
-                var newBehavior = {
-                    name: $scope.name,
-                    actions: $scope.all_acts_Behavior.filter($scope.isValidActionBehavior)
-                    //TODO - add conditions: $scope.all_conditions.filter($scope.isValidConditionBehavior)
-                };
-                $scope.behaviors.push(newBehavior);
-                $scope.all_acts_Behavior = [];
-                $scope.all_conditions = [];
-                $scope.numOfActions = 0;
-                $scope.numOfConditions = 0;
-                $scope.name = '';
-                $scope.showBehaviorDetails(newBehavior);
-                $scope.hideArea("actionsEditAreaObject");
-                $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newBehavior));
-            }
-        };
+            // Behavior Creation //
+            $scope.addBehavior = function(){
+                if ($scope.behaviorName == '' || $scope.behaviorName =='Invalid Name!'){
+                    $scope.behaviorName = 'Invalid Name!'
+                }
+                else {
+                    var newBehavior = {
+                        name: $scope.behaviorName,
+                        actions: $scope.all_acts_Behavior.filter($scope.isValidActionBehavior)
+                        //TODO - add conditions: $scope.all_conditions.filter($scope.isValidConditionBehavior)
+                    };
+                    $scope.behaviors.push(newBehavior);
+                    $scope.all_acts_Behavior = [];
+                    $scope.all_conditions = [];
+                    $scope.numOfActions = 0;
+                    $scope.numOfConditions = 0;
+                    $scope.behaviorName = '';
+                    $scope.showBehaviorDetails(newBehavior);
+                    $scope.hideArea("actionsEditAreaObject");
+                    $scope.hideArea("actionsEditAreaBehavior");
+                    sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newBehavior));
+                }
+            };
 
         $scope.editBehaviorDetails = function(behavior){
             $scope.currentBehavior = behavior;

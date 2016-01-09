@@ -101,7 +101,7 @@ public class MongoDB implements Database {
             BasicDBObject searchQuery = new BasicDBObject();
             collection.getCollection(key).update(searchQuery, newDocument);
         }
-        printApplicationDataToLog(appId, "Updated");
+        printApplicationDataToLog(appId);
     }
 
     @Override
@@ -111,15 +111,14 @@ public class MongoDB implements Database {
         String platforms = json.getString("platforms");
         addData(id, name, "name", new JSONObject("{name:" + name +"}").toString());
         addData(id, name, "platforms", new JSONObject("{platforms:" + platforms +"}").toString());
-        printApplicationDataToLog(id, "Added");
     }
 
-    private void printApplicationDataToLog(String appId, String action) throws JSONException {
+    private void printApplicationDataToLog(String appId) throws JSONException {
         DBObject name = getData(appId, "name").find().one();
         JSONObject jsonName = new JSONObject(String.format("%s",name));
         DBObject platforms = getData(appId, "platforms").find().one();
         JSONObject jsonPlatforms = new JSONObject(String.format("%s",platforms));
-        Logger.INFO(action + " application in Database: " + appId + " -> " + jsonName.getString("name") + " -> " + jsonPlatforms.getString("platforms"));
+        Logger.INFO("updated application in Database: " + appId + " -> " + jsonName.getString("name") + " -> " + jsonPlatforms.getString("platforms"));
     }
 
     @Override
