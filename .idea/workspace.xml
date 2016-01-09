@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
+    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="bugs">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/angular_index.js" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
     <ignored path="HAPPY Server.iws" />
@@ -1135,13 +1133,7 @@
       <workItem from="1450693835361" duration="9953000" />
       <workItem from="1451305192521" duration="3597000" />
       <workItem from="1451910916324" duration="47654000" />
-      <workItem from="1452336356000" duration="24786000" />
-    </task>
-    <task id="LOCAL-00012" summary="Refined code:&#10; Changed form elements names and ids.&#10; Created strings.js to hold string constants.&#10; Reformed sent message to JSON format.&#10; &#10; TODO:&#10; Server should receive the message correctly.&#10;">
-      <created>1446992253534</created>
-      <option name="number" value="00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1446992253534</updated>
+      <workItem from="1452336356000" duration="24822000" />
     </task>
     <task id="LOCAL-00013" summary="Added logger and fixed receiving of messages by the server.">
       <created>1447004553921</created>
@@ -1431,11 +1423,17 @@
       <option name="project" value="LOCAL" />
       <updated>1452362575568</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="bugs">
+      <created>1452366396067</created>
+      <option name="number" value="00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1452366396067</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="284413000" />
+    <option name="totallyTimeSpent" value="284449000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
