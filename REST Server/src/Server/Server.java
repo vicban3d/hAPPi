@@ -16,7 +16,7 @@ import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-
+import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.io.IOException;
 public class Server {
 
     private static Facade facade;
-    private String currentAppName = "";
+    private String currentApp = "";
 
     /**
      * Returns the main page of the application - "index.html".
@@ -51,11 +51,14 @@ public class Server {
     @Path(Strings.PATH_CREATE_APP)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
-    public String createApplication(String data) {
+    public String createApplication(String data){
+        JSONObject json;
+        String appName;
         try {
-            JSONObject json = new JSONObject(data);
-            this.currentAppName = json.getString("name");
+            json = new JSONObject(data);
+            appName = json.getString("name");
             facade.createApplication(data);
+            this.currentApp = data;
         } catch (IOException e) {
             Logger.ERROR("Failed to create application", e.getMessage());
             return "Error: failed to create application!";
@@ -66,13 +69,14 @@ public class Server {
             Logger.ERROR("Incorrect JSON format", e.getMessage());
             return "Error: failed to create application!";
         }
-        return "The application " + currentAppName + " was created successfully";
+            return "The application " + appName + " was created successfully";
+
     }
 
     /**
      * Add an android platform to an application
      */
-    @POST
+    /*@POST
     @Path(Strings.PATH_ADD_PLATFORM_ANDROID)
     @Produces(MediaType.TEXT_XML)
     public String addAndroidModule() {
@@ -85,11 +89,11 @@ public class Server {
         }
 
     }
-
+*/
     /**
      * Add an android platform to an application
      */
-    @POST
+   /* @POST
     @Path(Strings.PATH_ADD_PLATFORM_IOS)
     @Produces(MediaType.TEXT_XML)
     public String addIOSModule() {
@@ -101,11 +105,11 @@ public class Server {
             return "Error: failed to create object!";
         }
     }
-
+*/
     /**
      * Add an android platform to a an application
      */
-    @POST
+   /* @POST
     @Path(Strings.PATH_ADD_PLATFORM_WINDOWS_PHONE)
     @Produces(MediaType.TEXT_XML)
     public String addWindowsPhoneModule() {
@@ -118,21 +122,27 @@ public class Server {
         }
 
     }
-
+*/
     /**
      * Build an application
      */
     @POST
     @Path(Strings.PATH_BUILD_APP)
     @Produces(MediaType.TEXT_XML)
-    public String buildApplication() {
+    public String buildApplication() throws CordovaRuntimeException, JSONException{
+        JSONObject json;
         try {
-            facade.buildApplication(currentAppName);
-            return currentAppName + " built successfully!";
+        json = new JSONObject(currentApp);
+        facade.buildApplication(json.getString("id"));
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed to build application", e.getMessage());
-            return "Error building application " + currentAppName;
+            return "Error building application " + currentApp;
         }
+        catch (JSONException e) {
+            Logger.ERROR("Incorrect data format", e.getMessage());
+            return "Error building application " + currentApp;
+        }
+        return json.getString("name") + " built successfully!";
     }
 
     /**
@@ -142,13 +152,11 @@ public class Server {
     @Path(Strings.PATH_CREATE_ENTITY)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
-    public String createEntity(String data) {
+    public String createEntity(String data){
         try {
-            facade.createEntity(currentAppName, data);
-        } catch (IOException e) {
-            Logger.ERROR("Failed to create object", e.getMessage());
-            return "Error: failed to create object!";
-        } catch (JSONException e) {
+        JSONObject json = new JSONObject(currentApp);
+        facade.createEntity(json.getString("id"), json.getString("name"), data);
+        }  catch (JSONException e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create object!";
         }
@@ -162,13 +170,9 @@ public class Server {
     @Path(Strings.PATH_REMOVE_ENTITY)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
-    public String removeEntity(String data) {
-        try {
-            facade.removeEntity(currentAppName, data);
-        } catch (IOException e) {
-            Logger.ERROR("Failed to remove object", e.getMessage());
-            return "Error: failed to remove object!";
-        }
+    public String removeEntity(String data) throws JSONException{
+        JSONObject json = new JSONObject(currentApp);
+        facade.removeEntity(json.getString("id"), json.getString("name"), data);
         return "Object Removed!";
     }
 
@@ -180,13 +184,19 @@ public class Server {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
     public String removeApplication(String data) {
-        try {
-            facade.removeApplication(data);
-        } catch (JSONException e) {
-            Logger.ERROR("Failed to remove application", e.getMessage());
-            return "Error: failed to remove application!";
-        }
+        facade.removeApplication(data);
         return "Application Removed!";
+    }
+
+    @POST
+    @Path(Strings.PATH_UPDATE_APP)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_XML)
+    public String UpdateApplication(String data) throws JSONException, CordovaRuntimeException, IOException{
+        facade.updateApplication(data);
+        this.currentApp = data;
+        JSONObject json = new JSONObject(data);
+        return "The application " + json.getString("name") + " was updated successfully";
     }
 
     /**

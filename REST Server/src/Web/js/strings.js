@@ -16,5 +16,6 @@ var Paths = {
     ADD_PLATFORM_IOS: "/addIOS",
     ADD_PLATFORM_WINDOWS_PHONE: "/addWindowsPhone",
     EMULATE_ANDROID: "/emulateAndroid",
-    BUILD_APP: "/build"
+    BUILD_APP: "/build",
+    UPDATE_APP: "/updateApplication"
 };

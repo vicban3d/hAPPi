@@ -41,6 +41,7 @@ public class Strings {
     public static final String PATH_CREATE_ENTITY = "/createEntity";
     public static final String PATH_REMOVE_ENTITY = "/removeEntity";
     public static final String PATH_REMOVE_APP = "/removeApplication";
+    public static final String PATH_UPDATE_APP = "/updateApplication";
     public static final String DB_NAME = "hAPPiDB";
     public static final String DB_PORT = "27017";
 }
