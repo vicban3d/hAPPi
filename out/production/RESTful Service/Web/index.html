@@ -153,14 +153,14 @@
             </div>
 
             <div data-ng-show="areaFlags['applicationCreateArea']">
-            <form class="editArea" data-ng-submit="addApplication()" data-ng-init="name=''; platforms=[]">
-                Name: <input type="text" data-ng-model="name" title="Application Name">
-                <hr>
-                <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
-                <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
-                <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>
-                <button type="submit">Create Application</button>
-            </form>
+                <form class="editArea" data-ng-submit="addApplication()" data-ng-init="name=''; platforms=[]">
+                    Name: <input type="text" data-ng-model="name" title="Application Name">
+                    <hr>
+                    <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
+                    <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
+                    <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>
+                    <button type="submit">Create Application</button>
+                </form>
             </div>
 
             <div data-ng-show="areaFlags['applicationEditArea']">

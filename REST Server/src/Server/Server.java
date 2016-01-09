@@ -51,25 +51,25 @@ public class Server {
     @Path(Strings.PATH_CREATE_APP)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
-    public String createApplication(String data) throws JSONException, CordovaRuntimeException {
+    public String createApplication(String data){
         JSONObject json;
+        String appName;
         try {
-            json = new JSONObject(currentApp);
-        this.currentApp = data;
-        facade.createApplication(data);
-    } catch (IOException e) {
-        Logger.ERROR("Failed to create application", e.getMessage());
-        return "Error: failed to create application!";
-    } catch (CordovaRuntimeException e) {
-        Logger.ERROR("Failed execute cordova command", e.getMessage());
-        return "Error: failed to create application!";
-    } catch (JSONException e) {
-        Logger.ERROR("Incorrect JSON format", e.getMessage());
-        return "Error: failed to create application!";
-    }
-
-
-        return "The application " + json.getString("name") + " was created successfully";
+            json = new JSONObject(data);
+            appName = json.getString("name");
+            facade.createApplication(data);
+            this.currentApp = data;
+        } catch (IOException e) {
+            Logger.ERROR("Failed to create application", e.getMessage());
+            return "Error: failed to create application!";
+        } catch (CordovaRuntimeException e) {
+            Logger.ERROR("Failed execute cordova command", e.getMessage());
+            return "Error: failed to create application!";
+        } catch (JSONException e) {
+            Logger.ERROR("Incorrect JSON format", e.getMessage());
+            return "Error: failed to create application!";
+        }
+            return "The application " + appName + " was created successfully";
 
     }
 
@@ -194,6 +194,7 @@ public class Server {
     @Produces(MediaType.TEXT_XML)
     public String UpdateApplication(String data) throws JSONException, CordovaRuntimeException, IOException{
         facade.updateApplication(data);
+        this.currentApp = data;
         JSONObject json = new JSONObject(data);
         return "The application " + json.getString("name") + " was updated successfully";
     }

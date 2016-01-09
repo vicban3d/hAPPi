@@ -68,8 +68,8 @@ public class hAPPiFacade implements Facade {
     private void updateApplicationInDB(JSONObject json) throws JSONException {
         LinkedList<JSONObject> elementsToUpdate = new LinkedList<JSONObject>();
         LinkedList<String> elements = new LinkedList<>();
-        elements.add("Name");
-        elements.add("Platforms");
+        elements.add("name");
+        elements.add("platforms");
         JSONObject j1 = new JSONObject();
         j1.put("name",json.getString("name"));
         elementsToUpdate.add(j1);
@@ -127,7 +127,7 @@ public class hAPPiFacade implements Facade {
     @Override
     public void createEntity(String appId, String appName, String entity) throws JSONException{
 
-        database.addData(appId, appName, "Entities", entity);
+        database.addData(appId, appName, "entities", entity);
         Entity newEntity = new Entity(entity);
         String jsValue = jsCreator.create(newEntity);
         String path = Strings.PATH_APPS + "\\" + appName + "\\www\\js\\entities.js";
@@ -136,7 +136,7 @@ public class hAPPiFacade implements Facade {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            DBCollection entities = database.getData(appId, "Entities");
+            DBCollection entities = database.getData(appId, "entities");
         DBCursor c =  entities.find();
 
         String result = "";
@@ -166,7 +166,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void removeEntity(String appId, String appName, String entity) {
-        database.removeData(appId, "Entities", entity);
+        database.removeData(appId, "entities", entity);
         Entity newEntity = new Entity(entity);
         String jsValue = jsCreator.create(newEntity);
         String path = Strings.PATH_APPS + "\\" + appName + "\\www\\js\\entities.js";

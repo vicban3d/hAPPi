@@ -109,21 +109,17 @@ public class MongoDB implements Database {
         String id = json.getString("id");
         String name = json.getString("name");
         String platforms = json.getString("platforms");
-        addData(id, name, "Name", new JSONObject("{name:" + name +"}").toString());
-        addData(id, name, "Platforms", new JSONObject("{platforms:" + platforms +"}").toString());
+        addData(id, name, "name", new JSONObject("{name:" + name +"}").toString());
+        addData(id, name, "platforms", new JSONObject("{platforms:" + platforms +"}").toString());
         printApplicationDataToLog(id, "Added");
     }
 
     private void printApplicationDataToLog(String appId, String action) throws JSONException {
-        DBObject name = getData(appId, "Name").find().one();
+        DBObject name = getData(appId, "name").find().one();
         JSONObject jsonName = new JSONObject(String.format("%s",name));
-        DBObject platforms = getData(appId, "Platforms").find().one();
+        DBObject platforms = getData(appId, "platforms").find().one();
         JSONObject jsonPlatforms = new JSONObject(String.format("%s",platforms));
-        if(action.equals("Added"))
-            Logger.INFO(action + " application in Database: " + appId + " -> " + jsonName.getString("name") + " -> " + jsonPlatforms.getString("platforms"));
-        else
-            Logger.INFO(action + " application in Database: " + appId + " -> " + jsonName.getString("Name") + " -> " + jsonPlatforms.getString("Platforms"));
-
+        Logger.INFO(action + " application in Database: " + appId + " -> " + jsonName.getString("name") + " -> " + jsonPlatforms.getString("platforms"));
     }
 
     @Override
