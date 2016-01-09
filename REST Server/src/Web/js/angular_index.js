@@ -260,7 +260,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showArea("applicationEditArea");
 
                /* $scope.hideArea("menuButtonsArea");
-                $scope.showArea("centralArea");c
+                $scope.showArea("centralArea");
                 $scope.showArea("applicationListArea");*/
             };
 
