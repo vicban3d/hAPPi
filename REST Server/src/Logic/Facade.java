@@ -10,6 +10,8 @@ import org.codehaus.jettison.json.JSONException;
 
 import java.io.IOException;
 
+import java.io.IOException;
+
 /**
  * A facade interface which allows the connection layer to communicate with the business layer.
  */
@@ -50,9 +52,9 @@ public interface Facade {
      * @param application - the name of the application.
      * @param entity - the JSON compatible parameters of the entity.
      */
-    void createEntity(String application, String entity) throws IOException, JSONException;
+    void createEntity(String appId, String appName, String entity) throws JSONException;
 
-    void removeEntity(String application, String entity) throws IOException;
+    void removeEntity(String appId, String appName, String entity);
 
     /**
      * Initiates a connection to the database.
@@ -61,5 +63,9 @@ public interface Facade {
 
     void clearDatabase();
 
-    void removeApplication(String currentAppName) throws JSONException;
+    void removeApplication(String currentAppName);
+
+    void updateApplication(String application) throws CordovaRuntimeException, IOException;
+
+    void removePlatforms(String application);
 }

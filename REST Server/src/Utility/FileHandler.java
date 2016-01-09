@@ -95,4 +95,16 @@ public class FileHandler {
         folder.delete();
 
     }
+
+    public static void createFolder(File file) {
+        file.mkdir();
+    }
+
+    public static void renameFolder(String oldName, String newName) throws IOException{
+        File oldFile = new File(Strings.PATH_APPS + "\\" + oldName);
+        File newFile = new File(Strings.PATH_APPS + "\\" + newName);
+        if (newFile.exists() && !oldFile.equals(newFile))
+            throw new java.io.IOException("file exists");
+        oldFile.renameTo(newFile);
+    }
 }

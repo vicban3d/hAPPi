@@ -34,4 +34,5 @@ public interface AppCompiler {
      * @param applicationName - the name of the application to build.
      */
     void buildApplication(String applicationName) throws CordovaRuntimeException;
+
 }
