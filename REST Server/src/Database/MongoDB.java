@@ -82,7 +82,7 @@ public class MongoDB implements Database {
     @Override
     public String getApplicationNameById(String appId) throws JSONException{
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        DBCollection collection = db.getCollection(appId).getCollection("Name");
+        DBCollection collection = db.getCollection(appId).getCollection("name");
         DBObject cursor = collection.findOne();
         JSON json = new JSON();
         String result = json.serialize(cursor);

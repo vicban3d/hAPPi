@@ -160,7 +160,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 if ($scope.name == '' || $scope.name =='Invalid Name!') {
                     $scope.name = 'Invalid Name!'
                 }
-               alert("hhh");
                 $scope.getPlatform();
                 var newApplication = {id: $scope.currentApplication.id ,name: $scope.name, platforms: $scope.platforms};//TODO : change the name to application or object name
                 $scope.message = "Updating application...";
