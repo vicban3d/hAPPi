@@ -149,8 +149,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         };
 
         $scope.deleteApplication = function(application){
-            var index =  $scope.applications.indexOf(application.id);
-            $scope.applications.splice(index, 1);
+            delete $scope.applications[application.id];
             if (application == $scope.currentApplication){
                 $scope.currentApplication = {};
                 $scope.currentAppURL = '';
@@ -306,17 +305,17 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showObjectDetails(newObject);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newObject));
+                sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject));
             }
         };
 
         $scope.deleteObject = function(object){
-            var index =  $scope.applications[currentApplication.id].objects.indexOf(object);
-            $scope.applications[currenrapplication.id].objects.splice(index, 1);
+            var index =  $scope.applications[$scope.currentApplication.id].objects.indexOf(object);
+            $scope.applications[$scope.currentApplication.id].objects.splice(index, 1);
             if (object == $scope.currentObject){
                 $scope.currentObject = {};
             }
-            sendPOSTRequest(Paths.REMOVE_ENTITY, angular.toJson(object));
+            sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object));
             $scope.hideArea("objectDetailsArea");
         };
 
@@ -407,7 +406,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showBehaviorDetails(newBehavior);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newBehavior));
+                sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newBehavior));
             }
         };
 
@@ -527,12 +526,12 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         };
 
         $scope.deleteBehavior = function(behavior){
-            var index =  $scope.applications[currentApplication.id].behaviors.indexOf(behavior);
-            $scope.applications[currentApplication.id].behaviors.splice(index, 1);
+            var index =  $scope.applications[$scope.currentApplication.id].behaviors.indexOf(behavior);
+            $scope.applications[$scope.currentApplication.id].behaviors.splice(index, 1);
             if (behavior == $scope.currentBehavior){
                 $scope.currentBehavior = {};
             }
-            sendPOSTRequest(Paths.REMOVE_ENTITY, angular.toJson(behavior));
+            sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(behavior));
             $scope.hideArea("behaviorDetailsArea");
         };
 
