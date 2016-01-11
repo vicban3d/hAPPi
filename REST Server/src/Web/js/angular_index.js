@@ -602,6 +602,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.applications[application.id].platforms.push(application.platforms);
         };
 
+
         // Release //
         $scope.releaseBuildApplication = function(application){
             alert("Building " + application);
