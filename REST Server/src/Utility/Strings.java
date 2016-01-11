@@ -34,12 +34,11 @@ public class Strings {
 
     public static final String PATH_MAIN = "/main";
     public static final String PATH_CREATE_APP = "/createApplication";
-    public static final String PATH_ADD_PLATFORM_ANDROID = "/addAndroid";
-    public static final String PATH_ADD_PLATFORM_IOS = "/addIOS";
-    public static final String PATH_ADD_PLATFORM_WINDOWS_PHONE = "/addWindowsPhone";
     public static final String PATH_BUILD_APP = "/build";
-    public static final String PATH_CREATE_ENTITY = "/createEntity";
-    public static final String PATH_REMOVE_ENTITY = "/removeEntity";
+    public static final String PATH_CREATE_OBJECT = "/createObject";
+    public static final String PATH_CREATE_BEHAVIOR = "/createBehavior";
+    public static final String PATH_REMOVE_BEHAVIOR = "/removeBehavior";
+    public static final String PATH_REMOVE_OBJECT = "/removeObject";
     public static final String PATH_REMOVE_APP = "/removeApplication";
     public static final String PATH_UPDATE_APP = "/updateApplication";
     public static final String DB_NAME = "hAPPiDB";

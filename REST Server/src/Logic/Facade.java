@@ -43,18 +43,19 @@ public interface Facade {
 
     /**
      * Compiles and builds the application.
-     * @param applicationName - the name of the application to build.
+     * @param appId - the name of the application to build.
      */
-    void buildApplication(String applicationName) throws CordovaRuntimeException;
+    void buildApplication(String appId) throws CordovaRuntimeException, JSONException;
 
     /**
-     * Creates a new entity in the given application.
-     * @param application - the name of the application.
-     * @param entity - the JSON compatible parameters of the entity.
+     * Creates a new object in the given application.
+     * @param appId - the id of the application.
+     * @param appName - the name of the application.
+     * @param object - the JSON compatible parameters of the object.
      */
-    void createEntity(String appId, String appName, String entity) throws JSONException;
+    void createObject(String appId, String appName, String object) throws JSONException;
 
-    void removeEntity(String appId, String appName, String entity);
+    void removeObject(String appId, String appName, String entity);
 
     /**
      * Initiates a connection to the database.
@@ -68,4 +69,8 @@ public interface Facade {
     void updateApplication(String application) throws CordovaRuntimeException, IOException;
 
     void removePlatforms(String application);
+
+    void createBehavior(String appId, String appName, String behavior);
+
+    void removeBehavior(String appId, String appName, String behavior);
 }

@@ -6,7 +6,6 @@
 package Server;
 
 import Exceptions.CordovaRuntimeException;
-import Exceptions.ServerConnectionErrorException;
 import Logic.Facade;
 import Logic.hAPPiFacade;
 import Utility.Logger;
@@ -16,7 +15,7 @@ import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import java.util.List;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -129,33 +128,34 @@ public class Server {
     @POST
     @Path(Strings.PATH_BUILD_APP)
     @Produces(MediaType.TEXT_XML)
-    public String buildApplication() throws CordovaRuntimeException, JSONException{
+    public String buildApplication(String application) throws CordovaRuntimeException, JSONException{
         JSONObject json;
         try {
-        json = new JSONObject(currentApp);
-        facade.buildApplication(json.getString("id"));
+            System.out.println("Started building " + application);
+            json = new JSONObject(application);
+            facade.buildApplication(json.getString("id"));
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed to build application", e.getMessage());
-            return "Error building application " + currentApp;
+            return "Error building application " + application;
         }
         catch (JSONException e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
-            return "Error building application " + currentApp;
+            return "Error building application " + application;
         }
         return json.getString("name") + " built successfully!";
     }
 
     /**
-     * Creates a new entity for the user.
+     * Creates a new object for the user.
      */
     @POST
-    @Path(Strings.PATH_CREATE_ENTITY)
+    @Path(Strings.PATH_CREATE_OBJECT)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
-    public String createEntity(String data){
+    public String createObject(String data){
         try {
         JSONObject json = new JSONObject(currentApp);
-        facade.createEntity(json.getString("id"), json.getString("name"), data);
+        facade.createObject(json.getString("id"), json.getString("name"), data);
         }  catch (JSONException e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create object!";
@@ -164,20 +164,48 @@ public class Server {
     }
 
     /**
-     * Creates a new entity for the user.
+     * Creates a new object for the user.
      */
     @POST
-    @Path(Strings.PATH_REMOVE_ENTITY)
+    @Path(Strings.PATH_REMOVE_OBJECT)
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_XML)
-    public String removeEntity(String data) throws JSONException{
+    public String removeObject(String data) throws JSONException{
         JSONObject json = new JSONObject(currentApp);
-        facade.removeEntity(json.getString("id"), json.getString("name"), data);
+        facade.removeObject(json.getString("id"), json.getString("name"), data);
         return "Object Removed!";
     }
 
+    @POST
+    @Path(Strings.PATH_CREATE_BEHAVIOR)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_XML)
+    public String createBehavior(String data){
+        try {
+            JSONObject json = new JSONObject(currentApp);
+            facade.createBehavior(json.getString("id"), json.getString("name"), data);
+        }  catch (JSONException e) {
+            Logger.ERROR("Incorrect data format", e.getMessage());
+            return "Error: failed to create object!";
+        }
+        return "Object added!";
+    }
+
     /**
-     * Creates a new entity for the user.
+     * Creates a new object for the user.
+     */
+    @POST
+    @Path(Strings.PATH_REMOVE_BEHAVIOR)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_XML)
+    public String removeBehavior(String data) throws JSONException{
+        JSONObject json = new JSONObject(currentApp);
+        facade.removeBehavior(json.getString("id"), json.getString("name"), data);
+        return "Behavior Removed!";
+    }
+
+    /**
+     * Creates a new object for the user.
      */
     @POST //change to delete
     @Path(Strings.PATH_REMOVE_APP)
