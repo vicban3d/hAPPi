@@ -1,67 +1,65 @@
 var main_module = angular.module('main', []);
 
 main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
-    function($scope, $timeout, $sce) {
+    function($scope) {
 
-        var PATH_APPS = "http://localhost:80/Applications/";
-        var PATH_APP_INDEX = "/www/index.html";
-
-        // Variable Declaration //
-        $scope.areaFlags = [];
-        $scope.areaFlags["titleArea"] = true;
-        $scope.areaFlags["workArea"] = true;
-        $scope.areaFlags["centralArea"] = true;
-        $scope.areaFlags["sideArea"] = true;
-        $scope.areaFlags["messageArea"] = false;
-        $scope.areaFlags["menuArea"] = true;
-        $scope.areaFlags["menuButtonsArea"] = true;
-        $scope.areaFlags["applicationListArea"] = false;
-        $scope.areaFlags["applicationDetailsArea"] = false;
-        $scope.areaFlags["applicationEditArea"] = false;
-        $scope.areaFlags["applicationCreateArea"] = false;
-        $scope.areaFlags["objectAddArea"] = false;
-        $scope.areaFlags["objectDetailsArea"] = false;
-        $scope.areaFlags["objectEditArea"] = false;
-        $scope.areaFlags["objectCreateArea"] = false;
-        $scope.areaFlags["behaviorAddArea"] = false;
-        $scope.areaFlags["behaviorDetailsArea"] = false;
-        $scope.areaFlags["behaviorEditArea"] = false;
-        $scope.areaFlags["actionEditArea"] = false;
-        $scope.areaFlags["designArea"] = false;
+            // Variable Declaration //
+            $scope.areaFlags = [];
+            $scope.areaFlags["titleArea"] = true;
+            $scope.areaFlags["workArea"] = true;
+            $scope.areaFlags["centralArea"] = true;
+            $scope.areaFlags["sideArea"] = true;
+            $scope.areaFlags["messageArea"] = false;
+            $scope.areaFlags["menuArea"] = true;
+            $scope.areaFlags["menuButtonsArea"] = true;
+            $scope.areaFlags["applicationListArea"] = false;
+            $scope.areaFlags["applicationDetailsArea"] = false;
+            $scope.areaFlags["applicationEditArea"] = false;
+            $scope.areaFlags["applicationCreateArea"] = false;
+            $scope.areaFlags["objectAddArea"] = false;
+            $scope.areaFlags["objectDetailsArea"] = false;
+            $scope.areaFlags["objectEditArea"] = false;
+            $scope.areaFlags["objectCreateArea"] = false;
+            $scope.areaFlags["behaviorAddArea"] = false;
+            $scope.areaFlags["behaviorDetailsArea"] = false;
+            $scope.areaFlags["behaviorEditArea"] = false;
+            $scope.areaFlags["actionEditArea"] = false;
+            $scope.areaFlags["designArea"] = false;
+            $scope.areaFlags["releaseArea"] = false;
 
         $scope.menuButtons = [
             {'label': 'Apps',        'function': function(){$scope.menuHome()}},
             {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
             {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
             {'label': 'Design',         'function': function(){$scope.menuDesign()}},
-            {'label': 'Release',        'function':  function(){}}
+            {'label': 'Release',        'function':  function(){$scope.menuRelease()}}
         ];
 
-        $scope.basic_types = ["Number", "Text"];
-        $scope.conditions = ["Or", "And"];
-        $scope.logic_types = ["Bigger Than", "Smaller Than"];
-        $scope.numOfAttributes = 0;
-        $scope.numOfActions = 0;
-        $scope.currentObject = '';
-        $scope.all_attrs = [];
-        $scope.all_acts_Object = []
-        $scope.all_conditions = [];
-        $scope.all_acts_Behavior = [];
-        $scope.objects = [];
-        $scope.applications = [];
-        $scope.currentApplication = {id: "", name: $scope.applicationName, platforms: $scope.platforms};
-        $scope.platforms = [];
-        $scope.currentBehavior = '';
-        $scope.behaviors = [];
-        $scope.currentAppURL = '';
-        $scope.instances = [];
-        $scope.applicationName = '';
-        $scope.behaviorName = '';
-        $scope.objectName = '';
-        $scope.applications = [];
-        $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
-        $scope.emulatorOutput = '';
+            $scope.basic_types = ["Number", "Text"];
+            $scope.conditions = ["Or", "And"];
+            $scope.logic_types = ["Greater Than", "Less Than"];
+
+            $scope.numOfAttributes = 0;
+            $scope.numOfActions = 0;
+            $scope.currentObject = '';
+            $scope.all_attrs = [];
+            $scope.all_acts_Object = [];
+            $scope.all_conditions = [];
+            $scope.all_acts_Behavior = [];
+            $scope.objects = [];
+            $scope.applications = [];
+            $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};            $scope.platforms = [];
+            $scope.currentBehavior = '';
+            $scope.behaviors = [];
+            $scope.currentAppURL = '';
+            $scope.instances = [];
+            $scope.name = '';
+            $scope.applications = [];
+            $scope.platforms = [];
+            $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
+            $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
+            $scope.emulatorOutput = '';
+
         $scope.showBehaviors = true;
         $scope.showInstance = false;
 
@@ -85,6 +83,11 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.menuDesign = function(){
             $scope.hideAll();
             $scope.showArea("designArea");
+        };
+
+        $scope.menuRelease = function(){
+            $scope.hideAll();
+            $scope.showArea("releaseArea");
         };
 
         $scope.hideAll = function () {
@@ -323,7 +326,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         $scope.addCondition = function(){
             $scope.numOfConditions+=1;
-        }
+        };
 
         $scope.addActionObject = function(){
             $scope.showArea("actionsEditAreaObject");
@@ -404,7 +407,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showBehaviorDetails(newBehavior);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newBehavior));
+                sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior));
             }
         };
 
@@ -416,6 +419,9 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             if (actionName == "Sum of All"){
                 return function (operand){
                     var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+                    if (index > -1){
+
+                    }
                     var result = 0;
                     for (var i=0; i<$scope.instances[object.name].length; i++){
                         result += parseFloat($scope.instances[object.name][i][index]);
@@ -436,7 +442,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             } else if (actionName == "Minimum"){
                 return function (operand){
                     var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    var result = 0;
+                    var result = Number.MAX_VALUE;
                     for (var i=0; i<$scope.instances[object.name].length; i++){
                         if (result > parseFloat($scope.instances[object.name][i][index])) {
                             result = parseFloat($scope.instances[object.name][i][index]);
@@ -579,5 +585,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.emulatorOutput = action(operand1);
         };
         // Release //
-
+        $scope.releaseBuildApplication = function(application){
+            alert("Building " + application);
+            sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application))
+        }
     }]);

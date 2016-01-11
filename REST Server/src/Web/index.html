@@ -70,11 +70,7 @@
                 Design
             </div>
             <img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/phone.png">
-            <!--<div class="designAreaToolbar" ondragover="allowDrop(event)">-->
-            <!--<img class="designAreaToolbarButton" src="http://localhost:5555/img/trash.png" ondrop="dropDelete(event)" ondragover="allowDrop(event)">-->
-            <!--<img class="designAreaToolbarButton" src="http://localhost:5555/img/grid.png">-->
-            <!--</div>-->
-            <div class="designAreaEmulator designAreaGrid">
+            <div id="emulatedCode" class="designAreaEmulator designAreaGrid">
                 <div class="designAreaTabs">
                     <button class="designAreaTab" ng-repeat="object in objects track by $index" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</button>
                     <br><button class="designAreaTab" data-ng-click="designDisplayBehaviorPage()">F></button>
@@ -112,6 +108,15 @@
                     <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{emulatorOutput}}</label>
                 </div>
             </div>
+        </div>
+        <div class="centralAreaComponent releaseArea" ng-show="areaFlags['releaseArea']">
+            <div class="componentMainTitle">
+                Release
+            </div>
+            <div class="componentButton" data-ng-click="releaseBuildApplication(currentApplication)">
+                <b>Build</b>
+            </div>
+            {{currentApplication}}
         </div>
     </div>
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
@@ -224,7 +229,7 @@
                 <select ng-model="all_acts_Behavior[numOfActions].operator" ng-options="i for i in behaviorOperators"
                         title="Operator"></select>
                 <select ng-model="all_acts_Behavior[numOfActions].operandAttribute"
-                        ng-options="item as item.name for item in all_acts_Behavior[numOfActions].operandObject.attributes"
+                        ng-options="item as item.name for item in all_acts_Behavior[numOfActions].operandObject.attributes.concat(all_acts_Behavior[numOfActions].operandObject.actions)"
                         title="operandAttribute" ></select>
                 <hr>
                 <!--Condition:

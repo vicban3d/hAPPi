@@ -76,6 +76,9 @@ public class MongoDB implements Database {
     public DBCollection getData(String projectId, String categoryName){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
         DBCollection project = db.getCollection(projectId);
+        if (categoryName == null){
+            return project;
+        }
         return project.getCollection(categoryName);
     }
 
