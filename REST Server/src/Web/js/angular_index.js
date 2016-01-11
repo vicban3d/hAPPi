@@ -1,31 +1,32 @@
 var main_module = angular.module('main', []);
 
 main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
-    function($scope) {
+    function($scope, $timeout, $sce) {
 
-            // Variable Declaration //
-            $scope.areaFlags = [];
-            $scope.areaFlags["titleArea"] = true;
-            $scope.areaFlags["workArea"] = true;
-            $scope.areaFlags["centralArea"] = true;
-            $scope.areaFlags["sideArea"] = true;
-            $scope.areaFlags["messageArea"] = false;
-            $scope.areaFlags["menuArea"] = true;
-            $scope.areaFlags["menuButtonsArea"] = true;
-            $scope.areaFlags["applicationListArea"] = false;
-            $scope.areaFlags["applicationDetailsArea"] = false;
-            $scope.areaFlags["applicationEditArea"] = false;
-            $scope.areaFlags["applicationCreateArea"] = false;
-            $scope.areaFlags["objectAddArea"] = false;
-            $scope.areaFlags["objectDetailsArea"] = false;
-            $scope.areaFlags["objectEditArea"] = false;
-            $scope.areaFlags["objectCreateArea"] = false;
-            $scope.areaFlags["behaviorAddArea"] = false;
-            $scope.areaFlags["behaviorDetailsArea"] = false;
-            $scope.areaFlags["behaviorEditArea"] = false;
-            $scope.areaFlags["actionEditArea"] = false;
-            $scope.areaFlags["designArea"] = false;
-            $scope.areaFlags["releaseArea"] = false;
+
+        // Variable Declaration //
+        $scope.areaFlags = [];
+        $scope.areaFlags["titleArea"] = true;
+        $scope.areaFlags["workArea"] = true;
+        $scope.areaFlags["centralArea"] = true;
+        $scope.areaFlags["sideArea"] = true;
+        $scope.areaFlags["messageArea"] = false;
+        $scope.areaFlags["menuArea"] = true;
+        $scope.areaFlags["menuButtonsArea"] = true;
+        $scope.areaFlags["applicationListArea"] = false;
+        $scope.areaFlags["applicationDetailsArea"] = false;
+        $scope.areaFlags["applicationEditArea"] = false;
+        $scope.areaFlags["applicationCreateArea"] = false;
+        $scope.areaFlags["objectAddArea"] = false;
+        $scope.areaFlags["objectDetailsArea"] = false;
+        $scope.areaFlags["objectEditArea"] = false;
+        $scope.areaFlags["objectCreateArea"] = false;
+        $scope.areaFlags["behaviorAddArea"] = false;
+        $scope.areaFlags["behaviorDetailsArea"] = false;
+        $scope.areaFlags["behaviorEditArea"] = false;
+        $scope.areaFlags["actionEditArea"] = false;
+        $scope.areaFlags["designArea"] = false;
+        $scope.areaFlags["releaseArea"] = false;
 
         $scope.menuButtons = [
             {'label': 'Apps',        'function': function(){$scope.menuHome()}},
@@ -35,30 +36,32 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             {'label': 'Release',        'function':  function(){$scope.menuRelease()}}
         ];
 
-            $scope.basic_types = ["Number", "Text"];
-            $scope.conditions = ["Or", "And"];
-            $scope.logic_types = ["Greater Than", "Less Than"];
+        $scope.basic_types = ["Number", "Text"];
+        $scope.conditions = ["Or", "And"];
+        $scope.logic_types = ["Greater Than", "Less Than"];
 
-            $scope.numOfAttributes = 0;
-            $scope.numOfActions = 0;
-            $scope.currentObject = '';
-            $scope.all_attrs = [];
-            $scope.all_acts_Object = [];
-            $scope.all_conditions = [];
-            $scope.all_acts_Behavior = [];
-            $scope.objects = [];
-            $scope.applications = [];
-            $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};            $scope.platforms = [];
-            $scope.currentBehavior = '';
-            $scope.behaviors = [];
-            $scope.currentAppURL = '';
-            $scope.instances = [];
-            $scope.name = '';
-            $scope.applications = [];
-            $scope.platforms = [];
-            $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-            $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
-            $scope.emulatorOutput = '';
+        $scope.numOfAttributes = 0;
+        $scope.numOfActions = 0;
+        $scope.currentObject = '';
+        $scope.all_attrs = [];
+        $scope.all_acts_Object = []
+        $scope.all_conditions = [];
+        $scope.all_acts_Behavior = [];
+        $scope.currentApplication = {id: "", name: $scope.applicationName, platforms: $scope.platforms, actions: [], behaviors: []};
+        $scope.platforms = [];
+        $scope.currentBehavior = '';
+        $scope.currentAppURL = '';
+        $scope.instances = [];
+        $scope.applicationName = '';
+        $scope.behaviorName = '';
+        $scope.objectName = '';
+        $scope.applications = {};
+        $scope.platforms = [];
+        $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
+        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
+        $scope.emulatorOutput = '';
+
+
 
         $scope.showBehaviors = true;
         $scope.showInstance = false;
@@ -137,15 +140,16 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         function generateUUID() {
             var d = new Date().getTime();
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (d + Math.random()*16)%16 | 0;
+                d = Math.floor(d/16);
+                return (c=='x' ? r : (r&0x3|0x8)).toString(16);
             });
-        }
+            return uuid;
+        };
 
         $scope.deleteApplication = function(application){
-            var index =  $scope.applications.indexOf(application);
+            var index =  $scope.applications.indexOf(application.id);
             $scope.applications.splice(index, 1);
             if (application == $scope.currentApplication){
                 $scope.currentApplication = {};
@@ -161,11 +165,11 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             else{
                 $scope.getPlatform();
                 var appId = generateUUID();
-                var newApplication = {id: appId, name: $scope.applicationName, platforms: $scope.platforms};
+                var newApplication = applicationConstructor(appId, $scope.applicationName, $scope.platforms, [],[]);
                 $scope.currentApplication = newApplication;
                 $scope.message = "Create new application...";
                 $scope.showArea("messageArea");
-                $scope.applications.push(newApplication);
+                $scope.addAppToApplicationList(newApplication);
                 $scope.createApplication(appId, $scope.applicationName, $scope.platforms);
                 $scope.applicationName = '';
                 $scope.android = false;
@@ -182,11 +186,12 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             }
             else{
                 $scope.getPlatform();
-                var newApplication = {id: $scope.currentApplication.id ,name: $scope.applicationName, platforms: $scope.platforms};
+                var newApplication = applicationConstructor($scope.currentApplication.id, $scope.applicationName, $scope.platforms,
+                    $scope.currentApplication.actions, $scope.currentApplication.behaviors);
                 $scope.message = "Updating application...";
                 $scope.showArea("messageArea");
                 $scope.removeApplicationFromAppList($scope.currentApplication.id);
-                $scope.applications.push(newApplication);
+                $scope.addAppToApplicationList(newApplication);
                 $scope.updateApplication($scope.currentApplication.id, $scope.applicationName, $scope.platforms);
                 $scope.applicationName = '';
                 $scope.android = false;
@@ -202,9 +207,13 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             }
         };
 
+        var applicationConstructor = function(id, name, platforms, actions, behaviors){
+            return {id: id, name: name, platforms: platforms, actions: actions, behaviors: behaviors};
+        }
+
         $scope.removeApplicationFromAppList = function(id){
             for(var i = $scope.applications.length - 1; i >= 0; i--){
-                if($scope.applications[i].id == id){
+                if($scope.applications[i] == id){
                     $scope.applications.splice(i,1);
                 }
             }
@@ -221,19 +230,11 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 if (result.readyState != 4 && result.status != 200){
                     $scope.message = "Error";
                     $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.hideArea("messageArea");
-                        $scope.message = '';
-                    }, 5000);
                     $scope.$apply();
                 }
                 else if (result.readyState == 4 && result.status == 200){
                     $scope.message = result.responseText;
                     $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.hideArea("messageArea");
-                        $scope.message = '';
-                    }, 5000);
                     $scope.$apply();
                 }
             };
@@ -264,6 +265,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         $scope.editApplicationDetails = function(application){
             $scope.currentApplication = application;
+            //TODO
+
             $scope.showCurrentPlatforms();
             $scope.applicationName = $scope.currentApplication.name;
             $scope.showArea("applicationEditArea");
@@ -292,7 +295,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     actions: $scope.all_acts_Object.filter($scope.isValidActionObject)
                 };
 
-                $scope.objects.push(newObject);
+                $scope.addObjectToApplication(newObject);
                 $scope.all_attrs = [];
                 $scope.all_acts_Object = [];
                 $scope.numOfAttributes = 0;
@@ -308,8 +311,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         };
 
         $scope.deleteObject = function(object){
-            var index =  $scope.objects.indexOf(object);
-            $scope.objects.splice(index, 1);
+            var index =  $scope.applications[currentApplication.id].objects.indexOf(object);
+            $scope.applications[currenrapplication.id].objects.splice(index, 1);
             if (object == $scope.currentObject){
                 $scope.currentObject = {};
             }
@@ -353,7 +356,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.editObjectDetails = function(object){
             $scope.currentObject = object;
             /*$scope.objectName = $scope.currentObject.name;
-            $scope.attributes = $scope.currentObject.attributes;*/
+             $scope.attributes = $scope.currentObject.attributes;*/
             $scope.hideArea("objectDetailsArea");
             $scope.showArea("objectEditArea");
 
@@ -393,8 +396,9 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 var newBehavior = {
                     name: $scope.behaviorName,
                     actions: $scope.all_acts_Behavior.filter($scope.isValidActionBehavior)
+                    //TODO - add conditions: $scope.all_conditions.filter($scope.isValidConditionBehavior)
                 };
-                $scope.behaviors.push(newBehavior);
+                $scope.addBehaviorToApplication(newBehavior);
                 $scope.all_acts_Behavior = [];
                 $scope.all_conditions = [];
                 $scope.numOfActions = 0;
@@ -403,7 +407,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showBehaviorDetails(newBehavior);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior));
+                sendPOSTRequest(Paths.CREATE_ENTITY, angular.toJson(newBehavior));
             }
         };
 
@@ -411,81 +415,26 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.currentBehavior = behavior;
         };
 
-        function getObjectAction(actionName, operand2){
-            if (actionName == "Increase By") {
-                return function (operand) {
-                    return operand + operand2;
-                };
-            }
-            if (actionName == "Reduce By") {
-                return function (operand) {
-                    return operand -     operand2;
-                };
-            }
-            if (actionName == "Multiply By") {
-                return function (operand) {
-                    return operand * operand2;
-                };
-            }
-            if (actionName == "Divide By") {
-                return function (operand) {
-                    return operand / operand2;
-                };
-            }
-            if (actionName == "Change To") {
-                return function (operand) {
-                    return operand2;
-                };
-            }
-
-        }
-
         function getBehaviorAction(object, actionName){
-
             if (actionName == "Sum of All"){
                 return function (operand){
-                    var result = 0;
-                    var i=0;
                     var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            result += action(parseFloat($scope.instances[object.name][i][index]));
-                        }
-                    } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            result += parseFloat($scope.instances[object.name][i][index]);
-                        }
+                    if (index > -1){
+
+                    }
+                    var result = 0;
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        result += parseFloat($scope.instances[object.name][i][index]);
                     }
                     return result;
                 };
             } else if (actionName == "Maximum") {
                 return function (operand){
-                    var result = 0;
-                    var i=0;
                     var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            if (result < action(parseFloat($scope.instances[object.name][i][index]))) {
-                                result = action(parseFloat($scope.instances[object.name][i][index]));
-                            }
-                        }
-                    } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            if (result < parseFloat($scope.instances[object.name][i][index])) {
-                                result = parseFloat($scope.instances[object.name][i][index]);
-                            }
+                    var result = 0;
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        if (result < parseFloat($scope.instances[object.name][i][index])) {
+                            result = parseFloat($scope.instances[object.name][i][index]);
                         }
                     }
                     return result;
@@ -494,24 +443,9 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 return function (operand){
                     var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
                     var result = Number.MAX_VALUE;
-                    var i = 0;
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            if (result > action(parseFloat($scope.instances[object.name][i][index]))) {
-                                result = action(parseFloat($scope.instances[object.name][i][index]));
-                            }
-                        }
-                    } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            if (result > parseFloat($scope.instances[object.name][i][index])) {
-                                result = parseFloat($scope.instances[object.name][i][index]);
-                            }
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        if (result > parseFloat($scope.instances[object.name][i][index])) {
+                            result = parseFloat($scope.instances[object.name][i][index]);
                         }
                     }
                     return result;
@@ -520,21 +454,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 return function (operand){
                     var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
                     var result = 1;
-                    var i = 0;
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            result *= action(parseFloat($scope.instances[object.name][i][index]));
-                        }
-                    } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            result *= parseFloat($scope.instances[object.name][i][index]);
-                        }
+                    for (var i=0; i<$scope.instances[object.name].length; i++){
+                        result *= parseFloat($scope.instances[object.name][i][index]);
                     }
                     return result;
                 };
@@ -606,8 +527,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         };
 
         $scope.deleteBehavior = function(behavior){
-            var index =  $scope.behaviors.indexOf(behavior);
-            $scope.behaviors.splice(index, 1);
+            var index =  $scope.applications[currentApplication.id].behaviors.indexOf(behavior);
+            $scope.applications[currentApplication.id].behaviors.splice(index, 1);
             if (behavior == $scope.currentBehavior){
                 $scope.currentBehavior = {};
             }
@@ -663,6 +584,24 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             var action = getBehaviorAction(object, behavior.actions[0].operator);
             $scope.emulatorOutput = action(operand1);
         };
+
+        $scope.addObjectToApplication = function(object){
+            $scope.applications[$scope.currentApplication.id].objects.push(object);
+        };
+
+        $scope.addBehaviorToApplication = function(behavior){
+            $scope.applications[$scope.currentApplication.id].behaviors.push(behavior);
+        };
+
+        $scope.addAppToApplicationList = function(application){
+            if ($scope.applications[application.id] == undefined){
+                $scope.applications[application.id] = {id:'',name:'',platforms:[],objects:[],behaviors:[]};
+            }
+            $scope.applications[application.id].id = application.id;
+            $scope.applications[application.id].name = application.name;
+            $scope.applications[application.id].platforms.push(application.platforms);
+        };
+
         // Release //
         $scope.releaseBuildApplication = function(application){
             alert("Building " + application);
