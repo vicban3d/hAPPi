@@ -1,31 +1,31 @@
 var main_module = angular.module('main', []);
 
 main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
-    function($scope) {
+    function($scope,$timeout) {
 
-            // Variable Declaration //
-            $scope.areaFlags = [];
-            $scope.areaFlags["titleArea"] = true;
-            $scope.areaFlags["workArea"] = true;
-            $scope.areaFlags["centralArea"] = true;
-            $scope.areaFlags["sideArea"] = true;
-            $scope.areaFlags["messageArea"] = false;
-            $scope.areaFlags["menuArea"] = true;
-            $scope.areaFlags["menuButtonsArea"] = true;
-            $scope.areaFlags["applicationListArea"] = false;
-            $scope.areaFlags["applicationDetailsArea"] = false;
-            $scope.areaFlags["applicationEditArea"] = false;
-            $scope.areaFlags["applicationCreateArea"] = false;
-            $scope.areaFlags["objectAddArea"] = false;
-            $scope.areaFlags["objectDetailsArea"] = false;
-            $scope.areaFlags["objectEditArea"] = false;
-            $scope.areaFlags["objectCreateArea"] = false;
-            $scope.areaFlags["behaviorAddArea"] = false;
-            $scope.areaFlags["behaviorDetailsArea"] = false;
-            $scope.areaFlags["behaviorEditArea"] = false;
-            $scope.areaFlags["actionEditArea"] = false;
-            $scope.areaFlags["designArea"] = false;
-            $scope.areaFlags["releaseArea"] = false;
+        // Variable Declaration //
+        $scope.areaFlags = [];
+        $scope.areaFlags["titleArea"] = true;
+        $scope.areaFlags["workArea"] = true;
+        $scope.areaFlags["centralArea"] = true;
+        $scope.areaFlags["sideArea"] = true;
+        $scope.areaFlags["messageArea"] = false;
+        $scope.areaFlags["menuArea"] = true;
+        $scope.areaFlags["menuButtonsArea"] = true;
+        $scope.areaFlags["applicationListArea"] = false;
+        $scope.areaFlags["applicationDetailsArea"] = false;
+        $scope.areaFlags["applicationEditArea"] = false;
+        $scope.areaFlags["applicationCreateArea"] = false;
+        $scope.areaFlags["objectAddArea"] = false;
+        $scope.areaFlags["objectDetailsArea"] = false;
+        $scope.areaFlags["objectEditArea"] = false;
+        $scope.areaFlags["objectCreateArea"] = false;
+        $scope.areaFlags["behaviorAddArea"] = false;
+        $scope.areaFlags["behaviorDetailsArea"] = false;
+        $scope.areaFlags["behaviorEditArea"] = false;
+        $scope.areaFlags["actionEditArea"] = false;
+        $scope.areaFlags["designArea"] = false;
+        $scope.areaFlags["releaseArea"] = false;
 
         $scope.menuButtons = [
             {'label': 'Apps',        'function': function(){$scope.menuHome()}},
@@ -35,31 +35,30 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             {'label': 'Release',        'function':  function(){$scope.menuRelease()}}
         ];
 
-            $scope.basic_types = ["Number", "Text"];
-            $scope.conditions = ["Or", "And"];
-            $scope.logic_types = ["Greater Than", "Less Than"];
+        $scope.basic_types = ["Number", "Text"];
+        $scope.conditions = ["Or", "And"];
+        $scope.logic_types = ["Greater Than", "Less Than"];
 
-            $scope.numOfAttributes = 0;
-            $scope.numOfActions = 0;
-            $scope.currentObject = '';
-            $scope.all_attrs = [];
-            $scope.all_acts_Object = [];
-            $scope.all_conditions = [];
-            $scope.all_acts_Behavior = [];
-            $scope.objects = [];
-            $scope.applications = [];
-            $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};            $scope.platforms = [];
-            $scope.currentBehavior = '';
-            $scope.behaviors = [];
-            $scope.currentAppURL = '';
-            $scope.instances = [];
-            $scope.name = '';
-            $scope.applications = [];
-            $scope.platforms = [];
-            $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-            $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
-            $scope.emulatorOutput = '';
-
+        $scope.numOfAttributes = 0;
+        $scope.numOfActions = 0;
+        $scope.currentObject = '';
+        $scope.all_attrs = [];
+        $scope.all_acts_Object = [];
+        $scope.all_conditions = [];
+        $scope.all_acts_Behavior = [];
+        $scope.objects = [];
+        $scope.applications = [];
+        $scope.currentApplication = {id: "", name: $scope.name, platforms: $scope.platforms};
+        $scope.platforms = [];
+        $scope.currentBehavior = '';
+        $scope.behaviors = [];
+        $scope.currentAppURL = '';
+        $scope.instances = [];
+        $scope.name = '';
+        $scope.applications = [];
+        $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
+        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
+        $scope.emulatorOutput = '';
         $scope.showBehaviors = true;
         $scope.showInstance = false;
 
@@ -223,7 +222,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     $scope.message = "Error";
                     $scope.showArea("messageArea");
                     $timeout(function () {
-                        $scope.hideArea("messageArea");
                         $scope.message = '';
                     }, 5000);
                     $scope.$apply();
@@ -232,7 +230,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     $scope.message = result.responseText;
                     $scope.showArea("messageArea");
                     $timeout(function () {
-                        $scope.hideArea("messageArea");
                         $scope.message = '';
                     }, 5000);
                     $scope.$apply();
@@ -332,6 +329,17 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.showArea("actionsEditAreaObject");
         };
 
+        $scope.addNewAction = function(){
+            if ($scope.actionName == '' || $scope.actionName =='Invalid Name!'){
+                $scope.actionName = 'Invalid Name!'
+            }
+            else {
+                $scope.numOfActions += 1;
+                $scope.hideArea("actionsEditAreaObject");
+                $scope.hideArea("actionsEditAreaBehavior");
+            }
+        };
+
         $scope.showObjectDetails = function(object){
             if ($scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
                 $scope.currentObject = object;
@@ -345,7 +353,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.editObjectDetails = function(object){
             $scope.currentObject = object;
             /*$scope.objectName = $scope.currentObject.name;
-            $scope.attributes = $scope.currentObject.attributes;*/
+             $scope.attributes = $scope.currentObject.attributes;*/
             $scope.hideArea("objectDetailsArea");
             $scope.showArea("objectEditArea");
 
@@ -478,7 +486,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     $scope.message = "Error";
                     $scope.showArea("messageArea");
                     $timeout(function () {
-                        $scope.hideArea("messageArea");
                         $scope.message = '';
                     }, 5000);
                     $scope.$apply();
@@ -487,7 +494,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     $scope.message = result.responseText;
                     $scope.showArea("messageArea");
                     $timeout(function () {
-                        $scope.hideArea("messageArea");
                         $scope.message = '';
                     }, 5000);
                     $scope.$apply();

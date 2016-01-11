@@ -5,9 +5,12 @@ package Logic;
  *
  */
 
+import Database.Database;
 import Exceptions.CordovaRuntimeException;
+import com.sun.corba.se.impl.orb.DataCollectorBase;
 import org.codehaus.jettison.json.JSONException;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 
 import java.io.IOException;
@@ -73,4 +76,6 @@ public interface Facade {
     void createBehavior(String appId, String appName, String behavior);
 
     void removeBehavior(String appId, String appName, String behavior);
+
+    Database getDataBase();
 }

@@ -9,8 +9,10 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by victor on 11/9/2015.
@@ -42,20 +44,20 @@ public class MongoDB implements Database {
 
     @Override
     public void connect() throws IOException {
-            Runtime.getRuntime().exec("mongod");
-            mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT);
-            Logger.SEVERE("Database started.");
+        Runtime.getRuntime().exec("mongod");
+        mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT);
+        Logger.SEVERE("Database started.");
     }
 
     @Override
     public void addData(String projectId, String projectName, String categoryName, String data){
         //TODO - save the platforms
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-            DBCollection project = db.getCollection(projectId);
-            DBCollection category = project.getCollection(categoryName);
-            DBObject jsonData = (DBObject)JSON.parse(data);
-            category.save(jsonData);
-            Logger.INFO("Added data to Database: " + projectId + " -> " + categoryName + " -> " + data);
+        DBCollection project = db.getCollection(projectId);
+        DBCollection category = project.getCollection(categoryName);
+        DBObject jsonData = (DBObject)JSON.parse(data);
+        category.save(jsonData);
+        Logger.INFO("Added data to Database: " + projectId + " -> " + categoryName + " -> " + data);
     }
 
     @Override
@@ -75,6 +77,13 @@ public class MongoDB implements Database {
     @Override
     public DBCollection getData(String projectId, String categoryName){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
+        Set<String> collectionNames = db.getCollectionNames();
+        String appId = "";
+        for (String collectionName :collectionNames) {
+            appId = collectionName.split("\\.")[0];
+        }
+        if (!db.collectionExists(appId))
+            return null;
         DBCollection project = db.getCollection(projectId);
         if (categoryName == null){
             return project;

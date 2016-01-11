@@ -9,7 +9,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -118,7 +117,6 @@ public class hAPPiFacade implements Facade {
             String appName = json.getString("name");
             compiler.buildApplication(appName);
         }
-
     }
 
     private String createHtmlContent(String content){
@@ -144,7 +142,7 @@ public class hAPPiFacade implements Facade {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            DBCollection entities = database.getData(appId, "entities");
+        DBCollection entities = database.getData(appId, "entities");
         DBCursor c =  entities.find();
 
         String result = "";
@@ -228,5 +226,10 @@ public class hAPPiFacade implements Facade {
     @Override
     public void removeBehavior(String appId, String appName, String behavior) {
         //TODO - Implement!
+    }
+
+    @Override
+    public Database getDataBase(){
+        return database;
     }
 }
