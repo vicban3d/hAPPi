@@ -329,17 +329,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.showArea("actionsEditAreaObject");
         };
 
-        $scope.addNewAction = function(){
-            if ($scope.actionName == '' || $scope.actionName =='Invalid Name!'){
-                $scope.actionName = 'Invalid Name!'
-            }
-            else {
-                $scope.numOfActions += 1;
-                $scope.hideArea("actionsEditAreaObject");
-                $scope.hideArea("actionsEditAreaBehavior");
-            }
-        };
-
         $scope.showObjectDetails = function(object){
             if ($scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
                 $scope.currentObject = object;
