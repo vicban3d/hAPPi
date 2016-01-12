@@ -74,7 +74,6 @@ public class Entity {
         } catch (JSONException e) {
             Logger.ERROR("Failed to initialize entity!", e.getMessage());
         }
-
     }
 
     /**

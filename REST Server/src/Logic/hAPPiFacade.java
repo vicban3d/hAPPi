@@ -9,6 +9,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -132,55 +133,12 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void createObject(String appId, String appName, String object) throws JSONException{
-
         database.addData(appId, appName, "entities", object);
-        Entity newEntity = new Entity(object);
-        String jsValue = jsCreator.create(newEntity);
-        String path = Strings.PATH_APPS + "\\" + appName + "\\www\\js\\entities.js";
-            try {
-                FileHandler.writeFile(path, jsValue);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        DBCollection entities = database.getData(appId, "entities");
-        DBCursor c =  entities.find();
-
-        String result = "";
-        int i=0;
-        for (DBObject en : c) {
-            JSONObject json = new JSONObject(String.format("%s",en));
-            String name  = json.getString("name");
-            String attributes = json.getString("attributes");
-            String actions = json.getString("actions");
-            result += i++ + ") name: " + name + "\n   attributes: " + attributes + "\n" + "actions: " + actions+ "<hr>";
-        }
-        //Edit index.html file with the entities
-        String indexPath = Strings.PATH_APPS + "\\" + appName + "\\www\\index.html";
-        String content =  createHtmlContent(result);
-            try {
-                FileHandler.clearFile(indexPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                FileHandler.writeFile(indexPath, content);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
     }
 
     @Override
     public void removeObject(String appId, String appName, String entity) {
         database.removeData(appId, "entities", entity);
-        Entity newEntity = new Entity(entity);
-        String jsValue = jsCreator.create(newEntity);
-        String path = Strings.PATH_APPS + "\\" + appName + "\\www\\js\\entities.js";
-        try {
-            FileHandler.removeFromFile(path, jsValue);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

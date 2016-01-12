@@ -41,7 +41,7 @@
             <div class="componentMainTitle">
                 Objects
             </div>
-            <span data-ng-repeat="object in objects track by $index">
+            <span data-ng-repeat="object in applications[currentApplication.id].objects track by $index">
                 <span class="componentButton" data-ng-click="showObjectDetails(object)">
                     <div class="textInButton">{{object.name}}</div>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteObject(object)"></span>
@@ -55,7 +55,7 @@
             <div class="componentMainTitle">
                 Behavior
             </div>
-            <span ng-repeat="behavior in behaviors track by $index">
+            <span ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index">
                 <span class="componentButton" data-ng-click="showBehaviorDetails(behavior)">
                     <div class="textInButton">{{behavior.name}}</div>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteBehavior(behavior)"></span>

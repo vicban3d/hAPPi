@@ -41,7 +41,7 @@
             <div class="componentMainTitle">
                 Objects
             </div>
-            <span data-ng-repeat="object in objects track by $index">
+            <span data-ng-repeat="object in applications[currentApplication.id].objects track by $index">
                 <span class="componentButton" data-ng-click="showObjectDetails(object)">
                     <div class="textInButton">{{object.name}}</div>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteObject(object)"></span>
@@ -55,7 +55,7 @@
             <div class="componentMainTitle">
                 Behavior
             </div>
-            <span ng-repeat="behavior in behaviors track by $index">
+            <span ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index">
                 <span class="componentButton" data-ng-click="showBehaviorDetails(behavior)">
                     <div class="textInButton">{{behavior.name}}</div>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteBehavior(behavior)"></span>
@@ -65,19 +65,19 @@
             <span class="componentButton componentButtonAdd" data-ng-click="addNewBehavior()">
             </span>
         </div>
-        <div class="centralAreaComponent designArea"  ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()" ondragover="allowDrop(event)">
+        <div class="centralAreaComponent designArea" ng-show="areaFlags['designArea']" data-ng-init="refreshIframe()" ondragover="allowDrop(event)">
             <div class="componentMainTitle">
                 Design
             </div>
             <img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/phone.png">
             <div id="emulatedCode" class="designAreaEmulator designAreaGrid">
                 <div class="designAreaTabs">
-                    <button class="designAreaTab" ng-repeat="object in objects track by $index" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</button>
+                    <button class="designAreaTab" ng-repeat="object in application[currentApplication.id].objects track by $index" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</button>
                     <br><button class="designAreaTab" data-ng-click="designDisplayBehaviorPage()">F></button>
                 </div>
 
                 <div class="designAreaButtons" data-ng-show="showBehaviors">
-                    <button class="draggableButton" ng-repeat="behavior in behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+                    <button class="draggableButton" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
                 <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="vals=[]">
                     {{currentInstance.name}}<hr>
