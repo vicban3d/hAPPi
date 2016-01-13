@@ -70,7 +70,6 @@ public class Server {
             return "Error: failed to create application!";
         }
             return "The application " + appName + " was created successfully";
-
     }
 
     /**
@@ -271,6 +270,10 @@ public class Server {
         // TODO - remove in production!!!
         facade.clearDatabase();// TODO - remove in production!!!
         // TODO - remove in production!!!
+    }
+
+    public void setFacade(Facade newFacade){
+        facade = newFacade;
     }
 
     /**

@@ -9,7 +9,10 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by victor on 11/9/2015.
@@ -47,10 +50,15 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void addData(String applicationId, String data) {
+    public void addData(String projectId, String projectName, String categoryName, String data){
         //TODO - save the platforms
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        DBCollection application = db.getCollection(applicationId);
+        DBCollection project = db.getCollection(projectId);
+        DBCollection category = project.getCollection(categoryName);
+        DBObject jsonData = (DBObject)JSON.parse(data);
+        category.save(jsonData);
+        Logger.INFO("Added data to Database: " + projectId + " -> " + categoryName + " -> " + data);
+        /*DBCollection application = db.getCollection(applicationId);
         if (data == null){
             application.drop();
             Logger.INFO("Removed application from database: " + applicationId);
@@ -64,7 +72,7 @@ public class MongoDB implements Database {
         }
         application.save(newDocument);
         System.out.println(application.findOne().toString());
-        Logger.INFO("Added data to Database: " + applicationId + " -> " + data);
+        Logger.INFO("Added data to Database: " + applicationId + " -> " + data);*/
     }
 
     @Override
@@ -82,11 +90,26 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public DBCollection getData(String projectId){
+    public DBCollection getData(String projectId, String categoryName){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        if (!db.collectionExists(projectId))
+        Set<String> collectionNames = db.getCollectionNames();
+        boolean exist = false;
+        for (String collectionName :collectionNames) {
+            if(collectionName.split("\\.")[0].equals(projectId)) {
+                exist = true;
+                break;
+            }
+        }
+        if(!exist)
             return null;
-        return db.getCollection(projectId);
+        DBCollection project = db.getCollection(projectId);
+        if (categoryName == null){
+            return project;
+        }
+        return project.getCollection(categoryName);
+        /*if (!db.collectionExists(projectId))
+            return null;
+        return db.getCollection(projectId);*/
     }
 
     @Override
@@ -95,7 +118,7 @@ public class MongoDB implements Database {
         DBCollection collection = db.getCollection(appId).getCollection("name");
         DBObject cursor = collection.findOne();
         JSON json = new JSON();
-        String result = JSON.serialize(cursor);
+        String result = json.serialize(cursor);
         JSONObject newJson = new JSONObject(result);
         return newJson.getString("name");
     }
@@ -116,18 +139,17 @@ public class MongoDB implements Database {
 
     @Override
     public void addApplication(JSONObject json) throws JSONException{
-        //String id = json.getString("id");
-        //String name = json.getString("name");
-        //String platforms = json.getString("platforms");
-        addData(json.getString("id"), json.toString());
-        //addData(id, name, "name", new JSONObject("{name:" + name +"}").toString());
-        //addData(id, name, "platforms", new JSONObject("{platforms:" + platforms +"}").toString());
+        String id = json.getString("id");
+        String name = json.getString("name");
+        String platforms = json.getString("platforms");
+        addData(id, name, "name", new JSONObject("{name:" + name +"}").toString());
+        addData(id, name, "platforms", new JSONObject("{platforms:" + platforms +"}").toString());
     }
 
     private void printApplicationDataToLog(String appId) throws JSONException {
-        DBObject name = getData(appId).find().one();
+        DBObject name = getData(appId, "name").find().one();
         JSONObject jsonName = new JSONObject(String.format("%s",name));
-        DBObject platforms = getData(appId).find().one();
+        DBObject platforms = getData(appId, "platforms").find().one();
         JSONObject jsonPlatforms = new JSONObject(String.format("%s",platforms));
         Logger.INFO("updated application in Database: " + appId + " -> " + jsonName.getString("name") + " -> " + jsonPlatforms.getString("platforms"));
     }

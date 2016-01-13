@@ -1,7 +1,8 @@
 var main_module = angular.module('main', []);
 
-main_module.controller('ctrl_main', ['$scope', '$timeout',
+main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
     function($scope, $timeout) {
+
         // Variable Declaration //
         $scope.areaFlags = [];
         $scope.areaFlags["titleArea"] = true;
@@ -54,12 +55,9 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
         $scope.behaviorName = '';
         $scope.objectName = '';
         $scope.applications = {};
-        $scope.platforms = [];
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
         $scope.emulatorOutput = '';
-
-
 
         $scope.showBehaviors = true;
         $scope.showInstance = false;
@@ -227,11 +225,17 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
                 if (result.readyState != 4 && result.status != 200){
                     $scope.message = "Error";
                     $scope.showArea("messageArea");
+                    $timeout(function () {
+                        $scope.message = '';
+                    }, 5000);
                     $scope.$apply();
                 }
                 else if (result.readyState == 4 && result.status == 200){
                     $scope.message = result.responseText;
                     $scope.showArea("messageArea");
+                    $timeout(function () {
+                        $scope.message = '';
+                    }, 5000);
                     $scope.$apply();
                 }
             };
@@ -302,7 +306,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
                 $scope.showObjectDetails(newObject);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson($scope.currentApplication));
+                sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject));
             }
         };
 
@@ -312,7 +316,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
             if (object == $scope.currentObject){
                 $scope.currentObject = {};
             }
-            sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson($scope.currentApplication));
+            sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object));
             $scope.hideArea("objectDetailsArea");
         };
 
@@ -402,7 +406,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
                 $scope.showBehaviorDetails(newBehavior);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson($scope.currentApplication));
+                sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newBehavior));
             }
         };
 
@@ -567,7 +571,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
                     $scope.message = "Error";
                     $scope.showArea("messageArea");
                     $timeout(function () {
-                        $scope.hideArea("messageArea");
                         $scope.message = '';
                     }, 5000);
                     $scope.$apply();
@@ -576,7 +579,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
                     $scope.message = result.responseText;
                     $scope.showArea("messageArea");
                     $timeout(function () {
-                        $scope.hideArea("messageArea");
                         $scope.message = '';
                     }, 5000);
                     $scope.$apply();
@@ -610,7 +612,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout',
             if (behavior == $scope.currentBehavior){
                 $scope.currentBehavior = {};
             }
-            sendPOSTRequest(Paths.REMOVE_BEHAVIOR, angular.toJson($scope.currentApplication));
+            sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(behavior));
             $scope.hideArea("behaviorDetailsArea");
         };
 

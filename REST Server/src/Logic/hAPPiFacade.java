@@ -5,10 +5,11 @@ import Database.MongoDB;
 import Exceptions.CordovaRuntimeException;
 import Utility.*;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -142,13 +143,13 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createObject(String appId, String objectData) throws JSONException{
-        database.addData(appId, objectData);
+    public void createObject(String appId, String appName, String object) throws JSONException{
+        database.addData(appId, appName, "entities", object);
     }
 
     @Override
-    public void removeObject(String appId, String objectData) {
-        database.addData(appId, objectData);
+    public void removeObject(String appId, String appName, String entity) {
+        database.removeData(appId, "entities", entity);
     }
 
     @Override
@@ -170,7 +171,7 @@ public class hAPPiFacade implements Facade {
             JSONObject json = new JSONObject(application);
             appId = (String) json.get("id");
             appName = (String)json.get("name");
-            database.addData(appId, null);
+            database.removeData(appId, null, null);
             file = new File(Strings.PATH_APPS + "\\" + appName);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -196,4 +197,8 @@ public class hAPPiFacade implements Facade {
         database.addData(appId, data);
     }
 
+    @Override
+    public Database getDataBase(){
+        return database;
+    }
 }

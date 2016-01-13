@@ -5,8 +5,13 @@ package Logic;
  *
  */
 
+import Database.Database;
 import Exceptions.CordovaRuntimeException;
+import com.sun.corba.se.impl.orb.DataCollectorBase;
 import org.codehaus.jettison.json.JSONException;
+
+import javax.xml.crypto.Data;
+import java.io.IOException;
 
 import java.io.IOException;
 
@@ -48,11 +53,12 @@ public interface Facade {
     /**
      * Creates a new object in the given application.
      * @param appId - the id of the application.
+     * @param appName - the name of the application.
      * @param object - the JSON compatible parameters of the object.
      */
-    void createObject(String appId, String object) throws JSONException;
+    void createObject(String appId, String appName, String object) throws JSONException;
 
-    void removeObject(String appId, String data) throws JSONException;
+    void removeObject(String appId, String appName, String entity);
 
     /**
      * Initiates a connection to the database.
@@ -67,7 +73,9 @@ public interface Facade {
 
     void removePlatforms(String application);
 
-    void createBehavior(String appId, String appName, String behavior) throws JSONException;
+    void createBehavior(String appId, String appName, String behavior);
 
-    void removeBehavior(String appId, String data);
+    void removeBehavior(String appId, String appName, String behavior);
+
+    Database getDataBase();
 }
