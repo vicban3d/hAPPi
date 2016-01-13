@@ -57,6 +57,7 @@ public class Server {
             json = new JSONObject(data);
             appName = json.getString("name");
             facade.createApplication(data);
+
             this.currentApp = data;
         } catch (IOException e) {
             Logger.ERROR("Failed to create application", e.getMessage());
@@ -131,7 +132,6 @@ public class Server {
     public String buildApplication(String application) throws CordovaRuntimeException, JSONException{
         JSONObject json;
         try {
-            System.out.println("Started building " + application);
             json = new JSONObject(application);
             facade.buildApplication(json.getString("id"));
         } catch (CordovaRuntimeException e) {
@@ -140,6 +140,9 @@ public class Server {
         }
         catch (JSONException e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
+            return "Error building application " + application;
+        } catch (IOException e) {
+            Logger.ERROR("Failed to read application files", e.getMessage());
             return "Error building application " + application;
         }
         return json.getString("name") + " built successfully!";
@@ -155,7 +158,7 @@ public class Server {
     public String createObject(String data){
         try {
         JSONObject json = new JSONObject(currentApp);
-        facade.createObject(json.getString("id"), json.getString("name"), data);
+        facade.createObject(json.getString("id"), data);
         }  catch (JSONException e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create object!";
@@ -172,7 +175,7 @@ public class Server {
     @Produces(MediaType.TEXT_XML)
     public String removeObject(String data) throws JSONException{
         JSONObject json = new JSONObject(currentApp);
-        facade.removeObject(json.getString("id"), json.getString("name"), data);
+        facade.removeObject(json.getString("id"), data);
         return "Object Removed!";
     }
 
@@ -186,9 +189,9 @@ public class Server {
             facade.createBehavior(json.getString("id"), json.getString("name"), data);
         }  catch (JSONException e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
-            return "Error: failed to create object!";
+            return "Error: failed to create behavior!";
         }
-        return "Object added!";
+        return "Behavior added!";
     }
 
     /**
@@ -200,7 +203,7 @@ public class Server {
     @Produces(MediaType.TEXT_XML)
     public String removeBehavior(String data) throws JSONException{
         JSONObject json = new JSONObject(currentApp);
-        facade.removeBehavior(json.getString("id"), json.getString("name"), data);
+        facade.removeBehavior(json.getString("id"), data);
         return "Behavior Removed!";
     }
 

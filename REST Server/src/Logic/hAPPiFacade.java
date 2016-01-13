@@ -5,11 +5,10 @@ import Database.MongoDB;
 import Exceptions.CordovaRuntimeException;
 import Utility.*;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -108,38 +107,48 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void buildApplication(String appId) throws CordovaRuntimeException, JSONException {
-        DBCollection app = database.getData(appId, null);
-        System.out.println("Getting " + appId + " from DB");
-        DBCursor cur = app.find();
-        for (DBObject obj: cur) {
-            System.out.println("got");
-            JSONObject json = new JSONObject(String.format("%s",obj));
-            String appName = json.getString("name");
-            compiler.buildApplication(appName);
+    public void buildApplication(String appId) throws CordovaRuntimeException, JSONException, IOException {
+        DBCollection app = database.getData(appId);
+        DBObject cur = app.findOne();
+        JSONObject json = new JSONObject(String.format("%s",cur));
+        String dbContent = json.getString(appId);
+        JSONObject content = new JSONObject(dbContent);
+        prepareApplicationForCompilation(content);
+        String appName = content.getString("name");
+        compiler.buildApplication(appName);
+    }
+
+    private void prepareApplicationForCompilation(JSONObject application) throws JSONException, IOException {
+        String name = application.getString("name");
+        String objects = application.getString("objects");
+        String behaviors = application.getString("behaviors");
+        FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html");
+        FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js");
+        FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\index.css");
+        String HTMLContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.html");
+        String MAINContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\main.html");
+        String JSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.js");
+        String CSSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.css");
+        String ANGULARcontent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\angular.min.js");
+        if (HTMLContent != null && JSContent != null && CSSContent != null) {
+            JSContent = JSContent.replace("<[OBJECTS]>", objects.replace("\"", "\\\""));
+            JSContent = JSContent.replace("<[BEHAVIORS]>", behaviors.replace("\"", "\\\""));
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html", HTMLContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\main.html", MAINContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js", JSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\angular.min.js", ANGULARcontent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\index.css", CSSContent);
         }
-
-    }
-
-    private String createHtmlContent(String content){
-        return  "<!DOCTYPE html>\n" +
-                "<html>\n" +
-                "<body>\n" +
-                "<pre>\n" +
-                content +
-                "</pre>\n" +
-                "</body>\n" +
-                "</html>";
     }
 
     @Override
-    public void createObject(String appId, String appName, String object) throws JSONException{
-        database.addData(appId, appName, "entities", object);
+    public void createObject(String appId, String objectData) throws JSONException{
+        database.addData(appId, objectData);
     }
 
     @Override
-    public void removeObject(String appId, String appName, String entity) {
-        database.removeData(appId, "entities", entity);
+    public void removeObject(String appId, String objectData) {
+        database.addData(appId, objectData);
     }
 
     @Override
@@ -161,7 +170,7 @@ public class hAPPiFacade implements Facade {
             JSONObject json = new JSONObject(application);
             appId = (String) json.get("id");
             appName = (String)json.get("name");
-            database.removeData(appId, null, null);
+            database.addData(appId, null);
             file = new File(Strings.PATH_APPS + "\\" + appName);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -178,12 +187,13 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createBehavior(String appId, String appName, String behavior) {
-        //TODO - implement!
+    public void createBehavior(String appId, String appName, String behavior) throws JSONException {
+        database.addData(appId, behavior);
     }
 
     @Override
-    public void removeBehavior(String appId, String appName, String behavior) {
-        //TODO - Implement!
+    public void removeBehavior(String appId, String data) {
+        database.addData(appId, data);
     }
+
 }

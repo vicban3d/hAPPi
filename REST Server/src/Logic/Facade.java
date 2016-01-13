@@ -10,8 +10,6 @@ import org.codehaus.jettison.json.JSONException;
 
 import java.io.IOException;
 
-import java.io.IOException;
-
 /**
  * A facade interface which allows the connection layer to communicate with the business layer.
  */
@@ -45,17 +43,16 @@ public interface Facade {
      * Compiles and builds the application.
      * @param appId - the name of the application to build.
      */
-    void buildApplication(String appId) throws CordovaRuntimeException, JSONException;
+    void buildApplication(String appId) throws CordovaRuntimeException, JSONException, IOException;
 
     /**
      * Creates a new object in the given application.
      * @param appId - the id of the application.
-     * @param appName - the name of the application.
      * @param object - the JSON compatible parameters of the object.
      */
-    void createObject(String appId, String appName, String object) throws JSONException;
+    void createObject(String appId, String object) throws JSONException;
 
-    void removeObject(String appId, String appName, String entity);
+    void removeObject(String appId, String data) throws JSONException;
 
     /**
      * Initiates a connection to the database.
@@ -70,7 +67,7 @@ public interface Facade {
 
     void removePlatforms(String application);
 
-    void createBehavior(String appId, String appName, String behavior);
+    void createBehavior(String appId, String appName, String behavior) throws JSONException;
 
-    void removeBehavior(String appId, String appName, String behavior);
+    void removeBehavior(String appId, String data);
 }

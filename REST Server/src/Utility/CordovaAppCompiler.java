@@ -15,11 +15,11 @@ public class CordovaAppCompiler implements AppCompiler {
 
     @Override
     public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException, IOException {
-            String name = application.getString("name");
-            Logger.INFO("Creating new application: " + name + "...");
-            executeCommand("","create \"" + Strings.PATH_APPS + "\\" + name + "\" com.example.hello \"" + name + "\"");
-            Logger.INFO("Created new application: " + name + ".");
-            initializeFiles(Strings.PATH_APPS + "\\" + name);
+        String name = application.getString("name");
+        Logger.INFO("Creating new application: " + name + "...");
+        executeCommand("","create \"" + Strings.PATH_APPS + "\\" + name + "\" com.happi.app \"" + name + "\"");
+        Logger.INFO("Created new application: " + name + ".");
+        initializeFiles(Strings.PATH_APPS + "\\" + name);
     }
 
     @Override

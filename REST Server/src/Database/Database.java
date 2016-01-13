@@ -5,7 +5,6 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import java.io.IOException;
 
@@ -23,20 +22,13 @@ public interface Database {
     /**
      * Adds given data to a given project in the database.
      * @param id
-     * @param projectName - name of the project to add data to.
-     * @param categoryName - name of the category to add data to.
      * @param data - the content to be added.
      */
-    void addData(String id, String projectName, String categoryName, String data);
+    void addData(String id, String data);
 
     void removeData(String currentAppName, String categoryName, String data);
 
-    /**
-     * gets the data from a given project.
-     * @param projectName - the project to get from.
-     * @return a string representation of the needed data.
-     */
-    DBCollection getData(String projectName, String categoryName);
+    DBCollection getData(String projectId);
 
     /**
      * Clear the whole DB
