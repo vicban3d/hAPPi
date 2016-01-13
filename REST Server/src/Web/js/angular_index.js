@@ -35,9 +35,9 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             {'label': 'Release',        'function':  function(){$scope.menuRelease()}}
         ];
 
-            $scope.basic_types = ["Number", "Text"];
-            $scope.conditions = ["Or", "And"];
-            $scope.logic_types = ["Greater Than", "Less Than"];
+        $scope.basic_types = ["Number", "Text"];
+        $scope.conditions = ["Or", "And"];
+        $scope.logic_types = ["Greater Than", "Less Than"];
 
         $scope.numOfAttributes = 0;
         $scope.numOfActions = 0;

@@ -78,11 +78,14 @@ public class MongoDB implements Database {
     public DBCollection getData(String projectId, String categoryName){
         @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
         Set<String> collectionNames = db.getCollectionNames();
-        String appId = "";
+        boolean exist = false;
         for (String collectionName :collectionNames) {
-            appId = collectionName.split("\\.")[0];
+            if(collectionName.split("\\.")[0].equals(projectId)) {
+                exist = true;
+                break;
+            }
         }
-        if (!db.collectionExists(appId))
+        if(!exist)
             return null;
         DBCollection project = db.getCollection(projectId);
         if (categoryName == null){
