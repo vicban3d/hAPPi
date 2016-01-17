@@ -1,18 +1,20 @@
 package Database;
 
+import Logic.Application;
+import Logic.ApplicationBehavior;
+import Logic.ApplicationObject;
 import Utility.Logger;
 import Utility.Strings;
 import com.mongodb.*;
-import com.mongodb.util.JSON;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
+import org.bson.Document;
 import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by victor on 11/9/2015.
@@ -21,18 +23,6 @@ import java.util.Set;
 public class MongoDB implements Database {
 
     /**
-     * DB Structure:
-     *                                                     ------- Data 1
-     *                                                   /          .
-     *                                ------- Category 1            .
-     *                              /            .       \          .
-     *            ------- Project 1              .         ------- Data k...
-     *          /            .      \            .
-     * Database              .        ------- Category m ...
-     *          \            .
-     *            ------- Project n ...
-     *
-     *
      * DB RECOVERY AFTER SHUTDOWN:
      * mongod --dbpath /data/db --repair --repairpath /data/db0
      */
@@ -50,113 +40,48 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void addData(String projectId, String projectName, String categoryName, String data){
-        //TODO - save the platforms
-        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        DBCollection project = db.getCollection(projectId);
-        DBCollection category = project.getCollection(categoryName);
-        DBObject jsonData = (DBObject)JSON.parse(data);
-        category.save(jsonData);
-        Logger.INFO("Added data to Database: " + projectId + " -> " + categoryName + " -> " + data);
-        /*DBCollection application = db.getCollection(applicationId);
-        if (data == null){
-            application.drop();
-            Logger.INFO("Removed application from database: " + applicationId);
-            return;
-        }
-
-        DBObject newDocument = new BasicDBObject();
-        newDocument.put(applicationId, data);
-        if (application.findOne() != null) {
-            application.remove(application.findOne());
-        }
-        application.save(newDocument);
-        System.out.println(application.findOne().toString());
-        Logger.INFO("Added data to Database: " + applicationId + " -> " + data);*/
+    public void addData(Application application) throws JSONException {
+        String id = application.getId();
+        Document doc =  new Document();
+//        doc.append("id", application.getId());
+//        doc.append("name", application.getName());
+//        doc.append("platforms", application.getPlatforms());
+//        doc.append("objects", application.getObjects());
+//        doc.append("behaviors", application.getBehaviors());
+        doc.append(id, application);
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        db.getCollection(id).insertOne(doc);
     }
 
     @Override
-    public void removeData(String appID, String categoryName, String data) {
-        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        if(categoryName == null)
-            db.getCollection(appID).drop();
-        else{
-            DBCollection project = db.getCollection(appID);
-            DBCollection category = project.getCollection(categoryName);
-            DBObject jsonData = (DBObject)JSON.parse(data);
-            category.remove(jsonData);
-        }
-        Logger.INFO("Removed data from Database: " + appID + " -> " + categoryName + " -> " + data);
+    public void removeData(String appId) throws IOException, JSONException {
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        db.getCollection(appId).drop();
     }
 
     @Override
-    public DBCollection getData(String projectId, String categoryName){
-        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        Set<String> collectionNames = db.getCollectionNames();
-        boolean exist = false;
-        for (String collectionName :collectionNames) {
-            if(collectionName.split("\\.")[0].equals(projectId)) {
-                exist = true;
-                break;
-            }
-        }
-        if(!exist)
-            return null;
-        DBCollection project = db.getCollection(projectId);
-        if (categoryName == null){
-            return project;
-        }
-        return project.getCollection(categoryName);
-        /*if (!db.collectionExists(projectId))
-            return null;
-        return db.getCollection(projectId);*/
+    public void updateData(Application application) throws IOException, JSONException {
+        removeData(application.getId());
+        addData(application);
     }
 
     @Override
-    public String getApplicationNameById(String appId) throws JSONException{
-        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        DBCollection collection = db.getCollection(appId).getCollection("name");
-        DBObject cursor = collection.findOne();
-        JSON json = new JSON();
-        String result = json.serialize(cursor);
-        JSONObject newJson = new JSONObject(result);
-        return newJson.getString("name");
+    public Application getData(String appId) {
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        Document doc = db.getCollection(appId).find().first();
+        doc = (Document)doc.get(appId);
+        String id = doc.getString("id");
+        String name = doc.getString("name");
+        ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");
+        ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>) doc.get("objects");
+        ArrayList<ApplicationBehavior> behaviors = (ArrayList<ApplicationBehavior>) doc.get("behaviors");
+        return new Application(id, name, platforms, objects, behaviors);
     }
+
 
     @Override
-    public void updateApplication(String appId, LinkedList<JSONObject> elementsToUpdate, LinkedList<String> elements) throws JSONException {
-        @SuppressWarnings("deprecation") DB db = mongoClient.getDB(Strings.DB_NAME);
-        DBCollection collection = db.getCollection(appId);
-        for (int i=0 ; i< elementsToUpdate.size(); i++){
-            BasicDBObject newDocument = new BasicDBObject();
-            String key = elements.get(i);
-            newDocument.put(key, elementsToUpdate.get(i).getString(key.toLowerCase()));//.append("$set", new BasicDBObject().append(elementsToUpdate.get(i), elementsToUpdate.get(i+1)));
-            BasicDBObject searchQuery = new BasicDBObject();
-            collection.getCollection(key).update(searchQuery, newDocument);
-        }
-        printApplicationDataToLog(appId);
-    }
-
-    @Override
-    public void addApplication(JSONObject json) throws JSONException{
-        String id = json.getString("id");
-        String name = json.getString("name");
-        String platforms = json.getString("platforms");
-        addData(id, name, "name", new JSONObject("{name:" + name +"}").toString());
-        addData(id, name, "platforms", new JSONObject("{platforms:" + platforms +"}").toString());
-    }
-
-    private void printApplicationDataToLog(String appId) throws JSONException {
-        DBObject name = getData(appId, "name").find().one();
-        JSONObject jsonName = new JSONObject(String.format("%s",name));
-        DBObject platforms = getData(appId, "platforms").find().one();
-        JSONObject jsonPlatforms = new JSONObject(String.format("%s",platforms));
-        Logger.INFO("updated application in Database: " + appId + " -> " + jsonName.getString("name") + " -> " + jsonPlatforms.getString("platforms"));
-    }
-
-    @Override
-    public void cleaAll() {
-        @SuppressWarnings("deprecation" ) DB db = mongoClient.getDB(Strings.DB_NAME);
-        db.dropDatabase();
+    public void clearAll() {
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        db.drop();
     }
 }

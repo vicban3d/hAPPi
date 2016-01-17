@@ -16,10 +16,8 @@ public class CordovaAppCompiler implements AppCompiler {
     @Override
     public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException, IOException {
         String name = application.getString("name");
-        Logger.INFO("Creating new application: " + name + "...");
         executeCommand("","create \"" + Strings.PATH_APPS + "\\" + name + "\" com.happi.app \"" + name + "\"");
-        Logger.INFO("Created new application: " + name + ".");
-        initializeFiles(Strings.PATH_APPS + "\\" + name);
+        //initializeFiles(Strings.PATH_APPS + "\\" + name);
     }
 
     @Override
@@ -36,11 +34,11 @@ public class CordovaAppCompiler implements AppCompiler {
         Logger.INFO("application " + applicationName + " built.");
     }
 
-    private void initializeFiles(String application) throws IOException {
-        Logger.INFO("Initializing application files in " + application + "...");
-        FileHandler.writeFile(application + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
-        Logger.INFO("Initialized application files " + application + ".");
-    }
+//    private void initializeFiles(String application) throws IOException {
+//        Logger.INFO("Initializing application files in " + application + "...");
+//        FileHandler.writeFile(application + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
+//        Logger.INFO("Initialized application files " + application + ".");
+//    }
 
 
     private void executeCommand(String application, String command) throws CordovaRuntimeException {

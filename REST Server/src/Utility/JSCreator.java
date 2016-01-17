@@ -1,6 +1,6 @@
 package Utility;
 
-import Logic.Entity;
+import Logic.ApplicationObject;
 
 /**
  * Created by victor on 11/9/2015.
@@ -24,16 +24,16 @@ public class JSCreator {
             "}";
 
     /**
-     * Creates an entity deceleration in JavaScript.
-     * @param newEntity - the entity to create.
-     * @return a string containing the relevant JavaScript command.
-     */
-    public String create(Entity newEntity) {
-        String result = "";
-        String name = newEntity.getName();
-        String attributes = newEntity.getAttributes();
-        String actions = newEntity.getActions();
-        result += "var " + name + " = makeStruct(" + name + " " + attributes + " " + actions + ");";
-        return result;
-    }
+//     * Creates an entity deceleration in JavaScript.
+//     * @param newApplicationObject - the entity to create.
+//     * @return a string containing the relevant JavaScript command.
+//     */
+//    public String create(ApplicationObject newApplicationObject) {
+//        String result = "";
+//        String name = newApplicationObject.getName();
+//        String attributes = newApplicationObject.getAttributes();
+//        String actions = newApplicationObject.getActions();
+//        result += "var " + name + " = makeStruct(" + name + " " + attributes + " " + actions + ");";
+//        return result;
+//    }
 }

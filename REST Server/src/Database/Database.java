@@ -1,10 +1,7 @@
 package Database;
 
-import com.mongodb.DBCollection;
+import Logic.Application;
 import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
-import java.util.LinkedList;
 
 import java.io.IOException;
 
@@ -20,23 +17,18 @@ public interface Database {
     void connect() throws IOException;
 
     /**
-     * Adds given data to a given project in the database.
-     * @param id
-     * @param data - the content to be added.
-     */
-    void addData(String id, String data);
-
-    void removeData(String currentAppName, String categoryName, String data);
-
-    DBCollection getData(String projectId);
-
-    /**
      * Clear the whole DB
      * WARNING! DO NOT USE LIGHTLY!
      */
-    void cleaAll();
-    String getApplicationNameById(String collectionId) throws JSONException;
-    void updateApplication(String appId, LinkedList<JSONObject> elementsToUpdate, LinkedList<String> elements) throws JSONException;
+    void clearAll();
 
-    void addApplication(JSONObject json) throws JSONException;
+    void removeData(String appId) throws IOException, JSONException;
+
+//    String getApplicationNameById(String collectionId) throws JSONException;
+
+    void updateData(Application application) throws IOException, JSONException;
+
+    Application getData(String appId);
+
+    void addData(Application application) throws JSONException;
 }

@@ -7,11 +7,7 @@ package Logic;
 
 import Database.Database;
 import Exceptions.CordovaRuntimeException;
-import com.sun.corba.se.impl.orb.DataCollectorBase;
 import org.codehaus.jettison.json.JSONException;
-
-import javax.xml.crypto.Data;
-import java.io.IOException;
 
 import java.io.IOException;
 
@@ -24,7 +20,7 @@ public interface Facade {
      * Creates a new application with the given parameters.
      * @param application - a JSON compatible string describing the application.
      */
-    void createApplication(String application) throws CordovaRuntimeException, JSONException, IOException;
+    void createApplication(Application application) throws CordovaRuntimeException, JSONException, IOException;
 
     /**
      * Adds an android component to the given application.
@@ -53,12 +49,11 @@ public interface Facade {
     /**
      * Creates a new object in the given application.
      * @param appId - the id of the application.
-     * @param appName - the name of the application.
      * @param object - the JSON compatible parameters of the object.
      */
-    void createObject(String appId, String appName, String object) throws JSONException;
+    void createObject(String appId, ApplicationObject object) throws JSONException, IOException;
 
-    void removeObject(String appId, String appName, String entity);
+    void removeObject(String appId, ApplicationObject object) throws IOException, JSONException;
 
     /**
      * Initiates a connection to the database.
@@ -67,15 +62,15 @@ public interface Facade {
 
     void clearDatabase();
 
-    void removeApplication(String currentAppName);
+    void removeApplication(String appId) throws JSONException, IOException;
 
-    void updateApplication(String application) throws CordovaRuntimeException, IOException;
+    void updateApplication(Application application) throws CordovaRuntimeException, IOException;
 
     void removePlatforms(String application);
 
-    void createBehavior(String appId, String appName, String behavior);
+    void createBehavior(String appId, ApplicationBehavior behavior) throws JSONException, IOException;
 
-    void removeBehavior(String appId, String appName, String behavior);
+    void removeBehavior(String appId, ApplicationBehavior behavior) throws IOException, JSONException;
 
     Database getDataBase();
 }

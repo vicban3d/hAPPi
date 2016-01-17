@@ -43,7 +43,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.numOfActions = 0;
         $scope.currentObject = '';
         $scope.all_attrs = [];
-        $scope.all_acts_Object = []
+        $scope.all_acts_Object = [];
         $scope.all_conditions = [];
         $scope.all_acts_Behavior = [];
         $scope.currentApplication = {id: "", name: $scope.applicationName, platforms: $scope.platforms, objects: [], behaviors: []};
@@ -162,7 +162,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 var appId = generateUUID();
                 var newApplication = applicationConstructor(appId, $scope.applicationName, $scope.platforms, [],[]);
                 $scope.currentApplication = newApplication;
-                $scope.message = "Create new application...";
+                $scope.message = "Creating " + $scope.applicationName + "...";
                 $scope.showArea("messageArea");
                 $scope.addAppToApplicationList(newApplication);
                 $scope.createApplication(appId, $scope.applicationName, $scope.platforms);
@@ -204,7 +204,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         var applicationConstructor = function(id, name, platforms, actions, behaviors){
             return {id: id, name: name, platforms: platforms, objects: actions, behaviors: behaviors};
-        }
+        };
 
         $scope.removeApplicationFromAppList = function(id){
             for(var i = $scope.applications.length - 1; i >= 0; i--){
@@ -270,6 +270,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.showCurrentPlatforms();
             $scope.applicationName = $scope.currentApplication.name;
             $scope.showArea("applicationEditArea");
+            $scope.hideArea("applicationDetailsArea");
 
             /* $scope.hideArea("menuButtonsArea");
              $scope.showArea("centralArea");
@@ -289,10 +290,13 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.objectName = 'Invalid Name!'
             }
             else {
+                $scope.all_attrs = $scope.all_attrs.filter($scope.isValidAttribute);
+                $scope.all_acts_Object = $scope.all_acts_Object.filter($scope.isValidActionObject);
+
                 var newObject = {
                     name: $scope.objectName,
-                    attributes: $scope.all_attrs.filter($scope.isValidAttribute),
-                    actions: $scope.all_acts_Object.filter($scope.isValidActionObject)
+                    attributes: $scope.all_attrs,
+                    actions: $scope.all_acts_Object
                 };
 
                 $scope.addObjectToApplication(newObject);
@@ -406,7 +410,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showBehaviorDetails(newBehavior);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newBehavior));
+                sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior));
             }
         };
 
