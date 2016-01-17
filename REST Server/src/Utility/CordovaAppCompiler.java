@@ -14,7 +14,7 @@ import java.io.IOException;
 public class CordovaAppCompiler implements AppCompiler {
 
     @Override
-    public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException, IOException {
+    public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException {
         String name = application.getString("name");
         executeCommand("","create \"" + Strings.PATH_APPS + "\\" + name + "\" com.happi.app \"" + name + "\"");
         //initializeFiles(Strings.PATH_APPS + "\\" + name);

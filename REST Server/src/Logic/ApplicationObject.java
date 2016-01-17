@@ -3,8 +3,6 @@ package Logic;
 import org.bson.Document;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,6 +18,7 @@ import java.util.ArrayList;
  * A class describing an entity in the application which has a name and several attributes.
  */
 
+@SuppressWarnings("unused")
 @XmlRootElement
 public class ApplicationObject extends Document{
 
@@ -33,7 +32,7 @@ public class ApplicationObject extends Document{
     @JsonCreator
     public ApplicationObject(@JsonProperty("name") String name,
                              @JsonProperty("attributes") ArrayList<ObjectAttribute> attributes,
-                             @JsonProperty("actions") ArrayList<ObjectAction> actions) throws JSONException {
+                             @JsonProperty("actions") ArrayList<ObjectAction> actions) {
 
         super();
         this.append("name", name);
@@ -66,29 +65,6 @@ public class ApplicationObject extends Document{
 
     public void setActions(ArrayList<ObjectAction> actions) {
         this.actions = actions;
-    }
-
-    private void parseActions(String actions) throws JSONException {
-        String[] actionsStrings = actions.substring(1,actions.length() - 1).split("},\\{}");
-        for (String singleAction : actionsStrings){
-            singleAction = "\\{" + singleAction + "}";
-            JSONObject actionJson = new JSONObject(singleAction);
-            JSONObject operand1Json = new JSONObject(actionJson.getString("operand1"));
-            ObjectAttribute operand1 = new ObjectAttribute(operand1Json.getString("name"), operand1Json.getString("type"));
-            ObjectAction act = new ObjectAction(actionJson.getString("name"), operand1, actionJson.getString("operator"),actionJson.getString("operand2"));
-            this.actions.add(act);
-        }
-    }
-
-    private void parseAttributes(String attributes) throws JSONException {
-        String[] attributesStrings = attributes.substring(1,attributes.length() - 1).split("},\\{}");
-        for (String singleAttribute : attributesStrings){
-            singleAttribute = "\\{" + singleAttribute + "}";
-            JSONObject attributeJson = new JSONObject(singleAttribute);
-            ObjectAttribute attr = new ObjectAttribute(attributeJson.getString("name"), attributeJson.getString("type"));
-            this.attributes.add(attr);
-        }
-
     }
 
     public String toString(){

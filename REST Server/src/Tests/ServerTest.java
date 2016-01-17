@@ -1,18 +1,14 @@
 package Tests;
 
 import Database.Database;
-import Logic.Application;
-import Logic.Facade;
-import Logic.hAPPiFacade;
+import Logic.*;
 import Server.Server;
 import Utility.FileHandler;
 import Utility.Strings;
-import com.mongodb.DBCollection;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import junit.framework.TestCase;
 import org.codehaus.jettison.json.JSONObject;
 
-import javax.xml.transform.sax.SAXSource;
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -22,15 +18,13 @@ import java.util.UUID;
  */
 public class ServerTest extends TestCase {
 
-    Server server;
+    private Server server;
     private static Facade facade;
-    private String currentApp;
     private Database database;
 
     @org.junit.Before
     public void setUp() throws Exception {
         server = new Server();
-        currentApp = "";
         facade = new hAPPiFacade();
         facade.connectToDatabase();
         server.setFacade(facade);
@@ -42,73 +36,65 @@ public class ServerTest extends TestCase {
         facade.clearDatabase();
     }
 
-    @org.junit.Test
     public void testGetMainPage() throws Exception {
         String mainPage = server.getMainPage();
         String indexPage = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "index.html");
         assertEquals(indexPage,mainPage);
     }
 
-//    @org.junit.Test
-//    public void testCreateApplication() throws Exception {
-//        //create application successfully
-//        String appName = UUID.randomUUID().toString();
-//        String appId = appName;
-//        JSONObject json = new JSONObject();
-//        json.put("name",appName);
-//        json.put("id", appId);
-//        json.put("platforms","[android,ios]");
-//        Application app = new Application(appId, appName, "android,ios", "","");
-//        String application = server.createApplication(app);
-//        assertEquals("The application " + appName + " was created successfully",application);
-//        Application getApp = database.getData(appName);
-//        assertEquals(null,getApp);
-//
-//        //create application with existing name
-//        json = new JSONObject();
-//        json.put("name",appName);
-//        json.put("id", appId);
-//        json.put("platforms","[android,ios]");
-//        application = server.createApplication(app);
-//        assertEquals("Error: failed to create application!",application);
-//    }
+    public void testCreateApplication() throws Exception {
+        //create application successfully
+        String appName = UUID.randomUUID().toString();
+        JSONObject json = new JSONObject();
+        json.put("name",appName);
+        json.put("id", appName);
+        json.put("platforms","[android,ios]");
+        ArrayList<String> platforms = new ArrayList<>();
+        platforms.add("android");
+        platforms.add("ios");
+        Application app = new Application(appName, appName, platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        String application = server.createApplication(app);
+        assertEquals("Created " + appName, application);
+        Application getApp = database.getData(appName);
+        assertEquals(app,getApp);
 
-    @org.junit.Test
+        //create application with existing name
+        json = new JSONObject();
+        json.put("name",appName);
+        json.put("id", appName);
+        json.put("platforms","[android,ios]");
+        application = server.createApplication(app);
+        assertEquals("Error: failed to create application!",application);
+    }
+
     public void testBuildApplication() throws Exception {
 
     }
 
-    @org.junit.Test
     public void testCreateObject() throws Exception {
 
     }
 
-    @org.junit.Test
     public void testRemoveObject() throws Exception {
 
     }
 
-    @org.junit.Test
     public void testCreateBehavior() throws Exception {
 
     }
 
-    @org.junit.Test
     public void testRemoveBehavior() throws Exception {
 
     }
 
-    @org.junit.Test
     public void testRemoveApplication() throws Exception {
 
     }
 
-    @org.junit.Test
     public void testUpdateApplication() throws Exception {
 
     }
 
-    @org.junit.Test
     public void testMain() throws Exception {
 
     }

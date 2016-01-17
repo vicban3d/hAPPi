@@ -56,25 +56,6 @@ public class FileHandler {
         }
     }
 
-    public static void removeFromFile(String path, String jsValue) throws IOException {
-        Path filePath = Paths.get(path);
-        byte[] encoded;
-        try {
-            encoded = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            Logger.ERROR("Failed to read from file " + path + "!", e.getMessage());
-            throw e;
-        }
-        String content = new String(encoded).replace(jsValue, "");
-        try {
-            clearFile(path);
-            Files.write(filePath, content.getBytes(), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            Logger.ERROR("Failed to write to file " + path + "!", e.getMessage());
-            throw e;
-        }
-    }
-
     public static void clearFile(String path) throws IOException {
         Files.delete(Paths.get(path));
         Files.createFile(Paths.get(path));

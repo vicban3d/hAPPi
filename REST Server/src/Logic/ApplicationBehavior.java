@@ -3,8 +3,6 @@ package Logic;
 import org.bson.Document;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
  *
  */
 
+@SuppressWarnings("unused")
 @XmlRootElement
 public class ApplicationBehavior extends Document{
 
@@ -62,12 +61,5 @@ public class ApplicationBehavior extends Document{
         return result;
 
 
-    }
-
-    public JSONObject toJSON() throws JSONException {
-        JSONObject json = new JSONObject();
-        json.put("name", this.name);
-        json.put("actions", this.actions);
-        return json;
     }
 }

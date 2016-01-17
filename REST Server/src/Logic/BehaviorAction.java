@@ -11,8 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 
+@SuppressWarnings("unused")
 @XmlRootElement
-public class BehaviorAction extends Document {
+class BehaviorAction extends Document {
     @XmlAttribute(required = true)
     private ApplicationObject operandObject;
     @XmlAttribute(required = true)

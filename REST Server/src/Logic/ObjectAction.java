@@ -12,17 +12,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 
+@SuppressWarnings("unused")
 @XmlRootElement
-public class ObjectAction extends Document{
+class ObjectAction extends Document{
 
     @XmlElement(required = true)
-    String name;
+    private String name;
     @XmlElement(required = true)
-    ObjectAttribute operand1;
+    private ObjectAttribute operand1;
     @XmlElement(required = true)
-    String operator;
+    private String operator;
     @XmlElement(required = true)
-    String operand2;
+    private String operand2;
 
     @JsonCreator
     public ObjectAction(@JsonProperty("name") String name,

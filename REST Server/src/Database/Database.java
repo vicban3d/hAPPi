@@ -1,7 +1,6 @@
 package Database;
 
 import Logic.Application;
-import org.codehaus.jettison.json.JSONException;
 
 import java.io.IOException;
 
@@ -22,13 +21,13 @@ public interface Database {
      */
     void clearAll();
 
-    void removeData(String appId) throws IOException, JSONException;
+    void removeData(String appId);
 
 //    String getApplicationNameById(String collectionId) throws JSONException;
 
-    void updateData(Application application) throws IOException, JSONException;
+    void updateData(Application application);
 
     Application getData(String appId);
 
-    void addData(Application application) throws JSONException;
+    void addData(Application application);
 }

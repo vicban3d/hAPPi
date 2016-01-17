@@ -20,40 +20,27 @@ public interface Facade {
      * Creates a new application with the given parameters.
      * @param application - a JSON compatible string describing the application.
      */
-    void createApplication(Application application) throws CordovaRuntimeException, JSONException, IOException;
+    void createApplication(Application application) throws CordovaRuntimeException, JSONException;
 
-    /**
-     * Adds an android component to the given application.
-     * @param application - the name of the application.
-     */
-    void addAndroidToApplication(String application) throws CordovaRuntimeException;
-
-    /**
-     * Adds an ios component to the given application.
-     * @param application - the name of the application.
-     */
-    void addIOSToApplication(String application) throws CordovaRuntimeException;
-
-    /**
-     * Adds a Windows Phone component to the given application.
-     * @param application - the name of the application.
-     */
-    void addWindowsPhoneToApplication(String application) throws CordovaRuntimeException;
-
-    /**
+     /**
      * Compiles and builds the application.
      * @param appId - the name of the application to build.
      */
-    void buildApplication(String appId) throws CordovaRuntimeException, JSONException, IOException;
+    void buildApplication(String appId) throws CordovaRuntimeException, IOException;
 
     /**
      * Creates a new object in the given application.
      * @param appId - the id of the application.
      * @param object - the JSON compatible parameters of the object.
      */
-    void createObject(String appId, ApplicationObject object) throws JSONException, IOException;
+    void createObject(String appId, ApplicationObject object);
 
-    void removeObject(String appId, ApplicationObject object) throws IOException, JSONException;
+    /**
+     * Removes an object from the given application.
+     * @param appId - the id of the application.
+     * @param object - the JSON compatible parameters of the object.
+     */
+    void removeObject(String appId, ApplicationObject object);
 
     /**
      * Initiates a connection to the database.
@@ -62,15 +49,15 @@ public interface Facade {
 
     void clearDatabase();
 
-    void removeApplication(String appId) throws JSONException, IOException;
+    void removeApplication(String appId);
 
-    void updateApplication(Application application) throws CordovaRuntimeException, IOException;
+    void updateApplication(Application application) throws IOException, CordovaRuntimeException;
 
     void removePlatforms(String application);
 
-    void createBehavior(String appId, ApplicationBehavior behavior) throws JSONException, IOException;
+    void createBehavior(String appId, ApplicationBehavior behavior);
 
-    void removeBehavior(String appId, ApplicationBehavior behavior) throws IOException, JSONException;
+    void removeBehavior(String appId, ApplicationBehavior behavior);
 
     Database getDataBase();
 }

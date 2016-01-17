@@ -5,16 +5,12 @@ import Logic.ApplicationBehavior;
 import Logic.ApplicationObject;
 import Utility.Logger;
 import Utility.Strings;
-import com.mongodb.*;
-import com.mongodb.client.MongoCollection;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
-
 import org.bson.Document;
-import org.codehaus.jettison.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by victor on 11/9/2015.
@@ -40,7 +36,7 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void addData(Application application) throws JSONException {
+    public void addData(Application application) {
         String id = application.getId();
         Document doc =  new Document();
 //        doc.append("id", application.getId());
@@ -54,13 +50,13 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void removeData(String appId) throws IOException, JSONException {
+    public void removeData(String appId) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
         db.getCollection(appId).drop();
     }
 
     @Override
-    public void updateData(Application application) throws IOException, JSONException {
+    public void updateData(Application application) {
         removeData(application.getId());
         addData(application);
     }
@@ -72,9 +68,9 @@ public class MongoDB implements Database {
         doc = (Document)doc.get(appId);
         String id = doc.getString("id");
         String name = doc.getString("name");
-        ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");
-        ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>) doc.get("objects");
-        ArrayList<ApplicationBehavior> behaviors = (ArrayList<ApplicationBehavior>) doc.get("behaviors");
+        @SuppressWarnings("unchecked") ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");
+        @SuppressWarnings("unchecked") ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>) doc.get("objects");
+        @SuppressWarnings("unchecked") ArrayList<ApplicationBehavior> behaviors = (ArrayList<ApplicationBehavior>) doc.get("behaviors");
         return new Application(id, name, platforms, objects, behaviors);
     }
 

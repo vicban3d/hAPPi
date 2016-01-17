@@ -440,7 +440,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 };
             }
             if (actionName == "Change To") {
-                return function (operand) {
+                return function () {
                     return operand2;
                 };
             }

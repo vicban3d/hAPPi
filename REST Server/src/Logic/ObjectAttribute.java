@@ -12,13 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 
+@SuppressWarnings("unused")
 @XmlRootElement
 public class ObjectAttribute extends Document{
 
     @XmlElement(required = true)
-    String name;
+    private String name;
     @XmlElement(required = true)
-    String type;
+    private  String type;
 
     @JsonCreator
     public ObjectAttribute(@JsonProperty("name") String name,@JsonProperty("type") String type) {

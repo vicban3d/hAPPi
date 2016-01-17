@@ -8,7 +8,6 @@ import org.codehaus.jettison.json.JSONObject;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,6 +16,7 @@ import java.util.Collections;
  *
  */
 
+@SuppressWarnings("unused")
 @XmlRootElement
 public class Application extends Document{
 
@@ -138,7 +138,7 @@ public class Application extends Document{
 
     }
 
-    public JSONObject toJSON() throws IOException, JSONException {
+    public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("id", this.id);
         json.put("name", this.name);

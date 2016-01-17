@@ -7,6 +7,7 @@ package Server;
 
 import Exceptions.CordovaRuntimeException;
 import Logic.*;
+import Utility.FileHandler;
 import Utility.Logger;
 import Utility.Strings;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
@@ -27,11 +28,12 @@ import java.util.logging.Level;
 @Path(Strings.SRV_MAIN)
 public class Server {
 
+    // Silence the built-in jersey logger
     private final static java.util.logging.Logger COM_SUN_JERSEY_LOGGER = java.util.logging.Logger.getLogger( "com.sun.jersey" );
     static { COM_SUN_JERSEY_LOGGER.setLevel( Level.SEVERE ); }
 
     private static Facade facade;
-    private Application currentApp;
+    private Application currentlySelectedApplication;
 
     /**
      * Returns the main page of the application - "index.html".
@@ -42,11 +44,13 @@ public class Server {
     @Path(Strings.PATH_MAIN)
     @Produces(MediaType.WILDCARD)
     public String getMainPage() {
-        return getPage("index.html");
+        return FileHandler.readFile(Strings.PATH_WEB_CONTENT + "index.html");
     }
 
     /**
      * Creates a new Cordova project in PATH_APPS according to user parameters.
+     * @param data - a JSON representation of the application.
+     * @return - the status of the request.
      */
     @POST
     @Path(Strings.PATH_CREATE_APP)
@@ -55,12 +59,9 @@ public class Server {
     public String createApplication(Application data){
         try {
             Logger.INFO("Creating a new application: " + data.getId());
-            this.currentApp = data;
+            this.currentlySelectedApplication = data;
             facade.createApplication(data);
             return "Created " + data.getName();
-        } catch (IOException e) {
-            Logger.ERROR("Failed to create application", e.getMessage());
-            return "Error: failed to create application!";
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed execute cordova command", e.getMessage());
             return "Error: failed to create application!";
@@ -71,31 +72,30 @@ public class Server {
     }
 
     /**
-     * Build an application
+     * Builds an application package that can be installed on a mobile phone.
+     * @param application - a JSON representation of the application.
+     * @return - the status of the request.
      */
     @POST
     @Path(Strings.PATH_BUILD_APP)
     @Produces(MediaType.TEXT_PLAIN)
-    public String buildApplication(Application application) throws CordovaRuntimeException, JSONException{
+    public String buildApplication(Application application) {
         try {
             facade.buildApplication(application.getId());
             return application.getName() + " built successfully!";
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed to build application", e.getMessage());
             return "Error building application " + application;
-        }
-        catch (JSONException e) {
-            Logger.ERROR("Incorrect data format", e.getMessage());
-            return "Error building application " + application;
         } catch (IOException e) {
             Logger.ERROR("Failed to read application files", e.getMessage());
             return "Error building application " + application;
         }
-
     }
 
     /**
-     * Creates a new object for the user.
+     * Creates a new object in the currently selected application.
+     * @param data - a JSON representation of the application object.
+     * @return - the status of the request.
      */
     @POST
     @Path(Strings.PATH_CREATE_OBJECT)
@@ -103,13 +103,10 @@ public class Server {
     @Produces(MediaType.TEXT_PLAIN)
     public String createObject(ApplicationObject data){
         try {
-            facade.createObject(currentApp.getId(), data);
+            facade.createObject(currentlySelectedApplication.getId(), data);
             return "Object " + data.getName() + " added!";
         }
-        catch (JSONException e) {
-            Logger.ERROR("Incorrect data format", e.getMessage());
-            return "Error: failed to create object!";
-        } catch (IOException e) {
+        catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create object!";
         }
@@ -117,54 +114,66 @@ public class Server {
     }
 
     /**
-     * Creates a new object for the user.
+     * Removes an object from the currently selected application.
+     * @param data - a JSON representation of the application object.
+     * @return - the status of the request.
      */
     @POST
     @Path(Strings.PATH_REMOVE_OBJECT)
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
-    public String removeObject(ApplicationObject data) throws JSONException, IOException {
-        facade.removeObject(currentApp.getId(), data);
+    public String removeObject(ApplicationObject data) {
+        try {
+            facade.removeObject(currentlySelectedApplication.getId(), data);
+        } catch (Exception e) {
+            Logger.ERROR("Incorrect data format", e.getMessage());
+            return "Error: failed to remove object!";
+        }
         return "Object Removed!";
     }
 
+    /**
+     * Creates a behavior for the currently selected application.
+     * @param data - a JSON representation of the application behavior.
+     * @return - the request status.
+     */
     @POST
     @Path(Strings.PATH_CREATE_BEHAVIOR)
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
     public String createBehavior(ApplicationBehavior data){
         try {
-            facade.createBehavior(currentApp.getId(), data);
-        }  catch (JSONException e) {
+            facade.createBehavior(currentlySelectedApplication.getId(), data);
+        }  catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create behavior!";
-        } catch (IOException e) {
-            Logger.ERROR("Error reading data", e.getMessage());
-            return "Error: Failed to create behavior!";
         }
         return "Behavior added!";
     }
 
     /**
-     * Creates a new object for the user.
+     * Removes a behavior from the currently selected application.
+     * @param data - a JSON representation of the application behavior.
+     * @return - the request status.
      */
     @POST
     @Path(Strings.PATH_REMOVE_BEHAVIOR)
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
-    public String removeBehavior(ApplicationBehavior data) throws JSONException{
+    public String removeBehavior(ApplicationBehavior data) {
         try {
-            facade.removeBehavior(currentApp.getId(), data);
-        } catch (IOException e) {
-            Logger.ERROR("Error reading data", e.getMessage());
-            return "Error: Failed to remove behavior!";
+            facade.removeBehavior(currentlySelectedApplication.getId(), data);
+        } catch (Exception e) {
+            Logger.ERROR("Incorrect data format", e.getMessage());
+            return "Error: failed to remove behavior!";
         }
         return "Behavior Removed!";
     }
 
     /**
-     * Creates a new object for the user.
-     * @param application - the application to delete
+     * Removes an application.
+     * @param application - a JSON representation of the application.
+     * @return - the request status.
      */
     @POST
     @Path(Strings.PATH_REMOVE_APP)
@@ -173,34 +182,36 @@ public class Server {
     public String removeApplication(Application application) {
         try {
             facade.removeApplication(application.getId());
-        } catch (JSONException e) {
-            Logger.ERROR("Incorrect data format", e.getMessage());
-            return "Error: failed to create behavior!";
-        } catch (IOException e) {
-            Logger.ERROR("Error reading data", e.getMessage());
-            return "Error: Failed to remove behavior!";
         }
+        catch (Exception e){
+            Logger.ERROR("Failed to remove application", e.getMessage());
+            return "Failed to remove application!";
+        }
+
         return "Application Removed!";
     }
 
+    /**
+     * Updates the content of an application.
+     * @param data- a JSON representation of the application.
+     * @return - the status of the request.
+     */
     @POST
     @Path(Strings.PATH_UPDATE_APP)
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
-    public String UpdateApplication(Application data) throws JSONException, CordovaRuntimeException, IOException{
-        facade.updateApplication(data);
-        this.currentApp = data;
+    public String UpdateApplication(Application data) {
+        try {
+            facade.updateApplication(data);
+        } catch (CordovaRuntimeException e) {
+            Logger.ERROR("Failed execute cordova command", e.getMessage());
+            return "Error: failed to update application!";
+        } catch (IOException e) {
+            Logger.ERROR("Error reading data", e.getMessage());
+            return "Error: Failed to update application!";
+        }
+        this.currentlySelectedApplication = data;
         return "The application " + data.getName() + " was updated successfully";
-    }
-
-    /**
-     * Returns the file at given source to the client.
-     *
-     * @param src - path to the requested file.
-     * @return the requested file or an error page.
-     */
-    private String getPage(String src) {
-        return Utility.FileHandler.readFile(Strings.PATH_WEB_CONTENT + src);
     }
 
     /**
@@ -241,7 +252,7 @@ public class Server {
     }
 
     /**
-     * Main - starts the server and awaits termination.
+     * Starts the server and awaits termination.
      * @param args - null
      */
     public static void main(String[] args) {
