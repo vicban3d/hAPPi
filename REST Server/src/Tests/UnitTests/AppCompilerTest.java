@@ -17,6 +17,6 @@ public class AppCompilerTest extends TestCase {
     }
 
     public void testBuildApplication() throws Exception {
-
+        System.out.println("hello");
     }
 }
