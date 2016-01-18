@@ -62,6 +62,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.showBehaviors = true;
         $scope.showInstance = false;
 
+        new QRCode(document.getElementById("appQRImage"), "http://192.168.0.101:80/android-debug.apk");
+
         // General Functions //
         $scope.menuHome = function(){
             $scope.hideAll();

@@ -59,6 +59,7 @@ public class hAPPiFacade implements Facade {
         Application application = database.getData(appId);
         prepareApplicationForCompilation(application);
         compiler.buildApplication(application.getName());
+        FileHandler.copyFile(Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk", Strings.PATH_WEB_CONTENT + "/");
     }
 
     private void prepareApplicationForCompilation(Application application) throws IOException {

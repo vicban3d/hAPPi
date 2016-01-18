@@ -1,10 +1,9 @@
 package Utility;
 
+import com.sun.grizzly.util.FileUtil;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.io.File;
 /**
  * Created by victor on 11/6/2015.
@@ -87,5 +86,9 @@ public class FileHandler {
         if (newFile.exists() && !oldFile.equals(newFile))
             throw new java.io.IOException("file exists");
         oldFile.renameTo(newFile);
+    }
+
+    public static void copyFile(String source, String destination) throws IOException {
+        Files.copy(Paths.get(source), Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
     }
 }

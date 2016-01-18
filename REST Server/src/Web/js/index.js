@@ -36,3 +36,5 @@ function submit(){
     numOfAttributes = 0;
     document.getElementById("div_message").innerHTML = "<span style=\"color: #00cc00;\">Added new object.</span>"
 }
+
+
