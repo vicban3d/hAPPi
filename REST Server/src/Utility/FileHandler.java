@@ -1,10 +1,8 @@
 package Utility;
 
-import com.sun.grizzly.util.FileUtil;
-
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.io.File;
 /**
  * Created by victor on 11/6/2015.
  *
