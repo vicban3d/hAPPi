@@ -115,8 +115,8 @@
             </div>
             <div class="draggableButton" data-ng-click="releaseBuildApplication(currentApplication)">
                 <b>Build {{currentApplication.name}}</b>
-                <div id="appQRImage"></div>
             </div>
+            <div id="appQRImage" data-ng-show="applicationBuilt"></div>
         </div>
     </div>
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">

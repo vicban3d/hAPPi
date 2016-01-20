@@ -11,8 +11,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.areaFlags["sideArea"] = true;
         $scope.areaFlags["messageArea"] = false;
         $scope.areaFlags["menuArea"] = true;
-        $scope.areaFlags["menuButtonsArea"] = true;
-        $scope.areaFlags["applicationListArea"] = false;
+        $scope.areaFlags["menuButtonsArea"] = false;
+        $scope.areaFlags["applicationListArea"] = true;
         $scope.areaFlags["applicationDetailsArea"] = false;
         $scope.areaFlags["applicationEditArea"] = false;
         $scope.areaFlags["applicationCreateArea"] = false;
@@ -26,6 +26,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.areaFlags["actionEditArea"] = false;
         $scope.areaFlags["designArea"] = false;
         $scope.areaFlags["releaseArea"] = false;
+
+        $scope.applicationBuilt = false;
 
         $scope.menuButtons = [
             {'label': 'Apps',        'function': function(){$scope.menuHome()}},
@@ -61,8 +63,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         $scope.showBehaviors = true;
         $scope.showInstance = false;
-
-        new QRCode(document.getElementById("appQRImage"), "http://192.168.0.101:80/android-debug.apk");
 
         // General Functions //
         $scope.menuHome = function(){
@@ -152,7 +152,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.currentApplication = {};
                 $scope.currentAppURL = '';
             }
-            sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application));
+            acceptMessageResult(sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application)));
         };
 
         $scope.addApplication = function(){
@@ -222,25 +222,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 name: name,
                 platforms: platforms
             };
-            var result = sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(newApplication));
-            result.onreadystatechange = function(){
-                if (result.readyState != 4 && result.status != 200){
-                    $scope.message = "Error";
-                    $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-                else if (result.readyState == 4 && result.status == 200){
-                    $scope.message = result.responseText;
-                    $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-            };
+            acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(newApplication)));
         };
 
         $scope.showApplicationDetails = function(application){
@@ -312,7 +294,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showObjectDetails(newObject);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject));
+                acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
             }
         };
 
@@ -322,7 +304,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             if (object == $scope.currentObject){
                 $scope.currentObject = {};
             }
-            sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object));
+            acceptMessageResult(sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object)));
             $scope.hideArea("objectDetailsArea");
         };
 
@@ -412,7 +394,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 $scope.showBehaviorDetails(newBehavior);
                 $scope.hideArea("actionsEditAreaObject");
                 $scope.hideArea("actionsEditAreaBehavior");
-                sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior));
+                acceptMessageResult(sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior)));
             }
         };
 
@@ -571,25 +553,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                 objects: [],
                 behaviors: []
             };
-            var result = sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication));
-            result.onreadystatechange = function(){
-                if (result.readyState != 4 && result.status != 200){
-                    $scope.message = "Error";
-                    $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-                else if (result.readyState == 4 && result.status == 200){
-                    $scope.message = result.responseText;
-                    $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-            };
+            acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication)));
         };
 
         $scope.menuHome = function(){
@@ -618,7 +582,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             if (behavior == $scope.currentBehavior){
                 $scope.currentBehavior = {};
             }
-            sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(behavior));
+            acceptMessageResult(sendPOSTRequest(Paths.REMOVE_BEHAVIOR, angular.toJson(behavior)));
             $scope.hideArea("behaviorDetailsArea");
         };
 
@@ -639,7 +603,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         };
 
         $scope.currentInstance = '';
-        $scope.vals = [];
+        $scope.attribute_values = [];
         // Design //
         $scope.designDisplayObjectPage = function(object){
             $scope.currentInstance = object;
@@ -656,8 +620,8 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             if ($scope.instances[$scope.currentInstance.name] == undefined){
                 $scope.instances[$scope.currentInstance.name] = [];
             }
-            $scope.instances[$scope.currentInstance.name].push($scope.vals);
-            $scope.vals = [];
+            $scope.instances[$scope.currentInstance.name].push($scope.attribute_values);
+            $scope.attribute_values = [];
         };
 
         $scope.removeInstance = function(id){
@@ -688,9 +652,41 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.applications[application.id].platforms.push(application.platforms);
         };
 
+        function acceptMessageResult(result, success){
+            if (success == undefined){
+                success = function(){};
+            }
+            result.onreadystatechange = function(){
+                if (result.readyState != 4 && result.status != 200){
+                    $scope.message = "Error";
+                    $scope.showArea("messageArea");
+                    $timeout(function () {
+                        $scope.message = '';
+                    }, 5000);
+                    $scope.$apply();
+                }
+                else if (result.readyState == 4 && result.status == 200){
+                    $scope.message = result.responseText;
+                    $scope.showArea("messageArea");
+                    success(result.responseText);
+                    $timeout(function () {
+                        $scope.message = '';
+                    }, 5000);
+                    $scope.$apply();
+                }
+            };
+        }
+
 
         // Release //
         $scope.releaseBuildApplication = function(application){
-            sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application))
+            acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)),
+                function(result)
+                {
+                    new QRCode(document.getElementById("appQRImage"), result);
+                    $scope.applicationBuilt = true;
+                    $scope.message = "Application built successfully!"
+                });
+            $scope.message = "Building application..."
         };
     }]);

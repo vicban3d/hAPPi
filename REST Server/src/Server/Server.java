@@ -7,9 +7,9 @@ package Server;
 
 import Exceptions.CordovaRuntimeException;
 import Logic.*;
-import Utility.FileHandler;
 import Utility.Logger;
 import Utility.Strings;
+import com.dropbox.core.DbxException;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
@@ -32,7 +32,7 @@ public class Server {
     private final static java.util.logging.Logger COM_SUN_JERSEY_LOGGER = java.util.logging.Logger.getLogger( "com.sun.jersey" );
     static { COM_SUN_JERSEY_LOGGER.setLevel( Level.SEVERE ); }
 
-    private static Facade facade;
+    private static Facade facade = new hAPPiFacade();
     private Application currentlySelectedApplication;
 
     /**
@@ -44,7 +44,7 @@ public class Server {
     @Path(Strings.PATH_MAIN)
     @Produces(MediaType.WILDCARD)
     public String getMainPage() {
-        return FileHandler.readFile(Strings.PATH_WEB_CONTENT + "index.html");
+        return facade.getPage("index.html");
     }
 
     /**
@@ -81,13 +81,15 @@ public class Server {
     @Produces(MediaType.TEXT_PLAIN)
     public String buildApplication(Application application) {
         try {
-            facade.buildApplication(application.getId());
-            return application.getName() + " built successfully!";
+            return facade.buildApplication(application.getId());
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed to build application", e.getMessage());
             return "Error building application " + application;
         } catch (IOException e) {
             Logger.ERROR("Failed to read application files", e.getMessage());
+            return "Error building application " + application;
+        } catch (DbxException e) {
+            Logger.ERROR("Failed to access Dropbox", e.getMessage());
             return "Error building application " + application;
         }
     }
@@ -257,7 +259,6 @@ public class Server {
      */
     public static void main(String[] args) {
         Logger.SEVERE("*** Starting Server ***");
-        facade = new hAPPiFacade();
         try {
             facade.connectToDatabase();
             start();

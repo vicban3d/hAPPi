@@ -65,5 +65,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="libs" level="project" />
+    <orderEntry type="library" name="com.google.apis:google-api-services-drive:v2-rev168-1.20.0" level="project" />
+    <orderEntry type="library" name="com.dropbox.core:dropbox-core-sdk:2.0-beta-4" level="project" />
   </component>
 </module>

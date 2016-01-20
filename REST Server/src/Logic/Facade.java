@@ -7,6 +7,7 @@ package Logic;
 
 import Database.Database;
 import Exceptions.CordovaRuntimeException;
+import com.dropbox.core.DbxException;
 import org.codehaus.jettison.json.JSONException;
 
 import java.io.IOException;
@@ -24,9 +25,9 @@ public interface Facade {
 
      /**
      * Compiles and builds the application.
-     * @param appId - the name of the application to build.
-     */
-    void buildApplication(String appId) throws CordovaRuntimeException, IOException;
+      * @param appId - the name of the application to build.
+      */
+    String buildApplication(String appId) throws CordovaRuntimeException, IOException, DbxException;
 
     /**
      * Creates a new object in the given application.
@@ -60,4 +61,6 @@ public interface Facade {
     void removeBehavior(String appId, ApplicationBehavior behavior);
 
     Database getDataBase();
+
+    String getPage(String page);
 }

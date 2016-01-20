@@ -4,6 +4,7 @@ import Database.Database;
 import Database.MongoDB;
 import Exceptions.CordovaRuntimeException;
 import Utility.*;
+import com.dropbox.core.DbxException;
 import org.bson.Document;
 import org.codehaus.jettison.json.JSONException;
 
@@ -55,11 +56,13 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void buildApplication(String appId) throws CordovaRuntimeException, IOException {
+    public String buildApplication(String appId) throws CordovaRuntimeException, IOException, DbxException {
         Application application = database.getData(appId);
         prepareApplicationForCompilation(application);
         compiler.buildApplication(application.getName());
-        FileHandler.copyFile(Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk", Strings.PATH_WEB_CONTENT + "/");
+//      DriveAPI.insertFile(DriveAPI.getDriveService(), application.getName(),"","0BynfcqbWZbOaRDBucWlxVlhyVXc","application/vnd.android.package-archive",Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
+        return DropboxAPI.uploadFile(application.getName(), Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
+
     }
 
     private void prepareApplicationForCompilation(Application application) throws IOException {
@@ -151,5 +154,10 @@ public class hAPPiFacade implements Facade {
     @Override
     public Database getDataBase(){
         return database;
+    }
+
+    @Override
+    public String getPage(String page) {
+        return FileHandler.readFile(Strings.PATH_WEB_CONTENT + page);
     }
 }
