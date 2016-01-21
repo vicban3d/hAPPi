@@ -43,11 +43,11 @@ public class Application extends Document{
         this.append("platforms", platforms);
         this.append("objects", objects);
         this.append("behaviors", behaviors);
-//        this.id = id;
-//        this.name = name;
-//        this.platforms = platforms;
-//        this.objects = objects;
-//        this.behaviors = behaviors;
+        this.id = id;
+        this.name = name;
+        this.platforms = platforms;
+        this.objects = objects;
+        this.behaviors = behaviors;
     }
 
     public String getId() {
@@ -68,11 +68,11 @@ public class Application extends Document{
 
     public ArrayList<String> getPlatforms() {
         //noinspection unchecked
-        return (ArrayList<String>) this.get("paltforms");
+        return (ArrayList<String>) this.get("platforms");
     }
 
     public void setPlatforms(ArrayList<String> platforms) {
-        this.put("platform", platforms);
+        this.put("platforms", platforms);
     }
 
     public ArrayList<ApplicationObject> getObjects() {
@@ -129,11 +129,11 @@ public class Application extends Document{
 
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("id", this.id);
-        json.put("name", this.name);
-        json.put("platforms", this.platforms);
-        json.put("objects", this.objects);
-        json.put("behaviors", this.behaviors);
+        json.put("id", this.getId());
+        json.put("name", this.getName());
+        json.put("platforms", this.getPlatforms());
+        json.put("objects", this.getObjects());
+        json.put("behaviors", this.getBehaviors());
         return json;
     }
 

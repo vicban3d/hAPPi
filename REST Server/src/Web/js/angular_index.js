@@ -129,7 +129,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             if($scope.ios == true)
                 $scope.platforms.push("ios");
             if($scope.windowsPhone == true)
-                $scope.platforms.push("windowsPhone");
+                $scope.platforms.push("wp8");
         };
 
         $scope.showCurrentPlatforms = function(){
@@ -139,7 +139,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
                     $scope.android = true;
                 else if($scope.currentApplication.platforms[i] == "ios")
                     $scope.ios = true;
-                else if($scope.currentApplication.platforms[i] == "windowsPhone")
+                else if($scope.currentApplication.platforms[i] == "wp8")
                     $scope.windowsPhone = true;
             }
         };

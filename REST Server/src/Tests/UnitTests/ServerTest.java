@@ -2,6 +2,7 @@ package Tests.UnitTests;
 
 import Database.Database;
 import Logic.*;
+import Server.*;
 import Server.Server;
 import Utility.FileHandler;
 import Utility.Strings;
@@ -18,7 +19,7 @@ import java.util.UUID;
  */
 public class ServerTest extends TestCase {
 
-    private Server server;
+    private RESTServer server;
     private static Facade facade;
     private Database database;
 
@@ -27,7 +28,6 @@ public class ServerTest extends TestCase {
         server = new Server();
         facade = new hAPPiFacade();
         facade.connectToDatabase();
-        server.setFacade(facade);
         database = facade.getDataBase();
     }
 

@@ -1,13 +1,7 @@
 <component name="libraryTable">
   <library name="libs">
-    <CLASSES>
-      <root url="file://$USER_HOME$/Desktop/google-api-java-client/libs" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$USER_HOME$/Desktop/google-api-java-client/libs" />
-    </SOURCES>
-    <jarDirectory url="file://$USER_HOME$/Desktop/google-api-java-client/libs" recursive="false" />
-    <jarDirectory url="file://$USER_HOME$/Desktop/google-api-java-client/libs" recursive="false" type="SOURCES" />
+    <SOURCES />
   </library>
 </component>

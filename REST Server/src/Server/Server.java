@@ -26,7 +26,7 @@ import java.util.logging.Level;
  */
 @Singleton
 @Path(Strings.SRV_MAIN)
-public class Server {
+public class Server implements RESTServer {
 
     // Silence the built-in jersey logger
     private final static java.util.logging.Logger COM_SUN_JERSEY_LOGGER = java.util.logging.Logger.getLogger( "com.sun.jersey" );
@@ -35,27 +35,12 @@ public class Server {
     private static Facade facade = new hAPPiFacade();
     private Application currentlySelectedApplication;
 
-    /**
-     * Returns the main page of the application - "index.html".
-     *
-     * @return the HTML content of the main page.
-     */
-    @GET
-    @Path(Strings.PATH_MAIN)
-    @Produces(MediaType.WILDCARD)
+    @Override
     public String getMainPage() {
         return facade.getPage("index.html");
     }
 
-    /**
-     * Creates a new Cordova project in PATH_APPS according to user parameters.
-     * @param data - a JSON representation of the application.
-     * @return - the status of the request.
-     */
-    @POST
-    @Path(Strings.PATH_CREATE_APP)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String createApplication(Application data){
         try {
             Logger.INFO("Creating a new application: " + data.getId());
@@ -71,14 +56,7 @@ public class Server {
         }
     }
 
-    /**
-     * Builds an application package that can be installed on a mobile phone.
-     * @param application - a JSON representation of the application.
-     * @return - the status of the request.
-     */
-    @POST
-    @Path(Strings.PATH_BUILD_APP)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String buildApplication(Application application) {
         try {
             return facade.buildApplication(application.getId());
@@ -94,15 +72,7 @@ public class Server {
         }
     }
 
-    /**
-     * Creates a new object in the currently selected application.
-     * @param data - a JSON representation of the application object.
-     * @return - the status of the request.
-     */
-    @POST
-    @Path(Strings.PATH_CREATE_OBJECT)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String createObject(ApplicationObject data){
         try {
             facade.createObject(currentlySelectedApplication.getId(), data);
@@ -115,15 +85,7 @@ public class Server {
 
     }
 
-    /**
-     * Removes an object from the currently selected application.
-     * @param data - a JSON representation of the application object.
-     * @return - the status of the request.
-     */
-    @POST
-    @Path(Strings.PATH_REMOVE_OBJECT)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String removeObject(ApplicationObject data) {
         try {
             facade.removeObject(currentlySelectedApplication.getId(), data);
@@ -134,15 +96,7 @@ public class Server {
         return "Object Removed!";
     }
 
-    /**
-     * Creates a behavior for the currently selected application.
-     * @param data - a JSON representation of the application behavior.
-     * @return - the request status.
-     */
-    @POST
-    @Path(Strings.PATH_CREATE_BEHAVIOR)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String createBehavior(ApplicationBehavior data){
         try {
             facade.createBehavior(currentlySelectedApplication.getId(), data);
@@ -153,15 +107,7 @@ public class Server {
         return "Behavior added!";
     }
 
-    /**
-     * Removes a behavior from the currently selected application.
-     * @param data - a JSON representation of the application behavior.
-     * @return - the request status.
-     */
-    @POST
-    @Path(Strings.PATH_REMOVE_BEHAVIOR)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String removeBehavior(ApplicationBehavior data) {
         try {
             facade.removeBehavior(currentlySelectedApplication.getId(), data);
@@ -172,15 +118,7 @@ public class Server {
         return "Behavior Removed!";
     }
 
-    /**
-     * Removes an application.
-     * @param application - a JSON representation of the application.
-     * @return - the request status.
-     */
-    @POST
-    @Path(Strings.PATH_REMOVE_APP)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String removeApplication(Application application) {
         try {
             facade.removeApplication(application.getId());
@@ -193,15 +131,7 @@ public class Server {
         return "Application Removed!";
     }
 
-    /**
-     * Updates the content of an application.
-     * @param data- a JSON representation of the application.
-     * @return - the status of the request.
-     */
-    @POST
-    @Path(Strings.PATH_UPDATE_APP)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
+    @Override
     public String UpdateApplication(Application data) {
         try {
             facade.updateApplication(data);
@@ -247,10 +177,6 @@ public class Server {
         // TODO - remove in production!!!
         facade.clearDatabase();// TODO - remove in production!!!
         // TODO - remove in production!!!
-    }
-
-    public void setFacade(Facade newFacade){
-        facade = newFacade;
     }
 
     /**
