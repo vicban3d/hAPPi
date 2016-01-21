@@ -38,7 +38,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void updateApplication(Application application) throws IOException, CordovaRuntimeException {
-        Application oldApp = database.getData(application.getId());
+        Application oldApp = Application.fromDocument(database.getData(application.getId()));
         String oldApplicationName = oldApp.getName();
         removePlatforms(oldApplicationName);
         FileHandler.renameFolder(oldApplicationName, application.getName());
@@ -57,7 +57,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public String buildApplication(String appId) throws CordovaRuntimeException, IOException, DbxException {
-        Application application = database.getData(appId);
+        Application application = Application.fromDocument(database.getData(appId));
         prepareApplicationForCompilation(application);
         compiler.buildApplication(application.getName());
 //      DriveAPI.insertFile(DriveAPI.getDriveService(), application.getName(),"","0BynfcqbWZbOaRDBucWlxVlhyVXc","application/vnd.android.package-archive",Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
@@ -99,14 +99,14 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void createObject(String appId, ApplicationObject data) {
-        Application application = database.getData(appId);
+        Application application = Application.fromDocument(database.getData(appId));
         application.addObject(data);
         database.updateData(application);
     }
 
     @Override
     public void removeObject(String appId, ApplicationObject object) {
-        Application application = database.getData(appId);
+        Application application = Application.fromDocument(database.getData(appId));
         application.removeObject(object);
         database.updateData(application);
     }
@@ -123,7 +123,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void removeApplication(String appId) {
-        String appName = database.getData(appId).getName();
+        String appName = Application.fromDocument(database.getData(appId)).getName();
         database.removeData(appId);
         File file = new File(Strings.PATH_APPS + "\\" + appName);
         FileHandler.deleteFolder(file);
@@ -139,14 +139,14 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void createBehavior(String appId, ApplicationBehavior behavior) {
-        Application application = database.getData(appId);
+        Application application = Application.fromDocument(database.getData(appId));
         application.addBehavior(behavior);
         database.updateData(application);
     }
 
     @Override
     public void removeBehavior(String appId, ApplicationBehavior behavior) {
-        Application application = database.getData(appId);
+        Application application = Application.fromDocument(database.getData(appId));
         application.removeBehavior(behavior);
         database.updateData(application);
     }

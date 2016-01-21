@@ -1,6 +1,6 @@
 package Database;
 
-import Logic.Application;
+import org.bson.Document;
 
 import java.io.IOException;
 
@@ -16,18 +16,33 @@ public interface Database {
     void connect() throws IOException;
 
     /**
-     * Clear the whole DB
+     * Clears the whole database.
      * WARNING! DO NOT USE LIGHTLY!
      */
     void clearAll();
 
-    void removeData(String appId);
+    /**
+     * Removes the document with the given ID from the database.
+     * @param documentID the id of the collection to remove.
+     */
+    void removeData(String documentID);
 
-//    String getApplicationNameById(String collectionId) throws JSONException;
+    /**
+     * Updates the document with the given ID in the database.
+     * @param document the new document.
+     */
+    void updateData(Document document);
 
-    void updateData(Application application);
+    /**
+     * Retrieves a document with the given ID from the database.
+     * @param documentId the ID of the document to retrieve.
+     * @return the requested document.
+     */
+    Document getData(String documentId);
 
-    Application getData(String appId);
-
-    void addData(Application application);
+    /**
+     * Adds a new document to the database.
+     * @param document the document to add.
+     */
+    void addData(Document document);
 }

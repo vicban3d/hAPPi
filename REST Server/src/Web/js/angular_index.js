@@ -28,18 +28,30 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.areaFlags["releaseArea"] = false;
 
         $scope.applicationBuilt = false;
+        $scope.applicationQRCode = undefined;
 
         $scope.menuButtons = [
-            {'label': 'Apps',        'function': function(){$scope.menuHome()}},
+            {'label': 'Apps',       'function': function(){$scope.menuHome()}},
             {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
             {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
-            {'label': 'Design',         'function': function(){$scope.menuDesign()}},
-            {'label': 'Release',        'function':  function(){$scope.menuRelease()}}
+            {'label': 'Design',     'function': function(){$scope.menuDesign()}},
+            {'label': 'Release',    'function': function(){$scope.menuRelease()}}
         ];
 
         $scope.basic_types = ["Number", "Text"];
         $scope.conditions = ["Or", "And"];
         $scope.logic_types = ["Greater Than", "Less Than"];
+        $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
+        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
+
+        $scope.currentApplication =
+        {
+            id: "",
+            name: $scope.applicationName,
+            platforms: $scope.platforms,
+            objects: [],
+            behaviors: []
+        };
 
         $scope.numOfAttributes = 0;
         $scope.numOfActions = 0;
@@ -48,7 +60,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.all_acts_Object = [];
         $scope.all_conditions = [];
         $scope.all_acts_Behavior = [];
-        $scope.currentApplication = {id: "", name: $scope.applicationName, platforms: $scope.platforms, objects: [], behaviors: []};
         $scope.platforms = [];
         $scope.currentBehavior = '';
         $scope.currentAppURL = '';
@@ -57,10 +68,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.behaviorName = '';
         $scope.objectName = '';
         $scope.applications = {};
-        $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
         $scope.emulatorOutput = '';
-
         $scope.showBehaviors = true;
         $scope.showInstance = false;
 
@@ -255,10 +263,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             $scope.applicationName = $scope.currentApplication.name;
             $scope.showArea("applicationEditArea");
             $scope.hideArea("applicationDetailsArea");
-
-            /* $scope.hideArea("menuButtonsArea");
-             $scope.showArea("centralArea");
-             $scope.showArea("applicationListArea");*/
         };
 
         $scope.addNewApplication = function(){
@@ -343,8 +347,6 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         $scope.editObjectDetails = function(object){
             $scope.currentObject = object;
-            /*$scope.objectName = $scope.currentObject.name;
-             $scope.attributes = $scope.currentObject.attributes;*/
             $scope.hideArea("objectDetailsArea");
             $scope.showArea("objectEditArea");
 
@@ -604,6 +606,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
 
         $scope.currentInstance = '';
         $scope.attribute_values = [];
+
         // Design //
         $scope.designDisplayObjectPage = function(object){
             $scope.currentInstance = object;
@@ -683,7 +686,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)),
                 function(result)
                 {
-                    new QRCode(document.getElementById("appQRImage"), result);
+                    $scope.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result);
                     $scope.applicationBuilt = true;
                     $scope.message = "Application built successfully!"
                 });

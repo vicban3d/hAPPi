@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by victor on 11/9/2015.
- *
+ * This class implements the Database interface and allows communication with MongoDB.
  */
 public class MongoDB implements Database {
 
@@ -36,36 +36,31 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void addData(Application application) {
-        String id = application.getId();
+    public void addData(Document document) {
+        String id = document.getString("id");
         Document doc =  new Document();
-//        doc.append("id", application.getId());
-//        doc.append("name", application.getName());
-//        doc.append("platforms", application.getPlatforms());
-//        doc.append("objects", application.getObjects());
-//        doc.append("behaviors", application.getBehaviors());
-        doc.append(id, application);
+        doc.append(id, document);
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
         db.getCollection(id).insertOne(doc);
     }
 
     @Override
-    public void removeData(String appId) {
+    public void removeData(String documentID) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        db.getCollection(appId).drop();
+        db.getCollection(documentID).drop();
     }
 
     @Override
-    public void updateData(Application application) {
-        removeData(application.getId());
-        addData(application);
+    public void updateData(Document document) {
+        removeData(document.getString("id"));
+        addData(document);
     }
 
     @Override
-    public Application getData(String appId) {
+    public Document getData(String documentId) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        Document doc = db.getCollection(appId).find().first();
-        doc = (Document)doc.get(appId);
+        Document doc = db.getCollection(documentId).find().first();
+        doc = (Document)doc.get(documentId);
         String id = doc.getString("id");
         String name = doc.getString("name");
         @SuppressWarnings("unchecked") ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");

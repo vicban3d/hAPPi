@@ -55,7 +55,7 @@ public class ServerTest extends TestCase {
         Application app = new Application(appName, appName, platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
         String application = server.createApplication(app);
         assertEquals("Created " + appName, application);
-        Application getApp = database.getData(appName);
+        Application getApp = Application.fromDocument(database.getData(appName));
         assertEquals(app,getApp);
 
         //create application with existing name

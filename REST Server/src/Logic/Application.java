@@ -43,63 +43,54 @@ public class Application extends Document{
         this.append("platforms", platforms);
         this.append("objects", objects);
         this.append("behaviors", behaviors);
-        this.id = id;
-        this.name = name;
-        this.platforms = platforms;
-        this.objects = objects;
-        this.behaviors = behaviors;
+//        this.id = id;
+//        this.name = name;
+//        this.platforms = platforms;
+//        this.objects = objects;
+//        this.behaviors = behaviors;
     }
 
     public String getId() {
-        return id;
+        return this.getString("id");
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.put("id", id);
     }
 
     public String getName() {
-        return name;
+        return this.getString("name");
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.put("name", name);
     }
 
     public ArrayList<String> getPlatforms() {
-        return platforms;
+        //noinspection unchecked
+        return (ArrayList<String>) this.get("paltforms");
     }
 
     public void setPlatforms(ArrayList<String> platforms) {
-        this.platforms = platforms;
+        this.put("platform", platforms);
     }
 
     public ArrayList<ApplicationObject> getObjects() {
-        return objects;
+        //noinspection unchecked
+        return (ArrayList<ApplicationObject>) this.get("objects");
     }
 
     public void setObjects(ArrayList<ApplicationObject> objects) {
-        this.objects = objects;
+        this.put("objects",objects);
     }
 
     public ArrayList<ApplicationBehavior> getBehaviors() {
-        return behaviors;
+        //noinspection unchecked
+        return (ArrayList<ApplicationBehavior>) this.get("behaviors");
     }
 
     public void setBehaviors(ArrayList<ApplicationBehavior> behaviors) {
-        this.behaviors = behaviors;
-    }
-
-    private void parsePlatforms(String platforms) {
-        Collections.addAll(this.platforms, platforms.split(","));
-    }
-
-    private void parseObjects(String objects) {
-        System.out.println(objects);
-    }
-
-    private void parseBehaviors(String behaviors) {
-        System.out.println(behaviors);
+        this.put("behaviors",behaviors);
     }
 
     public void addObject(ApplicationObject newObject) {
@@ -133,9 +124,7 @@ public class Application extends Document{
                 result += "\t* " + behavior + "\n";
             }
         }
-
         return result;
-
     }
 
     public JSONObject toJSON() throws JSONException {
@@ -150,9 +139,17 @@ public class Application extends Document{
 
     public void removeObject(ApplicationObject object) {
         objects.remove(object);
+        this.put("objects", this.objects);
+
     }
 
     public void removeBehavior(ApplicationBehavior object) {
         behaviors.remove(object);
+        this.put("behaviors", this.behaviors);
+    }
+
+    public static Application fromDocument(Document data) {
+        //noinspection unchecked
+        return new Application(data.getString("id"), data.getString("name"), (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"));
     }
 }
