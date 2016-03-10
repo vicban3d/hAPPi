@@ -124,9 +124,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
 
         $scope.deleteApplication = function($event, application){ appService.deleteApplication($scope, $event, application);};
 
-        $scope.addApplication = function(){appService.addApplication($scope, $scope.applicationName, $scope.platforms)};
+        $scope.addApplication = function(){appService.addApplication($scope, $scope.applicationName, [$scope.android, $scope.ios, $scope.windowsPhone])};
 
-        $scope.editApplication = function(){appService.editApplication($scope, $scope.applicationName, $scope.platforms);};
+        $scope.editApplication = function(){appService.editApplication($scope, $scope.applicationName, [$scope.android, $scope.ios, $scope.windowsPhone]);};
 
         $scope.removeApplicationFromAppList = function(id){appService.removeApplicationFromAppList($scope, id); };
 

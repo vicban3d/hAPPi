@@ -44,7 +44,7 @@ main_module.service('appService',[function(){
             $scope.applicationName = 'Invalid Name!'
         }
         else{
-            this.getPlatform();
+            platforms = this.getPlatform(platforms);
             var appId = generateUUID();
             var newApplication = this.applicationConstructor(appId, name, platforms, [],[]);
             this.currentApplication = newApplication;
@@ -99,14 +99,15 @@ main_module.service('appService',[function(){
         $scope.applications[application.id].platforms.push(application.platforms);
     };
 
-    this.getPlatform = function(){
-        this.platforms = [];
-        if(this.android == true)
-            this.platforms.push("android");
-        if(this.ios == true)
-            this.platforms.push("ios");
-        if(this.windowsPhone == true)
-            this.platforms.push("wp8");
+    this.getPlatform = function(input){
+        var platforms = [];
+        if(input[0] == true)
+            platforms.push("android");
+        if(input[1] == true)
+            platforms.push("ios");
+        if(input[2] == true)
+            platforms.push("wp8");
+        return platforms;
     };
 
     this.showCurrentPlatforms = function(){
