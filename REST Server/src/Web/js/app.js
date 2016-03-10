@@ -3,7 +3,7 @@ var main_module = angular.module('main', []);
 main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$timeout', '$sce',
     function(appService, objectService, $scope, $timeout) {
 
-        // Visiable gui components //
+        // Visible gui components //
         $scope.areaFlags = [];
         $scope.areaFlags["titleArea"] = true;
         $scope.areaFlags["workArea"] = true;
@@ -44,13 +44,12 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
 
-
-
         $scope.numOfAttributes = 0;
         $scope.numOfActions = 0;
         $scope.currentObject = '';
         $scope.all_attrs = [];
         $scope.all_acts_Object = [];
+
         $scope.all_conditions = [];
         $scope.all_acts_Behavior = [];
 
@@ -151,7 +150,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
 
 
         // Object Creation //
-        $scope.addObject = function() { objectService.addObject($scope, $scope.objectName, $scope.all_attrs, $scope.all_acts_Object); };
+        $scope.addObject = function() { objectService.addObject($scope); };
 
         $scope.deleteObject = function(object){ objectService.deleteObject($scope, object); };
 

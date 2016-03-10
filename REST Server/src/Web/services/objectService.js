@@ -4,31 +4,30 @@
 main_module.service('objectService',[function(){
 
 
-    this.all_acts_Object = [];
-    this.all_attrs = [];
 
-    this.addObject = function($scope, name, attributes, actions) {
-        if (name == '' || name == 'Invalid Name!') {
+    this.addObject = function($scope) {
+        alert($scope.objectName + " " + $scope.all_attrs + " " + $scope.all_acts_Object);
+        if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
             $scope.objectName = 'Invalid Name!'
         }
         else {
-            this.all_attrs = attributes.filter($scope.isValidAttribute);
-            this.all_acts_Object = actions.filter($scope.isValidActionObject);
+            $scope.all_attributes = $scope.all_attrs.filter($scope.isValidAttribute);
+            $scope.all_acts_Object = $scope.all_acts_Object.filter($scope.isValidActionObject);
 
             var newObject = {
-                name: name,
-                attributes:  this.all_attrs,
-                actions: this.all_acts_Object
+                name: $scope.objectName,
+                attributes:  $scope.all_attributes,
+                actions: $scope.all_acts_Object
             };
 
             $scope.addObjectToApplication(newObject);
-            this.all_attrs = [];
-            this.all_acts_Object = [];
-            this.numOfAttributes = 0;
-            this.numOfActions = 0;
-            this.numOfConditions = 0;
-            this.all_conditions = [];
-            this.objectName = '';
+            $scope.all_attrs = [];
+            $scope.all_acts_Object = [];
+            $scope.numOfAttributes = 0;
+            $scope.numOfActions = 0;
+            $scope.numOfConditions = 0;
+            $scope.all_conditions = [];
+            $scope.objectName = '';
             this.showObjectDetails(newObject);
             $scope.hideArea("actionsEditAreaObject");
             $scope.hideArea("actionsEditAreaBehavior");
@@ -55,7 +54,7 @@ main_module.service('objectService',[function(){
     };
 
     this.showObjectDetails = function($scope, object){
-        if ($scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
+        if ($scope.areaFlags != undefined && $scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
             $scope.currentObject = object;
             $scope.hideArea("behaviorDetailsArea");
             $scope.hideArea("behaviorEditArea");

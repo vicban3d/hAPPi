@@ -12,7 +12,7 @@ main_module.service('appService',[function(){
         behaviors: []
     };
 
-    this.getCureentApplication = function(){
+    this.getCurrentApplication = function(){
         return this.currentApplication;
     };
     
@@ -79,11 +79,11 @@ main_module.service('appService',[function(){
     };
 
     this.addObjectToApplication = function($scope, object){
-        $scope.applications[currentApplication.id].objects.push(object);
+        $scope.applications[this.currentApplication.id].objects.push(object);
     };
 
     this.addBehaviorToApplication = function($scope, behavior){
-        $scope.applications[currentApplication.id].behaviors.push(behavior);
+        $scope.applications[this.currentApplication.id].behaviors.push(behavior);
     };
 
     this.addAppToApplicationList = function($scope, application){
