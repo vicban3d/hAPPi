@@ -14,16 +14,26 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:5555/lib/bootstrap/css/bootstrap.min.css">
 </head>
 <body data-ng-app="main" data-ng-controller="ctrl_main">
-<div class="title" data-ng-show="areaFlags['titleArea']">
-    hAPPi UI Prototype
-</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">hAPPi</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+    </div>
+</nav>
+
 <div class="message" data-ng-show="areaFlags['messageArea']">
     <label>{{message}}</label>
 </div>
+
 <div class="workArea">
-    <div class="workAreaComponent menuArea" data-ng-show="areaFlags['menuArea']">
+    <div class="nav nav-pills nav-stacked workAreaComponent" data-ng-show="areaFlags['menuArea']">
         <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
-            <div class="menuButton" data-ng-click="button.function()">{{button.label}}</div>
+            <div class="glyphicon glyphicon-play"></div><div class="btn btn-primary btn-block menuButton" data-ng-click="button.function()">{{button.label}}</div>
         </div>
     </div>
     <div class="workAreaComponent centralArea" data-ng-show="areaFlags['centralArea']">

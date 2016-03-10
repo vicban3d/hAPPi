@@ -3,24 +3,11 @@ body{
     overflow: hidden;
 }
 
-/*noinspection ALL*/
-.title{
-    position: absolute;
-    top:0;
-    left:0;
-    color: green;
-    font-size: 4vw;
-    font-family: "Monotype Corsiva", cursive;
-    width: 50%
-}
-
 .workArea{
     position: absolute;
-    top: 10%;
-    left: 0;
-    height: 90%;
-    width: 96%;
-    padding: 1%;
+    height: 100%;
+    width: 100%;
+    background-color: black;
     overflow: hidden;
 }
 
@@ -57,11 +44,8 @@ body{
 
 .workAreaComponent{
     float: left;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background-color: darkgray;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+    width: 12%;
+    background-color: white;
 }
 
 .menuArea{
@@ -278,7 +262,7 @@ body{
     text-align: center;
 }
 
-.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .menuButton:hover, .designAreaToolbarButton:hover .draggableComponent:hover{
+.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .designAreaToolbarButton:hover .draggableComponent:hover{
     box-shadow: 0 0 5px 4px rgba(255, 28, 0, 0.5);
 }
 
@@ -343,19 +327,8 @@ body{
 }
 
 .menuButton{
-    position: relative;
-    background-color: #5bc0de;
-    border-radius:  20% 0 0 20%;
-    left: 30%;
-    top: 10%;
-    width: 70%;
-    height: 14%;
-    margin-top: 18%;
-    margin-bottom: 18%;
-    box-shadow: 0 0 6px 1px rgba(0,0,0,0.75);
-    text-align: center;
-    line-height: 275%;
-    font-size: 1.8vw;
+    height: 10%;
+    width: 100%;
     cursor: pointer;
 }
 

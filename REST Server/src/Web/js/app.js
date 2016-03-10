@@ -11,7 +11,7 @@ main_module.controller('ctrl_main', ['appService','$scope', '$timeout', '$sce',
         $scope.areaFlags["sideArea"] = true;
         $scope.areaFlags["messageArea"] = false;
         $scope.areaFlags["menuArea"] = true;
-        $scope.areaFlags["menuButtonsArea"] = false;
+        $scope.areaFlags["menuButtonsArea"] = true;
         $scope.areaFlags["applicationListArea"] = true;
         $scope.areaFlags["applicationDetailsArea"] = false;
         $scope.areaFlags["applicationEditArea"] = false;
@@ -32,7 +32,6 @@ main_module.controller('ctrl_main', ['appService','$scope', '$timeout', '$sce',
         $scope.applicationQRCode = undefined;
 
         $scope.menuButtons = [
-            {'label': 'Apps',       'function': function(){$scope.menuHome()}},
             {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
             {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
             {'label': 'Design',     'function': function(){$scope.menuDesign()}},
