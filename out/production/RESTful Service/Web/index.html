@@ -156,7 +156,7 @@
                     <hr/>
                     <div class="form-group">
                         <label>Name:</label>
-                        <input class="form-control" id="email" placeholder="Enter Object name">
+                        <input data-ng-model="objectName" class="form-control" placeholder="Enter Object name">
                     </div>
                     <hr/>
                     <div class="form-group">
@@ -167,7 +167,7 @@
                             Name:
                             <input type="text" placeholder="Enter Attribute name" data-ng-model="all_attrs[$index].name" title="Attribute" data-ng-init="all_attrs[$index].type=basic_types[0]">
                             Type:
-                            <select ng-model="all_attrs[$index].type" ng-options="i for i in basic_types" title="Type"></select>
+                            <select data-ng-model="all_attrs[$index].type" ng-options="i for i in basic_types" title="Type"></select>
                             <br>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                         <label>Actions:</label>
                         <br>
 
-                        <div data-ng-repeat="n in [].constructor(numOfActions) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
+                        <div data-ng-repeat="n in [].constructor(numOfActions) track by $index">
                             <form class="editArea" data-ng-submit="addNewAction()"
                                   ng-init="all_acts_Object[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
                                 {{$index + 1}}.
@@ -205,14 +205,14 @@
 
 
                         <!--<span ng-repeat="n in [].constructor(numOfActions) track by $index">-->
-                        <!--{{all_acts_Object[$index].name + ": " + all_acts_Object[$index].operand1.name + " " + all_acts_Object[$index].operator + " " + all_acts_Object[$index].operand2}}-->
+                        <!--{{all_actions[$index].name + ": " + all_actions[$index].operand1.name + " " + all_actions[$index].operator + " " + all_actions[$index].operand2}}-->
                         <!--<br>-->
                         <!--</span>-->
                         <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
                         <hr>
                     </div>
                     <!--<button type="submit">Create Object</button>-->
-                    <span type="submit" class="btn btn-primary btn-block" data-ng-click="addNewObject()">Create Object</span>
+                    <span class="btn btn-primary btn-block" data-ng-click="addObject()">Create Object</span>
                     <br>
                 </form>
             </div>

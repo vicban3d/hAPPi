@@ -177,7 +177,7 @@
                         <label>Actions:</label>
                         <br>
 
-                        <div data-ng-repeat="n in [].constructor(numOfActions) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
+                        <div data-ng-repeat="n in [].constructor(numOfActions) track by $index">
                             <form class="editArea" data-ng-submit="addNewAction()"
                                   ng-init="all_acts_Object[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
                                 {{$index + 1}}.
