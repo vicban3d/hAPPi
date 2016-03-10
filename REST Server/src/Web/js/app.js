@@ -1,9 +1,9 @@
 var main_module = angular.module('main', []);
 
-main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
-    function($scope, $timeout) {
+main_module.controller('ctrl_main', ['appService','$scope', '$timeout', '$sce',
+    function(appService, $scope, $timeout) {
 
-        // Variable Declaration //
+        // Visiable gui components //
         $scope.areaFlags = [];
         $scope.areaFlags["titleArea"] = true;
         $scope.areaFlags["workArea"] = true;
@@ -26,6 +26,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
         $scope.areaFlags["actionEditArea"] = false;
         $scope.areaFlags["designArea"] = false;
         $scope.areaFlags["releaseArea"] = false;
+
 
         $scope.applicationBuilt = false;
         $scope.applicationQRCode = undefined;
@@ -144,77 +145,11 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             }
         };
 
-        function generateUUID() {
-            var d = new Date().getTime();
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-            });
-        }
+        $scope.deleteApplication = function($event, application){ appService.deleteApplication($scope, $event, application);};
 
-        $scope.deleteApplication = function($event, application){
-            $event.stopPropagation();
-            delete $scope.applications[application.id];
-            if (application == $scope.currentApplication){
-                $scope.currentApplication = {};
-                $scope.currentAppURL = '';
-            }
-            acceptMessageResult(sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application)));
-        };
+        $scope.addApplication = function(){appService.addApplication($scope)};
 
-        $scope.addApplication = function(){
-            if ($scope.applicationName == '' || $scope.applicationName =='Invalid Name!') {
-                $scope.applicationName = 'Invalid Name!'
-            }
-            else{
-                $scope.getPlatform();
-                var appId = generateUUID();
-                var newApplication = applicationConstructor(appId, $scope.applicationName, $scope.platforms, [],[]);
-                $scope.currentApplication = newApplication;
-                $scope.message = "Creating " + $scope.applicationName + "...";
-                $scope.showArea("messageArea");
-                $scope.addAppToApplicationList(newApplication);
-                $scope.createApplication(appId, $scope.applicationName, $scope.platforms);
-                $scope.applicationName = '';
-                $scope.android = false;
-                $scope.ios = false;
-                $scope.windowsPhone = false;
-                $scope.platforms = [];
-                $scope.showApplicationDetails(newApplication);
-            }
-        };
-
-        $scope.editApplication = function(){
-            if ($scope.applicationName == '' || $scope.applicationName =='Invalid Name!') {
-                $scope.applicationName = 'Invalid Name!'
-            }
-            else{
-                $scope.getPlatform();
-                var newApplication = applicationConstructor($scope.currentApplication.id, $scope.applicationName, $scope.platforms,
-                    $scope.currentApplication.actions, $scope.currentApplication.behaviors);
-                $scope.message = "Updating application...";
-                $scope.showArea("messageArea");
-                $scope.removeApplicationFromAppList($scope.currentApplication.id);
-                $scope.addAppToApplicationList(newApplication);
-                $scope.updateApplication($scope.currentApplication.id, $scope.applicationName, $scope.platforms);
-                $scope.applicationName = '';
-                $scope.android = false;
-                $scope.ios = false;
-                $scope.windowsPhone = false;
-                $scope.platforms = [];
-                $scope.showApplicationDetails(newApplication);
-                $scope.currentApplication = newApplication;
-                $scope.hideArea("menuButtonsArea");
-                $scope.hideArea("applicationEditArea");
-                $scope.showArea("centralArea");
-                $scope.showArea("applicationListArea");
-            }
-        };
-
-        var applicationConstructor = function(id, name, platforms, actions, behaviors){
-            return {id: id, name: name, platforms: platforms, objects: actions, behaviors: behaviors};
-        };
+        $scope.editApplication = function(){appService.editApplication($scope);};
 
         $scope.removeApplicationFromAppList = function(id){
             for(var i = $scope.applications.length - 1; i >= 0; i--){
@@ -224,14 +159,7 @@ main_module.controller('ctrl_main', ['$scope', '$timeout', '$sce',
             }
         };
 
-        $scope.updateApplication = function(id, name, platforms){
-            var newApplication = {
-                id: id,
-                name: name,
-                platforms: platforms
-            };
-            acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(newApplication)));
-        };
+        $scope.updateApplication = function(id, name, platforms){appService.updateApplication(id,name,platforms)};
 
         $scope.showApplicationDetails = function(application){
             if ($scope.areaFlags["applicationDetailsArea"] == false || application != $scope.currentApplication){
