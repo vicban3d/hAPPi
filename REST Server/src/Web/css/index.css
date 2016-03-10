@@ -58,12 +58,12 @@ body{
 }
 
 .centralArea{
-    width: 30%;
+    width: 50%;
     height: 90%;
 }
 
 .sideArea{
-    width: 46%;
+    width: 38%;
     height: 90%;
     border-radius: 0 10% 10% 0;
 }
@@ -95,6 +95,7 @@ body{
 
 .designAreaPhoneBG{
     z-index: 0;
+    height: 89%;
 }
 
 .designAreaGrid{
@@ -151,15 +152,15 @@ body{
 .designAreaTabs{
     float: left;
     position: relative;
-    width: 91%;
+    width: 84%;
     height: 10%;
     top: 0;
     left: 0;
     background: lightgreen;
     z-index: 2;
     border: thin dashed black;
-    margin-top: 22%;
-    margin-left: 4%;
+    margin-top: 11%;
+    margin-left: 9%;
     overflow-x: auto;
     overflow-y: auto;
     white-space: nowrap;
@@ -210,22 +211,22 @@ body{
 
 .designAreaButtons{
     position: relative;
-    width: 91%;
+    width: 84%;
     height: 60%;
     top: 0;
     left: 0;
     background: skyblue;
     z-index: 2;
     border: thin dashed black;
-    margin-left: 4%;
+    margin-left: 9%;
     overflow-x: hidden;
 }
 
 .designAreaOutput{
     position: relative;
     margin-bottom: 30%;
-    margin-left: 4%;
-    width: 91%;
+    margin-left: 9%;
+    width: 84%;
     height: 10%;
     top: 0;
     left: 0;
@@ -433,4 +434,12 @@ body{
     left: 55%;
     top: 7%;
     font-size: 150%;
+}
+
+.mergeLeft {
+    margin-left : 10px;
+}
+
+.object-name-input-width{
+    width : 80%;
 }

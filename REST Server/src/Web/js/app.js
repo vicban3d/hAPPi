@@ -34,7 +34,7 @@ main_module.controller('ctrl_main', ['appService','$scope', '$timeout', '$sce',
         $scope.menuButtons = [
             {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
             {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
-            {'label': 'Design',     'function': function(){$scope.menuDesign()}},
+            //{'label': 'Design',     'function': function(){$scope.menuDesign()}},
             {'label': 'Release',    'function': function(){$scope.menuRelease()}}
         ];
 
@@ -248,7 +248,8 @@ main_module.controller('ctrl_main', ['appService','$scope', '$timeout', '$sce',
         };
 
         $scope.addActionObject = function(){
-            $scope.showArea("actionsEditAreaObject");
+            //$scope.showArea("actionsEditAreaObject");
+            $scope.numOfActions += 1;
         };
 
         $scope.addNewAction = function(){
