@@ -2,16 +2,31 @@
  * Created by Gila on 10/03/2016.
  */
 main_module.service('appService',[function(){
+
+    this.currentApplication =
+    {
+        id: "",
+        name: this.applicationName,
+        platforms: this.platforms,
+        objects: [],
+        behaviors: []
+    };
+
+    this.getCureentApplication = function(){
+        return this.currentApplication;
+    };
+    
     this.deleteApplication = function($scope, $event, application){
         $event.stopPropagation();
         delete $scope.applications[application.id];
-        if (application == $scope.currentApplication){
-            $scope.currentApplication = {};
-            $scope.currentAppURL = '';
+        if (application == this.currentApplication){
+            this.currentApplication = {};
+            this.currentAppURL = '';
         }
-        acceptMessageResult(sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application)));
-    }
-    var applicationConstructor = function(id, name, platforms, actions, behaviors){
+        $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application)));
+    };
+    
+    this.applicationConstructor = function(id, name, platforms, actions, behaviors){
         return {id: id, name: name, platforms: platforms, objects: actions, behaviors: behaviors};
     };
 
@@ -22,64 +37,128 @@ main_module.service('appService',[function(){
             d = Math.floor(d / 16);
             return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
-    }
+    };
 
-    this.addApplication = function($scope){
-        if ($scope.applicationName == '' || $scope.applicationName =='Invalid Name!') {
+    this.addApplication = function($scope, name, platforms){
+        if (name == '' || name =='Invalid Name!') {
             $scope.applicationName = 'Invalid Name!'
         }
         else{
-            $scope.getPlatform();
+            this.getPlatform();
             var appId = generateUUID();
-            var newApplication = applicationConstructor(appId, $scope.applicationName, $scope.platforms, [],[]);
-            $scope.currentApplication = newApplication;
-            $scope.message = "Creating " + $scope.applicationName + "...";
+            var newApplication = this.applicationConstructor(appId, name, platforms, [],[]);
+            this.currentApplication = newApplication;
+            $scope.message = "Creating " + name + "...";
             $scope.showArea("messageArea");
-            $scope.addAppToApplicationList(newApplication);
-            $scope.createApplication(appId, $scope.applicationName, $scope.platforms);
-            $scope.applicationName = '';
-            $scope.android = false;
-            $scope.ios = false;
-            $scope.windowsPhone = false;
-            $scope.platforms = [];
-            $scope.showApplicationDetails(newApplication);
+            this.addAppToApplicationList($scope, newApplication);
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication)));
+            this.showApplicationDetails($scope, newApplication);
         }
-    }
+    };
 
-    this.editApplication = function($scope){
-        if ($scope.applicationName == '' || $scope.applicationName =='Invalid Name!') {
+    this.editApplication = function($scope, name, platforms){
+        if (name == '' || name =='Invalid Name!') {
             $scope.applicationName = 'Invalid Name!'
         }
         else{
             $scope.getPlatform();
-            var newApplication = applicationConstructor($scope.currentApplication.id, $scope.applicationName, $scope.platforms,
-                $scope.currentApplication.actions, $scope.currentApplication.behaviors);
+            var newApplication = this.applicationConstructor(this.currentApplication.id, name, platforms,
+                this.currentApplication.actions, this.currentApplication.behaviors);
             $scope.message = "Updating application...";
             $scope.showArea("messageArea");
-            $scope.removeApplicationFromAppList($scope.currentApplication.id);
-            $scope.addAppToApplicationList(newApplication);
-            this.updateApplication($scope.currentApplication.id, $scope.applicationName, $scope.platforms);
-            $scope.applicationName = '';
-            $scope.android = false;
-            $scope.ios = false;
-            $scope.windowsPhone = false;
-            $scope.platforms = [];
+            $scope.removeApplicationFromAppList($scope, this.currentApplication.id);
+            this.addAppToApplicationList($scope, newApplication);
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(newApplication)));
             $scope.showApplicationDetails(newApplication);
-            $scope.currentApplication = newApplication;
-            $scope.hideArea("menuButtonsArea");
+            this.currentApplication = newApplication;
+            //$scope.hideArea("menuButtonsArea");
             $scope.hideArea("applicationEditArea");
             $scope.showArea("centralArea");
             $scope.showArea("applicationListArea");
         }
-    }
+    };
 
-    this.updateApplication = function(id, name, platforms){
-        var newApplication = {
-            id: id,
-            name: name,
-            platforms: platforms
-        };
-        acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(newApplication)));
-    }
+    this.addObjectToApplication = function($scope, object){
+        $scope.applications[currentApplication.id].objects.push(object);
+    };
+
+    this.addBehaviorToApplication = function($scope, behavior){
+        $scope.applications[currentApplication.id].behaviors.push(behavior);
+    };
+
+    this.addAppToApplicationList = function($scope, application){
+        if ($scope.applications == undefined){
+            $scope.applications = {};
+        }
+        if ($scope.applications[application.id] == undefined){
+            $scope.applications[application.id] = {id:'',name:'',platforms:[],objects:[],behaviors:[]};
+        }
+
+        $scope.applications[application.id].id = application.id;
+        $scope.applications[application.id].name = application.name;
+        $scope.applications[application.id].platforms.push(application.platforms);
+    };
+
+    this.getPlatform = function(){
+        this.platforms = [];
+        if(this.android == true)
+            this.platforms.push("android");
+        if(this.ios == true)
+            this.platforms.push("ios");
+        if(this.windowsPhone == true)
+            this.platforms.push("wp8");
+    };
+
+    this.showCurrentPlatforms = function(){
+        for(var i=0; i<this.currentApplication.platforms.length; i++)
+        {
+            if(this.currentApplication.platforms[i] == "android")
+                this.android = true;
+            else if(this.currentApplication.platforms[i] == "ios")
+                this.ios = true;
+            else if(this.currentApplication.platforms[i] == "wp8")
+                this.windowsPhone = true;
+        }
+    };
+
+    this.showApplicationDetails = function($scope, application){
+        if ($scope.areaFlags["applicationDetailsArea"] == false || application != $scope.currentApplication){
+            $scope.currentApplication = application;
+            $scope.hideArea("applicationCreateArea");
+            $scope.hideArea("applicationEditArea");
+            $scope.showArea("applicationDetailsArea");
+        }
+    };
+
+    this.removeApplicationFromAppList = function($scope, id){
+        for(var i = $scope.applications.length - 1; i >= 0; i--){
+            if($scope.applications[i] == id){
+                $scope.applications.splice(i,1);
+            }
+        }
+    };
+
+    this.getApplication = function($scope, application){
+        if (this.showApplicationDetailsFlag == 1 || application != this.currentApplication){
+            this.currentApplication = application;
+            this.showApplicationDetailsFlag = 0
+        } else{
+            this.showApplicationDetailsFlag = 1
+        }
+        this.currentApplication = application;
+        $scope.hideArea("applicationCreateArea");
+        $scope.hideArea("applicationDetailsArea");
+        $scope.hideArea("applicationListArea");
+        $scope.showArea("menuButtonsArea");
+    };
+
+    this.editApplicationDetails = function($scope, $event, application){
+        $event.stopPropagation();
+        this.currentApplication = application;
+        $scope.showCurrentPlatforms();
+        this.applicationName = $scope.currentApplication.name;
+        $scope.showArea("applicationEditArea");
+        $scope.hideArea("applicationDetailsArea");
+    };
 
 }]);
