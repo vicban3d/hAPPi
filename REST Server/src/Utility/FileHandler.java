@@ -53,40 +53,56 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Clears the target file of all content.
+     * @param path the path to the file that should be cleared.
+     * @throws IOException
+     */
     public static void clearFile(String path) throws IOException {
         Files.delete(Paths.get(path));
         Files.createFile(Paths.get(path));
     }
 
-    public static void deleteFolder(File folder) {
+    /**
+     * Deletes the target folder.
+     * @param folderPath the path to the folder that should be deleted.
+     */
+    public static void deleteFolder(String folderPath) {
+        File folder = new File(folderPath);
         File[] files = folder.listFiles();
         if(files!=null) {
             //some JVMs return null for empty dirs
             for(File f: files) {
                 if(f.isDirectory()) {
-                    deleteFolder(f);
+                    deleteFolder(f.getAbsolutePath());
                 } else {
                     f.delete();
                 }
             }
         }
         folder.delete();
-
     }
 
-    public static void createFolder(File file) {
-        file.mkdir();
+    /**
+     * Creates an empty folder from the given file.
+     * @param folderPath the file handler to create a folder from.
+     */
+    public static void createFolder(String folderPath) {
+        File folder = new File(folderPath);
+        folder.mkdir();
     }
 
+    /**
+     * Renames the folder with the given name to a given new name.
+     * @param oldName the name of the original folder.
+     * @param newName the new name of the folder.
+     * @throws IOException
+     */
     public static void renameFolder(String oldName, String newName) throws IOException{
-        File oldFile = new File(Strings.PATH_APPS + "\\" + oldName);
-        File newFile = new File(Strings.PATH_APPS + "\\" + newName);
+        File oldFile = new File(oldName);
+        File newFile = new File(newName);
         if (newFile.exists() && !oldFile.equals(newFile))
             throw new java.io.IOException("file exists");
         oldFile.renameTo(newFile);
-    }
-
-    public static void copyFile(String source, String destination) throws IOException {
-        Files.copy(Paths.get(source), Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
     }
 }

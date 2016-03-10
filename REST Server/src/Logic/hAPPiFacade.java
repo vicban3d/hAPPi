@@ -20,6 +20,7 @@ public class hAPPiFacade implements Facade {
 
     private final Database database;
     private final AppCompiler compiler;
+    private final FileUploader fileUploader;
 
     /**
      * Constructor and initiator for the Facade.
@@ -27,6 +28,7 @@ public class hAPPiFacade implements Facade {
     public  hAPPiFacade(){
         database = new MongoDB();
         compiler = new CordovaAppCompiler();
+        fileUploader = new DropboxAPI();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class hAPPiFacade implements Facade {
         Application oldApp = Application.fromDocument(database.getData(application.getId()));
         String oldApplicationName = oldApp.getName();
         removePlatforms(oldApplicationName);
-        FileHandler.renameFolder(oldApplicationName, application.getName());
+        FileHandler.renameFolder(Strings.PATH_APPS + "\\" + oldApplicationName, Strings.PATH_APPS + "\\" + application.getName());
         createPlatforms(application.getPlatforms(), application.getName());
         database.updateData(application);
     }
@@ -60,8 +62,7 @@ public class hAPPiFacade implements Facade {
         Application application = Application.fromDocument(database.getData(appId));
         prepareApplicationForCompilation(application);
         compiler.buildApplication(application.getName());
-//      DriveAPI.insertFile(DriveAPI.getDriveService(), application.getName(),"","0BynfcqbWZbOaRDBucWlxVlhyVXc","application/vnd.android.package-archive",Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
-        return DropboxAPI.uploadFile(application.getName(), Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
+        return fileUploader.uploadFile(application.getName(), Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
 
     }
 
@@ -125,16 +126,14 @@ public class hAPPiFacade implements Facade {
     public void removeApplication(String appId) {
         String appName = Application.fromDocument(database.getData(appId)).getName();
         database.removeData(appId);
-        File file = new File(Strings.PATH_APPS + "\\" + appName);
-        FileHandler.deleteFolder(file);
+        FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + appName);
         Logger.INFO("The application " + appName + " was deleted.");
     }
 
     @Override
     public void removePlatforms(String fileName){
-        File file = new File(Strings.PATH_APPS + "\\" + fileName+ "\\platforms");
-        FileHandler.deleteFolder(file);
-        FileHandler.createFolder(file);
+        FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + fileName+ "\\platforms");
+        FileHandler.createFolder(Strings.PATH_APPS + "\\" + fileName+ "\\platforms");
     }
 
     @Override
