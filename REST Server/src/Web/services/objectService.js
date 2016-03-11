@@ -30,6 +30,7 @@ main_module.service('objectService',[function(){
             $scope.objectName = '';
             this.showObjectDetails(newObject);
             $scope.hideArea("actionsEditAreaObject");
+            $scope.hideArea("conditionEditArea");
             $scope.hideArea("actionsEditAreaBehavior");
             $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
         }
@@ -47,10 +48,6 @@ main_module.service('objectService',[function(){
 
     this.addAttribute = function($scope){
         $scope.numOfAttributes+=1;
-    };
-
-    this.addCondition = function($scope){
-        $scope.numOfConditions+=1;
     };
 
     this.showObjectDetails = function($scope, object){

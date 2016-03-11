@@ -343,6 +343,16 @@ body{
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
 }
 
+.addConditionArea{
+    position: absolute;
+    left: 50%;
+    top:0;
+    background-color: #5bc0de;
+    width: 50%;
+    height: 100%;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+}
+
 .componentMainTitle{
     position: relative;
     top:1%;

@@ -26,7 +26,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         $scope.areaFlags["actionEditArea"] = false;
         $scope.areaFlags["designArea"] = false;
         $scope.areaFlags["releaseArea"] = false;
-
+        $scope.areaFlags["conditionEditArea"] = false;
 
         $scope.applicationBuilt = false;
         $scope.applicationQRCode = undefined;
@@ -39,20 +39,21 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         ];
 
         $scope.basic_types = ["Number", "Text"];
-        $scope.conditions = ["Or", "And"];
-        $scope.logic_types = ["Greater Than", "Less Than"];
+        $scope.andOrOperator = ["Or", "And"];
+        $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
 
+
         $scope.numOfAttributes = 0;
+        $scope.numOfConditions = 0;
         $scope.numOfActions = 0;
         $scope.currentObject = '';
         $scope.all_attrs = [];
         $scope.all_acts_Object = [];
-
         $scope.all_conditions = [];
         $scope.all_acts_Behavior = [];
-
+        $scope.all_conditions = [];
         $scope.currentBehavior = '';
 
         $scope.instances = [];
@@ -174,6 +175,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
 
         $scope.addNewObject = function(){ objectService.addNewObject($scope); };
 
+        $scope.isValidCondition = function(val){
+            return val.attribute != '' && val.logicOperation != '' && val.operandObject!= '';
+        };
+
         // Behavior Creation //
         $scope.addBehavior = function(){
             if ($scope.behaviorName == '' || $scope.behaviorName =='Invalid Name!'){
@@ -182,7 +187,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
             else {
                 var newBehavior = {
                     name: $scope.behaviorName,
-                    actions: $scope.all_acts_Behavior.filter($scope.isValidActionBehavior)
+                    actions: $scope.all_acts_Behavior.filter($scope.isValidActionBehavior),
+                    conditions: $scope.all_conditions.filter($scope.isValidCondition)
                 };
                 $scope.addBehaviorToApplication(newBehavior);
                 $scope.all_acts_Behavior = [];
@@ -195,6 +201,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
                 $scope.hideArea("actionsEditAreaBehavior");
                 acceptMessageResult(sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior)));
             }
+        };
+
+        $scope.addCondition = function(){
+            $scope.numOfConditions+=1;
         };
 
         $scope.editBehaviorDetails = function(behavior){
@@ -326,6 +336,28 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
                     }
                     return result;
                 };
+            } else if (actionName == "Average"){
+                return function (operand){
+                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+                    var result = 0;
+                    var i = 0;
+                    if (index < 0){
+                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
+                        var actionName = object.actions[actionIndex].operator;
+                        var operand1 = object.actions[actionIndex].operand1.name;
+                        var operand2 = object.actions[actionIndex].operand2;
+                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
+                        var action = getObjectAction(actionName, parseFloat(operand2));
+                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                            result += action(parseFloat($scope.instances[object.name][i][index]));
+                        }
+                    } else {
+                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                            result += parseFloat($scope.instances[object.name][i][index]);
+                        }
+                    }
+                    return result/$scope.instances[object.name].length;
+                };
             } else {
                 return "UNSUPPORTED";
             }
@@ -342,6 +374,17 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
             $scope.hideArea("objectEditArea");
             $scope.hideArea("behaviorDetailsArea");
             $scope.showArea("behaviorEditArea");
+        };
+
+        $scope.addNewCondition = function(){
+            if ($scope.conditionName == '' || $scope.conditionName =='Invalid Name!'){ //TODO - check what invalid
+                $scope.conditionName = 'Invalid Name!'
+            }
+            else {
+                $scope.numOfConditions += 1;
+                $scope.hideArea("actionsEditAreaObject");
+                $scope.hideArea("actionsEditAreaBehavior");
+            }
         };
 
         $scope.createApplication = function(id, name, platforms){
