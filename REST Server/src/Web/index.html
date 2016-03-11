@@ -29,56 +29,59 @@
             </ul>
         </div>
     </nav>
+    <div class="object-name-input-width col-xs-2">
+        <input type="text" class="form-control" placeholder="My App Name">
+    </div><br>
     <div>
-        <h1>Your App Name</h1>
-        <h1>Choose your apps platform</h1>
-    </div>
-    <div>
+        <h2>Choose Platforms:</h2>
         <div ng-switch="switchIosImg==1">
             <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
-                <img data-ng-click="toggleIos()" src="http://localhost:5555/img/{{iosImg}}">
+                <img data-ng-click="toggleIos()" class="phoneImg" src="http://localhost:5555/img/{{iosImg}}">
             </div>
             <div class="imgDivWidth imgMarginLeft" ng-switch-when=false>
-                <img data-ng-click="toggleIos()" src="http://localhost:5555/img/{{iosImgEnable}}">
+                <img data-ng-click="toggleIos()" class="phoneImgEnabled" src="http://localhost:5555/img/{{iosImgEnable}}">
             </div>
         </div>
 
         <div ng-switch="switchAndroidImg==1">
             <div class="imgDivWidth" ng-switch-when=true>
-                <img data-ng-click="toggleAndroid()" src="http://localhost:5555/img/{{androidImg}}">
+                <img data-ng-click="toggleAndroid()" class="phoneImg" src="http://localhost:5555/img/{{androidImg}}">
             </div>
             <div class="imgDivWidth" ng-switch-when=false>
-                <img data-ng-click="toggleAndroid()" src="http://localhost:5555/img/{{androidImgEnable}}">
+                <img data-ng-click="toggleAndroid()" class="phoneImgEnabled" src="http://localhost:5555/img/{{androidImgEnable}}">
             </div>
         </div>
 
         <div class="clearFloats" ng-switch="switchWindowsImg==1">
             <div class="imgDivWidth" ng-switch-when=true>
-                <img data-ng-click="toggleWindows()" src="http://localhost:5555/img/{{windowsImg}}">
+                <img data-ng-click="toggleWindows()" class="phoneImg" src="http://localhost:5555/img/{{windowsImg}}">
             </div>
             <div class="imgDivWidth" ng-switch-when=false>
-                <img data-ng-click="toggleWindows()" src="http://localhost:5555/img/{{windowsImgEnable}}">
+                <img data-ng-click="toggleWindows()" class="phoneImgEnabled" src="http://localhost:5555/img/{{windowsImgEnable}}">
             </div>
         </div>
 
     </div>
     <hr>
-    <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">new app</span>
+    <hr>
+    <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">Start!</span>
 </div>
 <nav class="navbar navbar-inverse" ng-hide="areaFlags['frontPage']" >
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" ng-click="backToMain()" href="#">hAPPi</a>
+            <a class="navbar-brand" data-ng-click="backToMain()" href="#">hAPPi</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
     </div>
+    <div class="panel panel-success container-fluid">
+        <label data-ng-model="message">_ {{message}}</label>
+    </div>
 </nav>
-<div class="message" ng-hide="areaFlags['frontPage']" data-ng-show="areaFlags['messageArea']">
-    <label>{{message}}</label>
-</div>
+
+
 <div class="workArea" ng-hide="areaFlags['frontPage']">
     <div class="nav nav-pills nav-stacked workAreaComponent" data-ng-show="areaFlags['menuArea']">
         <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
@@ -207,10 +210,10 @@
                         <input data-ng-model="objectName" class="form-control" placeholder="Enter Object name">
                     </div>
                     <hr/>
-                    <div class="form-group">
+                    <div class="form-group" data-ng-init="all_attrs=[]">
                         <label>Attributes:</label>
                         <br>
-                        <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
+                        <div data-ng-repeat="n in [].constructor(getNumOfAttributes()) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
                             {{$index + 1}}.
                             Name:
                             <input type="text" placeholder="Enter Attribute name" data-ng-model="all_attrs[$index].name" title="Attribute" data-ng-init="all_attrs[$index].type=basic_types[0]">
@@ -221,29 +224,29 @@
                     </div>
                     <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
                     <hr/>
-                    <div class="form-group">
+                    <div class="form-group" data-ng-init="all_acts_Object=[]">
                         <label>Actions:</label>
                         <br>
 
-                        <div data-ng-repeat="n in [].constructor(numOfActions) track by $index">
+                        <div data-ng-repeat="n in [].constructor(getNumOfActions()) track by $index">
                             <form class="editArea" data-ng-submit="addNewAction()"
-                                  ng-init="all_acts_Object[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
+                                  ng-init="all_acts_Object[$index] = {name:'',operand1:'',operator:'',operand2:''}">
                                 {{$index + 1}}.
-                                Name: <input type="text" data-ng-model="all_acts_Object[numOfActions].name" title="Action Name"
-                                             data-ng-init="all_acts_Object[numOfActions].operator=operators[0]">
+                                Name: <input type="text" data-ng-model="all_acts_Object[$index].name" title="Action Name"
+                                             data-ng-init="all_acts_Object[$index].operator=operators[0]">
                                 <br>
                                 Choose Attribute:
-                                <select ng-model="all_acts_Object[numOfActions].operand1" ng-options="i.name for i in all_attrs"
+                                <select ng-model="all_acts_Object[$index].operand1" ng-options="i.name for i in all_attrs"
                                         title="Operand1"></select>
 
                                 <br>
                                 Choose Action:&nbsp;&nbsp;&nbsp;&nbsp;
-                                <select ng-model="all_acts_Object[numOfActions].operator" ng-options="i for i in operators"
+                                <select ng-model="all_acts_Object[$index].operator" ng-options="i for i in operators"
                                         title="Operator"></select>
                                 <br>
                                 Choose Number:
-                                <input type="text" ng-model="all_acts_Object[numOfActions].operand2" title="Operand2">
-                                <button type="submit">Add Action</button>
+                                <input type="text" ng-model="all_acts_Object[$index].operand2" title="Operand2">
+                                <!--<button type="submit">Add Action</button>-->
                                 <br>
                                 <br>
                             </form>

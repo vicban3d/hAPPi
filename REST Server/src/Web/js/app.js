@@ -27,9 +27,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.areaFlags["designArea"] = false;
         $scope.areaFlags["releaseArea"] = false;
         $scope.areaFlags["conditionEditArea"] = false;
-
         $scope.areaFlags["frontPage"] = true;
 
+        $scope.message = "";
 
         $scope.applicationBuilt = false;
         $scope.applicationQRCode = undefined;
@@ -37,9 +37,23 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.menuButtons = [
             {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
             {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
-            //{'label': 'Design',     'function': function(){$scope.menuDesign()}},
             {'label': 'Release',    'function': function(){$scope.menuRelease()}}
         ];
+
+        $scope.menuAddObjects = function(){
+            $scope.hideAll();
+            $scope.showArea("objectsAddArea");
+        };
+
+        $scope.menuAddBehaviors = function(){
+            $scope.hideAll();
+            $scope.showArea("behaviorAddArea");
+        };
+
+        $scope.menuRelease = function(){
+            $scope.hideAll();
+            $scope.showArea("releaseArea");
+        };
 
         $scope.basic_types = ["Number", "Text"];
         $scope.andOrOperator = ["Or", "And"];
@@ -47,12 +61,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
 
-        $scope.numOfAttributes = 0;
         $scope.numOfConditions = 0;
-        $scope.numOfActions = 0;
-        $scope.currentObject = '';
-        $scope.all_attrs = [];
-        $scope.all_acts_Object = [];
         $scope.all_conditions = [];
         $scope.all_acts_Behavior = [];
         $scope.all_conditions = [];
@@ -61,7 +70,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.instances = [];
 
         $scope.behaviorName = '';
-        $scope.objectName = '';
 
         $scope.emulatorOutput = '';
         $scope.showBehaviors = true;
@@ -80,7 +88,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
         $scope.gotoApp = function(){
             $scope.hideArea("frontPage");
-        }
+        };
 
         $scope.backToMain = function(){
             $scope.showArea("frontPage");
@@ -88,51 +96,33 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
 
         // ios
-        $scope.iosImg = "ios1.jpg";
-        $scope.iosImgEnable = "ios_enable.jpg";
+        $scope.iosImg = "ios_disabled.png";
+        $scope.iosImgEnable = "ios_enabled.png";
 
         $scope.switchIosImg = 1;
         $scope.toggleIos = function(){
             $scope.switchIosImg = 3- $scope.switchIosImg;
-        }
+        };
 
         // android
-        $scope.androidImg = "android1.jpg";
-        $scope.androidImgEnable = "android_enable.jpg";
+        $scope.androidImg = "android_disabled.png";
+        $scope.androidImgEnable = "android_enabled.png";
 
         $scope.switchAndroidImg = 1;
         $scope.toggleAndroid = function(){
             $scope.switchAndroidImg = 3- $scope.switchAndroidImg;
-        }
+        };
 
         // windows
-        $scope.windowsImg = "windows1.jpg";
-        $scope.windowsImgEnable = "windows_enable.jpg";
+        $scope.windowsImg = "wp_disabled.png";
+        $scope.windowsImgEnable = "wp_enabled.png";
 
         $scope.switchWindowsImg = 1;
         $scope.toggleWindows = function(){
             $scope.switchWindowsImg = 3- $scope.switchWindowsImg;
-        }
-
-        $scope.menuAddObjects = function(){
-            $scope.hideAll();
-            $scope.showArea("objectsAddArea");
         };
 
-        $scope.menuAddBehaviors = function(){
-            $scope.hideAll();
-            $scope.showArea("behaviorAddArea");
-        };
 
-        $scope.menuDesign = function(){
-            $scope.hideAll();
-            $scope.showArea("designArea");
-        };
-
-        $scope.menuRelease = function(){
-            $scope.hideAll();
-            $scope.showArea("releaseArea");
-        };
 
         $scope.hideAll = function () {
             for (var f in $scope.areaFlags) {
@@ -157,31 +147,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.areaFlags[area] = false;
         };
 
-        $scope.acceptMessageResult = function(result, success){
-            if (success == undefined){
-                success = function(){};
-            }
-            result.onreadystatechange = function(){
-                if (result.readyState != 4 && result.status != 200){
-                    $scope.message = "Error";
-                    $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-                else if (result.readyState == 4 && result.status == 200){
-                    $scope.message = result.responseText;
-                    $scope.showArea("messageArea");
-                    success(result.responseText);
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-            };
-        };
-
         $scope.getPlatform = function(){ appService.getPlatform(); };
 
         $scope.getCurrentApplication = function() { return appService.getCurrentApplication() };
@@ -189,8 +154,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.showCurrentPlatforms = function(){ appService.showCurrentPlatforms(); };
 
         $scope.deleteApplication = function($event, application){ appService.deleteApplication($scope, $event, application);};
-
-        $scope.addApplication = function(){appService.addApplication($scope, $scope.applicationName, [$scope.android, $scope.ios, $scope.windowsPhone])};
 
         $scope.editApplication = function(){appService.editApplication($scope, $scope.applicationName, [$scope.android, $scope.ios, $scope.windowsPhone]);};
 
@@ -206,22 +169,62 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.createApplication = function(id, name, platforms){ appService.createApplication($scope, id, name, platforms); };
 
-        $scope.addNewApplication = function(){ appService.addNewApplication($scope); };
+        $scope.addApplication = function(){
+            $scope.updateStatus("Creating " + $scope.applicationName + "...");
+            appService.addApplication($scope, $scope.applicationName, [$scope.android, $scope.ios, $scope.windowsPhone]);
+        };
+
+        $scope.addNewApplication = function(){
+            $scope.hideArea("applicationDetailsArea");
+            $scope.showArea("applicationCreateArea");
+        };
 
         // Object Creation //
-        $scope.addObject = function() { objectService.addObject($scope); };
+        $scope.addObject = function() {
+            objectService.addObject($scope, $scope.objectName, $scope.all_attrs, $scope.all_acts_Object);
+            $scope.objectName = '';
+            $scope.all_attrs = [];
+            $scope.all_acts_Object = [];
+            objectService.numOfAttributes = 0;
+            objectService.numOfActions = 0;
+            $scope.hideArea("objectEditArea");
+            $scope.hideArea("actionsEditAreaObject");
+            $scope.hideArea("conditionEditArea");
+            $scope.hideArea("actionsEditAreaBehavior");
+        };
 
-        $scope.deleteObject = function(object){ objectService.deleteObject($scope, object); };
+        $scope.getNumOfAttributes = function(){
+          return objectService.getNumOfAttributes();
+        };
 
-        $scope.addAttribute = function(){ objectService.addAttribute($scope); };
+        $scope.getNumOfActions = function(){
+            return objectService.getNumOfActions();
+        };
+
+        $scope.deleteObject = function(object){
+            objectService.deleteObject($scope, object);
+            $scope.hideArea("objectDetailsArea");
+        };
+
+        $scope.addAttribute = function(){ objectService.addAttribute(); };
 
         $scope.addCondition = function(){ objectService.addCondition($scope); };
 
-        $scope.addActionObject = function(){ objectService.addActionObject($scope); };
+        $scope.addActionObject = function(){ objectService.addActionObject(); };
 
-        $scope.addNewAction = function(){ objectService.addNewAction($scope); };
+        $scope.addNewAction = function(){
+            objectService.addNewAction();
+            $scope.hideArea("actionsEditAreaObject");
+            $scope.hideArea("actionsEditAreaBehavior");
+        };
 
-        $scope.showObjectDetails = function(object){ objectService.showObjectDetails($scope, object); };
+        $scope.showObjectDetails = function(object){
+            objectService.showObjectDetails($scope, object);
+            $scope.hideArea("behaviorDetailsArea");
+            $scope.hideArea("behaviorEditArea");
+            $scope.hideArea("objectEditArea");
+            $scope.showArea("objectDetailsArea");
+        };
 
         $scope.isValidAttribute = function(val){ objectService.isValidAttribute(val); };
 
@@ -229,7 +232,13 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.isValidActionObject = function(val){ objectService.isValidActionObject(val); };
 
-        $scope.addNewObject = function(){ objectService.addNewObject($scope); };
+        $scope.addNewObject = function(){
+            objectService.addNewObject();
+            $scope.hideArea("behaviorDetailsArea");
+            $scope.hideArea("behaviorEditArea");
+            $scope.hideArea("objectDetailsArea");
+            $scope.showArea("objectEditArea");
+        };
 
         $scope.isValidCondition = function(val){
             return val.attribute != '' && val.logicOperation != '' && val.operandObject!= '';
@@ -319,17 +328,36 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
 
-
-
         // Release //
         $scope.releaseBuildApplication = function(application){
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)),
-                function(result)
-                {
-                    $scope.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result);
-                    $scope.applicationBuilt = true;
-                    $scope.message = "Application built successfully!"
-                });
-            $scope.message = "Building application..."
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)));
+            $scope.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result);
+            $scope.applicationBuilt = true;
+            $scope.message = "Application built successfully!";
         };
+
+        $scope.acceptMessageResult = function(result){
+            var displayDuration = 10000;
+            result.onreadystatechange = function(){
+                if (result.readyState != 4 && result.status != 200){
+                    $scope.updateStatus("Error");
+                    $timeout(function () {
+                        $s$scope.updateStatus('');
+                    }, displayDuration);
+                    $scope.$apply();
+                }
+                else if (result.readyState == 4 && result.status == 200){
+                    $scope.updateStatus(result.responseText);
+                    $timeout(function () {
+                        $scope.updateStatus('');
+                    }, displayDuration);
+                    $scope.$apply();
+                }
+            };
+        };
+
+        $scope.updateStatus = function(text){
+            $scope.message = text;
+            //$scope.$apply();
+        }
     }]);

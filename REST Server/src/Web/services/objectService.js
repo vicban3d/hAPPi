@@ -3,80 +3,66 @@
  */
 main_module.service('objectService',[function(){
 
+    this.numOfAttributes = 0;
+    this.numOfActions = 0;
 
+    this.currentObject = {
+        name: '',
+        attributes:  [],
+        actions: []
+    };
 
-    this.addObject = function($scope) {
-        if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
-            $scope.objectName = 'Invalid Name!'
-        }
-        else {
-            $scope.all_attributes = $scope.all_attrs.filter($scope.isValidAttribute);
-            $scope.all_acts_Object = $scope.all_acts_Object.filter($scope.isValidActionObject);
+    this.getNumOfAttributes = function(){
+        return this.numOfAttributes;
+    };
 
-            var newObject = {
-                name: $scope.objectName,
-                attributes:  $scope.all_attributes,
-                actions: $scope.all_acts_Object
-            };
+    this.getNumOfActions = function(){
+        return this.numOfActions;
+    };
 
-            $scope.addObjectToApplication(newObject);
-            $scope.all_attrs = [];
-            $scope.all_acts_Object = [];
-            $scope.numOfAttributes = 0;
-            $scope.numOfActions = 0;
-            $scope.numOfConditions = 0;
-            $scope.all_conditions = [];
-            $scope.objectName = '';
-            this.showObjectDetails(newObject);
-            $scope.hideArea("actionsEditAreaObject");
-            $scope.hideArea("conditionEditArea");
-            $scope.hideArea("actionsEditAreaBehavior");
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
-        }
+    this.addObject = function($scope, name, all_attrs, all_acts) {
+        var all_attributes = all_attrs.filter($scope.isValidAttribute);
+        var all_actions = all_acts.filter($scope.isValidActionObject);
+        var newObject = {
+            name: name,
+            attributes:  all_attributes,
+            actions: all_actions
+        };
+        $scope.addObjectToApplication(newObject);
+        this.showObjectDetails(newObject);
+        $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
     };
 
     this.deleteObject = function($scope, object){
         var index =  $scope.applications[$scope.currentApplication.id].objects.indexOf(object);
         $scope.applications[$scope.currentApplication.id].objects.splice(index, 1);
-        if (object == $scope.currentObject){
-            $scope.currentObject = {};
+        if (object == this.currentObject){
+            this.currentObject = {};
         }
         $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object)));
-        $scope.hideArea("objectDetailsArea");
     };
 
-    this.addAttribute = function($scope){
-        $scope.numOfAttributes+=1;
+    this.addAttribute = function(){
+        this.numOfAttributes+=1;
     };
 
     this.showObjectDetails = function($scope, object){
         if ($scope.areaFlags != undefined && $scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
-            $scope.currentObject = object;
-            $scope.hideArea("behaviorDetailsArea");
-            $scope.hideArea("behaviorEditArea");
-            $scope.hideArea("objectEditArea");
-            $scope.showArea("objectDetailsArea");
+            this.currentObject = object;
         }
     };
 
-    this.addNewAction = function($scope){
-        if ($scope.actionName == '' || $scope.actionName =='Invalid Name!'){
-            $scope.actionName = 'Invalid Name!'
-        }
-        else {
-            $scope.numOfActions += 1;
-            $scope.hideArea("actionsEditAreaObject");
-            $scope.hideArea("actionsEditAreaBehavior");
-        }
+    this.addNewAction = function(){
+            this.numOfActions += 1;
     };
 
     this.isValidAttribute = function(val){
         return val.name != '' && val.type != '';
     };
 
-    this.addActionObject = function($scope){
+    this.addActionObject = function(){
         //$scope.showArea("actionsEditAreaObject");
-        $scope.numOfActions += 1;
+        this.numOfActions += 1;
     };
 
     this.getAttributeName = function(val){
@@ -87,13 +73,9 @@ main_module.service('objectService',[function(){
         return val.name != '' && val.operand1 != '' && val.operator != '' && val.operand2 != '';
     };
 
-    this.addNewObject = function($scope) {
+    this.addNewObject = function() {
         var empty = {name: 'new object', attributes: [{name: 'attr', type: 'number'}]};
-        $scope.showObjectDetails(empty);
-        $scope.hideArea("behaviorDetailsArea");
-        $scope.hideArea("behaviorEditArea");
-        $scope.hideArea("objectDetailsArea");
-        $scope.showArea("objectEditArea");
+        this.showObjectDetails(empty);
     };
 
     this.getObjectAction = function(actionName, operand2){
@@ -104,7 +86,7 @@ main_module.service('objectService',[function(){
         }
         if (actionName == "Reduce By") {
             return function (operand) {
-                return operand -     operand2;
+                return operand - operand2;
             };
         }
         if (actionName == "Multiply By") {
@@ -123,7 +105,4 @@ main_module.service('objectService',[function(){
             };
         }
     }
-
-
-
 }]);

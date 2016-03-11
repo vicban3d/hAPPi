@@ -451,7 +451,7 @@ body{
 }
 
 .object-name-input-width{
-    width : 80%;
+    left: 42%;
 }
 
 .imgDivWidth{
@@ -459,8 +459,30 @@ body{
     float: left;
 }
 
+@keyframes enable {
+    from {width: 40%;}
+    to {width: 50%;}
+}
+
+@keyframes disable {
+    from {width: 50%;}
+    to {width: 40%;}
+}
+
+.phoneImg{
+    animation-name: disable;
+    animation-duration: 0.25s;
+    width: 40%;
+}
+
+.phoneImgEnabled{
+    animation-name: enable;
+    animation-duration: 0.25s;
+    width: 50%;
+}
+
 .imgMarginLeft{
-    margin-left: 224px;
+    margin-left: 20%;
 }
 
 .clearFloats:after {
@@ -468,3 +490,4 @@ body{
     display: block;
     clear: both;
 }
+

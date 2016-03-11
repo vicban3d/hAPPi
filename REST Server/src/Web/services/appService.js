@@ -23,7 +23,7 @@ main_module.service('appService',[function(){
             this.currentApplication = {};
             this.currentAppURL = '';
         }
-        $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application)));
+       $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application)));
     };
     
     this.applicationConstructor = function(id, name, platforms, actions, behaviors){
@@ -48,11 +48,9 @@ main_module.service('appService',[function(){
             var appId = generateUUID();
             var newApplication = this.applicationConstructor(appId, name, platforms, [],[]);
             this.currentApplication = newApplication;
-            $scope.message = "Creating " + name + "...";
-            $scope.showArea("messageArea");
             this.addAppToApplicationList($scope, newApplication);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication)));
             this.showApplicationDetails($scope, newApplication);
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication)));
         }
     };
 
@@ -69,9 +67,9 @@ main_module.service('appService',[function(){
             $scope.removeApplicationFromAppList($scope, this.currentApplication.id);
             this.addAppToApplicationList($scope, newApplication);
             $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(newApplication)));
+            $scope.showArea("messageArea");
             $scope.showApplicationDetails(newApplication);
             this.currentApplication = newApplication;
-            //$scope.hideArea("menuButtonsArea");
             $scope.hideArea("applicationEditArea");
             $scope.showArea("centralArea");
             $scope.showArea("applicationListArea");
@@ -160,12 +158,6 @@ main_module.service('appService',[function(){
         this.applicationName = $scope.currentApplication.name;
         $scope.showArea("applicationEditArea");
         $scope.hideArea("applicationDetailsArea");
-    };
-
-    this.addNewApplication = function($scope){
-        $scope.message = '';
-        $scope.hideArea("applicationDetailsArea");
-        $scope.showArea("applicationCreateArea")
     };
 
 }]);
