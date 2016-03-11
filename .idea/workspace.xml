@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Gila\IdeaProjects\hAPPi\REST Server\src\Web\img\android1.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gila\IdeaProjects\hAPPi\REST Server\src\Web\img\ios1.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gila\IdeaProjects\hAPPi\REST Server\src\Web\img\windows1.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/appService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/appService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" afterPath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" afterPath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Web/img/android1.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Web/img/android_enable.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Web/img/ios1.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Web/img/ios_enable.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Web/img/windows1.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/REST Server/src/Web/img/windows_enable.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
@@ -115,7 +112,7 @@
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.31318682">
-              <caret line="83" column="6" selection-start-line="83" selection-start-column="6" selection-end-line="83" selection-end-column="6" />
+              <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
               <folding>
                 <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -416,6 +413,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hAPPi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hAPPi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="REST Server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="img" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1078,13 +1101,7 @@
       <workItem from="1454143986669" duration="152000" />
       <workItem from="1457600250998" duration="142000" />
       <workItem from="1457600592090" duration="1077000" />
-      <workItem from="1457602294638" duration="42870000" />
-    </task>
-    <task id="LOCAL-00019" summary="Added files:&#10;* Strings - contain constant strings for the program.&#10;* JSCreator - creates JS code from given JSON objects.&#10;* Logger - Logs program status.&#10;&#10;Refined DB and server.&#10;&#10;Refined DB Structure (See MongoDB Class description).">
-      <created>1447105978178</created>
-      <option name="number" value="00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1447105978178</updated>
+      <workItem from="1457602294638" duration="42992000" />
     </task>
     <task id="LOCAL-00020" summary="Added more class separation and better OOP.">
       <created>1447190495004</created>
@@ -1374,7 +1391,13 @@
       <option name="project" value="LOCAL" />
       <updated>1457633152145</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="frontpage is on!">
+      <created>1457683653826</created>
+      <option name="number" value="00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1457683653826</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1410,7 +1433,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="355611000" />
+    <option name="totallyTimeSpent" value="355733000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1468,7 +1491,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added files:&#10;* Strings - contain constant strings for the program.&#10;* JSCreator - creates JS code from given JSON objects.&#10;* Logger - Logs program status.&#10;&#10;Refined DB and server.&#10;&#10;Refined DB Structure (See MongoDB Class description)." />
     <MESSAGE value="Added more class separation and better OOP." />
     <MESSAGE value="Added ability to add android platform and to build the project." />
     <MESSAGE value="Added javadoc to classes." />
@@ -1493,7 +1515,8 @@
     <MESSAGE value="Tests" />
     <MESSAGE value="more angulary version" />
     <MESSAGE value="new aspiring design" />
-    <option name="LAST_COMMIT_MESSAGE" value="new aspiring design" />
+    <MESSAGE value="frontpage is on!" />
+    <option name="LAST_COMMIT_MESSAGE" value="frontpage is on!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1943,7 +1966,7 @@
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31318682">
-          <caret line="83" column="6" selection-start-line="83" selection-start-column="6" selection-end-line="83" selection-end-column="6" />
+          <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
           <folding>
             <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
