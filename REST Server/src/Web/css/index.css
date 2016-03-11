@@ -453,3 +453,18 @@ body{
 .object-name-input-width{
     width : 80%;
 }
+
+.imgDivWidth{
+    width : 25%;
+    float: left;
+}
+
+.imgMarginLeft{
+    margin-left: 224px;
+}
+
+.clearFloats:after {
+    content: '';
+    display: block;
+    clear: both;
+}

@@ -61,7 +61,7 @@ main_module.service('appService',[function(){
             $scope.applicationName = 'Invalid Name!'
         }
         else{
-            $scope.getPlatform();
+            platforms = this.getPlatform(platforms);
             var newApplication = this.applicationConstructor(this.currentApplication.id, name, platforms,
                 this.currentApplication.actions, this.currentApplication.behaviors);
             $scope.message = "Updating application...";

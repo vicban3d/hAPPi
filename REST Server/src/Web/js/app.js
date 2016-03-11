@@ -28,6 +28,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         $scope.areaFlags["releaseArea"] = false;
         $scope.areaFlags["conditionEditArea"] = false;
 
+        $scope.areaFlags["frontPage"] = true;
+
+
         $scope.applicationBuilt = false;
         $scope.applicationQRCode = undefined;
 
@@ -43,7 +46,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
-
 
         $scope.numOfAttributes = 0;
         $scope.numOfConditions = 0;
@@ -73,6 +75,41 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
             $scope.hideArea("menuButtonsArea");
             $scope.showArea("applicationListArea");
         };
+        $scope.gotoApp = function(){
+            $scope.hideArea("frontPage");
+        }
+
+        $scope.backToMain = function(){
+            $scope.showArea("frontPage");
+        };
+
+
+        // ios
+        $scope.iosImg = "ios1.jpg";
+        $scope.iosImgEnable = "ios_enable.jpg";
+
+        $scope.switchIosImg = 1;
+        $scope.toggleIos = function(){
+            $scope.switchIosImg = 3- $scope.switchIosImg;
+        }
+
+        // android
+        $scope.androidImg = "android1.jpg";
+        $scope.androidImgEnable = "android_enable.jpg";
+
+        $scope.switchAndroidImg = 1;
+        $scope.toggleAndroid = function(){
+            $scope.switchAndroidImg = 3- $scope.switchAndroidImg;
+        }
+
+        // windows
+        $scope.windowsImg = "windows1.jpg";
+        $scope.windowsImgEnable = "windows_enable.jpg";
+
+        $scope.switchWindowsImg = 1;
+        $scope.toggleWindows = function(){
+            $scope.switchWindowsImg = 3- $scope.switchWindowsImg;
+        }
 
         $scope.menuAddObjects = function(){
             $scope.hideAll();
@@ -116,8 +153,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         $scope.hideArea = function (area) {
             $scope.areaFlags[area] = false;
         };
-
-        $scope.getPlatform = function(){ appService.getPlatform(); };
 
         $scope.getCurrentApplication = function() { return appService.getCurrentApplication() };
 

@@ -6,7 +6,7 @@ main_module.service('objectService',[function(){
 
 
     this.addObject = function($scope) {
-        alert($scope.objectName + " " + $scope.all_attrs + " " + $scope.all_acts_Object);
+        //alert($scope.objectName + " " + $scope.all_attrs + " " + $scope.all_acts_Object);
         if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
             $scope.objectName = 'Invalid Name!'
         }

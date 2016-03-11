@@ -12,14 +12,66 @@
     <script type="text/javascript" src="http://localhost:5555/services/objectService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/lib/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://localhost:5555/css/index.css">
-    <!--<link rel="stylesheet" type="text/css" href="http://localhost:5555/lib/bootstrap/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body data-ng-app="main" data-ng-controller="ctrl_main">
-<nav class="navbar navbar-inverse">
+
+<div ng-show="areaFlags['frontPage']">
+
+    <nav class="navbar navbar-inverse" >
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">hAPPi</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div>
+        <h1>Your App Name</h1>
+        <h1>Choose your apps platform</h1>
+    </div>
+    <div>
+        <div ng-switch="switchIosImg==1">
+            <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
+                <img data-ng-click="toggleIos()" src="http://localhost:5555/img/{{iosImg}}">
+            </div>
+            <div class="imgDivWidth imgMarginLeft" ng-switch-when=false>
+                <img data-ng-click="toggleIos()" src="http://localhost:5555/img/{{iosImgEnable}}">
+            </div>
+        </div>
+
+        <div ng-switch="switchAndroidImg==1">
+            <div class="imgDivWidth" ng-switch-when=true>
+                <img data-ng-click="toggleAndroid()" src="http://localhost:5555/img/{{androidImg}}">
+            </div>
+            <div class="imgDivWidth" ng-switch-when=false>
+                <img data-ng-click="toggleAndroid()" src="http://localhost:5555/img/{{androidImgEnable}}">
+            </div>
+        </div>
+
+        <div class="clearFloats" ng-switch="switchWindowsImg==1">
+            <div class="imgDivWidth" ng-switch-when=true>
+                <img data-ng-click="toggleWindows()" src="http://localhost:5555/img/{{windowsImg}}">
+            </div>
+            <div class="imgDivWidth" ng-switch-when=false>
+                <img data-ng-click="toggleWindows()" src="http://localhost:5555/img/{{windowsImgEnable}}">
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">new app</span>
+
+
+</div>
+<nav class="navbar navbar-inverse" ng-hide="areaFlags['frontPage']" >
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">hAPPi</a>
+            <a class="navbar-brand" ng-click="backToMain()" href="#">hAPPi</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -27,12 +79,10 @@
         </ul>
     </div>
 </nav>
-
-<div class="message" data-ng-show="areaFlags['messageArea']">
+<div class="message" ng-hide="areaFlags['frontPage']" data-ng-show="areaFlags['messageArea']">
     <label>{{message}}</label>
 </div>
-
-<div class="workArea">
+<div class="workArea" ng-hide="areaFlags['frontPage']">
     <div class="nav nav-pills nav-stacked workAreaComponent" data-ng-show="areaFlags['menuArea']">
         <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
             <div class="glyphicon glyphicon-play"></div>
