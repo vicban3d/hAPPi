@@ -1,7 +1,7 @@
 var main_module = angular.module('main', []);
 
-main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$timeout', '$sce',
-    function(appService, objectService, $scope, $timeout) {
+main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', '$scope', '$timeout', '$sce',
+    function(appService, objectService, behaviorService, $scope, $timeout) {
 
         // Visible gui components //
         $scope.areaFlags = [];
@@ -68,6 +68,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         $scope.showInstance = false;
 
         $scope.appications = {};
+
+        $scope.currentInstance = '';
+        $scope.attribute_values = [];
 
         // General Functions //
         $scope.menuHome = function(){
@@ -154,6 +157,33 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
             $scope.areaFlags[area] = false;
         };
 
+        $scope.acceptMessageResult = function(result, success){
+            if (success == undefined){
+                success = function(){};
+            }
+            result.onreadystatechange = function(){
+                if (result.readyState != 4 && result.status != 200){
+                    $scope.message = "Error";
+                    $scope.showArea("messageArea");
+                    $timeout(function () {
+                        $scope.message = '';
+                    }, 5000);
+                    $scope.$apply();
+                }
+                else if (result.readyState == 4 && result.status == 200){
+                    $scope.message = result.responseText;
+                    $scope.showArea("messageArea");
+                    success(result.responseText);
+                    $timeout(function () {
+                        $scope.message = '';
+                    }, 5000);
+                    $scope.$apply();
+                }
+            };
+        };
+
+        $scope.getPlatform = function(){ appService.getPlatform(); };
+
         $scope.getCurrentApplication = function() { return appService.getCurrentApplication() };
 
         $scope.showCurrentPlatforms = function(){ appService.showCurrentPlatforms(); };
@@ -170,20 +200,13 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
 
         $scope.showApplicationDetails = function(application){ appService.showApplicationDetails($scope, application) };
 
-        $scope.getApplication = function(application){
-           appService.getApplication($scope, application);
-        };
+        $scope.getApplication = function(application){ appService.getApplication($scope, application); };
 
-        $scope.editApplicationDetails = function($event, application){
-            appService.editApplicationDetails($scope, $event, application);
-        };
+        $scope.editApplicationDetails = function($event, application){ appService.editApplicationDetails($scope, $event, application); };
 
-        $scope.addNewApplication = function(){
-            $scope.message = '';
-            $scope.hideArea("applicationDetailsArea");
-            $scope.showArea("applicationCreateArea")
-        };
+        $scope.createApplication = function(id, name, platforms){ appService.createApplication($scope, id, name, platforms); };
 
+        $scope.addNewApplication = function(){ appService.addNewApplication($scope); };
 
         // Object Creation //
         $scope.addObject = function() { objectService.addObject($scope); };
@@ -206,352 +229,55 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
 
         $scope.isValidActionObject = function(val){ objectService.isValidActionObject(val); };
 
-        $scope.isValidActionBehavior = function(val){ objectService.isValidActionBehavior(val) };
-
         $scope.addNewObject = function(){ objectService.addNewObject($scope); };
 
         $scope.isValidCondition = function(val){
             return val.attribute != '' && val.logicOperation != '' && val.operandObject!= '';
         };
 
+        $scope.getObjectAction = function(actionName, operand2){ objectService.getObjectAction(actionName, operand2); };
+
         // Behavior Creation //
-        $scope.addBehavior = function(){
-            if ($scope.behaviorName == '' || $scope.behaviorName =='Invalid Name!'){
-                $scope.behaviorName = 'Invalid Name!'
-            }
-            else {
-                var newBehavior = {
-                    name: $scope.behaviorName,
-                    actions: $scope.all_acts_Behavior.filter($scope.isValidActionBehavior),
-                    conditions: $scope.all_conditions.filter($scope.isValidCondition)
-                };
-                $scope.addBehaviorToApplication(newBehavior);
-                $scope.all_acts_Behavior = [];
-                $scope.all_conditions = [];
-                $scope.numOfActions = 0;
-                $scope.numOfConditions = 0;
-                $scope.behaviorName = '';
-                $scope.showBehaviorDetails(newBehavior);
-                $scope.hideArea("actionsEditAreaObject");
-                $scope.hideArea("actionsEditAreaBehavior");
-                acceptMessageResult(sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior)));
-            }
-        };
+        $scope.isValidActionBehavior = function(val){ behaviorService.isValidActionBehavior(val) };
+
+        $scope.addBehavior = function(){ behaviorService.addBehavior($scope); };
 
         $scope.addCondition = function(){
             $scope.numOfConditions+=1;
         };
 
         $scope.editBehaviorDetails = function(behavior){
-            $scope.currentBehavior = behavior;
+            behaviorService.editBehaviorDetails($scope, behavior);
         };
 
-        function getObjectAction(actionName, operand2){
-            if (actionName == "Increase By") {
-                return function (operand) {
-                    return operand + operand2;
-                };
-            }
-            if (actionName == "Reduce By") {
-                return function (operand) {
-                    return operand -     operand2;
-                };
-            }
-            if (actionName == "Multiply By") {
-                return function (operand) {
-                    return operand * operand2;
-                };
-            }
-            if (actionName == "Divide By") {
-                return function (operand) {
-                    return operand / operand2;
-                };
-            }
-            if (actionName == "Change To") {
-                return function () {
-                    return operand2;
-                };
-            }
-        }
-
-        function isEqualTo(value1){
-            return function (value2){
-                return value1 == value2;
-            }
+        $scope.getBehaviorAction = function(object, actionName){
+            behaviorService.getBehaviorAction($scope, object, actionName);
         };
-
-        function isNotEqualTo(value1){
-            return function(value2) {
-                return value1 != value2;
-            }
-        };
-
-        function isBiggerThan(value1){
-            return function(value2){
-                return value1 > value2;
-            }
-        };
-
-        function isSmallerThan(value1){
-            return function(value2){
-                return value1 < value2;
-            }
-        };
-
-        function filterByConditions(conditions){
-            var result = filterByConditionInner(conditions[0]);
-            var operator = conditions.andOrOperator;
-            for (i = 1; i < conditons.length; i++){
-                var temp = filterByConditionInner(conditions[i]);
-                if(operator == "or"){
-                    result.addAll(temp);
-                }
-                else if (operator == "and"){
-                    result = result.filter(function(n){
-                        return temp.contains(n);
-                    })
-                }
-                operator = conditions.andOrOperator;
-            }
-            return removeDuplicates(result);
-        }
-
-        function removeDuplicates(list){
-            var result = [];
-            $.each(list, function(i, el){
-                if($.inArray(el, uniqueNames) === -1) result.push(el);
-            });
-            return result;
-        }
-
-        function filterByConditionInner(condition){
-            var logicOperation = condition[i].logicOperation;
-            var conditionValue = condition[i].value;
-            if (logicOperation == "equals")
-                return $scope.instances[object.name].filter(isEqualTo(val)(conditionValue));
-            else if (logicOperation == "not equals")
-                return $scope.instances[object.name].filter(isNotEqualTo(val)(conditionValue));
-            else if (logicOperation == "bigger than")
-                return $scope.instances[object.name].filter(isBiggerThan(val)(conditionValue));
-            else // conditionOperation == "smaller than"
-                return $scope.instances[object.name].filter(isSmallerThan(val)(conditionValue));
-        }
-
-        function getBehaviorAction(object, actionName){
-            if (actionName == "Sum of All"){
-                return function (operand){
-                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    var i = 0;
-                    var result = 0;
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        var conditions = object.actions[actionIndex].conditions;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            result += action(parseFloat(filteredInstances[i][index]));
-                        }
-                    } else {
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            result += parseFloat(filteredInstances[i][index]);
-                        }
-                    }
-                    return result;
-                };
-            } else if (actionName == "Maximum") {
-                return function (operand){
-                    var result = 0;
-                    var i=0;
-                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        var conditions = object.actions[actionIndex].conditions;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            if (result < action(parseFloat($scope.instances[object.name][i][index]))) {
-                                result = action(parseFloat($scope.instances[object.name][i][index]));
-                            }
-                        }
-                    } else {
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            if (result < parseFloat($scope.instances[object.name][i][index])) {
-                                result = parseFloat($scope.instances[object.name][i][index]);
-                            }
-                        }
-                    }
-                    return result;
-                };
-            } else if (actionName == "Minimum"){
-                return function (operand){
-                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    var result = Number.MAX_VALUE;
-                    var i = 0;
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        var conditions = object.actions[actionIndex].conditions;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            if (result > action(parseFloat($scope.instances[object.name][i][index]))) {
-                                result = action(parseFloat($scope.instances[object.name][i][index]));
-                            }
-                        }
-                    } else {
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            if (result > parseFloat($scope.instances[object.name][i][index])) {
-                                result = parseFloat($scope.instances[object.name][i][index]);
-                            }
-                        }
-                    }
-                    return result;
-                };
-            } else if (actionName == "Product of All"){
-                return function (operand){
-                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    var result = 1;
-                    var i = 0;
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        var conditions = object.actions[actionIndex].conditions;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            result *= action(parseFloat($scope.instances[object.name][i][index]));
-                        }
-                    } else {
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            result *= parseFloat($scope.instances[object.name][i][index]);
-                        }
-                    }
-                    return result;
-                };
-            } else if (actionName == "Average"){
-                return function (operand){
-                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
-                    var result = 0;
-                    var i = 0;
-                    if (index < 0){
-                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
-                        var actionName = object.actions[actionIndex].operator;
-                        var operand1 = object.actions[actionIndex].operand1.name;
-                        var operand2 = object.actions[actionIndex].operand2;
-                        var conditions = object.actions[actionIndex].conditions;
-                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
-                        var action = getObjectAction(actionName, parseFloat(operand2));
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            result += action(parseFloat($scope.instances[object.name][i][index]));
-                        }
-                    } else {
-                        var filteredInstances = filterByConditions(conditions);
-                        for (i = 0; i < filteredInstances.length; i++) {
-                            result += parseFloat($scope.instances[object.name][i][index]);
-                        }
-                    }
-                    return result/$scope.instances[object.name].length;
-                };
-            } else {
-                return "UNSUPPORTED";
-            }
-        }
 
         $scope.editBehaviorDetails = function(behavior){
-            $scope.currentBehavior = behavior;
+            behaviorService.editApplication($scope, behavior);
         };
 
         $scope.addNewBehavior = function(){
-            var empty = {name:'new behavior'};
-            $scope.showBehaviorDetails(empty);
-            $scope.hideArea("objectDetailsArea");
-            $scope.hideArea("objectEditArea");
-            $scope.hideArea("behaviorDetailsArea");
-            $scope.showArea("behaviorEditArea");
+            behaviorService.addNewBehavior($scope);
         };
 
         $scope.addNewCondition = function(){
-            if ($scope.conditionName == '' || $scope.conditionName =='Invalid Name!'){ //TODO - check what invalid
-                $scope.conditionName = 'Invalid Name!'
-            }
-            else {
-                $scope.numOfConditions += 1;
-                $scope.hideArea("actionsEditAreaObject");
-                $scope.hideArea("actionsEditAreaBehavior");
-            }
-        };
-
-        $scope.createApplication = function(id, name, platforms){
-            appService.createApplication($scope, id, name, platforms);
-        };
-
-        $scope.menuHome = function(){
-            $scope.hideAll();
-            $scope.showArea("applicationListArea");
-        };
-
-        $scope.menuAddObjects = function(){
-            $scope.hideAll();
-            $scope.showArea("objectsAddArea");
-        };
-
-        $scope.menuCreateApplication = function(){
-            $scope.hideAll();
-            $scope.showArea("applicationListArea");
-        };
-
-        $scope.menuAddBehaviors = function(){
-            $scope.hideAll();
-            $scope.showArea("behaviorAddArea");
+            behaviorService.addNewCondition($scope);
         };
 
         $scope.deleteBehavior = function(behavior){
-            var index =  $scope.applications[appService.getCurrentApplication().id].behaviors.indexOf(behavior);
-            $scope.applications[appService.getCurrentApplication().id].behaviors.splice(index, 1);
-            if (behavior == $scope.currentBehavior){
-                $scope.currentBehavior = {};
-            }
-            acceptMessageResult(sendPOSTRequest(Paths.REMOVE_BEHAVIOR, angular.toJson(behavior)));
-            $scope.hideArea("behaviorDetailsArea");
+            behaviorService.deleteBehavior($scope, behavior);
         };
 
         $scope.showBehaviorDetails = function(behavior){
-            if ($scope.areaFlags["behaviorDetailsArea"] == false || behavior != $scope.currentBehavior) {
-                $scope.currentBehavior = behavior;
-                $scope.hideArea("objectDetailsArea");
-                $scope.hideArea("objectEditArea");
-                $scope.hideArea("behaviorEditArea");
-                $scope.showArea("behaviorDetailsArea");
-            }
+            behaviorService.showBehaviorDetails($scope, behavior);
         };
 
         $scope.addActionBehavior = function(){
-            $scope.showArea("actionsEditAreaBehavior");
-            $scope.numOfConditions = 0;
-            $scope.all_conditions = [];
+            behaviorService.addActionBehavior($scope);
         };
 
-        $scope.currentInstance = '';
-        $scope.attribute_values = [];
 
         // Design //
         $scope.designDisplayObjectPage = function(object){
@@ -580,7 +306,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
         $scope.performBehaviorAction = function(behavior){
             var object = behavior.actions[0].operandObject;
             var operand1 = behavior.actions[0].operandAttribute.name;
-            var action = getBehaviorAction(object, behavior.actions[0].operator);
+            var action = $scope.getBehaviorAction(object, behavior.actions[0].operator);
             $scope.emulatorOutput = action(operand1);
         };
 
@@ -592,35 +318,12 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
             appService.addBehaviorToApplication($scope, behavior);
         };
 
-        $scope.acceptMessageResult = function(result, success){
-            if (success == undefined){
-                success = function(){};
-            }
-            result.onreadystatechange = function(){
-                if (result.readyState != 4 && result.status != 200){
-                    $scope.message = "Error";
-                    $scope.showArea("messageArea");
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-                else if (result.readyState == 4 && result.status == 200){
-                    $scope.message = result.responseText;
-                    $scope.showArea("messageArea");
-                    success(result.responseText);
-                    $timeout(function () {
-                        $scope.message = '';
-                    }, 5000);
-                    $scope.$apply();
-                }
-            };
-        }
+
 
 
         // Release //
         $scope.releaseBuildApplication = function(application){
-            acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)),
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)),
                 function(result)
                 {
                     $scope.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result);

@@ -107,5 +107,5 @@ public interface RESTServer {
     @Path(Strings.PATH_UPDATE_APP)
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
-    String UpdateApplication(Application data);
+    String updateApplication(Application data);
 }

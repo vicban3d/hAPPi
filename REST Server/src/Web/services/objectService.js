@@ -6,7 +6,6 @@ main_module.service('objectService',[function(){
 
 
     this.addObject = function($scope) {
-        //alert($scope.objectName + " " + $scope.all_attrs + " " + $scope.all_acts_Object);
         if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
             $scope.objectName = 'Invalid Name!'
         }
@@ -88,10 +87,6 @@ main_module.service('objectService',[function(){
         return val.name != '' && val.operand1 != '' && val.operator != '' && val.operand2 != '';
     };
 
-    this.isValidActionBehavior = function(val){
-        return val.operandObject != '' && val.operandAttribute != '' && val.operator != '';
-    };
-
     this.addNewObject = function($scope) {
         var empty = {name: 'new object', attributes: [{name: 'attr', type: 'number'}]};
         $scope.showObjectDetails(empty);
@@ -100,6 +95,34 @@ main_module.service('objectService',[function(){
         $scope.hideArea("objectDetailsArea");
         $scope.showArea("objectEditArea");
     };
+
+    this.getObjectAction = function(actionName, operand2){
+        if (actionName == "Increase By") {
+            return function (operand) {
+                return operand + operand2;
+            };
+        }
+        if (actionName == "Reduce By") {
+            return function (operand) {
+                return operand -     operand2;
+            };
+        }
+        if (actionName == "Multiply By") {
+            return function (operand) {
+                return operand * operand2;
+            };
+        }
+        if (actionName == "Divide By") {
+            return function (operand) {
+                return operand / operand2;
+            };
+        }
+        if (actionName == "Change To") {
+            return function () {
+                return operand2;
+            };
+        }
+    }
 
 
 

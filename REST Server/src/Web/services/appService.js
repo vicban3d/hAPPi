@@ -162,4 +162,10 @@ main_module.service('appService',[function(){
         $scope.hideArea("applicationDetailsArea");
     };
 
+    this.addNewApplication = function($scope){
+        $scope.message = '';
+        $scope.hideArea("applicationDetailsArea");
+        $scope.showArea("applicationCreateArea")
+    };
+
 }]);

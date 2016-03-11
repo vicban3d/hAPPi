@@ -131,7 +131,7 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String UpdateApplication(Application data) {
+    public String updateApplication(Application data) {
         try {
             facade.updateApplication(data);
         } catch (CordovaRuntimeException e) {
