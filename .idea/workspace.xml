@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="more angulary version">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_dropbox_core_dropbox_core_sdk_2_0_beta_4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_dropbox_core_dropbox_core_sdk_2_0_beta_4.xml" />
+    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" afterPath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" afterPath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
@@ -1096,13 +1091,7 @@
       <workItem from="1457600250998" duration="142000" />
       <workItem from="1457600592090" duration="1077000" />
       <workItem from="1457602294638" duration="26342000" />
-      <workItem from="1457637659521" duration="12435000" />
-    </task>
-    <task id="LOCAL-00018" summary="Added DB Connection">
-      <created>1447105176879</created>
-      <option name="number" value="00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1447105176879</updated>
+      <workItem from="1457637659521" duration="12478000" />
     </task>
     <task id="LOCAL-00019" summary="Added files:&#10;* Strings - contain constant strings for the program.&#10;* JSCreator - creates JS code from given JSON objects.&#10;* Logger - Logs program status.&#10;&#10;Refined DB and server.&#10;&#10;Refined DB Structure (See MongoDB Class description).">
       <created>1447105978178</created>
@@ -1392,7 +1381,13 @@
       <option name="project" value="LOCAL" />
       <updated>1457618464330</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Condition in behavior">
+      <created>1457682960584</created>
+      <option name="number" value="00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1457682960599</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1428,7 +1423,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="351518000" />
+    <option name="totallyTimeSpent" value="351561000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1517,7 +1512,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added DB Connection" />
     <MESSAGE value="Added files:&#10;* Strings - contain constant strings for the program.&#10;* JSCreator - creates JS code from given JSON objects.&#10;* Logger - Logs program status.&#10;&#10;Refined DB and server.&#10;&#10;Refined DB Structure (See MongoDB Class description)." />
     <MESSAGE value="Added more class separation and better OOP." />
     <MESSAGE value="Added ability to add android platform and to build the project." />
@@ -1542,7 +1536,8 @@
     <MESSAGE value="Behavior" />
     <MESSAGE value="Tests" />
     <MESSAGE value="more angulary version" />
-    <option name="LAST_COMMIT_MESSAGE" value="more angulary version" />
+    <MESSAGE value="Condition in behavior" />
+    <option name="LAST_COMMIT_MESSAGE" value="Condition in behavior" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
