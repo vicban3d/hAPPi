@@ -26,6 +26,7 @@ main_module.service('behaviorService',[function(){
             $scope.showBehaviorDetails(newBehavior);
             $scope.hideArea("actionsEditAreaObject");
             $scope.hideArea("actionsEditAreaBehavior");
+            $scope.hideArea("conditionEditArea");
             $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(newBehavior)));
         }
     };

@@ -18,7 +18,6 @@
 <body data-ng-app="main" data-ng-controller="ctrl_main">
 
 <div ng-show="areaFlags['frontPage']">
-
     <nav class="navbar navbar-inverse" >
         <div class="container-fluid">
             <div class="navbar-header">
@@ -30,7 +29,6 @@
             </ul>
         </div>
     </nav>
-
     <div>
         <h1>Your App Name</h1>
         <h1>Choose your apps platform</h1>
@@ -66,8 +64,6 @@
     </div>
     <hr>
     <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">new app</span>
-
-
 </div>
 <nav class="navbar navbar-inverse" ng-hide="areaFlags['frontPage']" >
     <div class="container-fluid">
@@ -266,7 +262,6 @@
                 </form>
             </div>
         </div>
-
         <div class="centralAreaComponent" data-ng-show="areaFlags['behaviorAddArea']">
             <div class="componentMainTitle">
                 Behavior
@@ -314,8 +309,6 @@
                             <br>
                             Choose Value:
                             <input type="text" ng-model="all_conditions[numOfConditions].value" title="value">
-                            <!--<select ng-model="all_conditions[numOfConditions].andOrOperator" ng-options="i for i in andOrOperator"
-                                    title="andOrOperator"></select>-->
                             <br>
                             <button type="submit">Add Condition</button>
                             <br><br>
