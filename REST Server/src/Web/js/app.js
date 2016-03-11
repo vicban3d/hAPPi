@@ -274,6 +274,69 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
             }
         }
 
+        function isEqualTo(value1){
+            return function (value2){
+                return value1 == value2;
+            }
+        };
+
+        function isNotEqualTo(value1){
+            return function(value2) {
+                return value1 != value2;
+            }
+        };
+
+        function isBiggerThan(value1){
+            return function(value2){
+                return value1 > value2;
+            }
+        };
+
+        function isSmallerThan(value1){
+            return function(value2){
+                return value1 < value2;
+            }
+        };
+
+        function filterByConditions(conditions){
+            var result = filterByConditionInner(conditions[0]);
+            var operator = conditions.andOrOperator;
+            for (i = 1; i < conditons.length; i++){
+                var temp = filterByConditionInner(conditions[i]);
+                if(operator == "or"){
+                    result.addAll(temp);
+                }
+                else if (operator == "and"){
+                    result = result.filter(function(n){
+                        return temp.contains(n);
+                    })
+                }
+                operator = conditions.andOrOperator;
+            }
+            return removeDuplicates(result);
+        }
+
+        function removeDuplicates(list){
+            var result = [];
+            $.each(list, function(i, el){
+                if($.inArray(el, uniqueNames) === -1) result.push(el);
+            });
+            return result;
+        }
+
+        function filterByConditionInner(condition){
+            var logicOperation = condition[i].logicOperation;
+            var conditionValue = condition[i].value;
+            if (logicOperation == "equals")
+                return $scope.instances[object.name].filter(isEqualTo(val)(conditionValue));
+            else if (logicOperation == "not equals")
+                return $scope.instances[object.name].filter(isNotEqualTo(val)(conditionValue));
+            else if (logicOperation == "bigger than")
+                return $scope.instances[object.name].filter(isBiggerThan(val)(conditionValue));
+            else // conditionOperation == "smaller than"
+                return $scope.instances[object.name].filter(isSmallerThan(val)(conditionValue));
+        }
+
         function getBehaviorAction(object, actionName){
             if (actionName == "Sum of All"){
                 return function (operand){
@@ -285,14 +348,17 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
                         var actionName = object.actions[actionIndex].operator;
                         var operand1 = object.actions[actionIndex].operand1.name;
                         var operand2 = object.actions[actionIndex].operand2;
+                        var conditions = object.actions[actionIndex].conditions;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            result += action(parseFloat($scope.instances[object.name][i][index]));
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
+                            result += action(parseFloat(filteredInstances[i][index]));
                         }
                     } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
-                            result += parseFloat($scope.instances[object.name][i][index]);
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
+                            result += parseFloat(filteredInstances[i][index]);
                         }
                     }
                     return result;
@@ -307,15 +373,18 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
                         var actionName = object.actions[actionIndex].operator;
                         var operand1 = object.actions[actionIndex].operand1.name;
                         var operand2 = object.actions[actionIndex].operand2;
+                        var conditions = object.actions[actionIndex].conditions;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             if (result < action(parseFloat($scope.instances[object.name][i][index]))) {
                                 result = action(parseFloat($scope.instances[object.name][i][index]));
                             }
                         }
                     } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             if (result < parseFloat($scope.instances[object.name][i][index])) {
                                 result = parseFloat($scope.instances[object.name][i][index]);
                             }
@@ -333,15 +402,18 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
                         var actionName = object.actions[actionIndex].operator;
                         var operand1 = object.actions[actionIndex].operand1.name;
                         var operand2 = object.actions[actionIndex].operand2;
+                        var conditions = object.actions[actionIndex].conditions;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             if (result > action(parseFloat($scope.instances[object.name][i][index]))) {
                                 result = action(parseFloat($scope.instances[object.name][i][index]));
                             }
                         }
                     } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             if (result > parseFloat($scope.instances[object.name][i][index])) {
                                 result = parseFloat($scope.instances[object.name][i][index]);
                             }
@@ -359,13 +431,16 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
                         var actionName = object.actions[actionIndex].operator;
                         var operand1 = object.actions[actionIndex].operand1.name;
                         var operand2 = object.actions[actionIndex].operand2;
+                        var conditions = object.actions[actionIndex].conditions;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             result *= action(parseFloat($scope.instances[object.name][i][index]));
                         }
                     } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             result *= parseFloat($scope.instances[object.name][i][index]);
                         }
                     }
@@ -381,13 +456,16 @@ main_module.controller('ctrl_main', ['appService', 'objectService', '$scope', '$
                         var actionName = object.actions[actionIndex].operator;
                         var operand1 = object.actions[actionIndex].operand1.name;
                         var operand2 = object.actions[actionIndex].operand2;
+                        var conditions = object.actions[actionIndex].conditions;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             result += action(parseFloat($scope.instances[object.name][i][index]));
                         }
                     } else {
-                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                        var filteredInstances = filterByConditions(conditions);
+                        for (i = 0; i < filteredInstances.length; i++) {
                             result += parseFloat($scope.instances[object.name][i][index]);
                         }
                     }

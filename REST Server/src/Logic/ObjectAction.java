@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("unused")
 @XmlRootElement
-class ObjectAction extends Document{
+public class ObjectAction extends Document{
 
     @XmlElement(required = true)
     private String name;

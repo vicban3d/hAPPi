@@ -31,7 +31,6 @@ public class Server implements RESTServer {
     // Silence the built-in jersey logger
     private final static java.util.logging.Logger COM_SUN_JERSEY_LOGGER = java.util.logging.Logger.getLogger( "com.sun.jersey" );
     static { COM_SUN_JERSEY_LOGGER.setLevel( Level.SEVERE ); }
-
     private static Facade facade = new hAPPiFacade();
     private Application currentlySelectedApplication;
 
@@ -177,6 +176,14 @@ public class Server implements RESTServer {
         // TODO - remove in production!!!
         facade.clearDatabase();// TODO - remove in production!!!
         // TODO - remove in production!!!
+    }
+
+    public static Facade getFacade() {
+        return facade;
+    }
+
+    public static void setFacade(Facade facade) {
+        Server.facade = facade;
     }
 
     /**

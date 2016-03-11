@@ -80,4 +80,8 @@ public class ApplicationObject extends Document{
         }
         return result;
     }
+
+    public static ApplicationObject fromDocument(Document data){
+        return new ApplicationObject(data.getString("name"), (ArrayList<ObjectAttribute>)data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
+    }
 }

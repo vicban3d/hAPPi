@@ -7,9 +7,14 @@ import Server.Server;
 import Utility.FileHandler;
 import Utility.Strings;
 import junit.framework.TestCase;
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.junit.Test;
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -19,7 +24,7 @@ import java.util.UUID;
  */
 public class ServerTest extends TestCase {
 
-    private RESTServer server;
+    private Server server;
     private static Facade facade;
     private Database database;
 
@@ -29,50 +34,80 @@ public class ServerTest extends TestCase {
         facade = new hAPPiFacade();
         facade.connectToDatabase();
         database = facade.getDataBase();
+        facade.clearDatabase();
+        server.setFacade(facade);
+        FileHandler.deleteFolder(Strings.PATH_APPS);
+        FileHandler.createFolder(Strings.PATH_APPS);
     }
 
     @org.junit.After
     public void tearDown() throws Exception {
-        facade.clearDatabase();
+
+
     }
 
+    @Test
     public void testGetMainPage() throws Exception {
         String mainPage = server.getMainPage();
         String indexPage = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "index.html");
         assertEquals(indexPage,mainPage);
     }
 
+    @Test
     public void testCreateApplication() throws Exception {
         //create application successfully
-        String appName = UUID.randomUUID().toString();
+        ArrayList<String> platforms = new ArrayList<>();
+        platforms.add("android");
+        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        String result = server.createApplication(app);
+        assertEquals("Created testName", result);
+        Application getApp = Application.fromDocument(database.getData("1"));
+        assertEquals(app,getApp);
+    }
+
+    @Test
+    public void testCreateApplicationWithExistionName() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("name",appName);
-        json.put("id", appName);
+        json = new JSONObject();
+        json.put("name","testName");
+        json.put("id", "1");
         json.put("platforms","[android,ios]");
         ArrayList<String> platforms = new ArrayList<>();
         platforms.add("android");
-        platforms.add("ios");
-        Application app = new Application(appName, appName, platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
-        String application = server.createApplication(app);
-        assertEquals("Created " + appName, application);
-        Application getApp = Application.fromDocument(database.getData(appName));
-        assertEquals(app,getApp);
-
-        //create application with existing name
-        json = new JSONObject();
-        json.put("name",appName);
-        json.put("id", appName);
-        json.put("platforms","[android,ios]");
-        application = server.createApplication(app);
-        assertEquals("Error: failed to create application!",application);
+        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        String result = server.createApplication(app);
+        assertEquals("Created testName", result);
+        result = server.createApplication(app);
+        assertEquals("Error: failed to create application!",result);
     }
 
     public void testBuildApplication() throws Exception {
 
     }
 
+    @Test
     public void testCreateObject() throws Exception {
+        ArrayList<String> platforms = new ArrayList<>();
+        platforms.add("android");
+        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        String application = server.createApplication(app);
 
+        ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
+        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
+        attributes.add(attr);
+        ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
+        ObjectAction action = new ObjectAction("action1", attr, "Increase By", "1");
+
+        ApplicationObject obj = new ApplicationObject("obj_test", attributes, actions);
+        String result = server.createObject(obj);
+        assertEquals("Object obj_test added!", result);
+
+        //Document data = database.getData("1").get("objects").find().first();
+        //return new ApplicationObject(.getString("name"), (ArrayList<ObjectAttribute>)data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
+        ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>)database.getData("1").get("objects");
+        assertTrue(objects.size() == 1);
+        System.out.println(ApplicationObject.fromDocument(objects.get(0)));
+        //assertEquals(obj, ApplicationObject.fromDocument(objects.get(0)));
     }
 
     public void testRemoveObject() throws Exception {
@@ -95,7 +130,4 @@ public class ServerTest extends TestCase {
 
     }
 
-    public void testMain() throws Exception {
-
-    }
 }

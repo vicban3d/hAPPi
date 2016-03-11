@@ -5,6 +5,7 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Created by victor on 1/16/2016.
@@ -20,19 +21,24 @@ class BehaviorAction extends Document {
     private ObjectAttribute operandAttribute;
     @XmlAttribute(required = true)
     private String operator;
+    @XmlAttribute(required = true)
+    private List<Condition> conditions;
 
     @JsonCreator
     public BehaviorAction(@JsonProperty("operandObject") ApplicationObject operandObject,
                           @JsonProperty("operandAttribute") ObjectAttribute operandAttribute,
+                          @JsonProperty("Conditions") List<Condition> conditions,
                           @JsonProperty("operator") String operator) {
 
         super();
         this.append("operandObject", operandObject);
         this.append("operandAttribute", operandAttribute);
+        this.append("Conditions", conditions);
         this.append("operator", operator);
         this.operandObject = operandObject;
         this.operandAttribute = operandAttribute;
         this.operator = operator;
+        this.conditions = conditions;
     }
 
     public ApplicationObject getOperandObject() {
@@ -59,11 +65,20 @@ class BehaviorAction extends Document {
         this.operator = operator;
     }
 
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<Condition> Condition) {
+        this.conditions = conditions;
+    }
+
     @Override
     public String toString() {
         return "Behavior Action:\n" +
                 "\t* Object: " + operandObject +
                 "\t* Attribute: " + operandAttribute +
+                "\t* Conditions: " + conditions +
                 "\t* Operator: " + operator;
     }
 }
