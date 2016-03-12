@@ -53,19 +53,16 @@ body{
     left: 2%;
     width: 10%;
     height: 90%;
-    border-radius: 50% 0 0 50%;
-    margin-right: 2%;
 }
 
 .centralArea{
-    width: 50%;
-    height: 90%;
+    width: 62%;
+    height: 80%;
 }
 
 .sideArea{
     width: 38%;
-    height: 90%;
-    border-radius: 0 10% 10% 0;
+    height: 80%;
 }
 
 .centralAreaComponent{
@@ -328,8 +325,7 @@ body{
 }
 
 .menuButton{
-    height: 10%;
-    width: 100%;
+    width: 10%;
     cursor: pointer;
 }
 

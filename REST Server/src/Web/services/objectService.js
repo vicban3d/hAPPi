@@ -21,15 +21,15 @@ main_module.service('objectService',[function(){
     };
 
     this.addObject = function($scope, name, all_attrs, all_acts) {
-        var all_attributes = all_attrs.filter($scope.isValidAttribute);
-        var all_actions = all_acts.filter($scope.isValidActionObject);
+        var all_attributes = all_attrs.filter(this.isValidAttribute);
+        var all_actions = all_acts.filter(this.isValidActionObject);
         var newObject = {
             name: name,
             attributes:  all_attributes,
             actions: all_actions
         };
         $scope.addObjectToApplication(newObject);
-        this.showObjectDetails(newObject);
+        //this.showObjectDetails(newObject);
         $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
     };
 

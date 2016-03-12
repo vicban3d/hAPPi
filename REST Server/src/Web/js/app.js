@@ -3,7 +3,7 @@ var main_module = angular.module('main', []);
 main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', '$scope', '$timeout', '$sce',
     function(appService, objectService, behaviorService, $scope, $timeout) {
 
-        // Visible gui components //
+        // ----------------------------------------------------------------------Variable Declaration-------------------
         $scope.areaFlags = [];
         $scope.areaFlags["titleArea"] = true;
         $scope.areaFlags["workArea"] = true;
@@ -34,32 +34,11 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.applicationBuilt = false;
         $scope.applicationQRCode = undefined;
 
-        $scope.menuButtons = [
-            {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
-            {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
-            {'label': 'Release',    'function': function(){$scope.menuRelease()}}
-        ];
-
-        $scope.menuAddObjects = function(){
-            $scope.hideAll();
-            $scope.showArea("objectsAddArea");
-        };
-
-        $scope.menuAddBehaviors = function(){
-            $scope.hideAll();
-            $scope.showArea("behaviorAddArea");
-        };
-
-        $scope.menuRelease = function(){
-            $scope.hideAll();
-            $scope.showArea("releaseArea");
-        };
-
         $scope.basic_types = ["Number", "Text"];
         $scope.andOrOperator = ["Or", "And"];
         $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum'];
+        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum', 'Average',];
 
         $scope.numOfConditions = 0;
         $scope.all_conditions = [];
@@ -80,7 +59,51 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.currentInstance = '';
         $scope.attribute_values = [];
 
-        // General Functions //
+        // ios images
+        $scope.iosImg = "ios_disabled.png";
+        $scope.iosImgEnable = "ios_enabled.png";
+        $scope.switchIosImg = 1;
+        $scope.toggleIos = function(){
+            $scope.switchIosImg = 3- $scope.switchIosImg;
+        };
+        // android images
+        $scope.androidImg = "android_disabled.png";
+        $scope.androidImgEnable = "android_enabled.png";
+        $scope.switchAndroidImg = 1;
+        $scope.toggleAndroid = function(){
+            $scope.switchAndroidImg = 3- $scope.switchAndroidImg;
+        };
+        // wp images
+        $scope.windowsImg = "wp_disabled.png";
+        $scope.windowsImgEnable = "wp_enabled.png";
+        $scope.switchWindowsImg = 1;
+        $scope.toggleWindows = function(){
+            $scope.switchWindowsImg = 3- $scope.switchWindowsImg;
+        };
+
+        $scope.menuButtons = [
+            {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
+            {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
+            {'label': 'Release',    'function': function(){$scope.menuRelease()}}
+        ];
+
+        // ----------------------------------------------------------------------General Functions----------------------
+
+        $scope.menuAddObjects = function(){
+            $scope.hideAll();
+            $scope.showArea("objectsAddArea");
+        };
+
+        $scope.menuAddBehaviors = function(){
+            $scope.hideAll();
+            $scope.showArea("behaviorAddArea");
+        };
+
+        $scope.menuRelease = function(){
+            $scope.hideAll();
+            $scope.showArea("releaseArea");
+        };
+
         $scope.menuHome = function(){
             $scope.hideAll();
             $scope.hideArea("menuButtonsArea");
@@ -93,36 +116,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.backToMain = function(){
             $scope.showArea("frontPage");
         };
-
-
-        // ios
-        $scope.iosImg = "ios_disabled.png";
-        $scope.iosImgEnable = "ios_enabled.png";
-
-        $scope.switchIosImg = 1;
-        $scope.toggleIos = function(){
-            $scope.switchIosImg = 3- $scope.switchIosImg;
-        };
-
-        // android
-        $scope.androidImg = "android_disabled.png";
-        $scope.androidImgEnable = "android_enabled.png";
-
-        $scope.switchAndroidImg = 1;
-        $scope.toggleAndroid = function(){
-            $scope.switchAndroidImg = 3- $scope.switchAndroidImg;
-        };
-
-        // windows
-        $scope.windowsImg = "wp_disabled.png";
-        $scope.windowsImgEnable = "wp_enabled.png";
-
-        $scope.switchWindowsImg = 1;
-        $scope.toggleWindows = function(){
-            $scope.switchWindowsImg = 3- $scope.switchWindowsImg;
-        };
-
-
 
         $scope.hideAll = function () {
             for (var f in $scope.areaFlags) {
@@ -146,6 +139,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.hideArea = function (area) {
             $scope.areaFlags[area] = false;
         };
+
+        // ----------------------------------------------------------------------Applications Service Methods-----------
 
         $scope.getPlatform = function(){ appService.getPlatform(); };
 
@@ -179,7 +174,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.showArea("applicationCreateArea");
         };
 
-        // Object Creation //
+        // ----------------------------------------------------------------------Object Service methods-----------------
+
         $scope.addObject = function() {
             objectService.addObject($scope, $scope.objectName, $scope.all_attrs, $scope.all_acts_Object);
             $scope.objectName = '';
@@ -197,7 +193,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
           return objectService.getNumOfAttributes();
         };
 
-        $scope.getNumOfActions = function(){
+        $scope.getNumOfObjectActions = function(){
             return objectService.getNumOfActions();
         };
 
@@ -246,17 +242,37 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getObjectAction = function(actionName, operand2){ objectService.getObjectAction(actionName, operand2); };
 
-        // Behavior Creation //
+        // ----------------------------------------------------------------------Behavior Service Methods---------------
+
         $scope.isValidActionBehavior = function(val){ behaviorService.isValidActionBehavior(val) };
 
-        $scope.addBehavior = function(){ behaviorService.addBehavior($scope); };
+        $scope.addBehavior = function(){
+            behaviorService.addBehavior($scope,  $scope.behaviorName, $scope.all_acts_Behavior, $scope.all_conditions);
+            $scope.all_acts_Behavior = [];
+            $scope.all_conditions = [];
+            behaviorService.numOfActions = 0;
+            behaviorService.numOfConditions = 0;
+            $scope.behaviorName = '';
+            $scope.hideArea("actionsEditAreaObject");
+            $scope.hideArea("actionsEditAreaBehavior");
+            $scope.hideArea("conditionEditArea");
+            $scope.hideArea("behaviorEditArea");
+        };
+
+        $scope.getNumOfBehaviorActions = function(){
+            return behaviorService.getNumOfActions();
+        };
+
+        $scope.getNumOfConditions = function(){
+            return behaviorService.getNumOfConditions();
+        };
 
         $scope.addCondition = function(){
-            $scope.numOfConditions+=1;
+            behaviorService.addCondition();
         };
 
         $scope.editBehaviorDetails = function(behavior){
-            behaviorService.editBehaviorDetails($scope, behavior);
+            behaviorService.editBehaviorDetails(behavior);
         };
 
         $scope.getBehaviorAction = function(object, actionName){
@@ -269,26 +285,39 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addNewBehavior = function(){
             behaviorService.addNewBehavior($scope);
+            $scope.hideArea("objectDetailsArea");
+            $scope.hideArea("objectEditArea");
+            $scope.hideArea("behaviorDetailsArea");
+            $scope.showArea("behaviorEditArea");
         };
 
         $scope.addNewCondition = function(){
-            behaviorService.addNewCondition($scope);
+            behaviorService.addNewCondition();
+            //$scope.hideArea("actionsEditAreaObject");
+            //$scope.hideArea("actionsEditAreaBehavior");
         };
 
         $scope.deleteBehavior = function(behavior){
             behaviorService.deleteBehavior($scope, behavior);
+            $scope.hideArea("behaviorDetailsArea");
         };
 
         $scope.showBehaviorDetails = function(behavior){
             behaviorService.showBehaviorDetails($scope, behavior);
+            $scope.hideArea("objectDetailsArea");
+            $scope.hideArea("objectEditArea");
+            $scope.hideArea("behaviorEditArea");
+            $scope.showArea("behaviorDetailsArea");
         };
 
         $scope.addActionBehavior = function(){
-            behaviorService.addActionBehavior($scope);
+            $scope.showArea("actionsEditAreaBehavior");
+            behaviorService.addActionBehavior();
+            $scope.all_conditions = [];
         };
 
 
-        // Design //
+        // ----------------------------------------------------------------------Design Service Methods-----------------
         $scope.designDisplayObjectPage = function(object){
             $scope.currentInstance = object;
             $scope.showBehaviors = false;
