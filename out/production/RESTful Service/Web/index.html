@@ -137,6 +137,16 @@
                 <button type="submit">Edit Application</button>
             </form>
         </div>
+
+        <div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
+            <form class="editArea" data-ng-submit="editObject()">
+                Name: <input type="text" data-ng-model="objectName" title="Object Name">
+                <hr>
+
+                <button type="submit">Edit Object</button>
+            </form>
+        </div>
+
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
             <div class="componentMainTitle">
                 Design
@@ -276,9 +286,10 @@
             </span>
             <span class="btn btn-primary btn-block" data-ng-click="addNewBehavior()">new behavior</span>
             <div class="mergeLeft" data-ng-show="areaFlags['behaviorEditArea']">
-                <form class="editArea" data-ng-submit="addBehavior()"
-                      data-ng-init="behaviorName='';all_acts_Behavior[getNumOfBehaviorActions()]={operandObject:'',operandAttribute:'',operator:''};
-                      all_conditions=[]">
+                <form role="form">
+                    <br>
+                <!--<form class="editArea" data-ng-submit="addBehavior()" data-ng-init="behaviorName='';
+                all_acts_Behavior[getNumOfBehaviorActions()]={operandObject:'',operandAttribute:'',operator:''};all_conditions=[]">-->
                     Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name"><hr>
                     Action:
                     <br>
@@ -291,10 +302,6 @@
                             title="operandAttribute" ></select>
                     <hr>
                     Conditions:<br>
-                    <!--<span ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">-->
-                        <!--{{all_conditions[$index].attribute.name + " " + all_conditions[$index].logicOperation + " " + all_conditions[$index].value}}-->
-                    <!--</span>-->
-                    <!--<button type="submit">Add Behavior</button>-->
                     <div data-ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">
                         <form class="editArea" ng-init="all_conditions[$index] = {attribute:'',logicOperation:'',value:'',andOrOperator:''}">
                             {{$index + 1}}.
@@ -316,6 +323,7 @@
                     <br><br>
                     <span class="btn btn-primary btn-block" data-ng-click="addBehavior()">Add Behavior</span>
                 </form>
+
             </div>
         </div>
 
