@@ -50,6 +50,7 @@ public class MongoDB implements Database {
     public void removeData(String documentID) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
         db.getCollection(documentID).drop();
+
     }
 
     @Override
