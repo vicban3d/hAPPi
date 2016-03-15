@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="Condition in behavior">
+    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" afterPath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
@@ -1269,13 +1267,7 @@
       <workItem from="1457695884571" duration="502000" />
       <workItem from="1457703271804" duration="70000" />
       <workItem from="1457956713227" duration="859000" />
-      <workItem from="1458044382689" duration="9929000" />
-    </task>
-    <task id="LOCAL-00021" summary="Added more class separation and better OOP.">
-      <created>1447255150966</created>
-      <option name="number" value="00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1447255150966</updated>
+      <workItem from="1458044382689" duration="9981000" />
     </task>
     <task id="LOCAL-00022" summary="Added ability to add android platform and to build the project.">
       <created>1447269003970</created>
@@ -1565,7 +1557,13 @@
       <option name="project" value="LOCAL" />
       <updated>1457686575410</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="Condition and GUI">
+      <created>1458077481535</created>
+      <option name="number" value="00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1458077481551</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1601,7 +1599,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="367534000" />
+    <option name="totallyTimeSpent" value="367586000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1659,7 +1657,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added files:&#10;* Strings - contain constant strings for the program.&#10;* JSCreator - creates JS code from given JSON objects.&#10;* Logger - Logs program status.&#10;&#10;Refined DB and server.&#10;&#10;Refined DB Structure (See MongoDB Class description)." />
     <MESSAGE value="Added more class separation and better OOP." />
     <MESSAGE value="Added ability to add android platform and to build the project." />
     <MESSAGE value="Added javadoc to classes." />
@@ -1684,7 +1681,8 @@
     <MESSAGE value="Tests" />
     <MESSAGE value="more angulary version" />
     <MESSAGE value="Condition in behavior" />
-    <option name="LAST_COMMIT_MESSAGE" value="Condition in behavior" />
+    <MESSAGE value="Condition and GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Condition and GUI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
