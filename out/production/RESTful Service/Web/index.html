@@ -11,6 +11,8 @@
     <script type="text/javascript" src="http://localhost:5555/services/appService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/services/objectService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/services/behaviorService.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/services/designService.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/services/releaseService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/lib/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://localhost:5555/css/index.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -29,63 +31,72 @@
             </ul>
         </div>
     </nav>
+    <div class="object-name-input-width col-xs-2">
+        <input type="text" class="form-control" placeholder="My App Name">
+    </div><br>
     <div>
-        <h1>Your App Name</h1>
-        <h1>Choose your apps platform</h1>
-    </div>
-    <div>
+        <h2>Choose Platforms:</h2>
         <div ng-switch="switchIosImg==1">
             <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
-                <img data-ng-click="toggleIos()" src="http://localhost:5555/img/{{iosImg}}">
+                <img data-ng-click="toggleIos()" class="phoneImg" src="http://localhost:5555/img/{{iosImg}}">
             </div>
             <div class="imgDivWidth imgMarginLeft" ng-switch-when=false>
-                <img data-ng-click="toggleIos()" src="http://localhost:5555/img/{{iosImgEnable}}">
+                <img data-ng-click="toggleIos()" class="phoneImgEnabled" src="http://localhost:5555/img/{{iosImgEnable}}">
             </div>
         </div>
 
         <div ng-switch="switchAndroidImg==1">
             <div class="imgDivWidth" ng-switch-when=true>
-                <img data-ng-click="toggleAndroid()" src="http://localhost:5555/img/{{androidImg}}">
+                <img data-ng-click="toggleAndroid()" class="phoneImg" src="http://localhost:5555/img/{{androidImg}}">
             </div>
             <div class="imgDivWidth" ng-switch-when=false>
-                <img data-ng-click="toggleAndroid()" src="http://localhost:5555/img/{{androidImgEnable}}">
+                <img data-ng-click="toggleAndroid()" class="phoneImgEnabled" src="http://localhost:5555/img/{{androidImgEnable}}">
             </div>
         </div>
 
         <div class="clearFloats" ng-switch="switchWindowsImg==1">
             <div class="imgDivWidth" ng-switch-when=true>
-                <img data-ng-click="toggleWindows()" src="http://localhost:5555/img/{{windowsImg}}">
+                <img data-ng-click="toggleWindows()" class="phoneImg" src="http://localhost:5555/img/{{windowsImg}}">
             </div>
             <div class="imgDivWidth" ng-switch-when=false>
-                <img data-ng-click="toggleWindows()" src="http://localhost:5555/img/{{windowsImgEnable}}">
+                <img data-ng-click="toggleWindows()" class="phoneImgEnabled" src="http://localhost:5555/img/{{windowsImgEnable}}">
             </div>
         </div>
 
     </div>
     <hr>
-    <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">new app</span>
+    <hr>
+    <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">Start!</span>
 </div>
 <nav class="navbar navbar-inverse" ng-hide="areaFlags['frontPage']" >
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" ng-click="backToMain()" href="#">hAPPi</a>
+            <a class="navbar-brand" data-ng-click="backToMain()" href="#">hAPPi</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
     </div>
-</nav>
-<div class="message" ng-hide="areaFlags['frontPage']" data-ng-show="areaFlags['messageArea']">
-    <label>{{message}}</label>
-</div>
-<div class="workArea" ng-hide="areaFlags['frontPage']">
-    <div class="nav nav-pills nav-stacked workAreaComponent" data-ng-show="areaFlags['menuArea']">
-        <div data-ng-show="areaFlags['menuButtonsArea']" ng-repeat="button in menuButtons">
-            <div class="glyphicon glyphicon-play"></div>
-            <div class="btn btn-primary btn-block menuButton" data-ng-click="button.function()">{{button.label}}</div>
-        </div>
+
+    <div class="panel panel-success container-fluid" data-ng-show="DEBUG">
+        <label data-ng-model="message">_ {{message}}</label>
     </div>
+
+    <nav class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
+        <ul class="nav nav-tabs">
+            <li class="navbar-right menuButton"><a href="#" data-ng-click="menuButtons[2].function()">{{menuButtons[2].label}}</a></li>
+            <li class="navbar-right menuButton"><a href="#" data-ng-click="menuButtons[1].function()">{{menuButtons[1].label}}</a></li>
+            <li class="navbar-right menuButton"><a href="#" data-ng-click="menuButtons[0].function()">{{menuButtons[0].label}}</a></li>
+        </ul>
+    </nav>
+
+
+</nav>
+
+
+<div class="workArea" ng-hide="areaFlags['frontPage']">
+
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
             <div class="componentMainTitle">{{currentBehavior.name}}</div>
@@ -98,6 +109,7 @@
             </div>
             <hr>
         </div>
+
         <div class="sideAreaComponent" data-ng-show="areaFlags['applicationDetailsArea']">
             <div class="componentMainTitle">{{currentApplication.name}}</div>
             <div class="componentListTitle">Platforms:</div>
@@ -140,8 +152,8 @@
                     <button class="draggableButton" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
                 <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="attribute_values=[]">
-                    {{currentInstance.name}}<hr>
-                    <div data-ng-repeat="attr in currentInstance.attributes track by $index">
+                    {{getCurrentInstance().name}}<hr>
+                    <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                         {{index}} {{attr.name}} : <input type="text" data-ng-model="attribute_values[$index]"><br>
                     </div>
                     <button class="draggableButton" data-ng-click="addInstance()">Add</button><hr>
@@ -151,11 +163,11 @@
                     <table style="width: 100%" border="1px">
                         <tr>
                             <th style="width: 10%">Idx</th>
-                            <th data-ng-repeat="attr in currentInstance.attributes track by $index">
+                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                                 {{attr.name}}
                             </th>
                         </tr>
-                        <tr data-ng-repeat="instance in instances[currentInstance.name] track by $index">
+                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
                             <td>{{$index}}</td>
                             <td data-ng-repeat="val in instance track by $index">
                                 {{val}}
@@ -165,7 +177,7 @@
                     </table>
                 </div>
                 <div class="designAreaOutput">
-                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{emulatorOutput}}</label>
+                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{getOutput()}}</label>
                 </div>
             </div>
         </div>
@@ -174,6 +186,7 @@
         </div>
     </div>
     <div class="workAreaComponent centralArea" data-ng-show="areaFlags['centralArea']">
+
         <div class="centralAreaComponent" data-ng-show="areaFlags['applicationListArea']">
             <div class="componentMainTitle">
                 Applications
@@ -187,6 +200,7 @@
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()"></span>
         </div>
+
         <div class="centralAreaComponent" data-ng-show="areaFlags['objectsAddArea']">
             <div class="componentMainTitle">
                 Objects
@@ -207,10 +221,10 @@
                         <input data-ng-model="objectName" class="form-control" placeholder="Enter Object name">
                     </div>
                     <hr/>
-                    <div class="form-group">
+                    <div class="form-group" data-ng-init="all_attrs=[]">
                         <label>Attributes:</label>
                         <br>
-                        <div data-ng-repeat="n in [].constructor(numOfAttributes) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
+                        <div data-ng-repeat="n in [].constructor(getNumOfAttributes()) track by $index" data-ng-init="all_attrs[$index]={name:'', type:''}">
                             {{$index + 1}}.
                             Name:
                             <input type="text" placeholder="Enter Attribute name" data-ng-model="all_attrs[$index].name" title="Attribute" data-ng-init="all_attrs[$index].type=basic_types[0]">
@@ -221,42 +235,29 @@
                     </div>
                     <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
                     <hr/>
-                    <div class="form-group">
+                    <div class="form-group" data-ng-init="all_acts_Object=[]">
                         <label>Actions:</label>
                         <br>
-
-                        <div data-ng-repeat="n in [].constructor(numOfActions) track by $index">
+                        <div data-ng-repeat="n in [].constructor(getNumOfObjectActions()) track by $index">
                             <form class="editArea" data-ng-submit="addNewAction()"
-                                  ng-init="all_acts_Object[numOfActions] = {name:'',operand1:'',operator:'',operand2:''}">
+                                  ng-init="all_acts_Object[$index] = {name:'',operand1:'',operator:'',operand2:''}">
                                 {{$index + 1}}.
-                                Name: <input type="text" data-ng-model="all_acts_Object[numOfActions].name" title="Action Name"
-                                             data-ng-init="all_acts_Object[numOfActions].operator=operators[0]">
+                                Name: <input type="text" data-ng-model="all_acts_Object[$index].name" title="Action Name" data-ng-init="all_acts_Object[$index].operator=operators[0]">
                                 <br>
                                 Choose Attribute:
-                                <select ng-model="all_acts_Object[numOfActions].operand1" ng-options="i.name for i in all_attrs"
-                                        title="Operand1"></select>
-
+                                <select ng-model="all_acts_Object[$index].operand1" ng-options="i.name for i in all_attrs" title="Operand1"></select>
                                 <br>
                                 Choose Action:&nbsp;&nbsp;&nbsp;&nbsp;
-                                <select ng-model="all_acts_Object[numOfActions].operator" ng-options="i for i in operators"
-                                        title="Operator"></select>
+                                <select ng-model="all_acts_Object[$index].operator" ng-options="i for i in operators" title="Operator"></select>
                                 <br>
                                 Choose Number:
-                                <input type="text" ng-model="all_acts_Object[numOfActions].operand2" title="Operand2">
-                                <button type="submit">Add Action</button>
-                                <br>
-                                <br>
+                                <input type="text" ng-model="all_acts_Object[$index].operand2" title="Operand2">
+                                <br><br>
                             </form>
                         </div>
-
-                        <!--<span ng-repeat="n in [].constructor(numOfActions) track by $index">-->
-                        <!--{{all_actions[$index].name + ": " + all_actions[$index].operand1.name + " " + all_actions[$index].operator + " " + all_actions[$index].operand2}}-->
-                        <!--<br>-->
-                        <!--</span>-->
                         <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
                         <hr>
                     </div>
-                    <!--<button type="submit">Create Object</button>-->
                     <span class="btn btn-primary btn-block" data-ng-click="addObject()">Create Object</span>
                     <br>
                 </form>
@@ -266,7 +267,7 @@
             <div class="componentMainTitle">
                 Behavior
             </div>
-            <span ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index">
+            <span data-ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index">
                 <span class="componentButton" data-ng-click="showBehaviorDetails(behavior)">
                     <span class="textInButton">{{behavior.name}}</span>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteBehavior(behavior)"></span>
@@ -274,51 +275,50 @@
                 </span>
             </span>
             <span class="btn btn-primary btn-block" data-ng-click="addNewBehavior()">new behavior</span>
-            <div class="" data-ng-show="areaFlags['behaviorEditArea']">
+            <div class="mergeLeft" data-ng-show="areaFlags['behaviorEditArea']">
                 <form class="editArea" data-ng-submit="addBehavior()"
-                      data-ng-init="behaviorName='';all_acts_Behavior[numOfActions]={name:'',operandObject:'',operandAttribute:'',operator:''};
-                      all_conditions[numOfConditions]={conditionAttributes:'',logic:'',value:''}">
+                      data-ng-init="behaviorName='';all_acts_Behavior[getNumOfBehaviorActions()]={operandObject:'',operandAttribute:'',operator:''};
+                      all_conditions=[]">
                     Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name"><hr>
                     Action:
                     <br>
-                    <select ng-model="all_acts_Behavior[numOfActions].operandObject"
+                    <select ng-model="all_acts_Behavior[getNumOfBehaviorActions()].operandObject"
                             ng-options="item as item.name for item in applications[currentApplication.id].objects" title="operandObject"></select>
-                    <select ng-model="all_acts_Behavior[numOfActions].operator" ng-options="i for i in behaviorOperators"
+                    <select ng-model="all_acts_Behavior[getNumOfBehaviorActions()].operator" ng-options="i for i in behaviorOperators"
                             title="Operator"></select>
-                    <select ng-model="all_acts_Behavior[numOfActions].operandAttribute"
-                            ng-options="item as item.name for item in all_acts_Behavior[numOfActions].operandObject.attributes.concat(all_acts_Behavior[numOfActions].operandObject.actions)"
+                    <select ng-model="all_acts_Behavior[getNumOfBehaviorActions()].operandAttribute"
+                            ng-options="item as item.name for item in all_acts_Behavior[getNumOfBehaviorActions()].operandObject.attributes.concat(all_acts_Behavior[getNumOfBehaviorActions()].operandObject.actions)"
                             title="operandAttribute" ></select>
                     <hr>
                     Conditions:<br>
-                    <span ng-repeat="n in [].constructor(numOfConditions) track by $index">
-                        {{all_conditions[$index].attribute.name + " " + all_conditions[$index].logicOperation + " " + all_conditions[$index].value}}
-                    </span>
+                    <!--<span ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">-->
+                        <!--{{all_conditions[$index].attribute.name + " " + all_conditions[$index].logicOperation + " " + all_conditions[$index].value}}-->
+                    <!--</span>-->
                     <!--<button type="submit">Add Behavior</button>-->
-                    <div data-ng-repeat="n in [].constructor(numOfConditions) track by $index">
-                        <form class="editArea" data-ng-submit="addNewCondition()"
-                              ng-init="all_conditions[numOfConditions] = {attribute:'',logicOperation:'',value:'',andOrOperator:''}">
+                    <div data-ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">
+                        <form class="editArea" ng-init="all_conditions[$index] = {attribute:'',logicOperation:'',value:'',andOrOperator:''}">
                             {{$index + 1}}.
                             Choose Attribute:
-                            <select ng-model="all_conditions[numOfConditions].attribute"
-                                    ng-options="item as item.name for item in all_acts_Behavior[numOfActions].operandObject.attributes.concat(all_acts_Behavior[numOfActions].operandObject.actions)"
+                            <select ng-model="all_conditions[$index].attribute"
+                                    ng-options="item as item.name for item in all_acts_Behavior[getNumOfBehaviorActions()].operandObject.attributes.concat(all_acts_Behavior[getNumOfBehaviorActions()].operandObject.actions)"
                                     title="Attribute" ></select>
                             <br>
                             Choose Logic Operation:
-                            <select ng-model="all_conditions[numOfConditions].logicOperation" ng-options="i for i in logicOperations"
-                                    title="logicOperation"></select>
+                            <select ng-model="all_conditions[$index].logicOperation" ng-options="i for i in logicOperations" title="logicOperation"></select>
                             <br>
                             Choose Value:
-                            <input type="text" ng-model="all_conditions[numOfConditions].value" title="value">
+                            <input type="text" ng-model="all_conditions[$index].value" title="value">
                             <br>
-                            <button type="submit">Add Condition</button>
-                            <br><br>
+                            <br>
                         </form>
                     </div>
                     <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
-                    <span class="btn btn-primary btn-block" type="submit" data-ng-click="addNewBehavior()">Add Behavior</span>
+                    <br><br>
+                    <span class="btn btn-primary btn-block" data-ng-click="addBehavior()">Add Behavior</span>
                 </form>
             </div>
         </div>
+
         <div class="centralAreaComponent releaseArea" ng-show="areaFlags['releaseArea']">
             <div class="componentMainTitle">
                 Release

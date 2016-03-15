@@ -19,11 +19,11 @@ main_module.service('behaviorService',[function(){
         return this.numOfConditions;
     };
 
-    this.addBehavior = function($scope, name, all_acts, all_conds){
+    this.addBehavior = function($scope, name, all_acts, all_conditions){
         var newBehavior = {
             name: name,
             actions: all_acts,
-            conditions: all_conds.filter($scope.isValidCondition)
+            conditions: all_conditions
         };
         $scope.addBehaviorToApplication(newBehavior);
         //$scope.showBehaviorDetails(newBehavior);
