@@ -23,6 +23,7 @@ public class Strings {
     public static final String PATH_REMOVE_OBJECT = "/removeObject";
     public static final String PATH_REMOVE_APP = "/removeApplication";
     public static final String PATH_UPDATE_APP = "/updateApplication";
+    public static final String PATH_UPDATE_OBJECT = "/updateObject";
     public static final String DB_NAME = "hAPPiDB";
     public static final String DB_PORT = "27017";
 }

@@ -19,5 +19,6 @@ var Paths = {
     ADD_PLATFORM_WINDOWS_PHONE: "/addWindowsPhone",
     EMULATE_ANDROID: "/emulateAndroid",
     BUILD_APP: "/build",
-    UPDATE_APP: "/updateApplication"
+    UPDATE_APP: "/updateApplication",
+    UPDATE_OBJECT: "/updateObject"
 };

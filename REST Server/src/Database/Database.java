@@ -1,5 +1,6 @@
 package Database;
 
+import Logic.ApplicationObject;
 import org.bson.Document;
 
 import java.io.IOException;

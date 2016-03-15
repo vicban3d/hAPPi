@@ -82,4 +82,8 @@ public class ObjectAction extends Document{
                 "\t* Operator: " + this.operator +
                 "\t* Operand2: " + this.operand2;
     }
+
+    public static ObjectAction fromDocument(Document data) {
+        return new ObjectAction(data.getString("name"),(ObjectAttribute)data.get("operand1"),data.getString("operator"),data.getString("operand2"));
+    }
 }

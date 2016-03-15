@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 
 /**
  * Created by victor on 1/14/2016.
@@ -51,5 +52,10 @@ public class ObjectAttribute extends Document{
         return "Attribute:\n" +
                 "\t* Name: " + this.name +
                 "\t* Type: " + this.type;
+    }
+
+    public static ObjectAttribute fromDocument(Document data) {
+        //noinspection unchecked
+        return new ObjectAttribute(data.getString("name"),data.getString("type"));
     }
 }

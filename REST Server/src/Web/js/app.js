@@ -324,6 +324,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.all_conditions = [];
         };
 
+        $scope.editObject = function(){appService.editObject($scope);};
+        $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, currentApplication.id, currentObject)};
+        $scope.editObjectDetails = function($event, object){ objectService.editObjectDetails($scope, $event, object); };
+
         // ----------------------------------------------------------------------Design Service Methods-----------------
 
         $scope.designDisplayObjectPage = function(object){

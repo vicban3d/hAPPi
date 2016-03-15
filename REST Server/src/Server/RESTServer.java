@@ -108,4 +108,15 @@ public interface RESTServer {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
     String updateApplication(Application data);
+
+    /**
+     * Updates the content of an object.
+     * @param data- a JSON representation of the object.
+     * @return - the status of the request.
+     */
+    @POST
+    @Path(Strings.PATH_UPDATE_OBJECT)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String updateObject(ApplicationObject data);
 }

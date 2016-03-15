@@ -145,6 +145,16 @@ public class Server implements RESTServer {
         return "The application " + data.getName() + " was updated successfully";
     }
 
+    @Override
+    public String updateObject(ApplicationObject data) {
+        try {
+            facade.updateApplicationObject(currentlySelectedApplication.getId(), data);
+        } catch (Exception e) {
+            Logger.ERROR("Error : failed to update application object!", e.getMessage());
+            return "Error: Failed to update application object!";
+        }
+        return "The object " + data.getName() + " was updated successfully";
+    }
     /**
      * Starts the Server.
      */

@@ -159,4 +159,11 @@ public class hAPPiFacade implements Facade {
     public String getPage(String page) {
         return FileHandler.readFile(Strings.PATH_WEB_CONTENT + page);
     }
+
+    @Override
+    public void updateApplicationObject(String appId, ApplicationObject object) {
+        Application application = Application.fromDocument(database.getData(appId));
+        application.updateObject(object);
+        database.updateData(application);
+    }
 }

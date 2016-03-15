@@ -63,4 +63,6 @@ public interface Facade {
     Database getDataBase();
 
     String getPage(String page);
+
+    void updateApplicationObject(String appId, ApplicationObject object);
 }

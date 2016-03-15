@@ -22,6 +22,8 @@ import java.util.ArrayList;
 @XmlRootElement
 public class ApplicationObject extends Document{
 
+    @XmlElement(required=true)
+    private String id;
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
@@ -30,14 +32,17 @@ public class ApplicationObject extends Document{
     private ArrayList<ObjectAction> actions;
 
     @JsonCreator
-    public ApplicationObject(@JsonProperty("name") String name,
+    public ApplicationObject(@JsonProperty("id") String id,
+                             @JsonProperty("name") String name,
                              @JsonProperty("attributes") ArrayList<ObjectAttribute> attributes,
                              @JsonProperty("actions") ArrayList<ObjectAction> actions) {
 
         super();
+        this.append("id",id);
         this.append("name", name);
         this.append("attributes", attributes);
         this.append("actions", actions);
+        this.id = id;
         this.name = name;
         this.attributes = attributes;
         this.actions = actions;
@@ -69,6 +74,7 @@ public class ApplicationObject extends Document{
 
     public String toString(){
         String result = "Object:\n";
+        result += "\tId: " + this.id + "\n";
         result += "\tName: " + this.name + "\n";
         result += "\tAttributes:\n";
         for (ObjectAttribute key : this.attributes){
@@ -81,7 +87,16 @@ public class ApplicationObject extends Document{
         return result;
     }
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public static ApplicationObject fromDocument(Document data){
-        return new ApplicationObject(data.getString("name"), (ArrayList<ObjectAttribute>)data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
+        return new ApplicationObject(data.getString("id"), data.getString("name"), (ArrayList<ObjectAttribute>) data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
     }
 }

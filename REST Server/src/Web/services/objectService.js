@@ -7,8 +7,9 @@ main_module.service('objectService',[function(){
     this.numOfActions = 0;
 
     this.currentObject = {
+        id: '',
         name: '',
-        attributes:  [],
+        attributes: [],
         actions: []
     };
 
@@ -21,9 +22,11 @@ main_module.service('objectService',[function(){
     };
 
     this.addObject = function($scope, name, all_attrs, all_acts) {
+        var objectId = generateUUID();
         var all_attributes = all_attrs.filter(this.isValidAttribute);
         var all_actions = all_acts.filter(this.isValidActionObject);
         var newObject = {
+            id: objectId,
             name: name,
             attributes:  all_attributes,
             actions: all_actions
@@ -105,4 +108,63 @@ main_module.service('objectService',[function(){
             };
         }
     }
+
+
+    this.editObject = function($scope){
+        if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
+            $scope.objectName = 'Invalid Name!'
+        }
+        else {
+            $scope.all_attributes = $scope.all_attrs.filter($scope.isValidAttribute);
+            $scope.all_acts_Object = $scope.all_acts_Object.filter($scope.isValidActionObject);
+
+
+            var newObject = {
+                id: currentObject.id,
+                name: $scope.objectName,
+                attributes:  $scope.all_attributes,
+                actions: $scope.all_acts_Object
+            };
+
+            $scope.message = "Updating object...";
+            $scope.showArea("messageArea");
+            removeObjectFromAppList($scope, currentApplication.id, currentObject);
+            $scope.addObjectToApplication(newObject);
+            $scope.acceptMessageResult(sendPostRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
+            this.showObjectDetails(newObject);
+            this.currentObject = newObject;
+            alert(currentObject);
+            alert(newObject);
+
+
+            //TODO
+        }
+
+        };
+
+    this.editObjectDetails = function($scope, $event, object){
+        $event.stopPropagation();
+        this.currentObject = object;
+        this.objectName = $scope.currentObject.name;
+        $scope.showArea("objectEditArea");
+        $scope.hideArea("objectDetailsArea");
+    };
+
+    this.removeObjectFromAppList= function($scope, appId, object){
+        for(var i = $scope.applications[appId].objects.length - 1; i >= 0; i--){
+            if($scope.applications[appId].objects[i] == object){
+                $scope.applications[appId].objects[i].splice(i,1);
+            }
+        }
+    };
+
+    var generateUUID = function() {
+        var d = new Date().getTime();
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    };
+
 }]);

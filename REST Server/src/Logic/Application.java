@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import javax.print.Doc;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class Application extends Document{
             }
         }
         if (objects != null) {
-            for (ApplicationObject object : this.objects) {
+            for (Document object : this.objects) {
                 result += "\t* " + object + "\n";
             }
         }
@@ -138,13 +139,29 @@ public class Application extends Document{
     }
 
     public void removeObject(ApplicationObject object) {
+
+        for(int i = 0; i < objects.size(); i++){
+            Document doc = objects.get(i);
+            if(doc.getString("id").equals(object.getId()))
+                objects.remove(i);
+        }
         objects.remove(object);
         this.put("objects", this.objects);
-
     }
 
-    public void removeBehavior(ApplicationBehavior object) {
-        behaviors.remove(object);
+    public void updateObject(ApplicationObject object) {
+        for(int i = 0; i < objects.size(); i++){
+            Document doc = objects.get(i);
+            if(doc.getString("id").equals(object.getId())){
+                objects.remove(i);
+                objects.add(object);
+            }
+        }
+        this.put("objects", this.objects);
+    }
+
+    public void removeBehavior(ApplicationBehavior behavior) {
+        behaviors.remove(behavior);
         this.put("behaviors", this.behaviors);
     }
 

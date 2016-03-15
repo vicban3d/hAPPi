@@ -3,6 +3,7 @@ package Database;
 import Logic.Application;
 import Logic.ApplicationBehavior;
 import Logic.ApplicationObject;
+import Logic.ObjectAttribute;
 import Utility.Logger;
 import Utility.Strings;
 import com.mongodb.MongoClient;
@@ -11,6 +12,7 @@ import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by victor on 11/9/2015.

@@ -137,6 +137,16 @@
                 <button type="submit">Edit Application</button>
             </form>
         </div>
+
+        <div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
+            <form class="editArea" data-ng-submit="editObject()">
+                Name: <input type="text" data-ng-model="objectName" title="Object Name">
+                <hr>
+
+                <button type="submit">Edit Object</button>
+            </form>
+        </div>
+
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
             <div class="componentMainTitle">
                 Design
@@ -209,7 +219,7 @@
                 <span class="componentButton" data-ng-click="showObjectDetails(object)">
                     <span class="textInButton">{{object.name}}</span>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteObject(object)"></span>
-                   <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editObjectDetails(object)"></span>
+                   <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editObjectDetails($event, object)"></span>
                 </span>
             </span>
             <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">new object</span>
