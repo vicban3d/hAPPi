@@ -1,9 +1,13 @@
 var main_module = angular.module('main', []);
 
-main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', '$scope', '$timeout', '$sce',
-    function(appService, objectService, behaviorService, $scope, $timeout) {
+main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', 'designService', 'releaseService', '$scope', '$timeout', '$sce',
+    function(appService, objectService, behaviorService, designService, releaseService, $scope, $timeout) {
 
         // ----------------------------------------------------------------------Variable Declaration-------------------
+
+        // Shows debug messages on the web page.
+        $scope.DEBUG = true;
+
         $scope.areaFlags = [];
         $scope.areaFlags["titleArea"] = true;
         $scope.areaFlags["workArea"] = true;
@@ -40,15 +44,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum', 'Average',];
 
-        $scope.numOfConditions = 0;
-        $scope.all_conditions = [];
-        $scope.all_acts_Behavior = [];
-        $scope.all_conditions = [];
-        $scope.currentBehavior = '';
-
         $scope.instances = [];
-
-        $scope.behaviorName = '';
 
         $scope.emulatorOutput = '';
         $scope.showBehaviors = true;
@@ -56,7 +52,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.appications = {};
 
-        $scope.currentInstance = '';
         $scope.attribute_values = [];
 
         // ios images
@@ -109,6 +104,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("menuButtonsArea");
             $scope.showArea("applicationListArea");
         };
+
         $scope.gotoApp = function(){
             $scope.hideArea("frontPage");
         };
@@ -140,6 +136,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.areaFlags[area] = false;
         };
 
+        $scope.toggleArea = function (area) {
+            $scope.areaFlags[area] = !$scope.areaFlags[area];
+        };
         // ----------------------------------------------------------------------Applications Service Methods-----------
 
         $scope.getPlatform = function(){ appService.getPlatform(); };
@@ -172,6 +171,15 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.addNewApplication = function(){
             $scope.hideArea("applicationDetailsArea");
             $scope.showArea("applicationCreateArea");
+        };
+
+
+        $scope.addObjectToApplication = function(object){
+            appService.addObjectToApplication($scope, object);
+        };
+
+        $scope.addBehaviorToApplication = function(behavior){
+            appService.addBehaviorToApplication($scope, behavior);
         };
 
         // ----------------------------------------------------------------------Object Service methods-----------------
@@ -233,7 +241,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("behaviorDetailsArea");
             $scope.hideArea("behaviorEditArea");
             $scope.hideArea("objectDetailsArea");
-            $scope.showArea("objectEditArea");
+            $scope.toggleArea("objectEditArea");
         };
 
         $scope.isValidCondition = function(val){
@@ -288,7 +296,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("objectDetailsArea");
             $scope.hideArea("objectEditArea");
             $scope.hideArea("behaviorDetailsArea");
-            $scope.showArea("behaviorEditArea");
+            $scope.toggleArea("behaviorEditArea");
         };
 
         $scope.addNewCondition = function(){
@@ -316,12 +324,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.all_conditions = [];
         };
 
-
         // ----------------------------------------------------------------------Design Service Methods-----------------
+
         $scope.designDisplayObjectPage = function(object){
-            $scope.currentInstance = object;
-            $scope.showBehaviors = false;
-            $scope.showInstance = true;
+            designService.designDisplayObjectPage(object);
         };
 
         $scope.designDisplayBehaviorPage = function(){
@@ -330,40 +336,29 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.addInstance = function(){
-            if ($scope.instances[$scope.currentInstance.name] == undefined){
-                $scope.instances[$scope.currentInstance.name] = [];
-            }
-            $scope.instances[$scope.currentInstance.name].push($scope.attribute_values);
-            $scope.attribute_values = [];
+            designService.addInstance($scope);
         };
 
         $scope.removeInstance = function(id){
-            $scope.instances[$scope.currentInstance.name].splice(parseInt(id),1);
+            designService.removeInstance($scope, id);
         };
 
         $scope.performBehaviorAction = function(behavior){
-            var object = behavior.actions[0].operandObject;
-            var operand1 = behavior.actions[0].operandAttribute.name;
-            var action = $scope.getBehaviorAction(object, behavior.actions[0].operator);
-            $scope.emulatorOutput = action(operand1);
+            designService.performBehaviorAction($scope, behavior);
         };
 
-        $scope.addObjectToApplication = function(object){
-            appService.addObjectToApplication($scope, object);
+        $scope.getOutput = function(){
+            return designService.getOutput();
         };
 
-        $scope.addBehaviorToApplication = function(behavior){
-            appService.addBehaviorToApplication($scope, behavior);
-        };
+        // ----------------------------------------------------------------------Release Service Methods----------------
 
-
-        // Release //
         $scope.releaseBuildApplication = function(application){
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)));
-            $scope.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result);
-            $scope.applicationBuilt = true;
+            releaseService.releaseBuildApplication($scope, application);
             $scope.message = "Application built successfully!";
         };
+
+        // ----------------------------------------------------------------------Status Message-------------------------
 
         $scope.acceptMessageResult = function(result){
             var displayDuration = 10000;
@@ -387,6 +382,5 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.updateStatus = function(text){
             $scope.message = text;
-            //$scope.$apply();
         }
     }]);

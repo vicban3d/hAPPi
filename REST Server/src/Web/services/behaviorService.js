@@ -22,7 +22,7 @@ main_module.service('behaviorService',[function(){
     this.addBehavior = function($scope, name, all_acts, all_conds){
         var newBehavior = {
             name: name,
-            actions: all_acts.filter($scope.isValidActionBehavior),
+            actions: all_acts,
             conditions: all_conds.filter($scope.isValidCondition)
         };
         $scope.addBehaviorToApplication(newBehavior);
@@ -167,8 +167,8 @@ main_module.service('behaviorService',[function(){
     };
 
     this.addNewBehavior = function($scope){
-        var empty = {name:'new behavior'};
-        $scope.showBehaviorDetails(empty);
+        //var empty = {name:'new behavior'};
+        //$scope.showBehaviorDetails(empty);
     };
 
 

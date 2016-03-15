@@ -11,6 +11,8 @@
     <script type="text/javascript" src="http://localhost:5555/services/appService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/services/objectService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/services/behaviorService.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/services/designService.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/services/releaseService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/lib/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://localhost:5555/css/index.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -77,7 +79,7 @@
         </ul>
     </div>
 
-    <div class="panel panel-success container-fluid">
+    <div class="panel panel-success container-fluid" data-ng-show="DEBUG">
         <label data-ng-model="message">_ {{message}}</label>
     </div>
 
@@ -150,8 +152,8 @@
                     <button class="draggableButton" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
                 <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="attribute_values=[]">
-                    {{currentInstance.name}}<hr>
-                    <div data-ng-repeat="attr in currentInstance.attributes track by $index">
+                    {{getCurrentInstance().name}}<hr>
+                    <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                         {{index}} {{attr.name}} : <input type="text" data-ng-model="attribute_values[$index]"><br>
                     </div>
                     <button class="draggableButton" data-ng-click="addInstance()">Add</button><hr>
@@ -161,11 +163,11 @@
                     <table style="width: 100%" border="1px">
                         <tr>
                             <th style="width: 10%">Idx</th>
-                            <th data-ng-repeat="attr in currentInstance.attributes track by $index">
+                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                                 {{attr.name}}
                             </th>
                         </tr>
-                        <tr data-ng-repeat="instance in instances[currentInstance.name] track by $index">
+                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
                             <td>{{$index}}</td>
                             <td data-ng-repeat="val in instance track by $index">
                                 {{val}}
@@ -175,7 +177,7 @@
                     </table>
                 </div>
                 <div class="designAreaOutput">
-                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{emulatorOutput}}</label>
+                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{getOutput()}}</label>
                 </div>
             </div>
         </div>
@@ -288,7 +290,7 @@
             <div class="" data-ng-show="areaFlags['behaviorEditArea']">
                 <form class="editArea" data-ng-submit="addBehavior()"
                       data-ng-init="behaviorName='';all_acts_Behavior[getNumOfBehaviorActions()]={operandObject:'',operandAttribute:'',operator:''};
-                      all_conditions[getNumOfConditions()]={conditionAttributes:'',logic:'',value:''}">
+                      all_conditions=[]">
                     Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name"><hr>
                     Action:
                     <br>
