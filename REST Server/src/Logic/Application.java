@@ -107,7 +107,6 @@ public class Application extends Document{
     @Override
     public String toString(){
         String result = "Application:\n";
-        result += "\tId: " + this.id + "\n";
         result += "\tName: " + this.name + "\n";
         result += "\tPlatforms:\n";
         if (platforms != null){

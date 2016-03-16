@@ -30,22 +30,13 @@ main_module.service('appService',[function(){
         return {id: id, name: name, platforms: platforms, objects: actions, behaviors: behaviors};
     };
 
-    var generateUUID = function() {
-        var d = new Date().getTime();
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-        });
-    };
-
     this.addApplication = function($scope, name, platforms){
         if (name == '' || name =='Invalid Name!') {
             $scope.applicationName = 'Invalid Name!'
         }
         else{
             platforms = this.getPlatform(platforms);
-            var appId = generateUUID();
+            var appId = $scope.generateUUID();
             var newApplication = this.applicationConstructor(appId, name, platforms, [],[]);
             this.currentApplication = newApplication;
             this.addAppToApplicationList($scope, newApplication);

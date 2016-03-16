@@ -22,7 +22,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addObject = function($scope, name, all_attrs, all_acts) {
-        var objectId = generateUUID();
+        var objectId = $scope.generateUUID();
         var all_attributes = all_attrs.filter(this.isValidAttribute);
         var all_actions = all_acts.filter(this.isValidActionObject);
         var newObject = {
@@ -157,14 +157,4 @@ main_module.service('objectService',[function(){
             }
         }
     };
-
-    var generateUUID = function() {
-        var d = new Date().getTime();
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-        });
-    };
-
 }]);

@@ -250,6 +250,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getObjectAction = function(actionName, operand2){ objectService.getObjectAction(actionName, operand2); };
 
+        $scope.editObject = function(){objectService.editObject($scope);};
+        $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, currentApplication.id, currentObject)};
+        $scope.editObjectDetails = function($event, object){ objectService.editObjectDetails($scope, $event, object); };
+
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 
         $scope.isValidActionBehavior = function(val){ behaviorService.isValidActionBehavior(val) };
@@ -324,9 +328,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.all_conditions = [];
         };
 
-        $scope.editObject = function(){appService.editObject($scope);};
-        $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, currentApplication.id, currentObject)};
-        $scope.editObjectDetails = function($event, object){ objectService.editObjectDetails($scope, $event, object); };
+
+        $scope.editBehavior = function(){behaviorService.editBehavior($scope);};
+        $scope.removeBehaviorFromAppList = function() {behaviorService.removeBehaviorFromAppList($scope, currentApplication.id, currentBehavior)};
+        $scope.editBehaviorDetails = function($event, behavior){ behaviorService.editBehaviorDetails($scope, $event, behavior); };
 
         // ----------------------------------------------------------------------Design Service Methods-----------------
 
@@ -387,4 +392,13 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.updateStatus = function(text){
             $scope.message = text;
         }
+
+        $scope.generateUUID = function() {
+            var d = new Date().getTime();
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        };
     }]);

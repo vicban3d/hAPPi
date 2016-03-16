@@ -17,6 +17,8 @@ import java.util.ArrayList;
 @XmlRootElement
 public class ApplicationBehavior extends Document{
 
+    @XmlElement(required=true)
+    private String id;
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
@@ -24,12 +26,15 @@ public class ApplicationBehavior extends Document{
 
 
     @JsonCreator
-    public ApplicationBehavior(@JsonProperty("name") String name,
+    public ApplicationBehavior (@JsonProperty("id") String id,
+                               @JsonProperty("name") String name,
                                @JsonProperty("action") ArrayList<BehaviorAction> actions) {
 
         super();
+        this.append("id", id);
         this.append("name", name);
         this.append("actions", actions);
+        this.id = id;
         this.name = name;
         this.actions = actions;
     }
@@ -48,6 +53,14 @@ public class ApplicationBehavior extends Document{
 
     public void setActions(ArrayList<BehaviorAction> actions) {
         this.actions = actions;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

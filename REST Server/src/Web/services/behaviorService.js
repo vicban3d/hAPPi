@@ -3,7 +3,13 @@
  */
 main_module.service('behaviorService',[function(){
 
-    this.currentBehavior = [];
+    this.currentBehavior = {
+        id: '',
+        name: '',
+        actions: [],
+        conditions: []
+    };
+
     this.numOfActions = 0;
     this.numOfConditions = 0;
 
@@ -20,7 +26,9 @@ main_module.service('behaviorService',[function(){
     };
 
     this.addBehavior = function($scope, name, all_acts, all_conditions){
+        var id = $scope.generateUUID();
         var newBehavior = {
+            id: id,
             name: name,
             actions: all_acts,
             conditions: all_conditions
@@ -36,10 +44,6 @@ main_module.service('behaviorService',[function(){
 
     this.addNewCondition = function(){
         this.numOfConditions += 1;
-    };
-
-    this.editBehaviorDetails = function($scope, behavior){
-        this.currentBehavior = behavior;
     };
 
     this.getBehaviorAction = function($scope, object, actionName){
@@ -191,4 +195,49 @@ main_module.service('behaviorService',[function(){
     this.addActionBehavior = function(){
         this.numOfConditions = 0;
     };
+
+    this.editBehavior = function($scope){
+        if ($scope.behaviorName == '' || $scope.behaviorName == 'Invalid Name!') {
+            $scope.behaviorName = 'Invalid Name!'
+        }
+        else {
+            $scope.all_acts_Behavior = $scope.all_acts_Behavior.filter($scope.isValidActionBehavior);
+            $scope.all_conditions = $scope.all_conditions.filter($scope.isValidCondition);
+
+            var newBehavior = {
+                id: currentBehavior.id,
+                name: $scope.behaviorName,
+                actions:  $scope.all_acts_Behavior,
+                conditions: $scope.all_conditions
+            };
+
+            $scope.message = "Updating behavior...";
+            $scope.showArea("messageArea");
+            removeBehaviorFromAppList($scope, currentApplication.id, currentBehavior);
+            $scope.addBehaviorToApplication(newBehavior);
+            $scope.acceptMessageResult(sendPostRequest(Paths.UPDATE_BEHAVIOR, angular.toJson(newBehavior)));
+            this.showBehaviorDetails(newBehavior);
+            this.currentBehavior = newBehavior;
+
+            //TODO
+        }
+
+    };
+
+    this.removeBehaviorFromAppList= function($scope, appId, behavior){
+        for(var i = $scope.applications[appId].behaviors.length - 1; i >= 0; i--){
+            if($scope.applications[appId].behaviors[i] == behavior){
+                $scope.applications[appId].behaviors[i].splice(i,1);
+            }
+        }
+    };
+
+    this.editBehaviorDetails = function($scope, $event, behavior){
+        $event.stopPropagation();
+        this.currentBehavior = behavior;
+        this.behaviorName = $scope.currentBehavior.name;
+        $scope.showArea("behaviorEditArea");
+        $scope.hideArea("behaviorDetailsArea");
+    };
+
 }]);
