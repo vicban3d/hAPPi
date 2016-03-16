@@ -2,7 +2,6 @@ package Tests.UnitTests;
 
 import Database.Database;
 import Logic.*;
-import Server.*;
 import Server.Server;
 import Utility.FileHandler;
 import Utility.Strings;
@@ -10,12 +9,7 @@ import junit.framework.TestCase;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
-import org.w3c.dom.Document;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 
 /**
@@ -54,12 +48,9 @@ public class ServerTest extends TestCase {
 
     @Test
     public void testCreateApplication() throws Exception {
-        //create application successfully
         ArrayList<String> platforms = new ArrayList<>();
-        platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
-        String result = server.createApplication(app);
-        assertEquals("Created testName", result);
+        Application app = createApp(platforms);
+
         Application getApp = Application.fromDocument(database.getData("1"));
         assertEquals(app,getApp);
     }
@@ -87,20 +78,14 @@ public class ServerTest extends TestCase {
     @Test
     public void testCreateObject() throws Exception {
         ArrayList<String> platforms = new ArrayList<>();
-        platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
-        String application = server.createApplication(app);
-
         ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
-        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        attributes.add(attr);
         ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
-        ObjectAction action = new ObjectAction("action1", attr, "Increase By", "1");
-
         ApplicationObject obj = new ApplicationObject("1", "obj_test", attributes, actions);
+
+        createApp(platforms);
+        createAttributeAndAction(attributes, actions);
         String result = server.createObject(obj);
         assertEquals("Object obj_test added!", result);
-
         //Document data = database.getData("1").get("objects").find().first();
         //return new ApplicationObject(.getString("name"), (ArrayList<ObjectAttribute>)data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
         ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>)database.getData("1").get("objects");
@@ -111,17 +96,12 @@ public class ServerTest extends TestCase {
 
     public void testRemoveObject() throws Exception {
         ArrayList<String> platforms = new ArrayList<>();
-        platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
-        server.createApplication(app);
-
         ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
-        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        attributes.add(attr);
         ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
-        ObjectAction action = new ObjectAction("action1", attr, "Increase By", "1");
-        actions.add(action);
         ApplicationObject obj = new ApplicationObject("8", "obj_test", attributes, actions);
+
+        Application app = createApp(platforms);
+        createAttributeAndAction(attributes, actions);
         String result = server.createObject(obj);
         assertEquals("Object obj_test added!", result);
         server.removeObject(obj);
@@ -131,26 +111,18 @@ public class ServerTest extends TestCase {
 
     public void testRemoveBehavior() throws Exception {
         ArrayList<String> platforms = new ArrayList<>();
-        platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
-        server.createApplication(app);
-
         ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
-        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        attributes.add(attr);
-
         ArrayList<ObjectAction> actionsObject = new ArrayList<ObjectAction>();
-        ObjectAction action = new ObjectAction("action1", attr, "Increase By", "1");
-        actionsObject.add(action);
-
         ApplicationObject obj = new ApplicationObject("8", "obj_test", attributes, actionsObject);
         ArrayList<BehaviorAction> actionsBehavior = new ArrayList<BehaviorAction>();
-        BehaviorAction action1 = new BehaviorAction(obj,attr,null,"operator");
-        actionsBehavior.add(action1);
-
+        ObjectAttribute attribute = new ObjectAttribute("attr2", "Number");
+        BehaviorAction action1 = new BehaviorAction(obj,attribute,null,"operator");
         ApplicationBehavior behavior = new ApplicationBehavior("6","behavior_test",actionsBehavior);
-        String result = server.createBehavior(behavior);
-        assertEquals("Behavior behavior_test added!", result);
+
+        Application app = createApp(platforms);
+        createAttributeAndAction(attributes, actionsObject);
+        actionsBehavior.add(action1);
+        server.createBehavior(behavior);
         server.removeBehavior(behavior);
         Application getApp = Application.fromDocument(database.getData("1"));
         assertEquals(app,getApp);
@@ -165,36 +137,36 @@ public class ServerTest extends TestCase {
     }
 
     public void testUpdateApplication() throws Exception {
+        ArrayList<String> platforms = new ArrayList<>();
+        Application app = createApp(platforms);
+        platforms.remove("android");
+        platforms.add("ios");
+        app = new Application("1", "new_testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        server.updateApplication(app);
 
+        Application getApp = Application.fromDocument(database.getData("1"));
+        assertEquals(app,getApp);
     }
 
     public void testUpdateApplicationBehavior() throws Exception {
         ArrayList<String> platforms = new ArrayList<>();
-        platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
-        server.createApplication(app);
-
         ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
-        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        attributes.add(attr);
-
         ArrayList<ObjectAction> actionsObject = new ArrayList<ObjectAction>();
-        ObjectAction action = new ObjectAction("action1", attr, "Increase By", "1");
-        actionsObject.add(action);
-
         ApplicationObject obj = new ApplicationObject("8", "obj_test", attributes, actionsObject);
         ArrayList<BehaviorAction> actionsBehavior = new ArrayList<BehaviorAction>();
-        BehaviorAction action1 = new BehaviorAction(obj,attr,null,"operator");
-        actionsBehavior.add(action1);
-
+        ObjectAttribute attribute = new ObjectAttribute("attr2", "Number");
+        BehaviorAction action1 = new BehaviorAction(obj,attribute,null,"operator");
         ApplicationBehavior behavior = new ApplicationBehavior("6","behavior_test",actionsBehavior);
+        BehaviorAction action2 = new BehaviorAction(obj,attribute,null,"operator2");
+        behavior = new ApplicationBehavior("6","behavior_new",actionsBehavior);
+
+        Application app = createApp(platforms);
+        createAttributeAndAction(attributes, actionsObject);
+        actionsBehavior.add(action1);
         String result = server.createBehavior(behavior);
         assertEquals("Behavior behavior_test added!", result);
         actionsBehavior.clear();
-        action1 = new BehaviorAction(obj,attr,null,"operator2");
-        actionsBehavior.add(action1);
-
-        behavior = new ApplicationBehavior("6","behavior_new",actionsBehavior);
+        actionsBehavior.add(action2);
         app.addBehavior(behavior);
         server.updateBehavior(behavior);
 
@@ -204,27 +176,33 @@ public class ServerTest extends TestCase {
 
     public void testUpdateApplicationObject() throws Exception {
         ArrayList<String> platforms = new ArrayList<>();
-        platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(), new ArrayList<ApplicationBehavior>());
-        String application = server.createApplication(app);
-
         ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
-        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        attributes.add(attr);
         ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
-        ObjectAction action = new ObjectAction("action1", attr, "Increase By", "1");
+        ApplicationObject obj1 = new ApplicationObject("1", "obj_test", attributes, actions);
+        ApplicationObject obj2 = new ApplicationObject("1", "obj_new", attributes, actions);
 
-        ApplicationObject obj = new ApplicationObject("1", "obj_test", attributes, actions);
-        String result = server.createObject(obj);
+        Application app = createApp(platforms);
+        createAttributeAndAction(attributes, actions);
+        String result = server.createObject(obj1);
         assertEquals("Object obj_test added!", result);
-
         attributes.clear();
-        obj = new ApplicationObject("1", "obj_new", attributes, actions);
-        app.addObject(obj);
-        result = server.updateObject(obj);
-        System.out.println(result);
-
+        app.addObject(obj2);
+        server.updateObject(obj2);
         Application getApp = Application.fromDocument(database.getData("1"));
         // assertEquals(app,getApp);
+    }
+
+    private void createAttributeAndAction(ArrayList<ObjectAttribute> attributes, ArrayList<ObjectAction> actions) {
+        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
+        attributes.add(attr);
+        ObjectAction action = new ObjectAction("action1", attr, "Increase By", "1");
+        actions.add(action);
+    }
+
+    private Application createApp(ArrayList<String> platforms) {
+        platforms.add("android");
+        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        server.createApplication(app);
+        return app;
     }
 }
