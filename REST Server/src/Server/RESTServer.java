@@ -119,4 +119,15 @@ public interface RESTServer {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
     String updateObject(ApplicationObject data);
+
+    /**
+     * Updates the content of a behavior.
+     * @param data- a JSON representation of the behavior.
+     * @return - the status of the request.
+     */
+    @POST
+    @Path(Strings.PATH_UPDATE_BEHAVIOR)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String updateBehavior(ApplicationBehavior data);
 }

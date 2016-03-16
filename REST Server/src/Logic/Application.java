@@ -120,7 +120,7 @@ public class Application extends Document{
             }
         }
         if (behaviors != null) {
-            for (ApplicationBehavior behavior : this.behaviors) {
+            for (Document behavior : this.behaviors) {
                 result += "\t* " + behavior + "\n";
             }
         }
@@ -138,13 +138,11 @@ public class Application extends Document{
     }
 
     public void removeObject(ApplicationObject object) {
-
         for(int i = 0; i < objects.size(); i++){
             Document doc = objects.get(i);
             if(doc.getString("id").equals(object.getId()))
                 objects.remove(i);
         }
-        objects.remove(object);
         this.put("objects", this.objects);
     }
 
@@ -160,7 +158,22 @@ public class Application extends Document{
     }
 
     public void removeBehavior(ApplicationBehavior behavior) {
-        behaviors.remove(behavior);
+        for(int i = 0; i < behaviors.size(); i++){
+            Document doc = behaviors.get(i);
+            if(doc.getString("id").equals(behavior.getId()))
+                behaviors.remove(i);
+        }
+        this.put("behaviors", this.behaviors);
+    }
+
+    public void updateBehavior (ApplicationBehavior behavior){
+        for(int i = 0; i < behaviors.size(); i++){
+            Document doc = behaviors.get(i);
+            if(doc.getString("id").equals(behavior.getId())) {
+                behaviors.remove(i);
+                behaviors.add(behavior);
+            }
+        }
         this.put("behaviors", this.behaviors);
     }
 

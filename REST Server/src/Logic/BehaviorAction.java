@@ -14,7 +14,8 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 @XmlRootElement
-class BehaviorAction extends Document {
+public class BehaviorAction extends Document {
+
     @XmlAttribute(required = true)
     private ApplicationObject operandObject;
     @XmlAttribute(required = true)
@@ -81,4 +82,5 @@ class BehaviorAction extends Document {
                 "\t* Conditions: " + conditions +
                 "\t* Operator: " + operator;
     }
+
 }

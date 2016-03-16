@@ -166,4 +166,11 @@ public class hAPPiFacade implements Facade {
         application.updateObject(object);
         database.updateData(application);
     }
+
+    @Override
+    public void updateApplicationBehavior(String appId, ApplicationBehavior behavior) {
+        Application application = Application.fromDocument(database.getData(appId));
+        application.updateBehavior(behavior);
+        database.updateData(application);
+    }
 }

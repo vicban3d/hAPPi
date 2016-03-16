@@ -99,11 +99,11 @@ public class Server implements RESTServer {
     public String createBehavior(ApplicationBehavior data){
         try {
             facade.createBehavior(currentlySelectedApplication.getId(), data);
+            return "Behavior " + data.getName() + " added!";
         }  catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create behavior!";
         }
-        return "Behavior added!";
     }
 
     @Override
@@ -115,6 +115,17 @@ public class Server implements RESTServer {
             return "Error: failed to remove behavior!";
         }
         return "Behavior Removed!";
+    }
+
+    @Override
+    public String updateBehavior(ApplicationBehavior data) {
+        try {
+            facade.updateApplicationBehavior(currentlySelectedApplication.getId(), data);
+        } catch (Exception e) {
+            Logger.ERROR("Error : failed to update application object!", e.getMessage());
+            return "Error: Failed to update application object!";
+        }
+        return "The object " + data.getName() + " was updated successfully";
     }
 
     @Override

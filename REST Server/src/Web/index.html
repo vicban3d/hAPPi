@@ -96,7 +96,6 @@
 
 
 <div class="workArea" ng-hide="areaFlags['frontPage']">
-
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
             <div class="componentMainTitle">{{currentBehavior.name}}</div>
@@ -109,7 +108,6 @@
             </div>
             <hr>
         </div>
-
         <div class="sideAreaComponent" data-ng-show="areaFlags['applicationDetailsArea']">
             <div class="componentMainTitle">{{currentApplication.name}}</div>
             <div class="componentListTitle">Platforms:</div>
@@ -138,7 +136,7 @@
             </form>
         </div>
 
-<!--        <div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
+        <!--<div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
             <form class="editArea" data-ng-submit="editObject()">
                 Name: <input type="text" data-ng-model="objectName" title="Object Name">
                 <hr>

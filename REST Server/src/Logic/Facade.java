@@ -65,4 +65,6 @@ public interface Facade {
     String getPage(String page);
 
     void updateApplicationObject(String appId, ApplicationObject object);
+
+    void updateApplicationBehavior(String appId, ApplicationBehavior behavior);
 }
