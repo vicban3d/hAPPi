@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Tests/UnitTests/ServerTest.java" afterPath="$PROJECT_DIR$/REST Server/src/Tests/UnitTests/ServerTest.java" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
     <ignored path="HAPPY Server.iws" />
@@ -1351,13 +1350,7 @@
       <workItem from="1457695884571" duration="502000" />
       <workItem from="1457703271804" duration="70000" />
       <workItem from="1457956713227" duration="859000" />
-      <workItem from="1458044382689" duration="23857000" />
-    </task>
-    <task id="LOCAL-00026" summary="Added database interface to decrease cohesion">
-      <created>1447347650779</created>
-      <option name="number" value="00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1447347650779</updated>
+      <workItem from="1458044382689" duration="23874000" />
     </task>
     <task id="LOCAL-00027" summary="Added database interface to decrease cohesion">
       <created>1447354396208</created>
@@ -1647,7 +1640,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458128527897</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Test fixed">
+      <created>1458130767194</created>
+      <option name="number" value="00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1458130767194</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1683,7 +1682,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="381462000" />
+    <option name="totallyTimeSpent" value="381479000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1706,7 +1705,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32142857" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30279502" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30279502" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32989025" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1772,7 +1771,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added ability to add android platform and to build the project." />
     <MESSAGE value="Added javadoc to classes." />
     <MESSAGE value="Added database interface to decrease cohesion" />
     <MESSAGE value="Added buttons for other platforms" />
@@ -1797,7 +1795,8 @@
     <MESSAGE value="Condition in behavior" />
     <MESSAGE value="Condition and GUI" />
     <MESSAGE value="Test behavior" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test behavior" />
+    <MESSAGE value="Test fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
