@@ -36,19 +36,16 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.message = "";
 
         $scope.applicationBuilt = false;
-        $scope.applicationQRCode = undefined;
 
         $scope.basic_types = ["Number", "Text"];
         $scope.andOrOperator = ["Or", "And"];
         $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum', 'Average',];
+        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum', 'Average'];
 
         $scope.instances = [];
 
         $scope.emulatorOutput = '';
-        $scope.showBehaviors = true;
-        $scope.showInstance = false;
 
         $scope.appications = {};
 
@@ -288,15 +285,14 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.getBehaviorAction = function(object, actionName){
-            behaviorService.getBehaviorAction($scope, object, actionName);
+            return behaviorService.getBehaviorAction($scope, object, actionName);
         };
 
         $scope.editBehaviorDetails = function(behavior){
-            behaviorService.editApplication($scope, behavior);
+            behaviorService.editBehaviorDetails($scope, behavior);
         };
 
         $scope.addNewBehavior = function(){
-            behaviorService.addNewBehavior($scope);
             $scope.hideArea("objectDetailsArea");
             $scope.hideArea("objectEditArea");
             $scope.hideArea("behaviorDetailsArea");
@@ -305,8 +301,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addNewCondition = function(){
             behaviorService.addNewCondition();
-            //$scope.hideArea("actionsEditAreaObject");
-            //$scope.hideArea("actionsEditAreaBehavior");
         };
 
         $scope.deleteBehavior = function(behavior){
@@ -329,9 +323,17 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
 
-        $scope.editBehavior = function(){behaviorService.editBehavior($scope);};
-        $scope.removeBehaviorFromAppList = function() {behaviorService.removeBehaviorFromAppList($scope, currentApplication.id, currentBehavior)};
-        $scope.editBehaviorDetails = function($event, behavior){ behaviorService.editBehaviorDetails($scope, $event, behavior); };
+        $scope.editBehavior = function(){
+            behaviorService.editBehavior($scope);
+        };
+
+        $scope.removeBehaviorFromAppList = function() {
+            behaviorService.removeBehaviorFromAppList($scope, currentApplication.id, currentBehavior)
+        };
+
+        $scope.editBehaviorDetails = function($event, behavior){
+            behaviorService.editBehaviorDetails($scope, $event, behavior);
+        };
 
         // ----------------------------------------------------------------------Design Service Methods-----------------
 
@@ -340,12 +342,22 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.designDisplayBehaviorPage = function(){
-            $scope.showBehaviors = true;
-            $scope.showInstance = false;
+            designService.showBehaviors = true;
+            designService.showInstance = false;
+        };
+
+
+
+        $scope.getShowInstance = function(){
+            return designService.getShowInstance()
+        };
+
+        $scope.getShowBehaviors = function(){
+            return designService.getShowBehaviors()
         };
 
         $scope.addInstance = function(){
-            designService.addInstance($scope);
+            designService.addInstance($scope, $scope.attribute_values);
         };
 
         $scope.removeInstance = function(id){
@@ -360,11 +372,20 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             return designService.getOutput();
         };
 
+        $scope.getCurrentInstance = function(){
+            return designService.getCurrentInstance()
+        };
+
+
         // ----------------------------------------------------------------------Release Service Methods----------------
 
         $scope.releaseBuildApplication = function(application){
             releaseService.releaseBuildApplication($scope, application);
             $scope.message = "Application built successfully!";
+        };
+
+        $scope.getApplicationBuilt = function(){
+            return releaseService.getApplicationBuilt();
         };
 
         // ----------------------------------------------------------------------Status Message-------------------------
@@ -391,7 +412,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.updateStatus = function(text){
             $scope.message = text;
-        }
+        };
 
         $scope.generateUUID = function() {
             var d = new Date().getTime();

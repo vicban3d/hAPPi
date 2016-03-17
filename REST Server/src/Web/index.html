@@ -155,10 +155,10 @@
                     <br><button class="designAreaTab" data-ng-click="designDisplayBehaviorPage()">F></button>
                 </div>
 
-                <div class="designAreaButtons" data-ng-show="showBehaviors">
+                <div class="designAreaButtons" data-ng-show="getShowBehaviors()">
                     <button class="draggableButton" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
-                <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="attribute_values=[]">
+                <div class="designAreaButtons" data-ng-show="getShowInstance()" data-ng-init="attribute_values=[]">
                     {{getCurrentInstance().name}}<hr>
                     <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                         {{index}} {{attr.name}} : <input type="text" data-ng-model="attribute_values[$index]"><br>
@@ -331,7 +331,7 @@
             <div class="draggableButton" data-ng-click="releaseBuildApplication(currentApplication)">
                 <b>Build {{currentApplication.name}}</b>
             </div>
-            <div id="appQRImage" data-ng-show="applicationBuilt"></div>
+            <div id="appQRImage" data-ng-show="getApplicationBuilt()"></div>
         </div>
     </div>
 </div>

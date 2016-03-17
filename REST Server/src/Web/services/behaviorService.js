@@ -166,16 +166,9 @@ main_module.service('behaviorService',[function(){
                 return result/$scope.instances[object.name].length;
             };
         } else {
-            return "UNSUPPORTED";
+            return undefined;
         }
     };
-
-    this.addNewBehavior = function($scope){
-        //var empty = {name:'new behavior'};
-        //$scope.showBehaviorDetails(empty);
-    };
-
-
 
     this.deleteBehavior = function($scope, behavior){
         var index =  $scope.applications[$scope.getCurrentApplication().id].behaviors.indexOf(behavior);
