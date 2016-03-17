@@ -150,24 +150,30 @@
             </div>
             <img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/smartphone.png">
             <div id="emulatedCode" class="designAreaEmulator designAreaGrid">
-                <div class="designAreaTabs">
-                    <button class="designAreaTab" ng-repeat="object in applications[currentApplication.id].objects track by $index" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</button>
-                    <br><button class="designAreaTab" data-ng-click="designDisplayBehaviorPage()">F></button>
-                </div>
+                <nav class="navbar navbar-inverse designAreaTabs" >
+                    <div class="container-fluid ">
+                        <div class="navbar-header">
+                            <a class="navbar-brand glyphicon glyphicon glyphicon-play-circle" href="#" data-ng-click="designDisplayBehaviorPage()"></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right" >
+                            <li data-ng-repeat="object in applications[currentApplication.id].objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
+                        </ul>
+                    </div>
+                </nav>
 
                 <div class="designAreaButtons" data-ng-show="getShowBehaviors()">
-                    <button class="draggableButton" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+                    <button class="btn btn-primary btn-block" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
                 <div class="designAreaButtons" data-ng-show="getShowInstance()" data-ng-init="attribute_values=[]">
-                    {{getCurrentInstance().name}}<hr>
-                    <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                        {{index}} {{attr.name}} : <input type="text" data-ng-model="attribute_values[$index]"><br>
-                    </div>
-                    <button class="draggableButton" data-ng-click="addInstance()">Add</button><hr>
-                    Index:<input type="text" data-ng-model="idToRemove"><br>
-                    <button class="draggableButton" data-ng-click="removeInstance(idToRemove)">Remove</button>
+                    <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                        <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
+                    </form>
+                    <button class="btn btn-primary btn-block" data-ng-click="addInstance()">Add</button><hr>
+                    <!--Index:<input type="text" data-ng-model="idToRemove"><br>-->
+                    <input type="text" class="form-control" placeholder="Index to Remove" data-ng-model="idToRemove">
+                    <button class="btn btn-primary btn-block" data-ng-click="removeInstance(idToRemove)">Remove</button>
                     <hr>
-                    <table style="width: 100%" border="1px">
+                    <table class="table" style="width: 100%">
                         <tr>
                             <th style="width: 10%">Idx</th>
                             <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
@@ -183,8 +189,8 @@
 
                     </table>
                 </div>
-                <div class="designAreaOutput">
-                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{getOutput()}}</label>
+                <div class="navbar navbar-inverse designAreaOutput">
+                    <label class="designAreaOutputLabel">> <br>{{getOutput()}}</label>
                 </div>
             </div>
         </div>

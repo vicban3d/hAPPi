@@ -7,6 +7,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         // Shows debug messages on the web page.
         $scope.DEBUG = true;
+        $scope.message = "";
 
         $scope.areaFlags = [];
         $scope.areaFlags["titleArea"] = true;
@@ -33,7 +34,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.areaFlags["conditionEditArea"] = false;
         $scope.areaFlags["frontPage"] = true;
 
-        $scope.message = "";
 
         $scope.applicationBuilt = false;
 
@@ -50,6 +50,24 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.appications = {};
 
         $scope.attribute_values = [];
+
+
+        // Preload phone images
+        var images = [];
+        function preload() {
+            for (var i = 0; i < preload.arguments.length; i++) {
+                images[i] = new Image();
+                images[i].src = preload.arguments[i];
+            }
+        }
+        preload(
+            "http://localhost:5555/img/ios_disabled.png",
+            "http://localhost:5555/img/ios_enabled.png",
+            "http://localhost:5555/img/android_disabled.png",
+            "http://localhost:5555/img/android_enabled.png",
+            "http://localhost:5555/img/wp_disabled.png",
+            "http://localhost:5555/img/wp_enabled.png"
+        );
 
         // ios images
         $scope.iosImg = "ios_disabled.png";
@@ -136,6 +154,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.toggleArea = function (area) {
             $scope.areaFlags[area] = !$scope.areaFlags[area];
         };
+
         // ----------------------------------------------------------------------Applications Service Methods-----------
 
         $scope.getPlatform = function(){ appService.getPlatform(); };

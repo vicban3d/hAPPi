@@ -212,9 +212,8 @@ body{
     height: 60%;
     top: 0;
     left: 0;
-    background: skyblue;
+    background: white;
     z-index: 2;
-    border: thin dashed black;
     margin-left: 9%;
     overflow-x: hidden;
 }
@@ -227,9 +226,7 @@ body{
     height: 10%;
     top: 0;
     left: 0;
-    background: lightgreen;
     z-index: 2;
-    border: thin dashed black;
     overflow: hidden;
 }
 
