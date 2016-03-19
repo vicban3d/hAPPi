@@ -87,6 +87,9 @@ public class hAPPiFacade implements Facade {
         String JSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.js");
         String CSSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.css");
         String ANGULARContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\angular.min.js");
+        String JQUERYContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\jquery-1.10.2.min.js");
+        String BOOTSTRAPCSSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\bootstrap.min.css");
+        String BOOTSTRAPJSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\bootstrap.min.js");
         if (HTMLContent != null && JSContent != null && CSSContent != null) {
             JSContent = JSContent.replace("<[NAME]>", application.getName());
             JSContent = JSContent.replace("<[OBJECTS]>", allActions.toString().replace("\"", "\\\""));
@@ -96,6 +99,9 @@ public class hAPPiFacade implements Facade {
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js", JSContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\angular.min.js", ANGULARContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\index.css", CSSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\jquery-1.10.2.min.js", JQUERYContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\bootstrap.min.css", BOOTSTRAPCSSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\bootstrap.min.js", BOOTSTRAPJSContent);
         }
     }
 
