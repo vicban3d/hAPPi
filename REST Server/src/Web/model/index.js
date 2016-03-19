@@ -2,6 +2,7 @@ var main_module = angular.module('main', []);
 
 main_module.controller('ctrl_main', ['$scope',
     function($scope) {
+        $scope.applicationName = "<[NAME]>";
         $scope.objects = [];
         $scope.behaviors = [];
         $scope.currentInstance = '';
@@ -29,16 +30,16 @@ main_module.controller('ctrl_main', ['$scope',
             $scope.showInstance = false;
         };
 
-        $scope.addInstance = function(attributes){
+        $scope.addInstance = function(){
             if ($scope.instances[$scope.currentInstance.name] == undefined){
                 $scope.instances[$scope.currentInstance.name] = [];
             }
-            $scope.instances[$scope.currentInstance.name].push(attributes);
+            $scope.instances[$scope.currentInstance.name].push($scope.attribute_values);
             $scope.attribute_values = [];
         };
 
-        $scope.removeInstance = function(id){
-            $scope.instances.splice(parseInt(id),1);
+        $scope.removeInstance = function(idx){
+            $scope.instances[$scope.currentInstance.name].splice(parseInt(idx),1);
         };
 
         $scope.performBehaviorAction = function(behavior){

@@ -88,6 +88,7 @@ public class hAPPiFacade implements Facade {
         String CSSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.css");
         String ANGULARContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\angular.min.js");
         if (HTMLContent != null && JSContent != null && CSSContent != null) {
+            JSContent = JSContent.replace("<[NAME]>", application.getName());
             JSContent = JSContent.replace("<[OBJECTS]>", allActions.toString().replace("\"", "\\\""));
             JSContent = JSContent.replace("<[BEHAVIORS]>", allBehaviors.toString().replace("\"", "\\\""));
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html", HTMLContent);
