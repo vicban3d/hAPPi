@@ -379,8 +379,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             designService.addInstance($scope, $scope.attribute_values);
         };
 
-        $scope.removeInstance = function(id){
-            designService.removeInstance($scope, id);
+        $scope.removeInstance = function(idx){
+            designService.removeInstance($scope, idx);
         };
 
         $scope.performBehaviorAction = function(behavior){

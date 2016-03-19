@@ -45,7 +45,7 @@ main_module.service('behaviorService',[function(){
         this.numOfConditions += 1;
     };
 
-    var getAccumulatedValue = function($scope, object, operand, accumulatorFunction){
+    var getAccumulatedValue = function($scope, object, operand, initial, accumulatorFunction){
         var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
         var result = 0;
         if (index < 0){
@@ -58,9 +58,9 @@ main_module.service('behaviorService',[function(){
             if (action == undefined){
                 return undefined;
             }
-            result = accumulatorFunction(result, action, index);
+            result = accumulatorFunction(initial, action, index);
         } else {
-            result = accumulatorFunction(result, function (x){return x}, index);
+            result = accumulatorFunction(initial, function (x){return x}, index);
         }
         return result;
     };
@@ -91,7 +91,7 @@ main_module.service('behaviorService',[function(){
                     }
                     return initial
                 };
-                return getAccumulatedValue($scope, object, operand, accumulatorFunction);
+                return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
             };
         } else if (actionName == "Maximum") {
             return function (operand){
@@ -103,7 +103,7 @@ main_module.service('behaviorService',[function(){
                     }
                     return initial
                 };
-                return getAccumulatedValue($scope, object, operand, accumulatorFunction);
+                return getAccumulatedValue($scope, object, operand, Number.MIN_VALUE, accumulatorFunction);
             };
         } else if (actionName == "Minimum"){
             return function (operand){
@@ -115,7 +115,7 @@ main_module.service('behaviorService',[function(){
                     }
                     return initial
                 };
-                return getAccumulatedValue($scope, object, operand, accumulatorFunction);
+                return getAccumulatedValue($scope, object, operand, Number.MAX_VALUE, accumulatorFunction);
             };
         } else if (actionName == "Product of All"){
             return function (operand){
@@ -125,7 +125,7 @@ main_module.service('behaviorService',[function(){
                     }
                     return initial
                 };
-                return getAccumulatedValue($scope, object, operand, accumulatorFunction);
+                return getAccumulatedValue($scope, object, operand, 1, accumulatorFunction);
             };
         } else if (actionName == "Average"){
             return function (operand){
@@ -135,7 +135,7 @@ main_module.service('behaviorService',[function(){
                     }
                     return initial/$scope.instances[object.name].length;
                 };
-                return getAccumulatedValue($scope, object, operand, accumulatorFunction);
+                return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
             };
         } else {
             return undefined;

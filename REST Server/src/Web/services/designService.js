@@ -31,8 +31,8 @@ main_module.service('designService',[function(){
         $scope.attribute_values = [];
     };
 
-    this.removeInstance = function($scope, id){
-        $scope.instances.splice(parseInt(id),1);
+    this.removeInstance = function($scope, idx){
+        $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);
     };
 
     this.performBehaviorAction = function($scope, behavior){
