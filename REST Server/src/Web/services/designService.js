@@ -32,7 +32,7 @@ main_module.service('designService',[function(){
     };
 
     this.removeInstance = function($scope, id){
-        $scope.instances[this.currentInstance.name].splice(parseInt(id),1);
+        $scope.instances.splice(parseInt(id),1);
     };
 
     this.performBehaviorAction = function($scope, behavior){

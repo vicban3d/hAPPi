@@ -264,7 +264,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             return val.attribute != '' && val.logicOperation != '' && val.operandObject!= '';
         };
 
-        $scope.getObjectAction = function(actionName, operand2){ objectService.getObjectAction(actionName, operand2); };
+        $scope.getObjectAction = function(actionName, operand2){ return objectService.getObjectAction(actionName, operand2); };
 
         $scope.editObject = function(){objectService.editObject($scope);};
         $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, currentApplication.id, currentObject)};
@@ -415,7 +415,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 if (result.readyState != 4 && result.status != 200){
                     $scope.updateStatus("Error");
                     $timeout(function () {
-                        $s$scope.updateStatus('');
+                        $scope.updateStatus('');
                     }, displayDuration);
                     $scope.$apply();
                 }

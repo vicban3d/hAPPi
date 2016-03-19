@@ -2,9 +2,10 @@
 <!--suppress ALL -->
 <html>
 <head>
+    <script type="text/javascript" src="http://localhost:5555/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="http://localhost:5555/lib/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
@@ -15,40 +16,39 @@
             <a class="navbar-brand glyphicon glyphicon glyphicon-play-circle" href="#" data-ng-click="designDisplayBehaviorPage()"></a>
         </div>
         <ul class="nav navbar-nav navbar-right" >
-            <li data-ng-repeat="object in applications[currentApplication.id].objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
+            <li data-ng-repeat="object in objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
         </ul>
     </div>
 </nav>
 
-<div class="designAreaButtons" data-ng-show="getShowBehaviors()">
-    <button class="btn btn-primary btn-block" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+<div class="designAreaButtons" data-ng-show="showBehaviors">
+    <button class="btn btn-primary btn-block" data-ng-repeat="behavior in behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
 </div>
-<div class="designAreaButtons" data-ng-show="getShowInstance()" data-ng-init="attribute_values=[]">
-    <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+<div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="attribute_values=[]">
+    <form class="form-horizontal" role="form" data-ng-repeat="attr in currentInstance.attributes track by $index">
         <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
     </form>
     <button class="btn btn-primary btn-block" data-ng-click="addInstance()">Add</button><hr>
-    <!--Index:<input type="text" data-ng-model="idToRemove"><br>-->
     <input type="text" class="form-control" placeholder="Index to Remove" data-ng-model="idToRemove">
     <button class="btn btn-primary btn-block" data-ng-click="removeInstance(idToRemove)">Remove</button>
     <hr>
     <table class="table" style="width: 100%">
         <tr>
             <th style="width: 10%">Idx</th>
-            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+            <th data-ng-repeat="attr in currentInstance.attributes track by $index">
                 {{attr.name}}
             </th>
         </tr>
-        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+        <tr data-ng-repeat="instance in instances[currentInstance.name] track by $index">
             <td>{{$index}}</td>
             <td data-ng-repeat="val in instance track by $index">
                 {{val}}
             </td>
         </tr>
-
     </table>
 </div>
 <div class="navbar navbar-inverse designAreaOutput">
-    <label class="designAreaOutputLabel">> <br>{{getOutput()}}</label>
+    <label class="designAreaOutputLabel">OUTPUT > <br>{{emulatorOutput}}</label>
 </div>
-</body></html>
+</body>
+</html>

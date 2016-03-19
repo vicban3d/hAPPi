@@ -93,8 +93,6 @@
 
 
 </nav>
-
-
 <div class="workArea" ng-hide="areaFlags['frontPage']">
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
@@ -135,25 +133,16 @@
                 <button type="submit">Edit Application</button>
             </form>
         </div>
-
-        <!--<div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
-            <form class="editArea" data-ng-submit="editObject()">
-                Name: <input type="text" data-ng-model="objectName" title="Object Name">
-                <hr>
-                <button type="submit">Edit Object</button>
-            </form>
-        </div>-->
-
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
             <div class="componentMainTitle">
                 Design
             </div>
-            <img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/smartphone.png">
+            <!--<img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/smartphone.png">-->
             <div id="emulatedCode" class="designAreaEmulator designAreaGrid">
                 <nav class="navbar navbar-inverse designAreaTabs" >
                     <div class="container-fluid ">
                         <div class="navbar-header">
-                            <a class="navbar-brand glyphicon glyphicon glyphicon-play-circle" href="#" data-ng-click="designDisplayBehaviorPage()"></a>
+                            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{applications[currentApplication.id].name}}</a>
                         </div>
                         <ul class="nav navbar-nav navbar-right" >
                             <li data-ng-repeat="object in applications[currentApplication.id].objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
@@ -190,16 +179,14 @@
                     </table>
                 </div>
                 <div class="navbar navbar-inverse designAreaOutput">
-                    <label class="designAreaOutputLabel">> <br>{{getOutput()}}</label>
+                    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
                 </div>
             </div>
         </div>
         <div class="sideAreaComponent" ng-show="areaFlags['designArea']">
-
         </div>
     </div>
     <div class="workAreaComponent centralArea" data-ng-show="areaFlags['centralArea']">
-
         <div class="centralAreaComponent" data-ng-show="areaFlags['applicationListArea']">
             <div class="componentMainTitle">
                 Applications
@@ -213,7 +200,6 @@
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()"></span>
         </div>
-
         <div class="centralAreaComponent" data-ng-show="areaFlags['objectsAddArea']">
             <div class="componentMainTitle">
                 Objects
@@ -227,13 +213,11 @@
             </span>
             <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">new object</span>
             <div class="mergeLeft" data-ng-show="areaFlags['objectEditArea']">
-                <form role="form">
-                    <hr/>
+                <form>
                     <div class="form-group">
                         <label>Name:</label>
                         <input data-ng-model="objectName" class="form-control" placeholder="Enter Object name">
                     </div>
-                    <hr/>
                     <div class="form-group" data-ng-init="all_attrs=[]">
                         <label>Attributes:</label>
                         <br>
@@ -269,10 +253,8 @@
                             </form>
                         </div>
                         <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
-                        <hr>
                     </div>
                     <span class="btn btn-primary btn-block" data-ng-click="addObject()">Create Object</span>
-                    <br>
                 </form>
             </div>
         </div>
@@ -291,8 +273,6 @@
             <div class="mergeLeft" data-ng-show="areaFlags['behaviorEditArea']">
                 <form role="form">
                     <br>
-                <!--<form class="editArea" data-ng-submit="addBehavior()" data-ng-init="behaviorName='';
-                all_acts_Behavior[getNumOfBehaviorActions()]={operandObject:'',operandAttribute:'',operator:''};all_conditions=[]">-->
                     Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name"><hr>
                     Action:
                     <br>
@@ -329,7 +309,6 @@
 
             </div>
         </div>
-
         <div class="centralAreaComponent releaseArea" ng-show="areaFlags['releaseArea']">
             <div class="componentMainTitle">
                 Release

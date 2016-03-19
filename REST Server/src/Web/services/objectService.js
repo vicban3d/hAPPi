@@ -32,7 +32,6 @@ main_module.service('objectService',[function(){
             actions: all_actions
         };
         $scope.addObjectToApplication(newObject);
-        //this.showObjectDetails(newObject);
         $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
     };
 
@@ -107,7 +106,8 @@ main_module.service('objectService',[function(){
                 return operand2;
             };
         }
-    }
+        return undefined;
+    };
 
 
     this.editObject = function($scope){

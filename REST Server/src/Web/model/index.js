@@ -7,8 +7,9 @@ main_module.controller('ctrl_main', ['$scope',
         $scope.currentInstance = '';
         $scope.showBehaviors = true;
         $scope.showInstance = false;
-        $scope.vals = [];
+        $scope.attribute_values = [];
         $scope.instances = [];
+        $scope.emulatorOutput = '';
 
         $scope.initializeDataStructures = function(){
             var objectsString = "<[OBJECTS]>";
@@ -28,24 +29,29 @@ main_module.controller('ctrl_main', ['$scope',
             $scope.showInstance = false;
         };
 
-        $scope.addInstance = function(){
+        $scope.addInstance = function(attributes){
             if ($scope.instances[$scope.currentInstance.name] == undefined){
                 $scope.instances[$scope.currentInstance.name] = [];
             }
-            $scope.instances[$scope.currentInstance.name].push($scope.vals);
-            $scope.vals = [];
+            $scope.instances[$scope.currentInstance.name].push(attributes);
+            $scope.attribute_values = [];
         };
 
         $scope.removeInstance = function(id){
-            $scope.instances[$scope.currentInstance.name].splice(parseInt(id),1);
+            $scope.instances.splice(parseInt(id),1);
         };
 
         $scope.performBehaviorAction = function(behavior){
             var object = behavior.actions[0].operandObject;
             var operand1 = behavior.actions[0].operandAttribute.name;
             var action = getBehaviorAction(object, behavior.actions[0].operator);
-            $scope.emulatorOutput = action(operand1);
+            if (action == undefined){
+                $scope.emulatorOutput = "Unsupported Operation"
+            } else {
+                $scope.emulatorOutput = action(operand1);
+            }
         };
+
         function getObjectAction(actionName, operand2){
             if (actionName == "Increase By") {
                 return function (operand) {
@@ -54,7 +60,7 @@ main_module.controller('ctrl_main', ['$scope',
             }
             if (actionName == "Reduce By") {
                 return function (operand) {
-                    return operand -     operand2;
+                    return operand - operand2;
                 };
             }
             if (actionName == "Multiply By") {
@@ -72,6 +78,7 @@ main_module.controller('ctrl_main', ['$scope',
                     return operand2;
                 };
             }
+            return undefined;
         }
 
         function getBehaviorAction(object, actionName){
@@ -87,6 +94,9 @@ main_module.controller('ctrl_main', ['$scope',
                         var operand2 = object.actions[actionIndex].operand2;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
+                        if (action == undefined){
+                            return undefined;
+                        }
                         for (i = 0; i < $scope.instances[object.name].length; i++) {
                             result += action(parseFloat($scope.instances[object.name][i][index]));
                         }
@@ -109,6 +119,9 @@ main_module.controller('ctrl_main', ['$scope',
                         var operand2 = object.actions[actionIndex].operand2;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
+                        if (action == undefined){
+                            return undefined;
+                        }
                         for (i = 0; i < $scope.instances[object.name].length; i++) {
                             if (result < action(parseFloat($scope.instances[object.name][i][index]))) {
                                 result = action(parseFloat($scope.instances[object.name][i][index]));
@@ -135,6 +148,9 @@ main_module.controller('ctrl_main', ['$scope',
                         var operand2 = object.actions[actionIndex].operand2;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
+                        if (action == undefined){
+                            return undefined;
+                        }
                         for (i = 0; i < $scope.instances[object.name].length; i++) {
                             if (result > action(parseFloat($scope.instances[object.name][i][index]))) {
                                 result = action(parseFloat($scope.instances[object.name][i][index]));
@@ -161,6 +177,9 @@ main_module.controller('ctrl_main', ['$scope',
                         var operand2 = object.actions[actionIndex].operand2;
                         index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
                         var action = getObjectAction(actionName, parseFloat(operand2));
+                        if (action == undefined){
+                            return undefined;
+                        }
                         for (i = 0; i < $scope.instances[object.name].length; i++) {
                             result *= action(parseFloat($scope.instances[object.name][i][index]));
                         }
@@ -171,11 +190,33 @@ main_module.controller('ctrl_main', ['$scope',
                     }
                     return result;
                 };
+            } else if (actionName == "Average"){
+                return function (operand){
+                    var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+                    var result = 0;
+                    var i = 0;
+                    if (index < 0){
+                        var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
+                        var actionName = object.actions[actionIndex].operator;
+                        var operand1 = object.actions[actionIndex].operand1.name;
+                        var operand2 = object.actions[actionIndex].operand2;
+                        index = object.attributes.map(function(a) {return a.name;}).indexOf(operand1);
+                        var action = getObjectAction(actionName, parseFloat(operand2));
+                        if (action == undefined){
+                            return undefined;
+                        }
+                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                            result += action(parseFloat($scope.instances[object.name][i][index]));
+                        }
+                    } else {
+                        for (i = 0; i < $scope.instances[object.name].length; i++) {
+                            result += parseFloat($scope.instances[object.name][i][index]);
+                        }
+                    }
+                    return result/$scope.instances[object.name].length;
+                };
             } else {
-                return "UNSUPPORTED";
+                return undefined;
             }
         }
-
-
-
     }]);
