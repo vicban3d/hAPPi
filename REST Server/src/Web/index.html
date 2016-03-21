@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:5555/css/index.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:5555/lib/bootstrap.min.css">
 </head>
-<body data-ng-app="main" data-ng-controller="ctrl_main">
+<body data-ng-init="initHomePage()" data-ng-app="main" data-ng-controller="ctrl_main">
 
 <div ng-show="areaFlags['frontPage']">
     <nav class="navbar navbar-inverse" >
@@ -31,11 +31,15 @@
             </ul>
         </div>
     </nav>
-    <div class="object-name-input-width col-xs-2">
-        <input type="text" class="form-control" placeholder="My App Name">
+    <div class="object-name-input-width col-xs-2 clearFloats appDiv">
+        <input data-ng-model="applicationName" type="text" class="form-control newAppName" placeholder="My App Name">
+        <span class="componentButton componentButtonAdd addAppButton" data-ng-click="addApplication()"></span>
     </div><br>
+    <div class="panel panel-success container-fluid" data-ng-show="DEBUG">
+        <label data-ng-model="message">_ {{message}}</label>
+    </div>
     <div>
-        <h2>Choose Platforms:</h2>
+        <h2>Choose Platforms (more than one is possible):</h2>
         <div ng-switch="switchIosImg==1">
             <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
                 <img data-ng-click="toggleIos()" class="phoneImg" src="http://localhost:5555/img/{{iosImg}}">
@@ -65,8 +69,17 @@
 
     </div>
     <hr>
-    <hr>
-    <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">Start!</span>
+    <div>
+        <h2 class="floatLeft">Your Apps:</h2>
+        <span data-ng-repeat="application in applications track by $index">
+            <span class="componentButton" data-ng-click="getApplication(application);menuAddObjects()">
+                <span class="textInButton">{{application.name}}</span>
+                <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteApplication($event, application)"></span>
+                <span class="componentButtonControl componentButtonControlEdit" data-ng-click="editApplicationDetails($event, application)"></span>
+            </span>
+        </span>
+    </div>
+    <!--<span class="btn btn-primary btn-block" data-ng-click="gotoApp()">Start!</span>-->
 </div>
 <nav class="navbar navbar-inverse" ng-hide="areaFlags['frontPage']" >
     <div class="container-fluid">
@@ -78,16 +91,11 @@
             <li><a href="#">Login</a></li>
         </ul>
     </div>
-
-    <div class="panel panel-success container-fluid" data-ng-show="DEBUG">
-        <label data-ng-model="message">_ {{message}}</label>
-    </div>
-
-    <nav class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
+    <nav class="nav nav-tabs secondMenu" data-ng-show="areaFlags['menuArea']">
         <ul class="nav nav-tabs">
-            <li class="navbar-right menuButton"><a href="#" data-ng-click="menuButtons[2].function()">{{menuButtons[2].label}}</a></li>
-            <li class="navbar-right menuButton"><a href="#" data-ng-click="menuButtons[1].function()">{{menuButtons[1].label}}</a></li>
-            <li class="navbar-right menuButton"><a href="#" data-ng-click="menuButtons[0].function()">{{menuButtons[0].label}}</a></li>
+            <li class="navbar-left menuButton"><a href="#" data-ng-click="menuButtons[0].function()">{{menuButtons[0].label}}</a></li>
+            <li class="navbar-left menuButton"><a href="#" data-ng-click="menuButtons[1].function()">{{menuButtons[1].label}}</a></li>
+            <li class="navbar-left menuButton"><a href="#" data-ng-click="menuButtons[2].function()">{{menuButtons[2].label}}</a></li>
         </ul>
     </nav>
 
@@ -133,6 +141,8 @@
                 <button type="submit">Edit Application</button>
             </form>
         </div>
+
+
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
             <div class="componentMainTitle">
                 Design
@@ -186,19 +196,19 @@
         </div>
     </div>
     <div class="workAreaComponent centralArea" data-ng-show="areaFlags['centralArea']">
-        <div class="centralAreaComponent" data-ng-show="areaFlags['applicationListArea']">
-            <div class="componentMainTitle">
-                Applications
-            </div>
-            <span data-ng-repeat="application in applications track by $index">
-                <span class="componentButton" data-ng-click="getApplication(application)">
-                    <span class="textInButton">{{application.name}}</span>
-                    <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteApplication($event, application)"></span>
-                    <span class="componentButtonControl componentButtonControlEdit" data-ng-click="editApplicationDetails($event, application)"></span>
-                </span>
-            </span>
-            <span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()"></span>
-        </div>
+        <!--<div class="centralAreaComponent" data-ng-show="areaFlags['applicationListArea']">-->
+            <!--<div class="componentMainTitle">-->
+                <!--Applications-->
+            <!--</div>-->
+            <!--<span data-ng-repeat="application in applications track by $index">-->
+                <!--<span class="componentButton" data-ng-click="getApplication(application)">-->
+                    <!--<span class="textInButton">{{application.name}}</span>-->
+                    <!--<span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteApplication($event, application)"></span>-->
+                    <!--<span class="componentButtonControl componentButtonControlEdit" data-ng-click="editApplicationDetails($event, application)"></span>-->
+                <!--</span>-->
+            <!--</span>-->
+            <!--<span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()"></span>-->
+        <!--</div>-->
         <div class="centralAreaComponent" data-ng-show="areaFlags['objectsAddArea']">
             <div class="componentMainTitle">
                 Objects
@@ -252,8 +262,10 @@
                             </form>
                         </div>
                         <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
+                        <hr>
                     </div>
                     <span class="btn btn-primary btn-block" data-ng-click="addObject()">Create Object</span>
+                    <br>
                 </form>
             </div>
         </div>
@@ -272,6 +284,8 @@
             <div class="mergeLeft" data-ng-show="areaFlags['behaviorEditArea']">
                 <form role="form">
                     <br>
+                <!--<form class="editArea" data-ng-submit="addBehavior()" data-ng-init="behaviorName='';
+                all_acts_Behavior[getNumOfBehaviorActions()]={operandObject:'',operandAttribute:'',operator:''};all_conditions=[]">-->
                     Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name"><hr>
                     Action:
                     <br>
@@ -308,6 +322,7 @@
 
             </div>
         </div>
+
         <div class="centralAreaComponent releaseArea" ng-show="areaFlags['releaseArea']">
             <div class="componentMainTitle">
                 Release

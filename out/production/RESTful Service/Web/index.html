@@ -1,8 +1,9 @@
 <html>
 <head>
     <title>hAPPi - Human - Application Interpreter</title>
-    <script type="text/javascript" src="http://localhost:5555/lib/angular.min.js"></script>
     <script type="text/javascript" src="http://localhost:5555/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://localhost:5555/lib/angular.min.js"></script>
     <script type="text/javascript" src="http://localhost:5555/lib/qrcode.min.js"></script>
     <script type="text/javascript" src="http://localhost:5555/js/strings.js"></script>
     <script type="text/javascript" src="http://localhost:5555/js/util.js"></script>
@@ -13,11 +14,10 @@
     <script type="text/javascript" src="http://localhost:5555/services/behaviorService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/services/designService.js"></script>
     <script type="text/javascript" src="http://localhost:5555/services/releaseService.js"></script>
-    <script type="text/javascript" src="http://localhost:5555/lib/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://localhost:5555/css/index.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:5555/lib/bootstrap.min.css">
 </head>
-<body data-ng-app="main" data-ng-controller="ctrl_main">
+<body data-ng-init="initHomePage()" data-ng-app="main" data-ng-controller="ctrl_main">
 
 <div ng-show="areaFlags['frontPage']">
     <nav class="navbar navbar-inverse" >
@@ -26,16 +26,17 @@
                 <a class="navbar-brand" href="#">hAPPi</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="#">Sign Up</a></li>
+                <li><a href="#">Login</a></li>
             </ul>
         </div>
     </nav>
-    <div class="object-name-input-width col-xs-2">
-        <input type="text" class="form-control" placeholder="My App Name">
+    <div class="object-name-input-width col-xs-2 clearFloats">
+        <input data-ng-model="applicationName" type="text" class="form-control" placeholder="My App Name">
+        <span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()"></span>
     </div><br>
     <div>
-        <h2>Choose Platforms:</h2>
+        <h2>Choose Platforms (more than one is possible):</h2>
         <div ng-switch="switchIosImg==1">
             <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
                 <img data-ng-click="toggleIos()" class="phoneImg" src="http://localhost:5555/img/{{iosImg}}">
@@ -64,7 +65,50 @@
         </div>
 
     </div>
+    <!--<hr>-->
+    <!--<div class="sideAreaComponent clearFloats" data-ng-show="areaFlags['applicationDetailsArea']">-->
+        <!--<div class="componentMainTitle">{{currentApplication.name}}</div>-->
+        <!--<div class="componentListTitle">Platforms:</div>-->
+        <!--<div class="componentListEntry" ng-repeat="platform in currentApplication.platforms track by $index">-->
+            <!--{{platform}}-->
+        <!--</div>-->
+    <!--</div>-->
     <hr>
+    <!--<div class="centralAreaComponent clearFloats" data-ng-show="areaFlags['applicationListArea']">-->
+    <div data-ng-show="areaFlags['applicationListArea']">
+        <!--<div class="componentMainTitle">-->
+            <!--Applications-->
+        <!--</div>-->
+        <span data-ng-repeat="application in applications track by $index">
+            <span class="componentButton" data-ng-click="getApplication(application)">
+                <span class="textInButton">{{application.name}}</span>
+                <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteApplication($event, application)"></span>
+                <span class="componentButtonControl componentButtonControlEdit" data-ng-click="editApplicationDetails($event, application)"></span>
+            </span>
+        </span>
+    </div>
+    <!--<div class="sideAreaComponent" data-ng-show="areaFlags['applicationCreateArea']">-->
+        <!--<form class="editArea" data-ng-submit="addApplication()">-->
+            <!--Name: <input type="text" data-ng-model="applicationName" title="Application Name">-->
+            <!--<hr>-->
+            <!--<input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>-->
+            <!--<input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>-->
+            <!--<input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>-->
+            <!--<button type="submit">Create Application</button>-->
+        <!--</form>-->
+    <!--</div>-->
+    <!--<div class="sideAreaComponent" data-ng-show="areaFlags['applicationEditArea']">-->
+        <!--<form class="editArea" data-ng-submit="editApplication()">-->
+            <!--Name: <input type="text" data-ng-model="applicationName" title="Application Name">-->
+            <!--<hr>-->
+            <!--<input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>-->
+            <!--<input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>-->
+            <!--<input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>-->
+            <!--<button type="submit">Edit Application</button>-->
+        <!--</form>-->
+    <!--</div>-->
+    <hr>
+    <span class="btn btn-primary btn-block" data-ng-click="addApplication()">Add App</span>
     <hr>
     <span class="btn btn-primary btn-block" data-ng-click="gotoApp()">Start!</span>
 </div>
@@ -74,8 +118,8 @@
             <a class="navbar-brand" data-ng-click="backToMain()" href="#">hAPPi</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="#">Sign Up</a></li>
+            <li><a href="#">Login</a></li>
         </ul>
     </div>
 
@@ -93,8 +137,6 @@
 
 
 </nav>
-
-
 <div class="workArea" ng-hide="areaFlags['frontPage']">
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
@@ -136,38 +178,36 @@
             </form>
         </div>
 
-        <!--<div class="sideAreaComponent" data-ng-show="areaFlags['objectEditArea']">
-            <form class="editArea" data-ng-submit="editObject()">
-                Name: <input type="text" data-ng-model="objectName" title="Object Name">
-                <hr>
-                <button type="submit">Edit Object</button>
-            </form>
-        </div>-->
 
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
             <div class="componentMainTitle">
                 Design
             </div>
-            <img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/smartphone.png">
+            <!--<img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/smartphone.png">-->
             <div id="emulatedCode" class="designAreaEmulator designAreaGrid">
-                <div class="designAreaTabs">
-                    <button class="designAreaTab" ng-repeat="object in applications[currentApplication.id].objects track by $index" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</button>
-                    <br><button class="designAreaTab" data-ng-click="designDisplayBehaviorPage()">F></button>
-                </div>
-
-                <div class="designAreaButtons" data-ng-show="showBehaviors">
-                    <button class="draggableButton" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
-                </div>
-                <div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="attribute_values=[]">
-                    {{getCurrentInstance().name}}<hr>
-                    <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                        {{index}} {{attr.name}} : <input type="text" data-ng-model="attribute_values[$index]"><br>
+                <nav class="navbar navbar-inverse designAreaTabs" >
+                    <div class="container-fluid ">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{applications[currentApplication.id].name}}</a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right" >
+                            <li data-ng-repeat="object in applications[currentApplication.id].objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
+                        </ul>
                     </div>
-                    <button class="draggableButton" data-ng-click="addInstance()">Add</button><hr>
-                    Index:<input type="text" data-ng-model="idToRemove"><br>
-                    <button class="draggableButton" data-ng-click="removeInstance(idToRemove)">Remove</button>
+                </nav>
+
+                <div class="designAreaButtons" data-ng-show="getShowBehaviors()">
+                    <button class="btn btn-primary btn-block" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+                </div>
+                <div class="designAreaButtons" data-ng-show="getShowInstance()" data-ng-init="attribute_values=[]">
+                    <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                        <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
+                    </form>
+                    <button class="btn btn-primary btn-block" data-ng-click="addInstance()">Add</button><hr>
+                    <input type="text" class="form-control" placeholder="Index to Remove" data-ng-model="idx">
+                    <button class="btn btn-primary btn-block" data-ng-click="removeInstance(idx)">Remove</button>
                     <hr>
-                    <table style="width: 100%" border="1px">
+                    <table class="table" style="width: 100%">
                         <tr>
                             <th style="width: 10%">Idx</th>
                             <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
@@ -183,17 +223,15 @@
 
                     </table>
                 </div>
-                <div class="designAreaOutput">
-                    <label class="designAreaOutputLabel"><b>OUTPUT</b>:{{getOutput()}}</label>
+                <div class="navbar navbar-inverse designAreaOutput">
+                    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
                 </div>
             </div>
         </div>
         <div class="sideAreaComponent" ng-show="areaFlags['designArea']">
-
         </div>
     </div>
     <div class="workAreaComponent centralArea" data-ng-show="areaFlags['centralArea']">
-
         <div class="centralAreaComponent" data-ng-show="areaFlags['applicationListArea']">
             <div class="componentMainTitle">
                 Applications
@@ -207,7 +245,6 @@
             </span>
             <span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()"></span>
         </div>
-
         <div class="centralAreaComponent" data-ng-show="areaFlags['objectsAddArea']">
             <div class="componentMainTitle">
                 Objects
@@ -221,13 +258,11 @@
             </span>
             <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">new object</span>
             <div class="mergeLeft" data-ng-show="areaFlags['objectEditArea']">
-                <form role="form">
-                    <hr/>
+                <form>
                     <div class="form-group">
                         <label>Name:</label>
                         <input data-ng-model="objectName" class="form-control" placeholder="Enter Object name">
                     </div>
-                    <hr/>
                     <div class="form-group" data-ng-init="all_attrs=[]">
                         <label>Attributes:</label>
                         <br>
@@ -331,7 +366,7 @@
             <div class="draggableButton" data-ng-click="releaseBuildApplication(currentApplication)">
                 <b>Build {{currentApplication.name}}</b>
             </div>
-            <div id="appQRImage" data-ng-show="applicationBuilt"></div>
+            <div id="appQRImage" data-ng-show="getApplicationBuilt()"></div>
         </div>
     </div>
 </div>

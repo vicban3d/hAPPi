@@ -18,9 +18,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.areaFlags["menuArea"] = true;
         $scope.areaFlags["menuButtonsArea"] = true;
         $scope.areaFlags["applicationListArea"] = true;
-        $scope.areaFlags["applicationDetailsArea"] = false;
+        $scope.areaFlags["applicationDetailsArea"] = true;
         $scope.areaFlags["applicationEditArea"] = false;
-        $scope.areaFlags["applicationCreateArea"] = false;
+        $scope.areaFlags["applicationCreateArea"] = true;
         $scope.areaFlags["objectAddArea"] = false;
         $scope.areaFlags["objectDetailsArea"] = false;
         $scope.areaFlags["objectEditArea"] = false;

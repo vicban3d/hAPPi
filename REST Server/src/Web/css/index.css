@@ -7,8 +7,8 @@ body{
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: black;
-    overflow: hidden;
+    /*background-color: black;*/
+    /*overflow: hidden;*/
 }
 
 .loadingArea{
@@ -272,6 +272,14 @@ body{
     cursor: pointer;
 }
 
+.secondMenu{
+    background-color: gray;
+}
+
+.secondMenu a{
+    color:black;
+}
+
 .addActionArea{
     position: absolute;
     left: 50%;
@@ -424,9 +432,31 @@ body{
     margin-left: 20%;
 }
 
+div.clearFloats{
+    float: initial;
+}
+
 .clearFloats:after {
     content: '';
     display: block;
     clear: both;
 }
 
+input.newAppName{
+    float: left;
+    width: 80%;
+}
+
+div.appDiv{
+    width: 25%;
+}
+
+span.addAppButton{
+    height: 34px;
+    width: 34px;
+    margin-top: 0px;
+}
+
+.floatLeft{
+    float: left;
+}

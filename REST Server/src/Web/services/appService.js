@@ -136,10 +136,11 @@ main_module.service('appService',[function(){
             this.showApplicationDetailsFlag = 1
         }
         this.currentApplication = application;
-        $scope.hideArea("applicationCreateArea");
-        $scope.hideArea("applicationDetailsArea");
-        $scope.hideArea("applicationListArea");
-        $scope.showArea("menuButtonsArea");
+        //$scope.hideArea("applicationCreateArea");
+        //$scope.hideArea("applicationDetailsArea");
+        //$scope.hideArea("applicationListArea");
+        //$scope.showArea("menuButtonsArea");
+        $scope.hideArea("frontPage");
     };
 
     this.editApplicationDetails = function($scope, $event, application){
