@@ -32,6 +32,7 @@ main_module.service('objectService',[function(){
             actions: all_actions
         };
         $scope.addObjectToApplication(newObject);
+        $scope.currentObject = newObject;
         $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
     };
 
@@ -118,7 +119,6 @@ main_module.service('objectService',[function(){
             $scope.all_attributes = $scope.all_attrs.filter($scope.isValidAttribute);
             $scope.all_acts_Object = $scope.all_acts_Object.filter($scope.isValidActionObject);
 
-
             var newObject = {
                 id: currentObject.id,
                 name: $scope.objectName,
@@ -130,12 +130,9 @@ main_module.service('objectService',[function(){
             $scope.showArea("messageArea");
             removeObjectFromAppList($scope, currentApplication.id, currentObject);
             $scope.addObjectToApplication(newObject);
-            $scope.acceptMessageResult(sendPostRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
-            this.showObjectDetails(newObject);
             this.currentObject = newObject;
-            alert(currentObject);
-            alert(newObject);
-
+            $scope.acceptMessageResult(sendPostRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
+            //this.showObjectDetails(newObject);
 
             //TODO
         }
@@ -146,8 +143,11 @@ main_module.service('objectService',[function(){
         $event.stopPropagation();
         this.currentObject = object;
         this.objectName = $scope.currentObject.name;
+        //$scope.hideArea("centralArea");
+       // $scope.hideArea("objectCreateArea");
         $scope.showArea("objectEditArea");
         $scope.hideArea("objectDetailsArea");
+
     };
 
     this.removeObjectFromAppList= function($scope, appId, object){
