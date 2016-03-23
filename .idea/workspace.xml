@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="Test fixed">
+    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" afterPath="$PROJECT_DIR$/REST Server/src/Web/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/designService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/designService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" afterPath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
@@ -1312,13 +1306,7 @@
       <workItem from="1457703271804" duration="70000" />
       <workItem from="1457956713227" duration="859000" />
       <workItem from="1458044382689" duration="29017000" />
-      <workItem from="1458644897420" duration="22172000" />
-    </task>
-    <task id="LOCAL-00028" summary="Fixed add android function">
-      <created>1447443638058</created>
-      <option name="number" value="00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1447443638058</updated>
+      <workItem from="1458644897420" duration="22200000" />
     </task>
     <task id="LOCAL-00029" summary="Added buttons for other platforms">
       <created>1447445483310</created>
@@ -1608,7 +1596,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458130773301</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="Edit object">
+      <created>1458728741408</created>
+      <option name="number" value="00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1458728741452</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1644,7 +1638,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="408794000" />
+    <option name="totallyTimeSpent" value="408822000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1733,7 +1727,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added javadoc to classes." />
     <MESSAGE value="Added database interface to decrease cohesion" />
     <MESSAGE value="Added buttons for other platforms" />
     <MESSAGE value="Fixed add android function" />
@@ -1758,7 +1751,8 @@
     <MESSAGE value="Condition and GUI" />
     <MESSAGE value="Test behavior" />
     <MESSAGE value="Test fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test fixed" />
+    <MESSAGE value="Edit object" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edit object" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
