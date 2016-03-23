@@ -66,7 +66,6 @@
                 <img data-ng-click="toggleWindows()" class="phoneImgEnabled" src="http://localhost:5555/img/{{windowsImgEnable}}">
             </div>
         </div>
-
     </div>
     <hr>
     <div>
@@ -99,16 +98,16 @@
         </ul>
     </nav>
 
-
 </nav>
 <div class="workArea" ng-hide="areaFlags['frontPage']">
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
             <div class="componentMainTitle">{{currentBehavior.name}}</div>
-            <div class="componentListTitle">Actions:</div>
+            <div class="componentListTitle">Actions:</div><!--TODO The edit area-->
             <div ng-repeat="act in currentBehavior.actions track by $index">
                 <div class="componentListEntry">{{act.operator + " " + act.operandAttribute.name + "s in " + act.operandObject.name + " object"}}</div>
             </div>
+            <div class="componentListTitle">Conditions:</div>
             <div data-ng-repeat="cond in currentBehavior.all_conditions track by $index">
                 <div class="componentListEntry">{{cond.attribute.name + " " + cond.logicOperation + " " + cond.operandObject.value}}</div>
             </div>
@@ -147,7 +146,7 @@
                 <hr/>
                 <div class="form-group">
                     <label>Name:</label>
-                    <input data-ng-model="objectName" class="form-control" placeholder="currentObject.name">
+                    <input data-ng-model="objectName" class="form-control" placeholder=currentObject.name>
                 </div>
                 <hr/>
                 <div class="form-group" data-ng-init="all_attrs=currentObject.attributes">
@@ -232,7 +231,6 @@
                                 {{val}}
                             </td>
                         </tr>
-
                     </table>
                 </div>
                 <div class="navbar navbar-inverse designAreaOutput">
@@ -269,7 +267,7 @@
                 </span>
             </span>
             <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">new object</span>
-            <div class="mergeLeft" data-ng-show="areaFlags['objectEditArea']">
+            <div class="mergeLeft" data-ng-show="areaFlags['objectCreateArea']">
                 <form>
                     <div class="form-group">
                         <label>Name:</label>

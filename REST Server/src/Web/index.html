@@ -66,7 +66,6 @@
                 <img data-ng-click="toggleWindows()" class="phoneImgEnabled" src="http://localhost:5555/img/{{windowsImgEnable}}">
             </div>
         </div>
-
     </div>
     <hr>
     <div>
@@ -81,6 +80,7 @@
     </div>
     <!--<span class="btn btn-primary btn-block" data-ng-click="gotoApp()">Start!</span>-->
 </div>
+
 <nav class="navbar navbar-inverse" ng-hide="areaFlags['frontPage']" >
     <div class="container-fluid">
         <div class="navbar-header">
@@ -98,17 +98,17 @@
             <li class="navbar-left menuButton"><a href="#" data-ng-click="menuButtons[2].function()">{{menuButtons[2].label}}</a></li>
         </ul>
     </nav>
-
-
 </nav>
+
 <div class="workArea" ng-hide="areaFlags['frontPage']">
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
             <div class="componentMainTitle">{{currentBehavior.name}}</div>
-            <div class="componentListTitle">Actions:</div>
+            <div class="componentListTitle">Actions:</div><!--TODO The edit area-->
             <div ng-repeat="act in currentBehavior.actions track by $index">
                 <div class="componentListEntry">{{act.operator + " " + act.operandAttribute.name + "s in " + act.operandObject.name + " object"}}</div>
             </div>
+            <div class="componentListTitle">Conditions:</div>
             <div data-ng-repeat="cond in currentBehavior.all_conditions track by $index">
                 <div class="componentListEntry">{{cond.attribute.name + " " + cond.logicOperation + " " + cond.operandObject.value}}</div>
             </div>
@@ -142,54 +142,7 @@
             </form>
         </div>
 
-        <div class="mergeLeft" data-ng-show="areaFlags['objectEditArea']">
-            <form class="editArea" data-ng-submit="editObject()">
-                <hr/>
-                <div class="form-group">
-                    <label>Name:</label>
-                    <input data-ng-model="objectName" class="form-control" placeholder=currentObject.name>
-                </div>
-                <hr/>
-                <div class="form-group" data-ng-init="all_attrs=currentObject.attributes">
-                    <label>Attributes:</label>
-                    <br>
-                    <div data-ng-repeat="n in [].constructor(getNumOfAttributes()) track by $index" data-ng-init="all_attrs[$index]={name:all_attrs[$index].name, type:all_attrs[$index].type}">
-                        {{$index + 1}}.
-                        Name:
-                        <input type="text" placeholder="Enter Attribute name" data-ng-model="all_attrs[$index].name" title="Attribute" data-ng-init="all_attrs[$index].type=basic_types[0]">
-                        Type:
-                        <select data-ng-model="all_attrs[$index].type" ng-options="i for i in basic_types" title="Type"></select>
-                        <br>
-                    </div>
-                </div>
-                <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
-                <hr/>
-                <div class="form-group" data-ng-init="all_acts_Object=currentObject.actions ">
-                    <label>Actions:</label>
-                    <br>
-                    <div data-ng-repeat="n in [].constructor(getNumOfObjectActions()) track by $index">
-                        <form class="editArea" data-ng-submit="addNewAction()"
-                              ng-init="all_acts_Object[$index] = {name:'',operand1:'',operator:'',operand2:''}">
-                            {{$index + 1}}.
-                            Name: <input type="text" data-ng-model="all_acts_Object[$index].name" title="Action Name" data-ng-init="all_acts_Object[$index].operator=operators[0]">
-                            <br>
-                            Choose Attribute:
-                            <select ng-model="all_acts_Object[$index].operand1" ng-options="i.name for i in all_attrs" title="Operand1"></select>
-                            <br>
-                            Choose Action:&nbsp;&nbsp;&nbsp;&nbsp;
-                            <select ng-model="all_acts_Object[$index].operator" ng-options="i for i in operators" title="Operator"></select>
-                            <br>
-                            Choose Number:
-                            <input type="text" ng-model="all_acts_Object[$index].operand2" title="Operand2">
-                            <br><br>
-                        </form>
-                    </div>
-                    <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
-                    <hr>
-                </div>
-                <button type="submit">Edit Object</button>
-            </form>
-        </div>
+
 
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
             <div class="componentMainTitle">
@@ -207,7 +160,6 @@
                         </ul>
                     </div>
                 </nav>
-
                 <div class="designAreaButtons" data-ng-show="getShowBehaviors()">
                     <button class="btn btn-primary btn-block" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
@@ -232,7 +184,6 @@
                                 {{val}}
                             </td>
                         </tr>
-
                     </table>
                 </div>
                 <div class="navbar navbar-inverse designAreaOutput">
@@ -243,7 +194,52 @@
         <div class="sideAreaComponent" ng-show="areaFlags['designArea']">
         </div>
     </div>
+
     <div class="workAreaComponent centralArea" data-ng-show="areaFlags['centralArea']">
+        <div class="centralAreaComponent" data-ng-show="areaFlags['objectEditArea']">
+            <form class="editArea" data-ng-submit="editObject()">
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input data-ng-model="objectName" class="form-control" placeholder={{currentObject.name}}>
+                </div>
+                <hr/>
+                <div class="form-group" data-ng-init="all_attrs=currentObject.attributes">
+                    <label>Attributes:</label>
+                    <br>
+                    <div data-ng-repeat="n in [].constructor(getNumOfAttributes()) track by $index" data-ng-init="all_attrs[$index]={name:all_attrs[$index].name, type:all_attrs[$index].type}">
+                        {{$index + 1}}.
+                        Name:
+                        <input type="text" placeholder="Enter Attribute name" data-ng-model="all_attrs[$index].name" title="Attribute" data-ng-init="all_attrs[$index].type=basic_types[0]">
+                        Type:
+                        <select data-ng-model="all_attrs[$index].type" ng-options="i for i in basic_types" title="Type"></select>
+                        <br>
+                    </div>
+                </div>
+                <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
+                <hr/>
+                <div class="form-group" data-ng-init="all_acts_Object=currentObject.actions">
+                    <label>Actions:</label>
+                    <br>
+                    <div data-ng-repeat="n in [].constructor(getNumOfObjectActions()) track by $index">
+                        {{$index + 1}}.
+                        Name: <input type="text" data-ng-model="all_acts_Object[$index].name" title="Action Name">
+                        <br>
+                        Choose Attribute:
+                        <select ng-model="all_acts_Object[$index].operand1" ng-options="i.name for i in all_attrs" title="Operand1"></select>
+                        <br>
+                        Choose Action:&nbsp;&nbsp;&nbsp;&nbsp;
+                        <select ng-model="all_acts_Object[$index].operator" ng-options="i for i in operators" title="Operator"></select>
+                        <br>
+                        Choose Number:
+                        <input type="text" ng-model="all_acts_Object[$index].operand2" title="Operand2">
+                        <br><br>
+                    </div>
+                    <div class="addFormFieldsButton" data-ng-click="addActionObject()"></div>
+                    <hr>
+                </div>
+                <button type="submit">Edit Object</button>
+            </form>
+        </div>
         <!--<div class="centralAreaComponent" data-ng-show="areaFlags['applicationListArea']">-->
             <!--<div class="componentMainTitle">-->
                 <!--Applications-->
@@ -273,7 +269,7 @@
                 <form>
                     <div class="form-group">
                         <label>Name:</label>
-                        <input data-ng-model="objectName" class="form-control" placeholder="Enter Object name">
+                        <input data-ng-model="objectName" class="form-control" data-ng-init="objectName=''" placeholder="Enter Object name">
                     </div>
                     <div class="form-group" data-ng-init="all_attrs=[]">
                         <label>Attributes:</label>
@@ -316,6 +312,7 @@
                     <br>
                 </form>
             </div>
+
         </div>
         <div class="centralAreaComponent" data-ng-show="areaFlags['behaviorAddArea']">
             <div class="componentMainTitle">
@@ -347,7 +344,7 @@
                     <hr>
                     Conditions:<br>
                     <div data-ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">
-                        <form class="editArea" ng-init="all_conditions[$index] = {attribute:'',logicOperation:'',value:'',andOrOperator:''}">
+                        <form class="editArea" ng-init="all_conditions[$index] = {attribute:'',logicOperation:'',value:''}">
                             {{$index + 1}}.
                             Choose Attribute:
                             <select ng-model="all_conditions[$index].attribute"
@@ -365,9 +362,8 @@
                     </div>
                     <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
                     <br><br>
-                    <span class="btn btn-primary btn-block" data-ng-click="addBehavior()">Add Behavior</span>
+                    <span class="btn btn-primary btn-block" data-ng-click="addBehavior()">Create Behavior</span>
                 </form>
-
             </div>
         </div>
 

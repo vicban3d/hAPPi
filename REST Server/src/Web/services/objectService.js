@@ -22,18 +22,23 @@ main_module.service('objectService',[function(){
     };
 
     this.addObject = function($scope, name, all_attrs, all_acts) {
-        var objectId = $scope.generateUUID();
-        var all_attributes = all_attrs.filter(this.isValidAttribute);
-        var all_actions = all_acts.filter(this.isValidActionObject);
-        var newObject = {
-            id: objectId,
-            name: name,
-            attributes:  all_attributes,
-            actions: all_actions
-        };
-        $scope.addObjectToApplication(newObject);
-        $scope.currentObject = newObject;
-        $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
+        if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
+            $scope.objectName = 'Invalid Name!'
+        }
+        else{
+            var objectId = $scope.generateUUID();
+            var all_attributes = all_attrs.filter(this.isValidAttribute);
+            var all_actions = all_acts.filter(this.isValidActionObject);
+            var newObject = {
+                id: objectId,
+                name: name,
+                attributes:  all_attributes,
+                actions: all_actions
+            };
+            $scope.addObjectToApplication(newObject);
+            $scope.currentObject = newObject;
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
+        }
     };
 
     this.deleteObject = function($scope, object){
@@ -110,50 +115,63 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
-
-    this.editObject = function($scope){
+//TODO
+    this.editObject = function($scope, name, all_attrs, all_acts){
         if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
             $scope.objectName = 'Invalid Name!'
         }
         else {
-            $scope.all_attributes = $scope.all_attrs.filter($scope.isValidAttribute);
-            $scope.all_acts_Object = $scope.all_acts_Object.filter($scope.isValidActionObject);
-
+            var all_attributes = all_attrs.filter(this.isValidAttribute);
+            var all_actions = all_acts.filter(this.isValidActionObject);
             var newObject = {
-                id: currentObject.id,
-                name: $scope.objectName,
-                attributes:  $scope.all_attributes,
-                actions: $scope.all_acts_Object
+                id: this.currentObject.id,
+                name: name,
+                attributes:  all_attributes,
+                actions: all_actions
             };
-
-            $scope.message = "Updating object...";
+            $scope.message = "Updating object...";//TODO
             $scope.showArea("messageArea");
-            removeObjectFromAppList($scope, currentApplication.id, currentObject);
+            $scope.hideArea("objectEditArea");
+            $scope.showArea("objectDetailsArea");
+            $scope.removeObjectFromAppList($scope, $scope.currentApplication.id, this.currentObject);
             $scope.addObjectToApplication(newObject);
             this.currentObject = newObject;
-            $scope.acceptMessageResult(sendPostRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
             //this.showObjectDetails(newObject);
-
             //TODO
         }
-
         };
+/*
+        else{
+            var objectId = $scope.generateUUID();
+            var all_attributes = all_attrs.filter(this.isValidAttribute);
+            var all_actions = all_acts.filter(this.isValidActionObject);
+            var newObject = {
+                id: objectId,
+                name: name,
+                attributes:  all_attributes,
+                actions: all_actions
+            };
+            $scope.addObjectToApplication(newObject);
+            $scope.currentObject = newObject;
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
+        }
+    };*/
 
     this.editObjectDetails = function($scope, $event, object){
         $event.stopPropagation();
         this.currentObject = object;
         this.objectName = $scope.currentObject.name;
-        //$scope.hideArea("centralArea");
-       // $scope.hideArea("objectCreateArea");
+        $scope.hideArea("objectCreateArea");
         $scope.showArea("objectEditArea");
         $scope.hideArea("objectDetailsArea");
-
+        $scope.hideArea("objectAddArea");
     };
 
     this.removeObjectFromAppList= function($scope, appId, object){
         for(var i = $scope.applications[appId].objects.length - 1; i >= 0; i--){
             if($scope.applications[appId].objects[i] == object){
-                $scope.applications[appId].objects[i].splice(i,1);
+                $scope.applications[appId].objects.splice(i,1);
             }
         }
     };

@@ -266,9 +266,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getObjectAction = function(actionName, operand2){ return objectService.getObjectAction(actionName, operand2); };
 
-        $scope.editObject = function(){objectService.editObject($scope);};
-        $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, currentApplication.id, currentObject)};
-        $scope.editObjectDetails = function($event, object){objectService.editObjectDetails($scope, $event, object); };
+        $scope.editObject = function(){objectService.editObject($scope, $scope.objectName, $scope.all_attrs, $scope.all_acts_Object);};
+
+        $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, $scope.currentApplication.id, this.currentObject);};
+        $scope.editObjectDetails = function($event, object){objectService.editObjectDetails($scope, $event, object);};
 
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 

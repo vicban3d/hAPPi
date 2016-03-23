@@ -269,6 +269,7 @@ body{
 
 .menuButton{
     width: 10%;
+    font-size: 125%;
     cursor: pointer;
 }
 

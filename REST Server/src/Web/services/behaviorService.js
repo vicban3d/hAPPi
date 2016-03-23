@@ -41,10 +41,6 @@ main_module.service('behaviorService',[function(){
         this.numOfConditions += 1;
     };
 
-    this.addNewCondition = function(){
-        this.numOfConditions += 1;
-    };
-
     var getAccumulatedValue = function($scope, object, operand, initial, accumulatorFunction){
         var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
         var result = 0;
@@ -183,7 +179,6 @@ main_module.service('behaviorService',[function(){
             $scope.acceptMessageResult(sendPostRequest(Paths.UPDATE_BEHAVIOR, angular.toJson(newBehavior)));
             this.showBehaviorDetails(newBehavior);
             this.currentBehavior = newBehavior;
-
             //TODO
         }
 
@@ -198,11 +193,12 @@ main_module.service('behaviorService',[function(){
     };
 
     this.editBehaviorDetails = function($scope, $event, behavior){
-        $event.stopPropagation();
+       $event.stopPropagation(); //TODO What?
         this.currentBehavior = behavior;
         this.behaviorName = $scope.currentBehavior.name;
         $scope.showArea("behaviorEditArea");
         $scope.hideArea("behaviorDetailsArea");
+        alert("here" + this.currentBehavior.toString());
     };
 
 }]);
