@@ -117,65 +117,99 @@ main_module.controller('ctrl_main', ['$scope',
          return getAccumulatedValue($scope, object, operand, accumulatorFunction);
          };
          * ---------------------------------------------------------------------------------- */
+        this.getInstancesFilteredByConditions = function(instances, conditions, object){
+            if(conditions == null || conditions.length ==  0){
+                return instances;
+            }
+            for (i = 0 ; i < conditions.length; i++){
+                var attrIndex =  object.attributes.indexOf(conditions[i].attribute);
+                var temp = instances.map(function(instance) {
+                    var instanceValue = instance[attrIndex];
+                    var logicOperation = conditions[i].logicOperation;
+                    var conditionValue = conditions[i].value;
 
+                    if (logicOperation == "Greater Than") {
+                        if(instanceValue > conditionValue)
+                            return instance;
+                    }
+                    else if (logicOperation == "Less Than") {
+                        if(instanceValue < conditionValue)
+                            return instance;
+                    }
+                    else if (logicOperation == "Equal") {
+                        if(instanceValue == conditionValue)
+                            return instance;
+                    }
+                    else if (logicOperation == "Not Equal") {
+                        if(instanceValue != conditionValue)
+                            return instance;
+                    }
+                    return null;
+                });
+                temp = temp.filter(function(x) {return x != null});
+            }
+            return temp;
+        };
 
-        $scope.getBehaviorAction = function(object, actionName){
+        this.getBehaviorAction = function($scope, object, actionName, conditions){
+            var instances = this.getInstancesFilteredByConditions($scope.instances[object.name], conditions, object);
             if (actionName == "Sum of All"){
                 return function (operand){
                     var accumulatorFunction = function(initial, action, index) {
-                        for (var i = 0; i < $scope.instances[object.name].length; i++) {
-                            initial += action(parseFloat($scope.instances[object.name][i][index]));
+                        for (var i = 0; i < instances.length; i++) {
+                            initial += action(parseFloat(instances[i][index]));
                         }
                         return initial
                     };
-                    return $scope.getAccumulatedValue(object, operand, 0, accumulatorFunction);
+                    return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
                 };
             } else if (actionName == "Maximum") {
                 return function (operand){
                     var accumulatorFunction = function(initial, action, index) {
-                        for (var i = 0; i < $scope.instances[object.name].length; i++) {
-                            if (initial < action(parseFloat($scope.instances[object.name][i][index]))) {
-                                initial = action(parseFloat($scope.instances[object.name][i][index]));
+                        for (var i = 0; i < instances.length; i++) {
+                            if (initial < action(parseFloat(instances[i][index]))) {
+                                initial = action(parseFloat(instances[i][index]));
                             }
                         }
                         return initial
                     };
-                    return $scope.getAccumulatedValue(object, operand, Number.MIN_VALUE, accumulatorFunction);
+                    return getAccumulatedValue($scope, object, operand, Number.MIN_VALUE, accumulatorFunction);
                 };
             } else if (actionName == "Minimum"){
                 return function (operand){
                     var accumulatorFunction = function(initial, action, index) {
-                        for (var i = 0; i < $scope.instances[object.name].length; i++) {
-                            if (initial > action(parseFloat($scope.instances[object.name][i][index]))) {
-                                initial = action(parseFloat($scope.instances[object.name][i][index]));
+                        for (var i = 0; i < instances.length; i++) {
+                            if (initial > action(parseFloat(instances[i][index]))) {
+                                initial = action(parseFloat(instances[i][index]));
                             }
                         }
                         return initial
                     };
-                    return $scope.getAccumulatedValue(object, operand, Number.MAX_VALUE, accumulatorFunction);
+                    return getAccumulatedValue($scope, object, operand, Number.MAX_VALUE, accumulatorFunction);
                 };
             } else if (actionName == "Product of All"){
                 return function (operand){
                     var accumulatorFunction = function(initial, action, index) {
-                        for (var i = 0; i < $scope.instances[object.name].length; i++) {
-                            initial *= action(parseFloat($scope.instances[object.name][i][index]));
+                        for (var i = 0; i < instances.length; i++) {
+                            initial *= action(parseFloat(instances[i][index]));
                         }
                         return initial
                     };
-                    return $scope.getAccumulatedValue(object, operand, 1, accumulatorFunction);
+                    return getAccumulatedValue($scope, object, operand, 1, accumulatorFunction);
                 };
             } else if (actionName == "Average"){
                 return function (operand){
                     var accumulatorFunction = function(initial, action, index) {
-                        for (var i = 0; i < $scope.instances[object.name].length; i++) {
-                            initial += action(parseFloat($scope.instances[object.name][i][index]));
+                        for (var i = 0; i < instances.length; i++) {
+                            initial += action(parseFloat(instances[i][index]));
                         }
-                        return initial/$scope.instances[object.name].length;
+                        return initial/instances.length;
                     };
-                    return $scope.getAccumulatedValue(object, operand, 0, accumulatorFunction);
+                    return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
                 };
             } else {
                 return undefined;
             }
         };
+
     }]);
