@@ -26,6 +26,7 @@ main_module.service('objectService',[function(){
             $scope.objectName = 'Invalid Name!'
         }
         else{
+
             var objectId = $scope.generateUUID();
             var all_attributes = all_attrs.filter(this.isValidAttribute);
             var all_actions = all_acts.filter(this.isValidActionObject);
