@@ -274,10 +274,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.isValidActionBehavior = function(val){ behaviorService.isValidActionBehavior(val) };
 
         $scope.addBehavior = function(){
-            alert($scope.behaviorName);
-            alert($scope.all_acts_Behavior);
-            alert($scope.all_conditions);
-
             behaviorService.addBehavior($scope,  $scope.behaviorName, $scope.all_acts_Behavior, $scope.all_conditions);
             $scope.all_acts_Behavior = [];
             $scope.all_conditions = [];

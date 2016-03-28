@@ -32,8 +32,8 @@ main_module.service('designService',[function(){
     };
 
     this.removeInstance = function($scope, idx){
-        if(angular.isNumber(idx))
-            $scope.instances[$scope.currentInstance.name].splice(parseInt(idx),1); //TODO if nut number - please enter again
+        //if(angular.isNumber(idx))
+        $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);//TODO if nut number - please enter again
     };
 
     this.performBehaviorAction = function($scope, behavior){
