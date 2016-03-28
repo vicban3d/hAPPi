@@ -81,6 +81,7 @@ main_module.service('behaviorService',[function(){
         if(conditions == null || conditions.length ==  0){
             return instances;
         }
+        var filteredInstances = [];
         for (i = 0 ; i < conditions.length; i++){
             var attrIndex =  object.attributes.indexOf(conditions[i].attribute);
             var temp = instances.map(function(instance) {
@@ -107,8 +108,11 @@ main_module.service('behaviorService',[function(){
                     return null;
                 });
             temp = temp.filter(function(x) {return x != null});
+            temp.forEach(function(value){
+                if (filteredInstances.indexOf(value)==-1) filteredInstances.push(value);
+            });
         }
-        return temp;
+        return filteredInstances;
     };
 
     this.getBehaviorAction = function($scope, object, actionName, conditions){
