@@ -176,16 +176,21 @@ public class ServerTest extends TestCase {
 
     public void testUpdateApplicationObject() throws Exception {
         ArrayList<String> platforms = new ArrayList<>();
-        ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
+        ArrayList<ObjectAttribute> attributes1 = new ArrayList<ObjectAttribute>();
+        ArrayList<ObjectAttribute> attributes2 = new ArrayList<ObjectAttribute>();
+        ObjectAttribute objectAttribute1 = new ObjectAttribute("name1", "type1");
+        ObjectAttribute objectAttribute2 = new ObjectAttribute("name2", "type2");
+        attributes1.add(objectAttribute1);
         ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
-        ApplicationObject obj1 = new ApplicationObject("1", "obj_test", attributes, actions);
-        ApplicationObject obj2 = new ApplicationObject("1", "obj_new", attributes, actions);
+        ApplicationObject obj1 = new ApplicationObject("1", "obj_test", attributes1, actions);
+        attributes2.add(objectAttribute2);
+        ApplicationObject obj2 = new ApplicationObject("1", "obj_new", attributes2, actions);
 
         Application app = createApp(platforms);
-        createAttributeAndAction(attributes, actions);
+        createAttributeAndAction(attributes1, actions);
         String result = server.createObject(obj1);
         assertEquals("Object obj_test added!", result);
-        attributes.clear();
+        attributes1.clear();
         app.addObject(obj2);
         server.updateObject(obj2);
         Application getApp = Application.fromDocument(database.getData("1"));

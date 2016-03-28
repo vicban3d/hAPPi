@@ -189,14 +189,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.showArea("applicationCreateArea");
         };
 
+        $scope.addObjectToApplication = function(object){appService.addObjectToApplication($scope, object);};
 
-        $scope.addObjectToApplication = function(object){
-            appService.addObjectToApplication($scope, object);
-        };
-
-        $scope.addBehaviorToApplication = function(behavior){
-            appService.addBehaviorToApplication($scope, behavior);
-        };
+        $scope.addBehaviorToApplication = function(behavior){appService.addBehaviorToApplication($scope, behavior);};
 
         // ----------------------------------------------------------------------Object Service methods-----------------
 
@@ -264,9 +259,21 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getObjectAction = function(actionName, operand2){ return objectService.getObjectAction(actionName, operand2); };
 
-        $scope.editObject = function(){objectService.editObject($scope, $scope.objectName, $scope.all_attrs, $scope.all_acts_Object);};
+        $scope.editObject = function(){
+            objectService.editObject($scope, $scope.objectName, $scope.all_attrs, $scope.all_acts_Object);
+            $scope.objectName = '';
+            $scope.all_attrs = [];
+            $scope.all_acts_Object = [];
+            objectService.numOfAttributes = 0;
+            objectService.numOfActions = 0;
+            $scope.hideArea("objectCreateArea");
+            $scope.hideArea("actionsEditAreaObject");
+            $scope.hideArea("conditionEditArea");
+            $scope.hideArea("actionsEditAreaBehavior");
+        };
 
-        $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, $scope.currentApplication.id, this.currentObject);};
+        $scope.removeObjectFromAppList = function() {objectService.removeObjectFromAppList($scope, $scope.currentApplication.id);};
+
         $scope.editObjectDetails = function($event, object){objectService.editObjectDetails($scope, $event, object);};
 
         // ----------------------------------------------------------------------Behavior Service Methods---------------

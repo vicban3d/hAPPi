@@ -36,7 +36,7 @@ main_module.service('objectService',[function(){
                 actions: all_actions
             };
             $scope.addObjectToApplication(newObject);
-            $scope.currentObject = newObject;
+            this.currentObject = newObject;
             $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
         }
     };
@@ -55,7 +55,7 @@ main_module.service('objectService',[function(){
     };
 
     this.showObjectDetails = function($scope, object){
-        if ($scope.areaFlags != undefined && $scope.areaFlags["objectDetailsArea"] == false || object != $scope.currentObject){
+        if ($scope.areaFlags != undefined && $scope.areaFlags["objectDetailsArea"] == false || object != this.currentObject){
             this.currentObject = object;
         }
     };
@@ -125,7 +125,7 @@ main_module.service('objectService',[function(){
             var all_actions = all_acts.filter(this.isValidActionObject);
             var newObject = {
                 id: this.currentObject.id,
-                name: name,
+                name: $scope.objectName,
                 attributes:  all_attributes,
                 actions: all_actions
             };
@@ -137,40 +137,22 @@ main_module.service('objectService',[function(){
             $scope.addObjectToApplication(newObject);
             this.currentObject = newObject;
             $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
-            //this.showObjectDetails(newObject);
-            //TODO
         }
         };
-/*
-        else{
-            var objectId = $scope.generateUUID();
-            var all_attributes = all_attrs.filter(this.isValidAttribute);
-            var all_actions = all_acts.filter(this.isValidActionObject);
-            var newObject = {
-                id: objectId,
-                name: name,
-                attributes:  all_attributes,
-                actions: all_actions
-            };
-            $scope.addObjectToApplication(newObject);
-            $scope.currentObject = newObject;
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
-        }
-    };*/
 
     this.editObjectDetails = function($scope, $event, object){
         $event.stopPropagation();
         this.currentObject = object;
-        this.objectName = $scope.currentObject.name;
+        $scope.objectName = this.currentObject.name;
         $scope.hideArea("objectCreateArea");
         $scope.showArea("objectEditArea");
         $scope.hideArea("objectDetailsArea");
         $scope.hideArea("objectAddArea");
     };
 
-    this.removeObjectFromAppList= function($scope, appId, object){
+    this.removeObjectFromAppList= function($scope, appId){
         for(var i = $scope.applications[appId].objects.length - 1; i >= 0; i--){
-            if($scope.applications[appId].objects[i] == object){
+            if($scope.applications[appId].objects[i] == this.currentObject){
                 $scope.applications[appId].objects.splice(i,1);
             }
         }
