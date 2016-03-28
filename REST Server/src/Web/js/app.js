@@ -228,8 +228,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addAttribute = function(){ objectService.addAttribute(); };
 
-        $scope.addCondition = function(){ objectService.addCondition($scope); };
-
         $scope.addActionObject = function(){ objectService.addActionObject(); };
 
         $scope.addNewAction = function(){
@@ -276,6 +274,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.isValidActionBehavior = function(val){ behaviorService.isValidActionBehavior(val) };
 
         $scope.addBehavior = function(){
+            alert($scope.behaviorName);
+            alert($scope.all_acts_Behavior);
+            alert($scope.all_conditions);
+
             behaviorService.addBehavior($scope,  $scope.behaviorName, $scope.all_acts_Behavior, $scope.all_conditions);
             $scope.all_acts_Behavior = [];
             $scope.all_conditions = [];
@@ -300,8 +302,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             behaviorService.addCondition();
         };
 
-        $scope.getBehaviorAction = function(object, actionName){
-            return behaviorService.getBehaviorAction($scope, object, actionName);
+        $scope.getBehaviorAction = function(object, actionName, conditions){
+            return behaviorService.getBehaviorAction($scope, object, actionName, conditions);
         };
 
         $scope.editBehaviorDetails = function(behavior){

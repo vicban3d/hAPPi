@@ -342,25 +342,30 @@
                             ng-options="item as item.name for item in all_acts_Behavior[getNumOfBehaviorActions()].operandObject.attributes.concat(all_acts_Behavior[getNumOfBehaviorActions()].operandObject.actions)"
                             title="operandAttribute" ></select>
                     <hr>
-                    Conditions:<br>
-                    <div data-ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">
-                        <form class="editArea" ng-init="all_conditions[$index] = {attribute:'',logicOperation:'',value:''}">
-                            {{$index + 1}}.
-                            Choose Attribute:
-                            <select ng-model="all_conditions[$index].attribute"
-                                    ng-options="item as item.name for item in all_acts_Behavior[getNumOfBehaviorActions()].operandObject.attributes.concat(all_acts_Behavior[getNumOfBehaviorActions()].operandObject.actions)"
-                                    title="Attribute" ></select>
+                    <div class="form-group" data-ng-init="all_conditions=[]">
+                            <label>Conditions:</label>
                             <br>
-                            Choose Logic Operation:
-                            <select ng-model="all_conditions[$index].logicOperation" ng-options="i for i in logicOperations" title="logicOperation"></select>
-                            <br>
-                            Choose Value:
-                            <input type="text" ng-model="all_conditions[$index].value" title="value">
-                            <br>
-                            <br>
-                        </form>
+                            <div data-ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">
+                             <form class="editArea" ng-init="all_conditions[$index] = {attribute:'',logicOperation:'',value:''}">
+                                    {{$index + 1}}.
+                                Choose Attribute:
+                                <select ng-model="all_conditions[$index].attribute"
+                                        ng-options="item as item.name for item in all_acts_Behavior[getNumOfBehaviorActions()].operandObject.attributes.concat(all_acts_Behavior[getNumOfBehaviorActions()].operandObject.actions)"
+                                        title="operandAttribute" ></select>
+                                <br>
+                                Choose Logic Operation:
+                                <select ng-model="all_conditions[$index].logicOperation"
+                                        ng-options="i for i in logicOperations"
+                                        title="logicOperation"></select>
+                                <br>
+                                Choose Value:
+                                <input type="text" ng-model="all_conditions[$index].value" title="value">
+                                <br>
+                                <br>
+                            </form>
+                        </div>
+                        <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
                     </div>
-                    <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
                     <br><br>
                     <span class="btn btn-primary btn-block" data-ng-click="addBehavior()">Create Behavior</span>
                 </form>

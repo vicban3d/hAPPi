@@ -45,7 +45,7 @@ main_module.controller('ctrl_main', ['$scope',
         $scope.performBehaviorAction = function(behavior){
             var object = behavior.actions[0].operandObject;
             var operand1 = behavior.actions[0].operandAttribute.name;
-            var action = $scope.getBehaviorAction(object, behavior.actions[0].operator);
+            var action = $scope.getBehaviorAction(object, behavior.actions[0].operator, behavior.conditions);
             if (action == undefined){
                 $scope.emulatorOutput = "Unsupported Operation"
             } else {
