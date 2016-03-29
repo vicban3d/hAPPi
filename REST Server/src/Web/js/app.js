@@ -443,4 +443,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
             });
         };
+
+        $scope.isNumber = function(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        };
     }]);
