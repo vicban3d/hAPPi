@@ -180,4 +180,13 @@ public class hAPPiFacade implements Facade {
         application.updateBehavior(behavior);
         database.updateData(application);
     }
+
+    @Override
+    public void addUser(User user) {
+        database.addUser(user);
+    }
+
+    public void getUser(String userId){
+
+    }
 }

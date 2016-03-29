@@ -1,15 +1,19 @@
 package Database;
 
-import Logic.Application;
-import Logic.ApplicationBehavior;
-import Logic.ApplicationObject;
-import Logic.ObjectAttribute;
+import Logic.*;
 import Utility.Logger;
 import Utility.Strings;
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+//import org.codinjutsu.tools.mongo.model.MongoCollection;
+import com.mongodb.client.MongoCollection;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,14 @@ public class MongoDB implements Database {
         db.getCollection(id).insertOne(doc);
     }
 
+    public void addUser(Document document){
+        String id = document.getString("username");
+        Document doc =  new Document();
+        doc.append(id, document);
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        db.getCollection("Users").insertOne(doc);
+    }
+
     @Override
     public void removeData(String documentID) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
@@ -66,12 +78,21 @@ public class MongoDB implements Database {
         doc = (Document)doc.get(documentId);
         String id = doc.getString("id");
         String name = doc.getString("name");
+        User user = (User)doc.get("user");
         @SuppressWarnings("unchecked") ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");
         @SuppressWarnings("unchecked") ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>) doc.get("objects");
         @SuppressWarnings("unchecked") ArrayList<ApplicationBehavior> behaviors = (ArrayList<ApplicationBehavior>) doc.get("behaviors");
-        return new Application(id, name, platforms, objects, behaviors);
+        return new Application(id, name, user, platforms, objects, behaviors);
     }
 
+    public User getUser(String username){
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put("username", username);
+        FindIterable<Document> docs = db.getCollection("Users").find(whereQuery);
+
+        return (User)docs.first();
+    }
 
     @Override
     public void clearAll() {

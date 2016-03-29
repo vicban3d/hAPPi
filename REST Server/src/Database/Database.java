@@ -1,6 +1,7 @@
 package Database;
 
 import Logic.ApplicationObject;
+import Logic.User;
 import org.bson.Document;
 
 import java.io.IOException;
@@ -46,4 +47,8 @@ public interface Database {
      * @param document the document to add.
      */
     void addData(Document document);
+
+    void addUser(Document document);
+
+    User getUser(String username);
 }

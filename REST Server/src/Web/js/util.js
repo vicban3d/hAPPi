@@ -29,3 +29,10 @@ function sendPOSTRequest(path, data) {
     return req;
 }
 
+function sendGETRequest(path, data){
+    var req = createRequest();
+    req.open("GET", Paths.ROOT + path, true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.send(data);
+    return req;
+}

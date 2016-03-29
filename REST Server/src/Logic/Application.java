@@ -6,11 +6,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import javax.print.Doc;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by victor on 1/13/2016.
@@ -26,6 +24,8 @@ public class Application extends Document{
     @XmlElement(required=true)
     private String name;
     @XmlElement(required=true)
+    private User user;
+    @XmlElement(required=true)
     private ArrayList<String> platforms;
     @XmlElement(required=true)
     private ArrayList<ApplicationObject> objects;
@@ -35,17 +35,20 @@ public class Application extends Document{
     @JsonCreator
     public Application(@JsonProperty("id") String id,
                        @JsonProperty("name") String name,
+                       @JsonProperty("user") User user,
                        @JsonProperty("platforms") ArrayList<String> platforms,
                        @JsonProperty("objects") ArrayList<ApplicationObject> objects,
                        @JsonProperty("behaviors") ArrayList<ApplicationBehavior> behaviors){
         super();
         this.append("id", id);
         this.append("name", name);
+        this.append("user",user);
         this.append("platforms", platforms);
         this.append("objects", objects);
         this.append("behaviors", behaviors);
         this.id = id;
         this.name = name;
+        this.user = user;
         this.platforms = platforms;
         this.objects = objects;
         this.behaviors = behaviors;
@@ -65,6 +68,14 @@ public class Application extends Document{
 
     public void setName(String name) {
         this.put("name", name);
+    }
+
+    public String getUser() {
+        return this.getString("user");
+    }
+
+    public void setUser(User user) {
+        this.put("user", user);
     }
 
     public ArrayList<String> getPlatforms() {
@@ -108,6 +119,7 @@ public class Application extends Document{
     public String toString(){
         String result = "Application:\n";
         result += "\tName: " + this.name + "\n";
+        result += "\tUsername: " + this.user.getUsername() + "\n";
         result += "\tPlatforms:\n";
         if (platforms != null){
             for (String platform : this.platforms){
@@ -131,6 +143,7 @@ public class Application extends Document{
         JSONObject json = new JSONObject();
         json.put("id", this.getId());
         json.put("name", this.getName());
+        json.put("user", this.getUser());
         json.put("platforms", this.getPlatforms());
         json.put("objects", this.getObjects());
         json.put("behaviors", this.getBehaviors());
@@ -179,6 +192,6 @@ public class Application extends Document{
 
     public static Application fromDocument(Document data) {
         //noinspection unchecked
-        return new Application(data.getString("id"), data.getString("name"), (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"));
+        return new Application(data.getString("id"), data.getString("name"), (User)data.get("user"), (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"));
     }
 }

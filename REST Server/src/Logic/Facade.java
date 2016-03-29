@@ -67,4 +67,6 @@ public interface Facade {
     void updateApplicationObject(String appId, ApplicationObject object);
 
     void updateApplicationBehavior(String appId, ApplicationBehavior behavior);
+
+    void addUser(User user);
 }

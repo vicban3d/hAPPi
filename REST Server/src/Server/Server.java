@@ -129,6 +129,24 @@ public class Server implements RESTServer {
     }
 
     @Override
+    public String getSignupPage() {
+        Logger.INFO("get signup");
+        return facade.getPage("signup.html");
+    }
+
+    @Override
+    public String addUser(User data) {
+        Logger.INFO("start addUser");
+        try{
+            facade.addUser(data);
+        } catch (Exception e){
+            Logger.ERROR("Error : Failed to add user!", e.getMessage());
+            return "Error: Failed to add user!";
+        }
+        return "The user " + data.getUsername() + " was created successfully!";
+    }
+
+    @Override
     public String removeApplication(Application application) {
         try {
             facade.removeApplication(application.getId());

@@ -1,9 +1,6 @@
 package Server;
 
-import Logic.Application;
-import Logic.ApplicationBehavior;
-import Logic.ApplicationObject;
-import Logic.Facade;
+import Logic.*;
 import Utility.Strings;
 
 import javax.ws.rs.*;
@@ -130,4 +127,25 @@ public interface RESTServer {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
     String updateBehavior(ApplicationBehavior data);
+
+    /**
+     * get signup page
+     * @return - signup page.
+     */
+    @GET
+    @Path(Strings.PATH_SIGNUP_PAGE)
+    @Produces(MediaType.WILDCARD)
+    String getSignupPage();
+
+
+    /**
+     * Creates new user in db
+     * @param data - a JSON representation user.
+     * @return - the status of the request.
+     */
+    @POST
+    @Path(Strings.PATH_CREATE_USER)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String addUser(User data);
 }

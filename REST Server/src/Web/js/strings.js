@@ -20,5 +20,7 @@ var Paths = {
     EMULATE_ANDROID: "/emulateAndroid",
     BUILD_APP: "/build",
     UPDATE_APP: "/updateApplication",
-    UPDATE_OBJECT: "/updateObject"
+    UPDATE_OBJECT: "/updateObject",
+    SIGNUP_PAGE: "/Signup",
+    CREATE_USER: "/AddUser"
 };

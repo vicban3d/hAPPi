@@ -21,6 +21,7 @@ public class ServerTest extends TestCase {
     private Server server;
     private static Facade facade;
     private Database database;
+    private User user;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -32,6 +33,7 @@ public class ServerTest extends TestCase {
         server.setFacade(facade);
         FileHandler.deleteFolder(Strings.PATH_APPS);
         FileHandler.createFolder(Strings.PATH_APPS);
+        user = new User("gil","11","1111");
     }
 
     @org.junit.After
@@ -61,10 +63,11 @@ public class ServerTest extends TestCase {
         json = new JSONObject();
         json.put("name","testName");
         json.put("id", "1");
+        json.put("user",user);
         json.put("platforms","[android,ios]");
         ArrayList<String> platforms = new ArrayList<>();
         platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        Application app = new Application("1", "testName", user, platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
         String result = server.createApplication(app);
         assertEquals("Created testName", result);
         result = server.createApplication(app);
@@ -141,7 +144,7 @@ public class ServerTest extends TestCase {
         Application app = createApp(platforms);
         platforms.remove("android");
         platforms.add("ios");
-        app = new Application("1", "new_testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        app = new Application("1", "new_testName", user, platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
         server.updateApplication(app);
 
         Application getApp = Application.fromDocument(database.getData("1"));
@@ -206,7 +209,7 @@ public class ServerTest extends TestCase {
 
     private Application createApp(ArrayList<String> platforms) {
         platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        Application app = new Application("1", "testName",user, platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
         server.createApplication(app);
         return app;
     }
