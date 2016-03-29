@@ -7,8 +7,6 @@ body{
     position: absolute;
     height: 100%;
     width: 100%;
-    /*background-color: black;*/
-    /*overflow: hidden;*/
 }
 
 .loadingArea{
@@ -49,7 +47,6 @@ body{
 }
 
 .menuArea{
-
     left: 2%;
     width: 10%;
     height: 90%;
@@ -68,12 +65,13 @@ body{
 .centralAreaComponent{
     float: left;
     position: relative;
+    top: -3%;
     width: 100%;
     height: 100%;
-    background-color: lightblue;
+    background-color: white;
     overflow-y: auto;
     overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+    border: white inset thin;
 }
 
 .designArea{
@@ -109,7 +107,6 @@ body{
     border-radius: 0 10% 10% 0;
     overflow-y: auto;
     overflow-x: hidden;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
 }
 
 .designAreaToolbar{
@@ -120,7 +117,6 @@ body{
     left:2%;
     background: #7aba7b;
     text-align: center;
-    box-shadow: 0 0 5px 3px rgba(0,0,0,0.75);
 }
 
 .designAreaToolbarButton{
@@ -132,7 +128,6 @@ body{
     padding:10%;
     border-radius: 20%;
     background-color: lightblue;
-    box-shadow: 0 0 3px 3px rgba(0,0,0,0.75);
     cursor: pointer;
 }
 
@@ -143,7 +138,6 @@ body{
     top:0;
     left:0;
     background: lightblue;
-    box-shadow: 0 0 5px 3px rgba(0,0,0,0.75);
 }
 
 .designAreaTabs{
@@ -203,14 +197,14 @@ body{
     text-align: center;
 }
 
-.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .designAreaToolbarButton:hover .draggableComponent:hover{
-    box-shadow: 0 0 5px 4px rgba(255, 28, 0, 0.5);
-}
+/*.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .designAreaToolbarButton:hover .draggableComponent:hover{*/
+    /*box-shadow: 0 0 5px 4px rgba(255, 28, 0, 0.5);*/
+/*}*/
 
 .componentButtonAdd{
     background: transparent url("http://localhost:5555/img/plus-icon.png") no-repeat center;
     background-size: 50%;
-    cursor: pointer;
+    cursor: hand;
 }
 
 .componentButtonControl {
@@ -265,6 +259,7 @@ body{
     min-height: 2%;
     max-width: 2%;
     max-height: 2%;
+    cursor: hand;
 }
 
 .menuButton{
@@ -274,7 +269,7 @@ body{
 }
 
 .secondMenu{
-    background-color: gray;
+    background-color: white;
 }
 
 .secondMenu a{
@@ -303,14 +298,10 @@ body{
 
 .componentMainTitle{
     position: relative;
-    top:1%;
     text-align: center;
-    color: green;
-    font-size: 2vw;
-    font-family: "Monotype Corsiva", cursive;
-    font-weight: bold;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
-    background-color: #7aba7b;
+    color: grey;
+    font-size: 1vw;
+    background-color: rgb(34,34,34);;
 }
 
 .componentListTitle{
@@ -399,11 +390,11 @@ body{
 }
 
 .object-name-input-width{
-    left: 42%;
+    left: 42.2%;
 }
 
 .imgDivWidth{
-    width : 25%;
+    width : 15%;
     float: left;
 }
 
@@ -421,16 +412,23 @@ body{
     animation-name: disable;
     animation-duration: 0.25s;
     width: 40%;
+    cursor: hand;
 }
 
 .phoneImgEnabled{
     animation-name: enable;
     animation-duration: 0.25s;
     width: 50%;
+    cursor: hand;
 }
 
 .imgMarginLeft{
-    margin-left: 20%;
+    margin-left: 27.5%;
+}
+
+.platformChooseArea{
+    height: 40%;
+    text-align: center;
 }
 
 div.clearFloats{
@@ -445,7 +443,9 @@ div.clearFloats{
 
 input.newAppName{
     float: left;
-    width: 80%;
+    width: 60%;
+    font-size:18px;
+    text-align: center;
 }
 
 div.appDiv{
@@ -460,4 +460,11 @@ span.addAppButton{
 
 .floatLeft{
     float: left;
+}
+
+.noMembersImage{
+    text-wrap: normal;
+    width: 30%;
+    margin-left: 35%;
+
 }

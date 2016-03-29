@@ -31,18 +31,13 @@ main_module.service('appService',[function(){
     };
 
     this.addApplication = function($scope, name, platforms){
-        if (name == '' || name =='Invalid Name!') {
-            $scope.applicationName = 'Invalid Name!'
-        }
-        else{
-            platforms = this.getPlatform(platforms);
-            var appId = $scope.generateUUID();
-            var newApplication = this.applicationConstructor(appId, name, platforms, [],[]);
-            this.currentApplication = newApplication;
-            this.addAppToApplicationList($scope, newApplication);
-            this.showApplicationDetails($scope, newApplication);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication)));
-        }
+        platforms = this.getPlatform(platforms);
+        var appId = $scope.generateUUID();
+        var newApplication = this.applicationConstructor(appId, name, platforms, [],[]);
+        this.currentApplication = newApplication;
+        this.addAppToApplicationList($scope, newApplication);
+        this.showApplicationDetails($scope, newApplication);
+        $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication)));
     };
 
     this.editApplication = function($scope, name, platforms){

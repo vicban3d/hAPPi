@@ -51,6 +51,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.attribute_values = [];
 
+        $scope.showNoMembersImage = true;
+
 
         // Preload phone images
         var images = [];
@@ -74,6 +76,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.iosImgEnable = "ios_enabled.png";
         $scope.switchIosImg = 1;
         $scope.toggleIos = function(){
+            $scope.ios = !$scope.ios;
             $scope.switchIosImg = 3- $scope.switchIosImg;
         };
         // android images
@@ -81,6 +84,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.androidImgEnable = "android_enabled.png";
         $scope.switchAndroidImg = 1;
         $scope.toggleAndroid = function(){
+            $scope.android = !$scope.android;
             $scope.switchAndroidImg = 3- $scope.switchAndroidImg;
         };
         // wp images
@@ -88,13 +92,14 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.windowsImgEnable = "wp_enabled.png";
         $scope.switchWindowsImg = 1;
         $scope.toggleWindows = function(){
+            $scope.windowsPhone = !$scope.windowsPhone;
             $scope.switchWindowsImg = 3- $scope.switchWindowsImg;
         };
 
         $scope.menuButtons = [
-            {'label': 'Objects',    'function': function(){$scope.menuAddObjects()}},
-            {'label': 'Behavior',   'function': function(){$scope.menuAddBehaviors()}},
-            {'label': 'Release',    'function': function(){$scope.menuRelease()}}
+            {'label': 'Objects',    'function': function(){$scope.showNoMembersImage = true; $scope.menuAddObjects()}},
+            {'label': 'Behavior',   'function': function(){$scope.showNoMembersImage = true; $scope.menuAddBehaviors()}},
+            {'label': 'Release',    'function': function(){$scope.showNoMembersImage = true; $scope.menuRelease()}}
         ];
 
         // ----------------------------------------------------------------------General Functions----------------------
@@ -250,6 +255,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("behaviorDetailsArea");
             $scope.hideArea("behaviorEditArea");
             $scope.hideArea("objectDetailsArea");
+            $scope.showNoMembersImage = !$scope.showNoMembersImage;
             $scope.toggleArea("objectCreateArea");
         };
 
@@ -317,6 +323,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("objectDetailsArea");
             $scope.hideArea("objectCreateArea");
             $scope.hideArea("behaviorDetailsArea");
+            $scope.showNoMembersImage = !$scope.showNoMembersImage;
             $scope.toggleArea("behaviorEditArea");
         };
 
