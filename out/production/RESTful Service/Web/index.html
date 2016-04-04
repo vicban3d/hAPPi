@@ -32,15 +32,13 @@
             </ul>
         </div>
     </nav>
+    <h3 style="text-align: center;">Create a New Application</h3><hr style="width: 30%">
     <div class="object-name-input-width col-xs-2 clearFloats appDiv">
         <input data-ng-model="applicationName" type="text" class="form-control newAppName" placeholder="My App Name">
-        <span class="componentButton componentButtonAdd addAppButton" data-ng-click="addApplication()"></span>
     </div><br>
-    <div class="panel panel-success container-fluid" data-ng-show="DEBUG">
-        <label data-ng-model="message">_ {{message}}</label>
-    </div>
-    <div>
-        <h2>Choose Platforms (more than one is possible):</h2>
+
+    <div class="platformChooseArea">
+        <h3>Develop For</h3><hr>
         <div ng-switch="switchIosImg==1">
             <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
                 <img data-ng-click="toggleIos()" class="phoneImg" src="http://localhost:5555/img/{{iosImg}}">
@@ -68,7 +66,11 @@
             </div>
         </div>
     </div>
+    <span class="btn btn-primary btn-block" data-ng-click="addApplication()">Start</span>
     <hr>
+    <div class="panel panel-success container-fluid" data-ng-show="DEBUG">
+        <label data-ng-model="message">DEBUG:  {{message}}</label>
+    </div>
     <div>
         <h2 class="floatLeft">Your Apps:</h2>
         <span data-ng-repeat="application in applications track by $index">
@@ -79,7 +81,6 @@
             </span>
         </span>
     </div>
-    <!--<span class="btn btn-primary btn-block" data-ng-click="gotoApp()">Start!</span>-->
 </div>
 
 <nav class="navbar navbar-inverse" ng-hide="areaFlags['frontPage']" >
@@ -102,100 +103,6 @@
 </nav>
 
 <div class="workArea" ng-hide="areaFlags['frontPage']">
-    <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
-        <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
-            <div class="componentMainTitle">{{currentBehavior.name}}</div>
-            <div class="componentListTitle">Actions:</div><!--TODO The edit area-->
-            <div ng-repeat="act in currentBehavior.actions track by $index">
-                <div class="componentListEntry">{{act.operator + " " + act.operandAttribute.name + "s in " + act.operandObject.name + " object"}}</div>
-            </div>
-            <div class="componentListTitle">Conditions:</div>
-            <div data-ng-repeat="cond in currentBehavior.all_conditions track by $index">
-                <div class="componentListEntry">{{cond.attribute.name + " " + cond.logicOperation + " " + cond.operandObject.value}}</div>
-            </div>
-            <hr>
-        </div>
-        <div class="sideAreaComponent" data-ng-show="areaFlags['applicationDetailsArea']">
-            <div class="componentMainTitle">{{currentApplication.name}}</div>
-            <div class="componentListTitle">Platforms:</div>
-            <div class="componentListEntry" ng-repeat="platform in currentApplication.platforms track by $index">
-                {{platform}}
-            </div>
-        </div>
-        <div class="sideAreaComponent" data-ng-show="areaFlags['applicationCreateArea']">
-            <form class="editArea" data-ng-submit="addApplication()">
-                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
-                <hr>
-                <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
-                <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
-                <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>
-                <button type="submit">Create Application</button>
-            </form>
-        </div>
-        <div class="sideAreaComponent" data-ng-show="areaFlags['applicationEditArea']">
-            <form class="editArea" data-ng-submit="editApplication()">
-                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
-                <hr>
-                <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
-                <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
-                <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>
-                <button type="submit">Edit Application</button>
-            </form>
-        </div>
-
-
-
-        <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
-            <div class="componentMainTitle">
-                Design
-            </div>
-            <!--<img class="designAreaEmulator designAreaPhoneBG" src="http://localhost:5555/img/smartphone.png">-->
-            <div id="emulatedCode" class="designAreaEmulator designAreaGrid">
-                <nav class="navbar navbar-inverse designAreaTabs" >
-                    <div class="container-fluid ">
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{applications[currentApplication.id].name}}</a>
-                        </div>
-                        <ul class="nav navbar-nav navbar-right" >
-                            <li data-ng-repeat="object in applications[currentApplication.id].objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
-                        </ul>
-                    </div>
-                </nav>
-                <div class="designAreaButtons" data-ng-show="getShowBehaviors()">
-                    <button class="btn btn-primary btn-block" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
-                </div>
-                <div class="designAreaButtons" data-ng-show="getShowInstance()" data-ng-init="attribute_values=[]">
-                    <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                        <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
-                    </form>
-                    <button class="btn btn-primary btn-block" data-ng-click="addInstance()">Add</button><hr>
-                    <input type="text" class="form-control" placeholder="Index to Remove" data-ng-model="idx">
-                    <button class="btn btn-primary btn-block" data-ng-click="removeInstance(idx)">Remove</button>
-                    <hr>
-                    <table class="table" style="width: 100%">
-                        <tr>
-                            <th style="width: 10%">Idx</th>
-                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                                {{attr.name}}
-                            </th>
-                        </tr>
-                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
-                            <td>{{$index}}</td>
-                            <td data-ng-repeat="val in instance track by $index">
-                                {{val}}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="navbar navbar-inverse designAreaOutput">
-                    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
-                </div>
-            </div>
-        </div>
-        <div class="sideAreaComponent" ng-show="areaFlags['designArea']">
-        </div>
-    </div>
-
     <div class="workAreaComponent centralArea" data-ng-show="areaFlags['centralArea']">
         <div class="centralAreaComponent" data-ng-show="areaFlags['objectEditArea']">
             <form class="editArea" data-ng-submit="editObject()">
@@ -241,23 +148,58 @@
                 <button type="submit">Edit Object</button>
             </form>
         </div>
-        <!--<div class="centralAreaComponent" data-ng-show="areaFlags['applicationListArea']">-->
-            <!--<div class="componentMainTitle">-->
-                <!--Applications-->
-            <!--</div>-->
-            <!--<span data-ng-repeat="application in applications track by $index">-->
-                <!--<span class="componentButton" data-ng-click="getApplication(application)">-->
-                    <!--<span class="textInButton">{{application.name}}</span>-->
-                    <!--<span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteApplication($event, application)"></span>-->
-                    <!--<span class="componentButtonControl componentButtonControlEdit" data-ng-click="editApplicationDetails($event, application)"></span>-->
-                <!--</span>-->
-            <!--</span>-->
-            <!--<span class="componentButton componentButtonAdd" data-ng-click="addNewApplication()"></span>-->
-        <!--</div>-->
+        <div class="centralAreaComponent" data-ng-show="areaFlags['behaviorEditArea']">
+            <form class="editArea" data-ng-submit="editBehavior()">
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" data-ng-model="behaviorName" class="form-control" placeholder={{currentBehavior.name}}>
+                </div>
+                <hr/>
+                <div class="from-group">
+                    Action:
+                    <br>
+                    <select ng-model="all_acts_Behavior[getNumOfBehaviorActions()].operandObject"
+                            ng-options="item as item.name for item in applications[currentApplication.id].objects" title="operandObject"></select>
+                    <select ng-model="all_acts_Behavior[getNumOfBehaviorActions()].operator" ng-options="i for i in behaviorOperators"
+                            title="Operator"></select>
+                    <select ng-model="all_acts_Behavior[getNumOfBehaviorActions()].operandAttribute"
+                            ng-options="item as item.name for item in all_acts_Behavior[getNumOfBehaviorActions()].operandObject.attributes.concat(all_acts_Behavior[getNumOfBehaviorActions()].operandObject.actions)"
+                            title="operandAttribute" ></select>
+                </div>
+                <hr>
+                <div class="form-group" data-ng-init="all_conditions=[]">
+                    <label>Conditions:</label>
+                    <br>
+                    <div data-ng-repeat="n in [].constructor(getNumOfConditions()) track by $index">
+                        <form class="editArea" ng-init="all_conditions[$index] = {attribute:'',logicOperation:'',value:''}">
+                            {{$index + 1}}.
+                            Choose Attribute:
+                            <select ng-model="all_conditions[$index].attribute"
+                                    ng-options="item as item.name for item in all_acts_Behavior[getNumOfBehaviorActions()].operandObject.attributes.concat(all_acts_Behavior[getNumOfBehaviorActions()].operandObject.actions)"
+                                    title="operandAttribute" ></select>
+                            <br>
+                            Choose Logic Operation:
+                            <select ng-model="all_conditions[$index].logicOperation"
+                                    ng-options="i for i in logicOperations"
+                                    title="logicOperation"></select>
+                            <br>
+                            Choose Value:
+                            <input type="text" ng-model="all_conditions[$index].value" title="value">
+                            <br>
+                            <br>
+                        </form>
+                    </div>
+                    <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
+                </div>
+                <button type="submit">Edit Behavior</button>
+            </form>
+        </div>
         <div class="centralAreaComponent" data-ng-show="areaFlags['objectsAddArea']">
             <div class="componentMainTitle">
                 Objects
             </div>
+            <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">new object</span>
+            <div data-ng-show="showNoMembersImage && !applications[currentApplication.id].objects.length"><img class="noMembersImage" src="http://localhost:5555/img/no_objects.png"></div>
             <span data-ng-repeat="object in applications[currentApplication.id].objects track by $index">
                 <span class="componentButton" data-ng-click="showObjectDetails(object)">
                     <span class="textInButton">{{object.name}}</span>
@@ -265,7 +207,7 @@
                    <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editObjectDetails($event, object)"></span>
                 </span>
             </span>
-            <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">new object</span>
+            <hr>
             <div class="mergeLeft" data-ng-show="areaFlags['objectCreateArea']">
                 <form>
                     <div class="form-group">
@@ -313,25 +255,23 @@
                     <br>
                 </form>
             </div>
-
         </div>
         <div class="centralAreaComponent" data-ng-show="areaFlags['behaviorAddArea']">
             <div class="componentMainTitle">
                 Behavior
             </div>
+            <span class="btn btn-primary btn-block" data-ng-click="addNewBehavior()">new behavior</span>
+            <div data-ng-show="showNoMembersImage && !applications[currentApplication.id].behaviors.length"><img class="noMembersImage" src="http://localhost:5555/img/no_behaviors.png"></div>
             <span data-ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index">
                 <span class="componentButton" data-ng-click="showBehaviorDetails(behavior)">
                     <span class="textInButton">{{behavior.name}}</span>
                     <span class='componentButtonControl componentButtonControlDelete' data-ng-click="deleteBehavior(behavior)"></span>
-                    <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editBehaviorDetails(behavior)"></span>
+                    <span class='componentButtonControl componentButtonControlEdit' data-ng-click="editBehaviorDetails($event, behavior)"></span>
                 </span>
             </span>
-            <span class="btn btn-primary btn-block" data-ng-click="addNewBehavior()">new behavior</span>
-            <div class="mergeLeft" data-ng-show="areaFlags['behaviorEditArea']">
+            <div class="mergeLeft" data-ng-show="areaFlags['behaviorCreateArea']">
                 <form role="form">
                     <br>
-                <!--<form class="editArea" data-ng-submit="addBehavior()" data-ng-init="behaviorName='';
-                all_acts_Behavior[getNumOfBehaviorActions()]={operandObject:'',operandAttribute:'',operator:''};all_conditions=[]">-->
                     Name: <input type="text" data-ng-model="behaviorName" title="Behavior Name"><hr>
                     Action:
                     <br>
@@ -372,7 +312,6 @@
                 </form>
             </div>
         </div>
-
         <div class="centralAreaComponent releaseArea" ng-show="areaFlags['releaseArea']">
             <div class="componentMainTitle">
                 Release
@@ -381,6 +320,99 @@
                 <b>Build {{currentApplication.name}}</b>
             </div>
             <div id="appQRImage" data-ng-show="getApplicationBuilt()"></div>
+        </div>
+    </div>
+
+    <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
+        <div class="sideAreaComponent" data-ng-show="areaFlags['behaviorDetailsArea']">
+            <div class="componentMainTitle">{{currentBehavior.name}}</div>
+            <div class="componentListTitle">Actions:</div><!--TODO The edit area-->
+            <div ng-repeat="act in currentBehavior.actions track by $index">
+                <div class="componentListEntry">{{act.operator + " " + act.operandAttribute.name + "s in " + act.operandObject.name + " object"}}</div>
+            </div>
+            <div class="componentListTitle">Conditions:</div>
+            <div data-ng-repeat="cond in currentBehavior.all_conditions track by $index">
+                <div class="componentListEntry">{{cond.attribute.name + " " + cond.logicOperation + " " + cond.operandObject.value}}</div>
+            </div>
+            <hr>
+        </div>
+        <div class="sideAreaComponent" data-ng-show="areaFlags['applicationDetailsArea']">
+            <div class="componentMainTitle">{{currentApplication.name}}</div>
+            <div class="componentListTitle">Platforms:</div>
+            <div class="componentListEntry" ng-repeat="platform in currentApplication.platforms track by $index">
+                {{platform}}
+            </div>
+        </div>
+        <div class="sideAreaComponent" data-ng-show="areaFlags['applicationCreateArea']">
+            <form class="editArea" data-ng-submit="addApplication()">
+                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
+                <hr>
+                <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
+                <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
+                <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>
+                <button type="submit">Create Application</button>
+            </form>
+        </div>
+        <div class="sideAreaComponent" data-ng-show="areaFlags['applicationEditArea']">
+            <form class="editArea" data-ng-submit="editApplication()">
+                Name: <input type="text" data-ng-model="applicationName" title="Application Name">
+                <hr>
+                <input type="checkbox" name="platform" value="android" data-ng-model="android" title="android"> Android<br>
+                <input type="checkbox" name="platform" value="ios" data-ng-model="ios" title="ios"> iOS<br>
+                <input type="checkbox" name="platform" value="windowsPhone" data-ng-model="windowsPhone" title="wp"> Windows Phone<br>
+                <button type="submit">Edit Application</button>
+            </form>
+        </div>
+
+
+
+        <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()">
+            <div class="componentMainTitle">
+                Preview
+            </div>
+            <div id="emulatedCode" class="designAreaEmulator designAreaGrid">
+                <nav class="navbar navbar-inverse designAreaTabs" >
+                    <div class="container-fluid ">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{applications[currentApplication.id].name}}</a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right" >
+                            <li data-ng-repeat="object in applications[currentApplication.id].objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="designAreaButtons" data-ng-show="getShowBehaviors()">
+                    <button class="btn btn-primary btn-block" ng-repeat="behavior in applications[currentApplication.id].behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+                </div>
+                <div class="designAreaButtons" data-ng-show="getShowInstance()" data-ng-init="attribute_values=[]">
+                    <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                        <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
+                    </form>
+                    <button class="btn btn-primary btn-block" data-ng-click="addInstance()">Add</button><hr>
+                    <input type="text" class="form-control" placeholder="Index to Remove" data-ng-model="idx">
+                    <button class="btn btn-primary btn-block" data-ng-click="removeInstance(idx)">Remove</button>
+                    <hr>
+                    <table class="table" style="width: 100%">
+                        <tr>
+                            <th style="width: 10%">Idx</th>
+                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                                {{attr.name}}
+                            </th>
+                        </tr>
+                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+                            <td>{{$index}}</td>
+                            <td data-ng-repeat="val in instance track by $index">
+                                {{val}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="navbar navbar-inverse designAreaOutput">
+                    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="sideAreaComponent" ng-show="areaFlags['designArea']">
         </div>
     </div>
 </div>

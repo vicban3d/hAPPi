@@ -239,9 +239,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.showObjectDetails = function(object){
             objectService.showObjectDetails($scope, object);
             $scope.hideArea("behaviorDetailsArea");
-            $scope.hideArea("behaviorEditArea");
+            $scope.hideArea("behaviorCreateArea");
             $scope.hideArea("objectCreateArea");
-            $scope.showArea("objectDetailsArea");
+            $scope.showArea("objectDetailsArea"); // TODO - not used in HTML
         };
 
         $scope.isValidAttribute = function(val){ objectService.isValidAttribute(val); };
@@ -273,6 +273,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             objectService.numOfAttributes = 0;
             objectService.numOfActions = 0;
             $scope.hideArea("objectCreateArea");
+            $scope.hideArea("objectEditArea");
             $scope.hideArea("actionsEditAreaObject");
             $scope.hideArea("conditionEditArea");
             $scope.hideArea("actionsEditAreaBehavior");
@@ -296,40 +297,43 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("actionsEditAreaObject");
             $scope.hideArea("actionsEditAreaBehavior");
             $scope.hideArea("conditionEditArea");
+            $scope.hideArea("behaviorCreateArea");
+        };
+
+        $scope.editBehavior = function(){
+            behaviorService.editBehavior($scope, $scope.behaviorName, $scope.all_acts_Behavior, $scope.all_conditions);
+            $scope.all_acts_Behavior = [];
+            $scope.all_conditions = [];
+            behaviorService.numOfActions = 0;
+            behaviorService.numOfConditions = 0;
+            $scope.behaviorName = '';
+            $scope.hideArea("actionsEditAreaObject");
+            $scope.hideArea("actionsEditAreaBehavior");
+            $scope.hideArea("conditionEditArea");
             $scope.hideArea("behaviorEditArea");
+            $scope.hideArea("behaviorCreateArea");
         };
 
-        $scope.getNumOfBehaviorActions = function(){
-            return behaviorService.getNumOfActions();
-        };
+        $scope.getNumOfBehaviorActions = function(){return behaviorService.getNumOfActions();};
 
-        $scope.getNumOfConditions = function(){
-            return behaviorService.getNumOfConditions();
-        };
+        $scope.getNumOfConditions = function(){return behaviorService.getNumOfConditions();};
 
-        $scope.addCondition = function(){
-            behaviorService.addCondition();
-        };
+        $scope.addCondition = function(){behaviorService.addCondition();};
 
-        $scope.getBehaviorAction = function(object, actionName, conditions){
-            return behaviorService.getBehaviorAction($scope, object, actionName, conditions);
-        };
+        $scope.getBehaviorAction = function(object, actionName, conditions){return behaviorService.getBehaviorAction($scope, object, actionName, conditions);};
 
-        $scope.editBehaviorDetails = function(behavior){
-            behaviorService.editBehaviorDetails($scope, behavior);
-        };
+        $scope.editBehaviorDetails = function($event, behavior){behaviorService.editBehaviorDetails($scope, $event, behavior);};
 
         $scope.addNewBehavior = function(){
+            behaviorService.addNewBehavior();
             $scope.hideArea("objectDetailsArea");
             $scope.hideArea("objectCreateArea");
             $scope.hideArea("behaviorDetailsArea");
             $scope.showNoMembersImage = !$scope.showNoMembersImage;
-            $scope.toggleArea("behaviorEditArea");
+            $scope.toggleArea("behaviorCreateArea");
         };
 
-        $scope.addNewCondition = function(){
-            behaviorService.addNewCondition();
-        };
+        $scope.addNewCondition = function(){behaviorService.addNewCondition();};
 
         $scope.deleteBehavior = function(behavior){
             behaviorService.deleteBehavior($scope, behavior);
@@ -340,7 +344,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             behaviorService.showBehaviorDetails($scope, behavior);
             $scope.hideArea("objectDetailsArea");
             $scope.hideArea("objectCreateArea");
-            $scope.hideArea("behaviorEditArea");
+            $scope.hideArea("behaviorCreateArea");
             $scope.showArea("behaviorDetailsArea");
         };
 
@@ -350,13 +354,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.all_conditions = [];
         };
 
-
-        $scope.editBehavior = function(){
-            behaviorService.editBehavior($scope);
-        };
-
         $scope.removeBehaviorFromAppList = function() {
-            behaviorService.removeBehaviorFromAppList($scope, currentApplication.id, currentBehavior)
+            behaviorService.removeBehaviorFromAppList($scope, $scope.currentApplication.id)
         };
 
         $scope.editBehaviorDetails = function($event, behavior){

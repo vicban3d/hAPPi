@@ -26,7 +26,6 @@ main_module.service('objectService',[function(){
             $scope.objectName = 'Invalid Name!'
         }
         else{
-
             var objectId = $scope.generateUUID();
             var all_attributes = all_attrs.filter(this.isValidAttribute);
             var all_actions = all_acts.filter(this.isValidActionObject);
@@ -70,7 +69,6 @@ main_module.service('objectService',[function(){
     };
 
     this.addActionObject = function(){
-        //$scope.showArea("actionsEditAreaObject");
         this.numOfActions += 1;
     };
 
@@ -116,7 +114,6 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
-//TODO
     this.editObject = function($scope, name, all_attrs, all_acts){
         if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
             $scope.objectName = 'Invalid Name!'
@@ -132,12 +129,11 @@ main_module.service('objectService',[function(){
             };
             $scope.message = "Updating object...";//TODO
             $scope.showArea("messageArea");
-            $scope.hideArea("objectEditArea");
-            $scope.showArea("objectDetailsArea");
             $scope.removeObjectFromAppList($scope, $scope.currentApplication.id, this.currentObject);
             $scope.addObjectToApplication(newObject);
             this.currentObject = newObject;
             $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
+            $scope.showObjectDetails(newObject);
         }
         };
 
@@ -148,7 +144,7 @@ main_module.service('objectService',[function(){
         $scope.hideArea("objectCreateArea");
         $scope.showArea("objectEditArea");
         $scope.hideArea("objectDetailsArea");
-        $scope.hideArea("objectAddArea");
+        //$scope.hideArea("objectAddArea");
     };
 
     this.removeObjectFromAppList= function($scope, appId){
