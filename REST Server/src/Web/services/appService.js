@@ -16,8 +16,7 @@ main_module.service('appService',[function(){
         return this.currentApplication;
     };
     
-    this.deleteApplication = function($scope, $event, application){
-        $event.stopPropagation();
+    this.deleteApplication = function($scope, application){
         delete $scope.applications[application.id];
         if (application == this.currentApplication){
             this.currentApplication = {};
@@ -38,28 +37,17 @@ main_module.service('appService',[function(){
         this.addAppToApplicationList($scope, newApplication);
         this.showApplicationDetails($scope, newApplication);
         $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(newApplication)));
+        return newApplication;
     };
 
-    this.editApplication = function($scope, name, platforms){
-        if (name == '' || name =='Invalid Name!') {
-            $scope.applicationName = 'Invalid Name!'
-        }
-        else{
-            platforms = this.getPlatform(platforms);
-            var newApplication = this.applicationConstructor(this.currentApplication.id, name, platforms,
-                this.currentApplication.actions, this.currentApplication.behaviors);
-            $scope.message = "Updating application...";
-            $scope.showArea("messageArea");
-            $scope.removeApplicationFromAppList($scope, this.currentApplication.id);
-            this.addAppToApplicationList($scope, newApplication);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(newApplication)));
-            $scope.showArea("messageArea");
-            $scope.showApplicationDetails(newApplication);
-            this.currentApplication = newApplication;
-            $scope.hideArea("applicationEditArea");
-            $scope.showArea("centralArea");
-            $scope.showArea("applicationListArea");
-        }
+    this.editApplication = function($scope, application){
+        $scope.message = "Updating application...";
+        this.currentApplication.platforms = this.getPlatform([$scope.adnroid, $scope.ios, $scope.windowsPhone]);
+        this.removeApplicationFromAppList($scope, application.id);
+        this.addAppToApplicationList($scope, this.currentApplication);
+        $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(this.currentApplication)));
+        $scope.showApplicationDetails(this.currentApplication);
+        $scope.indexToShow = -1;
     };
 
     this.addObjectToApplication = function($scope, object){
@@ -77,10 +65,10 @@ main_module.service('appService',[function(){
         if ($scope.applications[application.id] == undefined){
             $scope.applications[application.id] = {id:'',name:'',platforms:[],objects:[],behaviors:[]};
         }
-
-        $scope.applications[application.id].id = application.id;
-        $scope.applications[application.id].name = application.name;
-        $scope.applications[application.id].platforms.push(application.platforms);
+        $scope.applications[application.id] = application;
+        // $scope.applications[application.id].id = application.id;
+        // $scope.applications[application.id].name = application.name;
+        // $scope.applications[application.id].platforms.push(application.platforms);
     };
 
     this.getPlatform = function(input){
@@ -109,9 +97,6 @@ main_module.service('appService',[function(){
     this.showApplicationDetails = function($scope, application){
         if ($scope.areaFlags["applicationDetailsArea"] == false || application != $scope.currentApplication){
             $scope.currentApplication = application;
-            $scope.hideArea("applicationCreateArea");
-            $scope.hideArea("applicationEditArea");
-            $scope.showArea("applicationDetailsArea");
         }
     };
 
@@ -124,27 +109,27 @@ main_module.service('appService',[function(){
     };
 
     this.getApplication = function($scope, application){
-        if (this.showApplicationDetailsFlag == 1 || application != this.currentApplication){
-            this.currentApplication = application;
-            this.showApplicationDetailsFlag = 0
-        } else{
-            this.showApplicationDetailsFlag = 1
-        }
+        // if (this.showApplicationDetailsFlag == 1 || application != this.currentApplication){
+        //     this.currentApplication = application;
+        //     this.showApplicationDetailsFlag = 0
+        // } else{
+        //     this.showApplicationDetailsFlag = 1
+        // }
+        
         this.currentApplication = application;
         //$scope.hideArea("applicationCreateArea");
         //$scope.hideArea("applicationDetailsArea");
         //$scope.hideArea("applicationListArea");
-        //$scope.showArea("menuButtonsArea");
-        $scope.hideArea("frontPage");
+        // $scope.hideArea("frontPage");
     };
 
-    this.editApplicationDetails = function($scope, $event, application){
-        $event.stopPropagation();
-        this.currentApplication = application;
-        $scope.showCurrentPlatforms();
-        this.applicationName = $scope.currentApplication.name;
-        $scope.showArea("applicationEditArea");
-        $scope.hideArea("applicationDetailsArea");
+    this.showApplicationEditArea = function($scope, $event, application){
+        // $event.stopPropagation();
+        // this.currentApplication = application;
+        // $scope.showCurrentPlatforms();
+        // this.applicationName = $scope.currentApplication.name;
+        // $scope.showArea("applicationEditArea");
+        // $scope.hideArea("applicationDetailsArea");
     };
 
 }]);

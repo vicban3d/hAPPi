@@ -191,11 +191,11 @@ main_module.service('behaviorService',[function(){
         $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_BEHAVIOR, angular.toJson(behavior)));
     };
 
-    this.showBehaviorDetails = function($scope, behavior){
-        if ($scope.areaFlags != undefined && $scope.areaFlags["behaviorDetailsArea"] == false || behavior != this.currentBehavior) {
-            this.currentBehavior = behavior;
-        }
-    };
+    // this.showBehaviorDetails = function($scope, behavior){
+    //     if ($scope.areaFlags != undefined && $scope.areaFlags["behaviorDetailsArea"] == false || behavior != this.currentBehavior) {
+    //         this.currentBehavior = behavior;
+    //     }
+    // };
 
     this.addActionBehavior = function(){
         this.numOfConditions = 0;
@@ -221,7 +221,6 @@ main_module.service('behaviorService',[function(){
                 conditions: all_conditions
             };
             $scope.message = "Updating behavior..."; //TODO
-            $scope.showArea("messageArea");
             $scope.removeBehaviorFromAppList($scope, $scope.currentApplication.id, this.currentBehavior);
             $scope.addBehaviorToApplication(newBehavior);
             this.currentBehavior = newBehavior;
@@ -234,10 +233,7 @@ main_module.service('behaviorService',[function(){
         $event.stopPropagation();
         this.currentBehavior = behavior;
         $scope.behaviorName = this.currentBehavior.name;
-        $scope.hideArea("behaviorCreateArea");
-        $scope.showArea("behaviorEditArea");
-        $scope.hideArea("behaviorDetailsArea");
-        //$scope.hideArea("behaviorAddArea");
+        
     };
 
     this.removeBehaviorFromAppList= function($scope, appId){

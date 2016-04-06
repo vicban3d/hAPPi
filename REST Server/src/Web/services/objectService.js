@@ -21,47 +21,36 @@ main_module.service('objectService',[function(){
         return this.numOfActions;
     };
 
-    this.addObject = function($scope, name, all_attrs, all_acts) {
-        if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
-            $scope.objectName = 'Invalid Name!'
-        }
-        else{
-            var objectId = $scope.generateUUID();
-            var all_attributes = all_attrs.filter(this.isValidAttribute);
-            var all_actions = all_acts.filter(this.isValidActionObject);
-            var newObject = {
-                id: objectId,
-                name: name,
-                attributes:  all_attributes,
-                actions: all_actions
-            };
-            $scope.addObjectToApplication(newObject);
-            this.currentObject = newObject;
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(newObject)));
-        }
+    this.addObject = function($scope) {
+        this.currentObject.id = $scope.generateUUID();
+        this.currentObject.attributes = this.currentObject.attributes.filter(this.isValidAttribute);
+        this.currentObject.actions = this.currentObject.actions.filter(this.isValidActionObject);
+        $scope.addObjectToApplication(this.currentObject);
+        $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(this.currentObject)));
     };
 
     this.deleteObject = function($scope, object){
-        var index =  $scope.applications[$scope.currentApplication.id].objects.indexOf(object);
-        $scope.applications[$scope.currentApplication.id].objects.splice(index, 1);
+        var index =  $scope.getCurrentApplication().objects.indexOf(object);
+        $scope.getCurrentApplication().objects.splice(index, 1);
         if (object == this.currentObject){
             this.currentObject = {};
+        }
+        if (!$scope.getCurrentApplication().objects.length){
+            $scope.showNoMembersImage = true;
         }
         $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object)));
     };
 
     this.addAttribute = function(){
-        this.numOfAttributes+=1;
+        this.currentObject.attributes.push({name: '', type: 'Text'});
     };
 
-    this.showObjectDetails = function($scope, object){
-        if ($scope.areaFlags != undefined && $scope.areaFlags["objectDetailsArea"] == false || object != this.currentObject){
-            this.currentObject = object;
-        }
+    this.removeAttribute = function($index){
+      this.currentObject.attributes.splice($index, 1);
     };
 
-    this.addNewAction = function(){
-            this.numOfActions += 1;
+     this.removeAction = function($index){
+        this.currentObject.actions.splice($index, 1);
     };
 
     this.isValidAttribute = function(val){
@@ -69,7 +58,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addActionObject = function(){
-        this.numOfActions += 1;
+        this.currentObject.actions.push({name: '', operand1: '', operator: '', operand2: ''});
     };
 
     this.getAttributeName = function(val){
@@ -81,8 +70,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addNewObject = function() {
-        var empty = {name: 'new object', attributes: [{name: 'attr', type: 'number'}]};
-        this.showObjectDetails(empty);
+        this.currentObject = {name: '', attributes: [], actions: []};
     };
 
     this.getObjectAction = function(actionName, operand2){
@@ -114,43 +102,26 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
-    this.editObject = function($scope, name, all_attrs, all_acts){
-        if ($scope.objectName == '' || $scope.objectName == 'Invalid Name!') {
-            $scope.objectName = 'Invalid Name!'
-        }
-        else {
-            var all_attributes = all_attrs.filter(this.isValidAttribute);
-            var all_actions = all_acts.filter(this.isValidActionObject);
-            var newObject = {
-                id: this.currentObject.id,
-                name: $scope.objectName,
-                attributes:  all_attributes,
-                actions: all_actions
-            };
-            $scope.message = "Updating object...";//TODO
-            $scope.showArea("messageArea");
-            $scope.removeObjectFromAppList($scope, $scope.currentApplication.id, this.currentObject);
-            $scope.addObjectToApplication(newObject);
-            this.currentObject = newObject;
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(newObject)));
-            $scope.showObjectDetails(newObject);
-        }
-        };
+    this.editObject = function($scope, object){
+        $scope.message = "Updating object...";
+        this.removeObjectFromApplication($scope, object.name);
+        $scope.addObjectToApplication(this.currentObject);
+        $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(this.currentObject)));
 
-    this.editObjectDetails = function($scope, $event, object){
-        $event.stopPropagation();
-        this.currentObject = object;
-        $scope.objectName = this.currentObject.name;
-        $scope.hideArea("objectCreateArea");
-        $scope.showArea("objectEditArea");
-        $scope.hideArea("objectDetailsArea");
-        //$scope.hideArea("objectAddArea");
     };
 
-    this.removeObjectFromAppList= function($scope, appId){
-        for(var i = $scope.applications[appId].objects.length - 1; i >= 0; i--){
-            if($scope.applications[appId].objects[i] == this.currentObject){
-                $scope.applications[appId].objects.splice(i,1);
+    this.showObjectEditArea = function($scope, $event, object){
+        $event.stopPropagation();
+        
+        this.currentObject = object;
+        $scope.objectName = this.currentObject.name;
+        
+    };
+
+    this.removeObjectFromApplication= function($scope, objectName){
+        for(var i = $scope.getCurrentApplication().objects.length - 1; i >= 0; i--){
+            if($scope.getCurrentApplication().objects[i].name == objectName){
+                $scope.getCurrentApplication().objects.splice(i,1);
             }
         }
     };

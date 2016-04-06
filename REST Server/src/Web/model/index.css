@@ -3,7 +3,7 @@ body{
     overflow-x: hidden;
 }
 
-.designAreaTabs{
+.designAreaTopMenu {
     position: relative;
     height: 10%;
     top: 0;
@@ -15,7 +15,7 @@ body{
     white-space: nowrap;
 }
 
-.designAreaButtons{
+.designAreaPage {
     position: relative;
     height: 80%;
     top: -3%;

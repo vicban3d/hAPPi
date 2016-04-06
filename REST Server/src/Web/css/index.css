@@ -9,47 +9,10 @@ body{
     width: 100%;
 }
 
-.loadingArea{
-    position: absolute;
-    border-radius: 70%;
-    top: 20%;
-    left: 15%;
-    height: 50%;
-    width: 50%;
-    padding: 1%;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 0 10px 10px rgba(0,0,0,0.3);
-    background-color: lightyellow;
-}
-
-.loadingArea:before {      /* create a full-height inline block pseudo-element */
-    content: ' ';
-    display: inline-flex;
-    vertical-align: middle; /* vertical alignment of the inline element */
-    height: 100%;
-}
-
-.childLoading {
-    display: inline-flex;
-    vertical-align: middle;          /* vertical alignment of the inline element */
-    padding: 5px;
-    border: 2px solid black;
-    font-style:italic;
-    font-weight: bold;
-    font-size:500%;
-}
-
 .workAreaComponent{
     float: left;
     width: 12%;
     background-color: white;
-}
-
-.menuArea{
-    left: 2%;
-    width: 10%;
-    height: 90%;
 }
 
 .centralArea{
@@ -65,18 +28,18 @@ body{
 .centralAreaComponent{
     float: left;
     position: relative;
-    top: -3%;
     width: 100%;
     height: 100%;
-    background-color: white;
     overflow-y: auto;
     overflow-x: hidden;
-    border: white inset thin;
+    border-left: white inset thin;
+    border-left: white inset thin;
+    border-bottom: none;
+    border-top: none;
 }
 
 .designArea{
     background-color: grey;
-    position: relative;
     overflow: hidden;
 }
 
@@ -86,73 +49,22 @@ body{
     left: 20%;
     width: 60%;
     height: 90%;
-}
-
-.designAreaPhoneBG{
-    z-index: 0;
-    height: 89%;
-}
-
-.designAreaGrid{
+    display: inline-block;
     z-index: 1;
-    display: inline-block;
 }
 
-.sideAreaComponent {
-    float: left;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: darkgrey;
-    border-radius: 0 10% 10% 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.designAreaToolbar{
-    width: 12%;
-    height: 90%;
-    position: absolute;
-    top:8%;
-    left:2%;
-    background: #7aba7b;
-    text-align: center;
-}
-
-.designAreaToolbarButton{
-    position: relative;
-    display: inline-block;
-    width: 50%;
-    height:5%;
-    margin: 10%;
-    padding:10%;
-    border-radius: 20%;
-    background-color: lightblue;
-    cursor: pointer;
-}
-
-.designWidgetsToolbar{
-    width: 25%;
-    height: 100%;
-    position: absolute;
-    top:0;
-    left:0;
-    background: lightblue;
-}
-
-.designAreaTabs{
+.designAreaTopMenu {
     position: relative;
     height: 10%;
     top: 0;
     left: 0;
-    background: lightgreen;
     z-index: 2;
     overflow-x: auto;
     overflow-y: auto;
     white-space: nowrap;
 }
 
-.designAreaButtons{
+.designAreaPage {
     position: relative;
     height: 80%;
     top: -3%;
@@ -197,50 +109,8 @@ body{
     text-align: center;
 }
 
-/*.componentButton:hover, .componentButtonControl:hover, .addFormFieldsButton:hover, .designAreaToolbarButton:hover .draggableComponent:hover{*/
-    /*box-shadow: 0 0 5px 4px rgba(255, 28, 0, 0.5);*/
-/*}*/
-
-.componentButtonAdd{
-    background: transparent url("http://localhost:5555/img/plus-icon.png") no-repeat center;
-    background-size: 50%;
-    cursor: hand;
-}
-
 .componentButtonControl {
-    display: inline-block;
-    min-width: 20%;
-    min-height: 20%;
-    max-width: 20%;
-    max-height: 20%;
-    width: 20%;
-    height: 20%;
-    position: absolute;
-    top: 2%;
-    font-weight: bold;
-    border-radius: 30%;
-    line-height: 100%;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
-}
-
-.componentButtonControlDelete{
-    color: red;
-    background: transparent url("http://localhost:5555/img/red-x-icon.png") no-repeat center;
-    background-size: contain;
-    left: 2%;
-}
-
-.componentButtonControlEdit{
-    color: yellow;
-    background: transparent url("http://localhost:5555/img/config-icon.png") no-repeat center;
-    background-size: contain;
-    left: 26%;
-}
-
-.editArea {
-    position: relative;
-    left: 5%;
-    top:10px;
+    height: 2%;
 }
 
 .addFormFieldsButton{
@@ -262,46 +132,31 @@ body{
     cursor: hand;
 }
 
-.menuButton{
-    width: 10%;
-    font-size: 125%;
-    cursor: pointer;
-}
-
-.secondMenu{
-    background-color: white;
-}
-
-.secondMenu a{
-    color:black;
-}
-
-.addActionArea{
-    position: absolute;
-    left: 50%;
-    top:0;
-    background-color: #5bc0de;
-    width: 50%;
-    height: 100%;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
-}
-
-.addConditionArea{
-    position: absolute;
-    left: 50%;
-    top:0;
-    background-color: #5bc0de;
-    width: 50%;
-    height: 100%;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
+.removeFormFieldsButton{
+    color: green;
+    position: relative;
+    left: 2%;
+    top: 3px;
+    font-size: medium;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 50%;
+    background: transparent url("http://localhost:5555/img/minus-icon.png") no-repeat center;
+    background-size: contain;
+    display: inline-block;
+    min-width: 2%;
+    min-height: 2%;
+    max-width: 2%;
+    max-height: 2%;
+    cursor: hand;
 }
 
 .componentMainTitle{
     position: relative;
     text-align: center;
-    color: grey;
-    font-size: 1vw;
-    background-color: rgb(34,34,34);;
+    color: black;
+    font-size: 20px;
+    background-color: white;
 }
 
 .componentListTitle{
@@ -327,62 +182,6 @@ body{
     padding-left: 1%;
     margin: 1%;
     width: 90%;
-}
-
-.draggableComponent{
-    z-index: 2;
-    margin: 5%;
-    cursor: all-scroll;
-}
-
-.draggableButton{
-    display: inline-block;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    float: none;
-    width: auto;
-    height: auto;
-    position: static;
-    opacity: 1;
-    overflow: visible;
-    border: none;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    font: normal 18px/normal "Quantico", Helvetica, sans-serif;
-    color: rgba(255,255,255,0.9);
-    -o-text-overflow: clip;
-    text-overflow: clip;
-    background: rgb(125, 213, 105);
-    -webkit-background-origin: padding-box;
-    background-origin: padding-box;
-    -webkit-background-clip: border-box;
-    background-clip: border-box;
-    -webkit-background-size: 24px auto;
-    background-size: 24px auto;
-    -webkit-box-shadow: 1px 1px 0 0 #599f3f ;
-    text-shadow: 1px 1px 0 rgba(168,168,168,0.66) ;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
-    -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-    -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-    -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-    transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-    -webkit-transform: none;
-    transform: none;
-    -webkit-transform-origin: 50% 50% 0;
-    transform-origin: 50% 50% 0;
-    margin: 2%;
-    cursor: pointer;
-    min-width: 20%;
-    min-height: 10%;
-    z-index: 3;
-}
-
-.message{
-    position: absolute;
-    left: 55%;
-    top: 7%;
-    font-size: 150%;
 }
 
 .mergeLeft {
@@ -455,7 +254,7 @@ div.appDiv{
 span.addAppButton{
     height: 34px;
     width: 34px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .floatLeft{
@@ -467,4 +266,41 @@ span.addAppButton{
     width: 30%;
     margin-left: 35%;
 
+}
+
+.applicationsList{
+    width: 30%;
+    display: inline-block;
+}
+
+.applicationEditArea{
+    width: 70%;
+}
+
+.objectsList{
+    width: 50%;
+    display: inline-block;
+}
+
+.menuTab{
+    color: black;
+    font-size: 16px;
+}
+
+.checkbox{
+    margin-left: 10px;
+    width: 30%;
+}
+
+.checkboxIcon{
+    background-size: 50%;
+    height: 50px;
+    width: 50px;
+    padding: 0 0 0 0;
+}
+.debug{
+    position: absolute;
+    height: 3%;
+    top: 92%;
+    width: 100%;
 }
