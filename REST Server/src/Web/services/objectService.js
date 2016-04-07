@@ -3,9 +3,6 @@
  */
 main_module.service('objectService',[function(){
 
-    this.numOfAttributes = 0;
-    this.numOfActions = 0;
-
     this.currentObject = {
         id: '',
         name: '',
@@ -13,32 +10,35 @@ main_module.service('objectService',[function(){
         actions: []
     };
 
-    this.getNumOfAttributes = function(){
-        return this.numOfAttributes;
+    this.addNewObject = function() {
+        this.currentObject = {id: '', name: '', attributes: [], actions: []};
     };
 
-    this.getNumOfActions = function(){
-        return this.numOfActions;
+    this.addObject = function(application) {
+        this.currentObject.id = generateUUID();
+        addObjectToApplication(application, this.currentObject);
     };
 
-    this.addObject = function($scope) {
-        this.currentObject.id = $scope.generateUUID();
-        this.currentObject.attributes = this.currentObject.attributes.filter(this.isValidAttribute);
-        this.currentObject.actions = this.currentObject.actions.filter(this.isValidActionObject);
-        $scope.addObjectToApplication(this.currentObject);
-        $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(this.currentObject)));
+    this.editObject = function(application, object){
+        removeObjectFromApplication(application, object.name);
+        addObjectToApplication(application, this.currentObject);
     };
 
-    this.deleteObject = function($scope, object){
-        var index =  $scope.getCurrentApplication().objects.indexOf(object);
-        $scope.getCurrentApplication().objects.splice(index, 1);
-        if (object == this.currentObject){
-            this.currentObject = {};
+    this.deleteObject = function(application, object){
+       removeObjectFromApplication(application, object.name);
+        this.currentObject = {};
+    };
+
+    var addObjectToApplication = function(application, object){
+        application.objects.push(object);
+    };
+
+    var removeObjectFromApplication= function(application, objectName){
+        for(var i = application.objects.length - 1; i >= 0; i--){
+            if(application.objects[i].name == objectName){
+                application.objects.splice(i,1);
+            }
         }
-        if (!$scope.getCurrentApplication().objects.length){
-            $scope.showNoMembersImage = true;
-        }
-        $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object)));
     };
 
     this.addAttribute = function(){
@@ -49,28 +49,12 @@ main_module.service('objectService',[function(){
       this.currentObject.attributes.splice($index, 1);
     };
 
-     this.removeAction = function($index){
-        this.currentObject.actions.splice($index, 1);
-    };
-
-    this.isValidAttribute = function(val){
-        return val.name != '' && val.type != '';
-    };
-
-    this.addActionObject = function(){
+    this.addAction = function(){
         this.currentObject.actions.push({name: '', operand1: '', operator: '', operand2: ''});
     };
 
-    this.getAttributeName = function(val){
-        return val.name;
-    };
-
-    this.isValidActionObject = function(val){
-        return val.name != '' && val.operand1 != '' && val.operator != '' && val.operand2 != '';
-    };
-
-    this.addNewObject = function() {
-        this.currentObject = {name: '', attributes: [], actions: []};
+    this.removeAction = function($index){
+        this.currentObject.actions.splice($index, 1);
     };
 
     this.getObjectAction = function(actionName, operand2){
@@ -102,27 +86,4 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
-    this.editObject = function($scope, object){
-        $scope.message = "Updating object...";
-        this.removeObjectFromApplication($scope, object.name);
-        $scope.addObjectToApplication(this.currentObject);
-        $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(this.currentObject)));
-
-    };
-
-    this.showObjectEditArea = function($scope, $event, object){
-        $event.stopPropagation();
-        
-        this.currentObject = object;
-        $scope.objectName = this.currentObject.name;
-        
-    };
-
-    this.removeObjectFromApplication= function($scope, objectName){
-        for(var i = $scope.getCurrentApplication().objects.length - 1; i >= 0; i--){
-            if($scope.getCurrentApplication().objects[i].name == objectName){
-                $scope.getCurrentApplication().objects.splice(i,1);
-            }
-        }
-    };
 }]);

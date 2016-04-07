@@ -21,10 +21,10 @@
     </div>
 </nav>
 
-<div class="designAreaButtons" data-ng-show="showBehaviors">
+<div class="designAreaButtons" data-ng-show="showEmulatorMainPage">
     <button class="btn btn-primary btn-block" ng-repeat="behavior in behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
 </div>
-<div class="designAreaButtons" data-ng-show="showInstance" data-ng-init="attribute_values=[]">
+<div class="designAreaButtons" data-ng-show="!showEmulatorMainPage" data-ng-init="attribute_values=[]">
     <form class="form-horizontal" role="form" data-ng-repeat="attr in currentInstance.attributes track by $index">
         <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
     </form>

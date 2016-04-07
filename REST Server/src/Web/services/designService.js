@@ -4,23 +4,17 @@
 main_module.service('designService',[function(){
 
     this.currentInstance = [];
-    this.showInstance = false;
-    this.showBehaviors = true;
+    this.showEmulatorMainPage = true;
     this.emulatorOutput = '';
 
-    this.getShowInstance = function(){
-        return this.showInstance;
-    };
-
-    this.getShowBehaviors = function(){
-        return this.showBehaviors;
+    this.getShowEmulatorMainPage = function(){
+        return this.showEmulatorMainPage;
     };
 
     this.designDisplayObjectPage = function(object){
         this.currentInstance = object;
         this.emulatorOutput = '';
-        this.showInstance = true;
-        this.showBehaviors = false;
+        this.showEmulatorMainPage = false;
     };
 
     this.addInstance = function($scope, attributes){

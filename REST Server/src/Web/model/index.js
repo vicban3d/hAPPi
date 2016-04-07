@@ -6,8 +6,7 @@ main_module.controller('ctrl_main', ['$scope',
         $scope.objects = [];
         $scope.behaviors = [];
         $scope.currentInstance = '';
-        $scope.showBehaviors = true;
-        $scope.showInstance = false;
+        $scope.showEmulatorMainPage = true;
         $scope.attribute_values = [];
         $scope.instances = [];
         $scope.emulatorOutput = '';
@@ -21,13 +20,11 @@ main_module.controller('ctrl_main', ['$scope',
 
         $scope.designDisplayObjectPage = function(object){
             $scope.currentInstance = object;
-            $scope.showBehaviors = false;
-            $scope.showInstance = true;
+            $scope.showEmulatorMainPage = false;
         };
 
         $scope.designDisplayBehaviorPage = function(){
-            $scope.showBehaviors = true;
-            $scope.showInstance = false;
+            $scope.showEmulatorMainPage = true;
         };
 
         $scope.addInstance = function(){
