@@ -303,6 +303,17 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.getObjectAction = function(actionName, operand2){ return objectService.getObjectAction(actionName, operand2); };
 
         $scope.editObject = function(object){
+            var all_behaviors = appService.currentApplication.behaviors;
+            for (var i=0; i< all_behaviors.length; i++){
+                if (all_behaviors[i].operandObject == object){
+                    all_behaviors[i].operandObject = objectService.currentObject;
+                    if (objectService.currentObject.attributes.indexOf(objectService.currentObject.operandAttribute) >= 0){
+                        all_behaviors[i].operandAttribute = objectService.currentObject.operandAttribute;
+                    } else {
+                        alert("Warning: Operand in behavior " + all_behaviors[i].name + " was deleted or replaced!");
+                    }
+                }
+            }
             objectService.editObject(appService.currentApplication, object);
             $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(objectService.currentObject)));
             $scope.indexToShow = -1;
@@ -358,6 +369,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addCondition = function(){behaviorService.addCondition();};
 
+        $scope.removeCondition = function($index){behaviorService.removeCondition($index);};
+
         $scope.getBehaviorAction = function(object, actionName, conditions){return behaviorService.getBehaviorAction($scope, object, actionName, conditions);};
 
         $scope.showBehaviorEditArea = function($event, behavior){
@@ -369,7 +382,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     name: behavior.name,
                     operandObject: behavior.operandObject,
                     operator: behavior.operator,
-                    operand: behavior.operandAttribute,
+                    operandAttribute: behavior.operandAttribute,
                     conditions: copyArray(behavior.conditions)
                 };
             } else {

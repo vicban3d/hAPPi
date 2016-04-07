@@ -260,7 +260,7 @@
             <div class="mergeLeft" data-ng-show="areaFlags['behaviorCreateArea']">
                 <form>
                     <div class="form-group">
-                        <label>Name:</label>
+                        <label>Name:</label><br>
                         <input type="text" data-ng-model="getCurrentBehavior().name" placeholder="Enter Behavior Name">
                     </div>
                     <div class="form-group">
@@ -277,7 +277,7 @@
                     <div class="form-group">
                         <label>Conditions:</label>
                         <br>
-                        <div data-ng-repeat="condition in getCurrentBehavior.conditions track by $index">
+                        <div data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
                             <form class="editArea">
                                 {{$index + 1}}.
                                 Attribute:
@@ -287,6 +287,7 @@
                                 Value:
                                 <input type="text" ng-model="condition.value">
                             </form>
+                            <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
                         </div>
                         <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
                     </div>
@@ -319,8 +320,7 @@
                                 </div>
                                 <hr>
                                 <label>Conditions:</label>
-                                <hr>
-                                <div data-ng-repeat="condition in getCurrentBehavior.conditions track by $index">
+                                <div data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
                                     <form class="editArea">
                                         {{$index + 1}}.
                                         Attribute:
@@ -330,6 +330,7 @@
                                         Value:
                                         <input type="text" ng-model="condition.value">
                                     </form>
+                                    <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
                                 </div>
                                 <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
                                 <hr>

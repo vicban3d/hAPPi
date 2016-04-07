@@ -55,11 +55,17 @@ main_module.service('behaviorService',[function(){
         this.currentBehavior.conditions.push({attribute: {}, logicOperation: '', value: ''})
     };
 
+    this.removeCondition = function($index){
+        this.currentBehavior.conditions.splice($index, 1);
+    };
+
     var getAccumulatedValue = function($scope, object, operand, initial, accumulatorFunction){
-        var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
+
+        var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand.name);
+        $scope.message = index;
         var result = 0;
         if (index < 0){
-            var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand);
+            var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand.name);
             var actionName = object.actions[actionIndex].operator;
             var operand1 = object.actions[actionIndex].operand1.name;
             var operand2 = object.actions[actionIndex].operand2;
