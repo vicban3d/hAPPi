@@ -78,12 +78,23 @@
 <div data-ng-show="areaFlags['myApps']">
     <div>
         <h3  style="text-align: center;">My Apps</h3>
-        <div class="applicationsList" data-ng-init="indexToShow = -1">
-            <a href="#" class="list-group-item" data-ng-repeat="application in applications track by $index">
-                <div class="list-group-item">
-                    <div data-ng-click="getApplication(application);menuAddObjects()">
-                        <img class="componentButtonControl" src="http://localhost:5555/img/config-icon.png" data-ng-click="showApplicationEditArea($event, application)"/>
-                        <span>{{application.name}}</span>
+        <div  style="text-align: center;" class="applicationsList" data-ng-init="indexToShow = -1">
+            <div href="#" class="list-group-item" data-ng-repeat="application in applications track by $index">
+                <!--<div class="list-group-item">-->
+                    <div>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="width: 80%; padding-left: 1%;">
+                                    <span class="applicationTitle">{{application.name}}</span>
+                                </td>
+                                <td style="width: 10%; padding-left: 1%;">
+                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showApplicationEditArea($event, application)" data-ng-show="!(indexToShow == application.id)">
+                                </td>
+                                <td style="width: 10%; padding-left: 1%;">
+                                    <input type="button" value="Start >" class="btn btn-primary btn-app-list" data-ng-click="getApplication(application);menuAddObjects()" data-ng-show="!(indexToShow == application.id)">
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="applicationEditArea" data-ng-show="indexToShow == application.id">
                         <hr>
@@ -131,8 +142,8 @@
                         <button type="button" class="btn btn-primary" data-ng-click="editApplication(application)">Save</button>
                         <button type="button" class="btn btn-warning" style="margin-left: 30%" data-ng-click="deleteApplication(application)">Delete</button>
                     </div>
-                </div>
-            </a>
+                <!--</div>-->
+            </div>
         </div>
     </div>
 </div>

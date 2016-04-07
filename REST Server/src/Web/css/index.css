@@ -270,7 +270,7 @@ span.addAppButton{
 
 .applicationsList{
     width: 30%;
-    display: inline-block;
+    margin-left: 35%;
 }
 
 .applicationEditArea{
@@ -297,10 +297,21 @@ span.addAppButton{
     height: 50px;
     width: 50px;
     padding: 0 0 0 0;
+    cursor: hand;
 }
 .debug{
     position: absolute;
     height: 3%;
     top: 92%;
     width: 100%;
+}
+
+.btn-app-list{
+    width: 100%;
+    margin-left: 5px;
+}
+
+.applicationTitle{
+    font-size: 16px;
+    font-weight: bold;
 }

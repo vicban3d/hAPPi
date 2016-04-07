@@ -60,9 +60,7 @@ main_module.service('behaviorService',[function(){
     };
 
     var getAccumulatedValue = function($scope, object, operand, initial, accumulatorFunction){
-
         var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand.name);
-        $scope.message = index;
         var result = 0;
         if (index < 0){
             var actionIndex = object.actions.map(function(a) {return a.name;}).indexOf(operand.name);
