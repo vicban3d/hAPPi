@@ -27,7 +27,7 @@ public interface Database {
      * Removes the document with the given ID from the database.
      * @param documentID the id of the collection to remove.
      */
-    void removeData(String documentID);
+    void removeData(String documentID, String username);
 
     /**
      * Updates the document with the given ID in the database.
@@ -40,7 +40,7 @@ public interface Database {
      * @param documentId the ID of the document to retrieve.
      * @return the requested document.
      */
-    Document getData(String documentId);
+    Document getData(String documentId, String username);
 
     /**
      * Adds a new document to the database.

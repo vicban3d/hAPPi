@@ -30,6 +30,7 @@ public class MongoDB implements Database {
      */
 
     private MongoClient mongoClient;
+    private String username;
 
     public MongoDB() {
     }
@@ -41,14 +42,25 @@ public class MongoDB implements Database {
         Logger.SEVERE("Database started.");
     }
 
+
     @Override
     public void addData(Document document) {
-        String id = document.getString("id");
-        Document doc =  new Document();
-        doc.append(id, document);
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        db.getCollection(id).insertOne(doc);
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put("username", document.getString("user"));
+        FindIterable<Document> docs = db.getCollection("UserApplications").find(whereQuery);
+        Document first = docs.first();
+        if(first == null){
+            first = new Document();
+            first.append("username", document.getString("user")).append(document.getString("id"), document);
+            db.getCollection("UserApplications").insertOne(first);
+        }
+        else {
+            first.append(document.getString("id"), document);
+            db.getCollection("UserApplications").findOneAndReplace(whereQuery, first);
+        }
     }
+
 
     public void addUser(Document document){
         String id = document.getString("username");
@@ -59,23 +71,37 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void removeData(String documentID) {
+    public void removeData(String documentID, String username) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        db.getCollection(documentID).drop();
+        BasicDBObject usernameQuery = new BasicDBObject();
+        usernameQuery.put("username", username);
 
+        Document userApplications = db.getCollection("UserApplications").find(usernameQuery).first();
+        userApplications.remove(documentID);
+
+        db.getCollection("UserApplications").findOneAndReplace(usernameQuery, userApplications);
     }
 
     @Override
     public void updateData(Document document) {
-        removeData(document.getString("id"));
-        addData(document);
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        BasicDBObject usernameQuery = new BasicDBObject();
+        usernameQuery.put("username", document.getString("user"));
+
+        Document userApplications = db.getCollection("UserApplications").find(usernameQuery).first();
+        userApplications.remove(document.getString("id"));
+        userApplications.put(document.getString("id"), document);
+
+        db.getCollection("UserApplications").findOneAndReplace(usernameQuery, userApplications);
     }
 
     @Override
-    public Document getData(String documentId) {
+    public Document getData(String documentId, String username) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        Document doc = db.getCollection(documentId).find().first();
-        doc = (Document)doc.get(documentId);
+        BasicDBObject usernameQuery = new BasicDBObject();
+        usernameQuery.put("username", username);
+        Document userApp = db.getCollection("UserApplications").find(usernameQuery).first();
+        Document doc = (Document) userApp.get(documentId);
         String id = doc.getString("id");
         String name = doc.getString("name");
         User user = (User)doc.get("user");

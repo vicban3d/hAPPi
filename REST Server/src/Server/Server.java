@@ -58,7 +58,7 @@ public class Server implements RESTServer {
     @Override
     public String buildApplication(Application application) {
         try {
-            return facade.buildApplication(application.getId());
+            return facade.buildApplication(application.getId(), application.getUser());
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed to build application", e.getMessage());
             return "Error building application " + application;
@@ -74,7 +74,7 @@ public class Server implements RESTServer {
     @Override
     public String createObject(ApplicationObject data){
         try {
-            facade.createObject(currentlySelectedApplication.getId(), data);
+            facade.createObject(currentlySelectedApplication.getId(), currentlySelectedApplication.getUser(), data);
             return "Object " + data.getName() + " added!";
         }
         catch (Exception e) {
@@ -87,7 +87,7 @@ public class Server implements RESTServer {
     @Override
     public String removeObject(ApplicationObject data) {
         try {
-            facade.removeObject(currentlySelectedApplication.getId(), data);
+            facade.removeObject(currentlySelectedApplication.getId(), currentlySelectedApplication.getUser(), data);
         } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to remove object!";
@@ -98,7 +98,7 @@ public class Server implements RESTServer {
     @Override
     public String createBehavior(ApplicationBehavior data){
         try {
-            facade.createBehavior(currentlySelectedApplication.getId(), data);
+            facade.createBehavior(currentlySelectedApplication.getId(), currentlySelectedApplication.getUser(), data);
             return "Behavior " + data.getName() + " added!";
         }  catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
@@ -109,7 +109,7 @@ public class Server implements RESTServer {
     @Override
     public String removeBehavior(ApplicationBehavior data) {
         try {
-            facade.removeBehavior(currentlySelectedApplication.getId(), data);
+            facade.removeBehavior(currentlySelectedApplication.getId(), currentlySelectedApplication.getUser(), data);
         } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to remove behavior!";
@@ -120,7 +120,7 @@ public class Server implements RESTServer {
     @Override
     public String updateBehavior(ApplicationBehavior data) {
         try {
-            facade.updateApplicationBehavior(currentlySelectedApplication.getId(), data);
+            facade.updateApplicationBehavior(currentlySelectedApplication.getId(), currentlySelectedApplication.getUser(), data);
         } catch (Exception e) {
             Logger.ERROR("Error : failed to update application object!", e.getMessage());
             return "Error: Failed to update application object!";
@@ -149,7 +149,7 @@ public class Server implements RESTServer {
     @Override
     public String removeApplication(Application application) {
         try {
-            facade.removeApplication(application.getId());
+            facade.removeApplication(application.getId(), application.getUser());
         }
         catch (Exception e){
             Logger.ERROR("Failed to remove application", e.getMessage());
@@ -177,7 +177,7 @@ public class Server implements RESTServer {
     @Override
     public String updateObject(ApplicationObject data) {
         try {
-            facade.updateApplicationObject(currentlySelectedApplication.getId(), data);
+            facade.updateApplicationObject(currentlySelectedApplication.getId(),currentlySelectedApplication.getUser(), data);
         } catch (Exception e) {
             Logger.ERROR("Error : failed to update application object!", e.getMessage());
             return "Error: Failed to update application object!";

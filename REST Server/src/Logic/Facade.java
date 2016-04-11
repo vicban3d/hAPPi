@@ -27,21 +27,21 @@ public interface Facade {
      * Compiles and builds the application.
       * @param appId - the name of the application to build.
       */
-    String buildApplication(String appId) throws CordovaRuntimeException, IOException, DbxException;
+    String buildApplication(String appId, String user) throws CordovaRuntimeException, IOException, DbxException;
 
     /**
      * Creates a new object in the given application.
      * @param appId - the id of the application.
      * @param object - the JSON compatible parameters of the object.
      */
-    void createObject(String appId, ApplicationObject object);
+    void createObject(String appId, String user, ApplicationObject object);
 
     /**
      * Removes an object from the given application.
      * @param appId - the id of the application.
      * @param object - the JSON compatible parameters of the object.
      */
-    void removeObject(String appId, ApplicationObject object);
+    void removeObject(String appId, String user, ApplicationObject object);
 
     /**
      * Initiates a connection to the database.
@@ -50,23 +50,23 @@ public interface Facade {
 
     void clearDatabase();
 
-    void removeApplication(String appId);
+    void removeApplication(String appId, String user);
 
     void updateApplication(Application application) throws IOException, CordovaRuntimeException;
 
     void removePlatforms(String application);
 
-    void createBehavior(String appId, ApplicationBehavior behavior);
+    void createBehavior(String appId, String user, ApplicationBehavior behavior);
 
-    void removeBehavior(String appId, ApplicationBehavior behavior);
+    void removeBehavior(String appId, String user, ApplicationBehavior behavior);
 
     Database getDataBase();
 
     String getPage(String page);
 
-    void updateApplicationObject(String appId, ApplicationObject object);
+    void updateApplicationObject(String appId, String user, ApplicationObject object);
 
-    void updateApplicationBehavior(String appId, ApplicationBehavior behavior);
+    void updateApplicationBehavior(String appId, String user, ApplicationBehavior behavior);
 
     void addUser(User user);
 }
