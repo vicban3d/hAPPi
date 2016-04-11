@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RESTful Service/Server/Server.class" afterPath="$PROJECT_DIR$/out/production/RESTful Service/Server/Server.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/index.html" afterPath="$PROJECT_DIR$/REST Server/src/Web/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" afterPath="$PROJECT_DIR$/out/production/RESTful Service/Web/index.html" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
@@ -44,8 +40,10 @@
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
-              <folding />
+              <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+              <folding>
+                <marker date="1460379749021" expanded="true" signature="20353:20359" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,7 +52,7 @@
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/model/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="8" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
+              <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -64,11 +62,9 @@
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/services/appService.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="109" column="30" selection-start-line="109" selection-start-column="28" selection-end-line="109" selection-end-column="30" />
+              <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
               <folding>
                 <element signature="e#0#41#0" expanded="false" />
-                <marker date="1459754115690" expanded="true" signature="426:663" placeholder="{...}" />
-                <marker date="1459754115690" expanded="true" signature="5850:5856" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -99,29 +95,25 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36856368">
-              <caret line="149" column="14" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.6507177">
+              <caret line="126" column="37" selection-start-line="126" selection-start-column="37" selection-end-line="126" selection-end-column="37" />
               <folding>
                 <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#h3#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#hr#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#nav#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#4;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#table#0;n#div#1;n#div#1;n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h2#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#hr#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#2;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#td#1;n#tr#0;n#table#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#2;n#form#0;n#div#1;n#div#0;n#a#0;n#div#3;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#2;n#form#0;n#div#1;n#div#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,8 +122,8 @@
       <file leaf-file-name="behaviorService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.172414">
-              <caret line="238" column="44" selection-start-line="238" selection-start-column="25" selection-end-line="238" selection-end-column="44" />
+            <state vertical-scroll-proportion="10.965517">
+              <caret line="184" column="44" selection-start-line="184" selection-start-column="44" selection-end-line="184" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -140,8 +132,8 @@
       <file leaf-file-name="objectService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/REST Server/src/Web/services/objectService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="7.413793">
-              <caret line="118" column="47" selection-start-line="118" selection-start-column="47" selection-end-line="118" selection-end-column="47" />
+            <state vertical-scroll-proportion="8.620689">
+              <caret line="81" column="32" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -226,8 +218,8 @@
         <option value="$PROJECT_DIR$/REST Server/src/Web/services/designService.js" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/services/objectService.js" />
-        <option value="$PROJECT_DIR$/REST Server/src/Web/index.html" />
         <option value="$PROJECT_DIR$/REST Server/src/Web/js/app.js" />
+        <option value="$PROJECT_DIR$/REST Server/src/Web/index.html" />
       </list>
     </option>
   </component>
@@ -560,33 +552,18 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Database/Database.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Database/MongoDB.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Logic/Application.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Logic/Facade.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Logic/hAPPiFacade.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Server/RESTServer.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Server/Server.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Tests/UnitTests/ServerTest.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Utility/Strings.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/css/index.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/android_disabled.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/android_enabled.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ios_disabled.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ios_enabled.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/plus-icon.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/wp_disabled.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/wp_enabled.png</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/index.html</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/js/app.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/js/strings.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/js/util.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/model/index.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/model/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/model/main.html</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/services/appService.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/services/designService.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/RESTful Service/Server/Server.class</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/out/production/RESTful Service/Web/index.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/services/objectService.js</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -594,11 +571,13 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Logic/User.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/no_behaviors.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/no_objects.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/js/signup.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/signup.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/android_checkbox.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/android_checkbox_checked.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ios_checkbox.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ios_checkbox_checked.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/minus-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/wp_checkbox.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/wp_checkbox_checked.png</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -606,21 +585,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/android-logo.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/android1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/android_enable.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/grid.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ios1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ios_enable.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ios_enabled.psd</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/ioslogo.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/loader.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/phone.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/smartphone.PNG</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/trash.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/win10-logo.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/windows1.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/REST Server/src/Web/img/windows_enable.jpg</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -1358,19 +1322,7 @@
       <workItem from="1457956713227" duration="859000" />
       <workItem from="1458044382689" duration="29017000" />
       <workItem from="1458644897420" duration="34381000" />
-      <workItem from="1459234214816" duration="12738000" />
-    </task>
-    <task id="LOCAL-00032" summary="Fixed.">
-      <created>1447521369250</created>
-      <option name="number" value="00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1447521369250</updated>
-    </task>
-    <task id="LOCAL-00033" summary="Sanity">
-      <created>1447523516387</created>
-      <option name="number" value="00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1447523516387</updated>
+      <workItem from="1459234214816" duration="16654000" />
     </task>
     <task id="LOCAL-00034" summary="Working">
       <created>1447575013264</created>
@@ -1654,7 +1606,19 @@
       <option name="project" value="LOCAL" />
       <updated>1459182420886</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Edit behavior">
+      <created>1459757558599</created>
+      <option name="number" value="00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1459757558631</updated>
+    </task>
+    <task id="LOCAL-00082" summary="Edit behavior">
+      <created>1459757577496</created>
+      <option name="number" value="00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1459757577496</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1690,7 +1654,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="433741000" />
+    <option name="totallyTimeSpent" value="437657000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1713,7 +1677,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26552796" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3431677" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26708075" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32989025" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1748,7 +1712,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added database interface to decrease cohesion" />
     <MESSAGE value="Added buttons for other platforms" />
     <MESSAGE value="Fixed add android function" />
     <MESSAGE value="Fixed." />
@@ -1773,7 +1736,8 @@
     <MESSAGE value="Test behavior" />
     <MESSAGE value="Test fixed" />
     <MESSAGE value="Edit object" />
-    <option name="LAST_COMMIT_MESSAGE" value="Edit object" />
+    <MESSAGE value="Edit behavior" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edit behavior" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2138,16 +2102,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/services/objectService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.413793">
-          <caret line="118" column="47" selection-start-line="118" selection-start-column="47" selection-end-line="118" selection-end-column="47" />
+        <state vertical-scroll-proportion="8.620689">
+          <caret line="81" column="32" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/services/behaviorService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.172414">
-          <caret line="238" column="44" selection-start-line="238" selection-start-column="25" selection-end-line="238" selection-end-column="44" />
+        <state vertical-scroll-proportion="10.965517">
+          <caret line="184" column="44" selection-start-line="184" selection-start-column="44" selection-end-line="184" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -2155,7 +2119,7 @@
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/model/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="8" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
+          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -2163,11 +2127,9 @@
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/services/appService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="109" column="30" selection-start-line="109" selection-start-column="28" selection-end-line="109" selection-end-column="30" />
+          <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
-            <marker date="1459754115690" expanded="true" signature="426:663" placeholder="{...}" />
-            <marker date="1459754115690" expanded="true" signature="5850:5856" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -2175,8 +2137,10 @@
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
-          <folding />
+          <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+          <folding>
+            <marker date="1460379749021" expanded="true" signature="20353:20359" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2190,29 +2154,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/REST Server/src/Web/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36856368">
-          <caret line="149" column="14" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.6507177">
+          <caret line="126" column="37" selection-start-line="126" selection-start-column="37" selection-end-line="126" selection-end-column="37" />
           <folding>
             <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#hr#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#nav#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#4;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#table#0;n#div#1;n#div#1;n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h2#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#hr#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#1;n#tr#0;n#table#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#2;n#form#0;n#div#1;n#div#0;n#a#0;n#div#3;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#2;n#form#0;n#div#1;n#div#0;n#a#0;n#div#3;n#div#1;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
