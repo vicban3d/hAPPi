@@ -44,15 +44,15 @@ public class MongoDB implements Database {
 
 
     @Override
-    public void addData(Document document) {
+    public void addData(Document document, String username) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
         BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("username", document.getString("user"));
+        whereQuery.put("username", username);
         FindIterable<Document> docs = db.getCollection("UserApplications").find(whereQuery);
         Document first = docs.first();
         if(first == null){
             first = new Document();
-            first.append("username", document.getString("user")).append(document.getString("id"), document);
+            first.append("username", username).append(document.getString("id"), document);
             db.getCollection("UserApplications").insertOne(first);
         }
         else {
@@ -83,10 +83,10 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void updateData(Document document) {
+    public void updateData(Document document, String username) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
         BasicDBObject usernameQuery = new BasicDBObject();
-        usernameQuery.put("username", document.getString("user"));
+        usernameQuery.put("username", username);
 
         Document userApplications = db.getCollection("UserApplications").find(usernameQuery).first();
         userApplications.remove(document.getString("id"));
@@ -104,11 +104,10 @@ public class MongoDB implements Database {
         Document doc = (Document) userApp.get(documentId);
         String id = doc.getString("id");
         String name = doc.getString("name");
-        User user = (User)doc.get("user");
         @SuppressWarnings("unchecked") ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");
         @SuppressWarnings("unchecked") ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>) doc.get("objects");
         @SuppressWarnings("unchecked") ArrayList<ApplicationBehavior> behaviors = (ArrayList<ApplicationBehavior>) doc.get("behaviors");
-        return new Application(id, name, user, platforms, objects, behaviors);
+        return new Application(id, name, platforms, objects, behaviors);
     }
 
     public User getUser(String username){

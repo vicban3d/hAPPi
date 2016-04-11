@@ -33,7 +33,7 @@ public interface Database {
      * Updates the document with the given ID in the database.
      * @param document the new document.
      */
-    void updateData(Document document);
+    void updateData(Document document, String username);
 
     /**
      * Retrieves a document with the given ID from the database.
@@ -46,7 +46,7 @@ public interface Database {
      * Adds a new document to the database.
      * @param document the document to add.
      */
-    void addData(Document document);
+    void addData(Document document, String username);
 
     void addUser(Document document);
 
