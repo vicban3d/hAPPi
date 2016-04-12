@@ -204,7 +204,19 @@ main_module.controller('ctrl_main', ['$scope',
                     };
                     return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
                 };
-            } else {
+            } else if (actionName == "Display") {
+                return function (operand) {
+                    var accumulatorFunction = function (initial, action, index) {
+                        for (var i = 0; i < instances.length - 1; i++) {
+                            initial = initial + action(instances[i][index]) + ", ";
+                        }
+                        initial = initial + action(instances[i][index]);
+                        return initial;
+                    };
+                    return getAccumulatedValue($scope, object, operand, "", accumulatorFunction);
+                };
+            }
+            else {
                 return undefined;
             }
         };

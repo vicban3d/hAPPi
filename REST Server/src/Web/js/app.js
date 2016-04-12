@@ -30,7 +30,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.andOrOperator = ["Or", "And"];
         $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
         $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum', 'Average'];
+        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum', 'Average', 'Display'];
 
         $scope.instances = [];
         $scope.emulatorOutput = '';
