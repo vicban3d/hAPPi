@@ -20,6 +20,29 @@ public interface RESTServer {
     String getMainPage();
 
     /**
+     * Returns requested image file.
+     * @param resource - requested resource name.
+     * @return the requested resource.
+     */
+    @GET
+    @Path(Strings.PATH_IMAGES)
+    @Produces("image/*")
+    byte[] getImage(@PathParam("resource") String resource);
+
+    /**
+     * Returns requested resource file.
+     * @param folder - requested folder.
+     * @param resource - requested resource name.
+     * @return the requested resource.
+     */
+    @GET
+    @Path(Strings.PATH_RESOURCE)
+    @Produces({"text/html", "text/css"})
+    String getResource(@PathParam("folder") String folder, @PathParam("resource") String resource);
+
+
+
+    /**
      * Creates a new Cordova project in PATH_APPS according to user parameters.
      * @param data - a JSON representation of the application.
      * @return - the status of the request.

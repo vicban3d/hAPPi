@@ -10,6 +10,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.message = "";
 
         $scope.applications = [];
+        $scope.completeApplications = {};
 
         $scope.areaFlags = [];
         $scope.areaFlags["mainPage"] = true;
@@ -49,18 +50,18 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         }
 
         preload(
-            "http://localhost:5555/img/ios_disabled.png",
-            "http://localhost:5555/img/ios_enabled.png",
-            "http://localhost:5555/img/android_disabled.png",
-            "http://localhost:5555/img/android_enabled.png",
-            "http://localhost:5555/img/wp_disabled.png",
-            "http://localhost:5555/img/wp_enabled.png",
-            "http://localhost:5555/img/ios_checkbox.png",
-            "http://localhost:5555/img/ios_checkbox_checked.png",
-            "http://localhost:5555/img/android_checkbox.png",
-            "http://localhost:5555/img/android_checkbox_checked.png",
-            "http://localhost:5555/img/wp_checkbox.png",
-            "http://localhost:5555/img/wp_checkbox_checked.png"
+            "http://localhost/img/ios_disabled.png",
+            "http://localhost/img/ios_enabled.png",
+            "http://localhost/img/android_disabled.png",
+            "http://localhost/img/android_enabled.png",
+            "http://localhost/img/wp_disabled.png",
+            "http://localhost/img/wp_enabled.png",
+            "http://localhost/img/ios_checkbox.png",
+            "http://localhost/img/ios_checkbox_checked.png",
+            "http://localhost/img/android_checkbox.png",
+            "http://localhost/img/android_checkbox_checked.png",
+            "http://localhost/img/wp_checkbox.png",
+            "http://localhost/img/wp_checkbox_checked.png"
         );
 
         // ios images
@@ -193,19 +194,35 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 objects: [],
                 behaviors: []
             };
+            
 
             appService.addApplication($scope.applications);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_APP, angular.toJson(appService.currentApplication)));
+            $scope.completeApplications[appService.currentApplication.id] = false;
+            var id = appService.currentApplication.id;
+
+            $scope.acceptMessageResult(
+                sendPOSTRequest(Paths.CREATE_APP, angular.toJson(appService.currentApplication)),
+                function(){
+                    $scope.completeApplications[id] = true;
+                });
             $scope.getApplication(appService.currentApplication);
             $scope.menuAddObjects();
         };
 
         $scope.editApplication = function(application){
             $scope.message = "Updating application...";
+            $scope.completeApplications[appService.currentApplication.id] = false;
+            var id = appService.currentApplication.id;
+
             appService.currentApplication.platforms = appService.getPlatformsArray([$scope.android, $scope.ios, $scope.windowsPhone]);
+
             appService.editApplication($scope.applications, application);
             $scope.indexToShow = -1;
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(appService.currentApplication)));
+            $scope.acceptMessageResult(
+                sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(appService.currentApplication)),
+                function(){
+                    $scope.completeApplications[id] = true;
+                });
         };
 
         $scope.removeApplicationFromApplicationList = function(id){appService.removeApplicationFromApplicationList($scope, id); };
@@ -236,22 +253,30 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 objects: application.objects,
                 behaviors: application.behaviors
             };
+
+            $scope.android = false;
+            $scope.ios = false;
+            $scope.windowsPhone = false;
+
             for(var i=0; i<appService.currentApplication.platforms.length; i++)
             {
                 if(appService.currentApplication.platforms[i] == "android") {
                     $scope.switchAndroidImg = 2;
                     $scope.switchIosImg = 1;
                     $scope.switchWindowsImg = 1;
+                    $scope.android = true;
                 }
                 else if(appService.currentApplication.platforms[i] == "ios") {
                     $scope.switchAndroidImg = 1;
                     $scope.switchIosImg = 2;
                     $scope.switchWindowsImg = 1;
+                    $scope.ios = true;
                 }
                 else if(appService.currentApplication.platforms[i] == "wp8") {
                     $scope.switchAndroidImg = 1;
                     $scope.switchIosImg = 1;
                     $scope.switchWindowsImg = 2;
+                    $scope.windowsPhone = true;
                 }
             }
 
@@ -321,8 +346,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.showObjectEditArea = function($event, object){
             $event.stopPropagation();
-            if ($scope.indexToShow != object.name) {
-                $scope.indexToShow = object.name;
+            if ($scope.indexToShow != object.id) {
+                $scope.indexToShow = object.id;
                 $scope.message = object.attributes;
                 objectService.currentObject = {
                     id: '',
@@ -375,8 +400,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.showBehaviorEditArea = function($event, behavior){
             $event.stopPropagation();
-            if ($scope.indexToShow != behavior.name) {
-                $scope.indexToShow = behavior.name;
+            if ($scope.indexToShow != behavior.id) {
+                $scope.indexToShow = behavior.id;
                 behaviorService.currentBehavior = {
                     id: '',
                     name: behavior.name,
@@ -470,21 +495,34 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // ----------------------------------------------------------------------Release Service Methods----------------
 
         $scope.releaseBuildApplication = function(application){
+            $scope.message = "Building application...";
             releaseService.releaseBuildApplication($scope, application);
-            $scope.message = "Application built successfully!";
         };
 
         $scope.getApplicationBuilt = function(){
             return releaseService.getApplicationBuilt();
         };
 
+        // ----------------------------------------------------------------------User Management------------------------
+
+        $scope.login = function(user){
+            $scope.message = user;
+        };
+
         // ----------------------------------------------------------------------Status Message-------------------------
 
-        $scope.acceptMessageResult = function(result){
+        $scope.acceptMessageResult = function(result, success, fail){
             var displayDuration = 10000;
+            if (success == undefined){
+                success = function(){};
+            }
+            if (fail == undefined){
+                fail = function(){};
+            }
             result.onreadystatechange = function(){
                 if (result.readyState != 4 && result.status != 200){
                     $scope.updateStatus("Error");
+                    fail();
                     $timeout(function () {
                         $scope.updateStatus('');
                     }, displayDuration);
@@ -492,6 +530,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 }
                 else if (result.readyState == 4 && result.status == 200){
                     $scope.updateStatus(result.responseText);
+                    success();
                     $timeout(function () {
                         $scope.updateStatus('');
                     }, displayDuration);
@@ -507,5 +546,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.isNumber = function(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
         };
+
+
 
     }]);

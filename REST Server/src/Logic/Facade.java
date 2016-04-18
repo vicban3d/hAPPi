@@ -69,4 +69,6 @@ public interface Facade {
     void updateApplicationBehavior(String appId, String username, ApplicationBehavior behavior);
 
     void addUser(User user);
+
+    byte[] getImageAsBytes(String resource);
 }

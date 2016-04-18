@@ -21,6 +21,6 @@ main_module.controller('signupCtrl',['$scope',
             json += "\"password\" : \"" + this.password + "\", ";
             json += "\"email\" : \"" + this.email + "\" }";
             sendPOSTRequest(Paths.CREATE_USER, json);
-            location.href = "http://localhost:9998/hAPPi/main";
+            location.href = "http://localhost/main";
         }
     }]);

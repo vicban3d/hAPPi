@@ -8,6 +8,9 @@ import com.dropbox.core.DbxException;
 import org.bson.Document;
 import org.codehaus.jettison.json.JSONException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -184,6 +187,22 @@ public class hAPPiFacade implements Facade {
     @Override
     public void addUser(User user) {
         database.addUser(user);
+    }
+
+    @Override
+    public byte[] getImageAsBytes(String resource) {
+        if (resource == null || resource.charAt(0) == '{'){
+            return null;
+        }
+        try {
+            BufferedImage image = ImageIO.read(new File(Strings.PATH_WEB_CONTENT + "img\\" + resource));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void getUser(String userId){

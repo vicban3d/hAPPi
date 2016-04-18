@@ -15,14 +15,13 @@ import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.Path;
 import java.io.IOException;
 import java.util.logging.Level;
 
 /**
  * hAPPi RESTful Server
- * The server will host at the URL http://loaclhost/hAPPi on port 9998
+ * The server will host at the URL http://localhost on port 80
  */
 @Singleton
 @Path(Strings.SRV_MAIN)
@@ -38,6 +37,16 @@ public class Server implements RESTServer {
     @Override
     public String getMainPage() {
         return facade.getPage("index.html");
+    }
+
+    @Override
+    public String getResource(String folder, String resource) {
+        return facade.getPage(folder + "\\" + resource);
+    }
+
+    @Override
+    public byte[] getImage(String resource) {
+        return facade.getImageAsBytes(resource);
     }
 
     @Override
@@ -199,7 +208,7 @@ public class Server implements RESTServer {
         }
         Logger.SEVERE("*** Server running ***");
 
-        System.out.println("Visit: " + Strings.SRV_FULL + Strings.PATH_MAIN);
+        System.out.println("Visit: " + Strings.SRV_HOST);
         System.out.println("Applications: " + Strings.PATH_APPS);
         System.out.println("Press ENTER to stop...");
 

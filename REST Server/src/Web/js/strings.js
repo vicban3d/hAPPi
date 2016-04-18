@@ -5,8 +5,8 @@
 
 
 var Paths = {
-    ROOT: "http://localhost:9998/hAPPi",
-    PATH_APPS: "http://localhost:80/Applications",
+    ROOT: "http://localhost",
+    // PATH_APPS: "http://localhost:80/Applications",
     PATH_APP_INDEX: "/www/index.html",
     CREATE_APP: "/createApplication",
     CREATE_OBJECT: "/createObject",
