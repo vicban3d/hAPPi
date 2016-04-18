@@ -506,7 +506,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.signUp = function (user) {
             if (user.password != $scope.confirmPassword){
-                alert('Passwords do not match!');
+                alert('Passwords don\'t match!');
                 return;
             }
 
