@@ -28,7 +28,8 @@ public class Strings {
     public static final String PATH_UPDATE_OBJECT = "/updateObject";
     public static final String PATH_UPDATE_BEHAVIOR = "/updateBehavior";
     public static final String PATH_SIGNUP_PAGE = "/signup";
-    public static final String PATH_CREATE_USER = "/AddUser";
+    public static final String PATH_CREATE_USER = "/addUser";
+    public static final String PATH_LOGIN = "/login";
     public static final String DB_NAME = "hAPPiDB";
     public static final String DB_PORT = "27017";
 }

@@ -284,9 +284,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.createApplication = function(id, name, platforms){ appService.createApplication($scope, id, name, platforms); };
 
-        $scope.addObjectToApplication = function(object){appService.addObjectToApplication($scope, object);};
-
-        $scope.addBehaviorToApplication = function(behavior){appService.addBehaviorToApplication($scope, behavior);};
+        // $scope.addObjectToApplication = function(object){appService.addObjectToApplication($scope, object);};
+        
+        // $scope.addBehaviorToApplication = function(behavior){appService.addBehaviorToApplication($scope, behavior);};
 
         // ----------------------------------------------------------------------Object Service methods-----------------
 
@@ -348,7 +348,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $event.stopPropagation();
             if ($scope.indexToShow != object.id) {
                 $scope.indexToShow = object.id;
-                $scope.message = object.attributes;
                 objectService.currentObject = {
                     id: '',
                     name: object.name,
@@ -505,8 +504,50 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         // ----------------------------------------------------------------------User Management------------------------
 
+        $scope.signUp = function (user) {
+            if (user.password != $scope.confirmPassword){
+                alert('Passwords do not match!');
+                return;
+            }
+
+            $scope.message = "Signed Up in as: " + user.username;
+            $scope.acceptMessageResult(
+                sendPOSTRequest(Paths.CREATE_USER, angular.toJson(user)),
+                function(){
+                    alert("Signed Up!\n Log In to proceed.")
+                },
+                function () {
+                    $scope.message = "Invalid User!"
+                }
+            );
+        };
+        
         $scope.login = function(user){
-            $scope.message = user;
+            $scope.message = "Logging in as: " + user.username;
+            $scope.acceptMessageResult(
+                sendPOSTRequest(Paths.LOGIN, angular.toJson(user)),
+                function(appsList){
+                    $scope.currentUser = {
+                        username: user.username,
+                        password: user.password,
+                        email: ''
+                    };
+                    var fixedResponse = appsList.replace(/\\'/g, "'");
+                    $scope.applications = JSON.parse(fixedResponse);
+                    for (var i=0; i< $scope.applications.length; i++){
+                        $scope.completeApplications[$scope.applications[i].id] = true;
+                    }
+                    if ($scope.applications.length > 0){
+                        $scope.showAppsList();
+                    } else {
+                        $scope.backToMain();
+                    }
+                },
+                function () {
+                    $scope.message = "Invalid User!"
+                }
+            );
+
         };
 
         // ----------------------------------------------------------------------Status Message-------------------------
@@ -530,7 +571,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 }
                 else if (result.readyState == 4 && result.status == 200){
                     $scope.updateStatus(result.responseText);
-                    success();
+                    success(result.responseText);
                     $timeout(function () {
                         $scope.updateStatus('');
                     }, displayDuration);

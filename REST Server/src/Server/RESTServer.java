@@ -171,4 +171,15 @@ public interface RESTServer {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
     String addUser(User data);
+
+    /**
+     * Checks user login credentials.
+     * @param data - a JSON representation user.
+     * @return - the status of the request.
+     */
+    @POST
+    @Path(Strings.PATH_LOGIN)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String login(User data);
 }

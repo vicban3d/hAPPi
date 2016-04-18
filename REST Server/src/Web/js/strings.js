@@ -6,7 +6,6 @@
 
 var Paths = {
     ROOT: "http://localhost",
-    // PATH_APPS: "http://localhost:80/Applications",
     PATH_APP_INDEX: "/www/index.html",
     CREATE_APP: "/createApplication",
     CREATE_OBJECT: "/createObject",
@@ -22,6 +21,7 @@ var Paths = {
     ADD_PLATFORM_WINDOWS_PHONE: "/addWindowsPhone",
     EMULATE_ANDROID: "/emulateAndroid",
     BUILD_APP: "/build",
-    SIGNUP_PAGE: "/Signup",
-    CREATE_USER: "/AddUser"
+    SIGNUP_PAGE: "/signup",
+    CREATE_USER: "/addUser",
+    LOGIN: "/login"
 };

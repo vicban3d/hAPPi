@@ -17,6 +17,8 @@ import org.codehaus.jettison.json.JSONException;
 
 import javax.ws.rs.Path;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 /**
@@ -154,6 +156,20 @@ public class Server implements RESTServer {
             return "Error: Failed to add user!";
         }
         return "The user " + data.getUsername() + " was created successfully!";
+    }
+
+    @Override
+    public String login(User data) {
+        // TODO - check user credentials, send user applications.
+
+        ArrayList<String> platforms = new ArrayList<>();
+        platforms.add("android");
+
+        String app = new Application("111", "TEMP_APP", platforms, new ArrayList<ApplicationObject>(), new ArrayList<ApplicationBehavior>()).toJson();
+        String[] apps = {app};
+
+
+        return Arrays.toString(apps);
     }
 
     @Override
