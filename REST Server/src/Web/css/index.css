@@ -114,14 +114,10 @@ body{
 }
 
 .addFormFieldsButton{
-    color: green;
-    position: relative;
     left: 2%;
-    top: 3px;
     font-size: medium;
     text-align: center;
     font-weight: bold;
-    border-radius: 50%;
     background: transparent url("http://localhost/img/plus-icon.png") no-repeat center;
     background-size: contain;
     display: inline-block;
@@ -133,14 +129,7 @@ body{
 }
 
 .removeFormFieldsButton{
-    /*color: green;*/
-    /*position: relative;*/
-    /*left: 2%;*/
-    /*top: 10px;*/
-    /*font-size: medium;*/
     text-align: center;
-    /*font-weight: bold;*/
-    /*border-radius: 50%;*/
     background: transparent url("http://localhost/img/minus-icon.png") no-repeat center;
     background-size: contain;
     display: inline-block;

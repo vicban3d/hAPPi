@@ -490,7 +490,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             return designService.getCurrentInstance()
         };
 
-
         // ----------------------------------------------------------------------Release Service Methods----------------
 
         $scope.releaseBuildApplication = function(application){
@@ -510,11 +509,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 return;
             }
 
-            $scope.message = "Signed Up in as: " + user.username;
             $scope.acceptMessageResult(
                 sendPOSTRequest(Paths.CREATE_USER, angular.toJson(user)),
                 function(){
-                    alert("Signed Up!\n Log In to proceed.")
+                    $scope.message = "Signed Up in as: " + user.username;
                 },
                 function () {
                     $scope.message = "Invalid User!"
@@ -547,7 +545,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     $scope.message = "Invalid User!"
                 }
             );
-
         };
 
         // ----------------------------------------------------------------------Status Message-------------------------
@@ -587,7 +584,4 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.isNumber = function(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
         };
-
-
-
     }]);

@@ -19,7 +19,6 @@ main_module.service('releaseService',[function(){
             else if (result.readyState == 4 && result.status == 200){
                 this.applicationBuilt = true;
                 this.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result.responseText);
-                $scope.message = this.applicationBuilt + "-" + result.responseText;
                 $scope.$apply();
             }
         };
