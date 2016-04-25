@@ -205,6 +205,27 @@ public class hAPPiFacade implements Facade {
         return null;
     }
 
+    @Override
+    public void createEvent(String id, String username, ApplicationEvent event) {
+        Application application = Application.fromDocument(database.getData(id, username));
+        application.addEvent(event);
+        database.updateData(application, username);
+    }
+
+    @Override
+    public void removeEvent(String appId, String username, ApplicationEvent event) {
+        Application application = Application.fromDocument(database.getData(appId, username));
+        application.removeEvent(event);
+        database.updateData(application, username);
+    }
+
+    @Override
+    public void updateApplicationEvent(String appId, String username, ApplicationEvent event) {
+        Application application = Application.fromDocument(database.getData(appId, username));
+        application.updateEvent(event);
+        database.updateData(application, username);
+    }
+
     public void getUser(String userId){
 
     }

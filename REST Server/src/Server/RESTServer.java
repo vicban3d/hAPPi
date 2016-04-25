@@ -173,6 +173,17 @@ public interface RESTServer {
     String addUser(User data);
 
     /**
+     * Creates a behavior for the currently selected application.
+     * @param data - a JSON representation of the application behavior.
+     * @return - the request status.
+     */
+    @POST
+    @Path(Strings.PATH_CREATE_EVENT)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String createEvent(ApplicationEvent data);
+
+    /**
      * Checks user login credentials.
      * @param data - a JSON representation user.
      * @return - the status of the request.
@@ -182,4 +193,27 @@ public interface RESTServer {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
     String login(User data);
+
+    /**
+     * Removes an event from the currently selected application.
+     * @param data - a JSON representation of the application event.
+     * @return - the status of the request.
+     */
+    @POST
+    @Path(Strings.PATH_REMOVE_EVENT)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String removeEvent(ApplicationEvent data);
+
+    /**
+     * Updates the content of an event.
+     * @param event- a JSON representation of the event.
+     * @return - the status of the request.
+     */
+    @POST
+    @Path(Strings.PATH_UPDATE_EVENT)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String updateEvent(ApplicationEvent event);
+
 }

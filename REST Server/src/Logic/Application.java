@@ -29,24 +29,29 @@ public class Application extends Document{
     private ArrayList<ApplicationObject> objects;
     @XmlElement(required=true)
     private ArrayList<ApplicationBehavior> behaviors;
+    @XmlElement(required=true)
+    private ArrayList<ApplicationEvent> events;
 
     @JsonCreator
     public Application(@JsonProperty("id") String id,
                        @JsonProperty("name") String name,
                        @JsonProperty("platforms") ArrayList<String> platforms,
                        @JsonProperty("objects") ArrayList<ApplicationObject> objects,
-                       @JsonProperty("behaviors") ArrayList<ApplicationBehavior> behaviors){
+                       @JsonProperty("behaviors") ArrayList<ApplicationBehavior> behaviors,
+                       @JsonProperty("events") ArrayList<ApplicationEvent> events){
         super();
         this.append("id", id);
         this.append("name", name);
         this.append("platforms", platforms);
         this.append("objects", objects);
         this.append("behaviors", behaviors);
+        this.append("events", events);
         this.id = id;
         this.name = name;
         this.platforms = platforms;
         this.objects = objects;
         this.behaviors = behaviors;
+        this.events = events;
     }
 
     public String getId() {
@@ -92,6 +97,15 @@ public class Application extends Document{
         this.put("behaviors",behaviors);
     }
 
+    public ArrayList<ApplicationEvent> getEvents() {
+        //noinspection unchecked
+        return (ArrayList<ApplicationEvent>) this.get("events");
+    }
+
+    public void setEvents(ArrayList<ApplicationEvent> events) {
+        this.put("events",events);
+    }
+
     public void addObject(ApplicationObject newObject) {
         this.objects.add(newObject);
         this.put("objects", this.objects);
@@ -100,6 +114,11 @@ public class Application extends Document{
     public void addBehavior(ApplicationBehavior newBehavior) {
         this.behaviors.add(newBehavior);
         this.put("behaviors", this.behaviors);
+    }
+
+    public void addEvent(ApplicationEvent newEvent) {
+        this.events.add(newEvent);
+        this.put("events", this.events);
     }
 
     @Override
@@ -177,6 +196,26 @@ public class Application extends Document{
 
     public static Application fromDocument(Document data) {
         //noinspection unchecked
-        return new Application(data.getString("id"), data.getString("name"), (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"));
+        return new Application(data.getString("id"), data.getString("name"), (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"), (ArrayList<ApplicationEvent>) data.get("events"));
+    }
+
+    public void removeEvent(ApplicationEvent event) {
+        for(int i = 0; i < events.size(); i++){
+            Document doc = events.get(i);
+            if(doc.getString("id").equals(event.getId()))
+                events.remove(i);
+        }
+        this.put("events", this.events);
+    }
+
+    public void updateEvent(ApplicationEvent event) {
+        for(int i = 0; i < events.size(); i++){
+            Document doc = events.get(i);
+            if(doc.getString("id").equals(event.getId())){
+                events.remove(i);
+                events.add(event);
+            }
+        }
+        this.put("events", this.events);
     }
 }

@@ -67,7 +67,7 @@ public class ServerTest extends TestCase {
         json.put("platforms","[android,ios]");
         ArrayList<String> platforms = new ArrayList<>();
         platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         String result = server.createApplication(app);
         assertEquals("Created testName", result);
         result = server.createApplication(app);
@@ -144,7 +144,7 @@ public class ServerTest extends TestCase {
         Application app = createApp(platforms);
         platforms.remove("android");
         platforms.add("ios");
-        app = new Application("1", "new_testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        app = new Application("1", "new_testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         server.updateApplication(app);
 
         Application getApp = Application.fromDocument(database.getData("1", user.getUsername()));
@@ -209,7 +209,7 @@ public class ServerTest extends TestCase {
 
     private Application createApp(ArrayList<String> platforms) {
         platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>());
+        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         server.createApplication(app);
         return app;
     }

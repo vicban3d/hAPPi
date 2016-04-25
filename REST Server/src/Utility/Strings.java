@@ -32,4 +32,7 @@ public class Strings {
     public static final String PATH_LOGIN = "/login";
     public static final String DB_NAME = "hAPPiDB";
     public static final String DB_PORT = "27017";
+    public static final String PATH_CREATE_EVENT = "/createEvent";
+    public static final String PATH_REMOVE_EVENT = "/removeEvent";
+    public static final String PATH_UPDATE_EVENT = "updateEvent";
 }

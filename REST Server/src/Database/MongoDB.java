@@ -107,7 +107,8 @@ public class MongoDB implements Database {
         @SuppressWarnings("unchecked") ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");
         @SuppressWarnings("unchecked") ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>) doc.get("objects");
         @SuppressWarnings("unchecked") ArrayList<ApplicationBehavior> behaviors = (ArrayList<ApplicationBehavior>) doc.get("behaviors");
-        return new Application(id, name, platforms, objects, behaviors);
+        @SuppressWarnings("unchecked") ArrayList<ApplicationEvent> events = (ArrayList<ApplicationEvent>) doc.get("events");
+        return new Application(id, name, platforms, objects, behaviors, events);
     }
 
     public User getUser(String username){

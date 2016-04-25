@@ -1,7 +1,7 @@
 var main_module = angular.module('main', []);
 
-main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', 'designService', 'releaseService', '$scope', '$timeout',
-    function(appService, objectService, behaviorService, designService, releaseService, $scope, $timeout) {
+main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', 'eventService', 'designService', 'releaseService', '$scope', '$timeout',
+    function(appService, objectService, behaviorService, eventService, designService, releaseService, $scope, $timeout) {
 
         // ----------------------------------------------------------------------Variable Declaration-------------------
 
@@ -20,6 +20,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.areaFlags["menuArea"] = false;
         $scope.areaFlags["objectCreateArea"] = false;
         $scope.areaFlags["behaviorCreateArea"] = false;
+        $scope.areaFlags["eventCreateArea"] = false;
         $scope.areaFlags["designArea"] = false;
         $scope.areaFlags["releaseArea"] = false;
         $scope.areaFlags["frontPage"] = false;
@@ -192,7 +193,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 name: $scope.applicationName,
                 platforms: appService.getPlatformsArray([$scope.android, $scope.ios, $scope.windowsPhone]),
                 objects: [],
-                behaviors: []
+                behaviors: [],
+                events: []
             };
             
 
@@ -285,7 +287,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.createApplication = function(id, name, platforms){ appService.createApplication($scope, id, name, platforms); };
 
         // $scope.addObjectToApplication = function(object){appService.addObjectToApplication($scope, object);};
-        
+
         // $scope.addBehaviorToApplication = function(behavior){appService.addBehaviorToApplication($scope, behavior);};
 
         // ----------------------------------------------------------------------Object Service methods-----------------
@@ -456,6 +458,68 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.all_conditions = [];
         };
 
+        // ----------------------------------------------------------------------Event Service Methods---------------
+        $scope.addNewEvent = function(){
+            eventService.addNewEvent();
+            //$scope.showNoBehaviorMembersImage = !$scope.showNoBehaviorMembersImage;
+            $scope.toggleArea("eventCreateArea");
+        };
+
+        $scope.getCurrentEvent = function(){
+            return eventService.currentEvent;
+        };
+
+        $scope.addEvent = function(){
+            eventService.addEvent(appService.getCurrentApplication());
+            alert(appService.getCurrentApplication().name);
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_EVENT, angular.toJson(eventService.currentEvent)));
+            $scope.hideArea("eventCreateArea");
+        };
+
+        $scope.showEventEditArea = function($event, event){
+            $event.stopPropagation();
+            if ($scope.indexToShow != event.id) {
+                $scope.indexToShow = event.id;
+                eventService.currentEvent = {
+                    id: event.id,
+                    name: event.name,
+                    object: event.object,
+                    attribute: event.attribute,
+                    operator: event.operator,
+                    value: event.value
+                };
+            } else {
+                $scope.indexToShow = -1
+            }
+        };
+
+        $scope.deleteEvent = function(event){
+            eventService.deleteEvent(appService.currentApplication, event);
+            /*if (!appService.currentApplication.events.length){
+                $scope.showNoEventMembersImage = true;
+            }*/
+            $scope.indexToShow = -1;
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_EVENT, angular.toJson(event)));
+        };
+
+        $scope.hideEventEditArea = function(){
+            $scope.indexToShow = -1;
+            eventService.currentEvent = {
+                id: '',
+                name: '',
+                object: {},
+                attribute: {},
+                operator: '',
+                value: ''
+            };
+        };
+
+        $scope.editEvent = function(event){
+            eventService.editEvent(appService.getCurrentApplication(), event);
+            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_EVENT, angular.toJson(eventService.currentEvent)));
+            $scope.indexToShow = -1;
+        };
+
         // ----------------------------------------------------------------------Design Service Methods-----------------
 
         $scope.designDisplayObjectPage = function(object){
@@ -519,7 +583,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 }
             );
         };
-        
+
         $scope.login = function(user){
             $scope.message = "Logging in as: " + user.username;
             $scope.acceptMessageResult(

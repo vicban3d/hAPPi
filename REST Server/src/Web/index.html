@@ -13,6 +13,7 @@
     <script type="text/javascript" src="http://localhost/services/appService.js"></script>
     <script type="text/javascript" src="http://localhost/services/objectService.js"></script>
     <script type="text/javascript" src="http://localhost/services/behaviorService.js"></script>
+    <script type="text/javascript" src="http://localhost/services/eventService.js"></script>
     <script type="text/javascript" src="http://localhost/services/designService.js"></script>
     <script type="text/javascript" src="http://localhost/services/releaseService.js"></script>
     <link rel="stylesheet" type="text/css" href="http://localhost/css/index.css">
@@ -193,6 +194,7 @@
     <ul class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
         <li class="active"><a data-toggle="tab" href="#objectsAddArea"><p class="menuTab">Objects</p></a></li>
         <li><a data-toggle="tab" href="#behaviorAddArea"><p class="menuTab">Behavior</p></a></li>
+        <li><a data-toggle="tab" href="#eventsAddArea"><p class="menuTab">Events</p></a></li>
         <li><a data-toggle="tab" href="#releaseArea"><p class="menuTab">Release</p></a></li>
     </ul>
     <div class="workAreaComponent centralArea tab-content" data-ng-show="areaFlags['centralArea']">
@@ -480,6 +482,100 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="eventsAddArea" class="centralAreaComponent tab-pane fade in active">
+            <div class="componentMainTitle">
+                Events
+            </div>
+            <span class="btn btn-primary btn-block" data-ng-click="addNewEvent()">new event</span>
+            <div class="mergeLeft" data-ng-show="areaFlags['eventCreateArea']">
+                <hr>
+                <form data-ng-submit="addEvent()">
+                    <div class="form-group" style="width: 60%">
+                        <input data-ng-model="getCurrentEvent().name" class="form-control" placeholder="Enter Event Name" style="width: 30%">
+                    </div>
+                    <div class="form-group">
+                        <table>
+                            <tr>
+                                <td style="width: 15%; padding: 1%;">
+                                    <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects"></select>
+                                </td>
+                                </td>
+                                <td style="width: 15%; padding: 1%;">
+                                    <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)"></select>
+                                <td style="width: 15%; padding: 1%;">
+                                    <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations"></select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="form-group" style="width: 60%">
+                        <input data-ng-model="getCurrentEvent().value" class="form-control" placeholder="Enter Event Value" style="width: 30%">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Event</button>
+                    <hr>
+                </form>
+            </div>
+
+            <div class="objectsList" data-ng-init="indexToShow = -1">
+                <div href="#" class="list-group-item" data-ng-repeat="event in getCurrentApplication().events track by $index">
+                    <div>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="width: 80%; padding-left: 1%;">
+                                    <h3>{{event.name}}</h3>
+                                </td>
+                                <td style="width: 10%; padding-left: 1%;">
+                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteEvent(event)">
+                                </td>
+                                <td style="width: 10%; padding-left: 1%;">
+                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showEventEditArea($event, event)">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div data-ng-show="indexToShow == event.id">
+                        <hr>
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" data-ng-model="getCurrentEvent().name" placeholder="Enter Event Name">
+                            </div>
+                            <div class="form-group">
+                                <table>
+                                    <tr>
+                                        <td style="width: 15%; padding: 1%;">
+                                            <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects"></select>
+                                        </td>
+                                        </td>
+                                        <td style="width: 15%; padding: 1%;">
+                                            <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)"></select>
+                                        <td style="width: 15%; padding: 1%;">
+                                            <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations"></select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-group" style="width: 60%">
+                                <input data-ng-model="getCurrentEvent().value" class="form-control" placeholder="Enter Event Value" style="width: 30%">
+                            </div>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 80%">
+                                        <!--PADDING-->
+                                    </td>
+                                    <td style="width: 10%; padding: 1%">
+                                        <button type="button" class="btn btn-danger btn-app-list" data-ng-click="hideEventEditArea()">Cancel</button>
+                                    </td>
+                                    <td style="width: 10%; padding: 1%;">
+                                        <button type="button" class="btn btn-primary btn-app-list" data-ng-click="editEvent(event)">Save</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div id="releaseArea" class="centralAreaComponent tab-pane fade">
             <div class="componentMainTitle">

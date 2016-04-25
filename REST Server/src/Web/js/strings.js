@@ -23,5 +23,8 @@ var Paths = {
     BUILD_APP: "/build",
     SIGNUP_PAGE: "/signup",
     CREATE_USER: "/addUser",
-    LOGIN: "/login"
+    LOGIN: "/login",
+    CREATE_EVENT: "/createEvent",
+    REMOVE_EVENT: "/removeEvent",
+    UPDATE_EVENT: "/updateEvent"
 };

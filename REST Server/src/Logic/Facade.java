@@ -71,4 +71,10 @@ public interface Facade {
     void addUser(User user);
 
     byte[] getImageAsBytes(String resource);
+
+    void createEvent(String id, String username, ApplicationEvent data);
+
+    void removeEvent(String id, String username, ApplicationEvent data);
+
+    void updateApplicationEvent(String id, String username, ApplicationEvent event);
 }

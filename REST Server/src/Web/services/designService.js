@@ -23,6 +23,16 @@ main_module.service('designService',[function(){
         }
         $scope.instances[this.currentInstance.name].push(attributes);
         $scope.attribute_values = [];
+/*
+        alert("here");
+        alert(this.currentInstance.name);
+        $scope.$watch('attributes',
+            function(newVal, oldVal) {
+                alert(newVal);
+
+            });
+        //TODO - add watch if there is event*/
+
     };
 
     this.removeInstance = function($scope, idx){
