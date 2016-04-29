@@ -212,7 +212,6 @@ public interface RESTServer {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_PLAIN)
     String removeObjInstance(RemoveObjInstanceRequest reqParam);
-    String login(User data);
 
     /**
      * Removes an event from the currently selected application.

@@ -21,6 +21,14 @@ function createRequest() {
     return result;
 }
 
+function sendPOSTRequestPlainText(path, data) {
+    var req = createRequest();
+    req.open("POST", Paths.ROOT + path, true);
+    req.setRequestHeader("Content-Type", "text/plain");
+    req.send(data);
+    return req;
+}
+
 function sendPOSTRequest(path, data) {
     var req = createRequest();
     req.open("POST", Paths.ROOT + path, true);

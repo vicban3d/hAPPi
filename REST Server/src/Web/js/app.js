@@ -191,6 +191,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             {
                 id: '',
                 name: $scope.applicationName,
+                username: $scope.currentUser.username,
                 platforms: appService.getPlatformsArray([$scope.android, $scope.ios, $scope.windowsPhone]),
                 objects: [],
                 behaviors: [],
@@ -251,6 +252,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             appService.currentApplication = {
                 id: application.id,
                 name: application.name,
+                username: $scope.currentUser.username,
                 platforms: application.platforms,
                 objects: application.objects,
                 behaviors: application.behaviors

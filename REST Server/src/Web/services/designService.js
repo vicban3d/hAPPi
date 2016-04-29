@@ -23,6 +23,12 @@ main_module.service('designService',[function(){
         }
         $scope.instances[this.currentInstance.name].push(attributes);
         $scope.attribute_values = [];
+        var postBody = {
+            id : generateUUID(),
+            app_id: $scope.getCurrentApplication().id,
+            objName: this.currentInstance.name,
+            attributesList: attributes
+        }
 /*
         alert("here");
         alert(this.currentInstance.name);
@@ -32,7 +38,7 @@ main_module.service('designService',[function(){
 
             });
         //TODO - add watch if there is event*/
-
+        $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
     };
 
     this.removeInstance = function($scope, idx){

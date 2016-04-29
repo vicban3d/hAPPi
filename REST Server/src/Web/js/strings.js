@@ -26,5 +26,6 @@ var Paths = {
     LOGIN: "/login",
     CREATE_EVENT: "/createEvent",
     REMOVE_EVENT: "/removeEvent",
-    UPDATE_EVENT: "/updateEvent"
+    UPDATE_EVENT: "/updateEvent",
+    ADDOBJ_INSTANCE: "/AddObjInstance"
 };

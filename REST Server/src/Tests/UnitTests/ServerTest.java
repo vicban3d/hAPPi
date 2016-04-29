@@ -53,7 +53,7 @@ public class ServerTest extends TestCase {
         ArrayList<String> platforms = new ArrayList<>();
         Application app = createApp(platforms);
 
-        Application getApp = Application.fromDocument(database.getData("1", user.getUsername()));
+        Application getApp = Application.fromDocument(database.getApplication("1"));
         assertEquals(app,getApp);
     }
 
@@ -67,7 +67,7 @@ public class ServerTest extends TestCase {
         json.put("platforms","[android,ios]");
         ArrayList<String> platforms = new ArrayList<>();
         platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
+        Application app = new Application("1", "testName", "user", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         String result = server.createApplication(app);
         assertEquals("Created testName", result);
         result = server.createApplication(app);
@@ -89,9 +89,9 @@ public class ServerTest extends TestCase {
         createAttributeAndAction(attributes, actions);
         String result = server.createObject(obj);
         assertEquals("Object obj_test added!", result);
-        //Document data = database.getData("1").get("objects").find().first();
+        //Document data = database.getApplication("1").get("objects").find().first();
         //return new ApplicationObject(.getString("name"), (ArrayList<ObjectAttribute>)data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
-        ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>)database.getData("1", user.getUsername()).get("objects");
+        ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>)database.getApplication("1").get("objects");
         assertTrue(objects.size() == 1);
         System.out.println(ApplicationObject.fromDocument(objects.get(0)));
         //assertEquals(obj, ApplicationObject.fromDocument(objects.get(0)));
@@ -108,7 +108,7 @@ public class ServerTest extends TestCase {
         String result = server.createObject(obj);
         assertEquals("Object obj_test added!", result);
         server.removeObject(obj);
-        Application getApp = Application.fromDocument(database.getData("1", user.getUsername()));
+        Application getApp = Application.fromDocument(database.getApplication("1"));
         assertEquals(app,getApp);
     }
 
@@ -127,7 +127,7 @@ public class ServerTest extends TestCase {
         actionsBehavior.add(action1);
         server.createBehavior(behavior);
         server.removeBehavior(behavior);
-        Application getApp = Application.fromDocument(database.getData("1", user.getUsername()));
+        Application getApp = Application.fromDocument(database.getApplication("1"));
         assertEquals(app,getApp);
     }
 
@@ -144,10 +144,10 @@ public class ServerTest extends TestCase {
         Application app = createApp(platforms);
         platforms.remove("android");
         platforms.add("ios");
-        app = new Application("1", "new_testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
+        app = new Application("1", "new_testName", "user", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         server.updateApplication(app);
 
-        Application getApp = Application.fromDocument(database.getData("1", user.getUsername()));
+        Application getApp = Application.fromDocument(database.getApplication("1"));
         assertEquals(app,getApp);
     }
 
@@ -173,7 +173,7 @@ public class ServerTest extends TestCase {
         app.addBehavior(behavior);
         server.updateBehavior(behavior);
 
-        Application getApp = Application.fromDocument(database.getData("1", user.getUsername()));
+        Application getApp = Application.fromDocument(database.getApplication("1"));
         assertEquals(app,getApp);
     }
 
@@ -196,7 +196,7 @@ public class ServerTest extends TestCase {
         attributes1.clear();
         app.addObject(obj2);
         server.updateObject(obj2);
-        Application getApp = Application.fromDocument(database.getData("1", user.getUsername()));
+        Application getApp = Application.fromDocument(database.getApplication("1"));
         // assertEquals(app,getApp);
     }
 
@@ -209,7 +209,7 @@ public class ServerTest extends TestCase {
 
     private Application createApp(ArrayList<String> platforms) {
         platforms.add("android");
-        Application app = new Application("1", "testName", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
+        Application app = new Application("1", "testName", "user", platforms, new ArrayList<ApplicationObject>(),new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         server.createApplication(app);
         return app;
     }
