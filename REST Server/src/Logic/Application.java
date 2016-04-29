@@ -1,5 +1,6 @@
 package Logic;
 
+import com.sun.jersey.core.impl.provider.entity.XMLJAXBElementProvider;
 import org.bson.Document;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -24,6 +25,8 @@ public class Application extends Document{
     @XmlElement(required=true)
     private String name;
     @XmlElement(required=true)
+    private String username;
+    @XmlElement(required=true)
     private ArrayList<String> platforms;
     @XmlElement(required=true)
     private ArrayList<ApplicationObject> objects;
@@ -32,9 +35,11 @@ public class Application extends Document{
     @XmlElement(required=true)
     private ArrayList<ApplicationEvent> events;
 
+
     @JsonCreator
     public Application(@JsonProperty("id") String id,
                        @JsonProperty("name") String name,
+                       @JsonProperty("username") String username,
                        @JsonProperty("platforms") ArrayList<String> platforms,
                        @JsonProperty("objects") ArrayList<ApplicationObject> objects,
                        @JsonProperty("behaviors") ArrayList<ApplicationBehavior> behaviors,
@@ -42,12 +47,14 @@ public class Application extends Document{
         super();
         this.append("id", id);
         this.append("name", name);
+        this.append("username", username);
         this.append("platforms", platforms);
         this.append("objects", objects);
         this.append("behaviors", behaviors);
         this.append("events", events);
         this.id = id;
         this.name = name;
+        this.username = username;
         this.platforms = platforms;
         this.objects = objects;
         this.behaviors = behaviors;
@@ -73,6 +80,14 @@ public class Application extends Document{
     public ArrayList<String> getPlatforms() {
         //noinspection unchecked
         return (ArrayList<String>) this.get("platforms");
+    }
+
+    public String getUsername() {
+        return this.getString("username");
+    }
+
+    public void setUsername(String username) {
+        this.put("username", username);
     }
 
     public void setPlatforms(ArrayList<String> platforms) {
@@ -144,14 +159,20 @@ public class Application extends Document{
         return result;
     }
 
-    public JSONObject toJSON() throws JSONException {
-        JSONObject json = new JSONObject();
-        json.put("id", this.getId());
-        json.put("name", this.getName());
-        json.put("platforms", this.getPlatforms());
-        json.put("objects", this.getObjects());
-        json.put("behaviors", this.getBehaviors());
-        return json;
+    public JSONObject toJSON(){
+        try {
+            JSONObject json = new JSONObject();
+            json.put("id", this.getId());
+            json.put("name", this.getName());
+            json.put("username",username);
+            json.put("platforms", this.getPlatforms());
+            json.put("objects", this.getObjects());
+            json.put("behaviors", this.getBehaviors());
+            return json;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void removeObject(ApplicationObject object) {
@@ -196,7 +217,8 @@ public class Application extends Document{
 
     public static Application fromDocument(Document data) {
         //noinspection unchecked
-        return new Application(data.getString("id"), data.getString("name"), (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"), (ArrayList<ApplicationEvent>) data.get("events"));
+//        return new Application(data.getString("id"), data.getString("name"),  (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"));
+        return new Application(data.getString("id"), data.getString("name"), data.getString("username"),(ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"), (ArrayList<ApplicationEvent>) data.get("events"));
     }
 
     public void removeEvent(ApplicationEvent event) {

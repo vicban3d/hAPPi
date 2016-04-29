@@ -5,6 +5,7 @@ import Utility.Strings;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created by victor on 1/21/2016.
@@ -191,7 +192,26 @@ public interface RESTServer {
     @POST
     @Path(Strings.PATH_LOGIN)
     @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON)
+    List<Application> login(User data);
+
+    /**
+     * Creates new user in db
+     * @param createObjInstanceRequest */
+    @POST
+    @Path(Strings.PATH_CREATE_OBJECT_INSTANCE)
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
+    String CreateObjInstance(String createObjInstanceRequest);
+
+    /**
+     * Creates new user in db
+     * @param reqParam */
+    @POST
+    @Path(Strings.PATH_REMOVE_OBJECT_INSTANCE)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    String removeObjInstance(RemoveObjInstanceRequest reqParam);
     String login(User data);
 
     /**

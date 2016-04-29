@@ -3,19 +3,17 @@ package Database;
 import Logic.*;
 import Utility.Logger;
 import Utility.Strings;
-import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 //import org.codinjutsu.tools.mongo.model.MongoCollection;
 import com.mongodb.client.MongoCollection;
-import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 
-import javax.print.Doc;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,6 +22,8 @@ import java.util.List;
  */
 public class MongoDB implements Database {
 
+    public static final String APPLICATION_INSTANCES_TABLE = "ApplicationInstances";
+    public static final String ID_KEY = "id";
     /**
      * DB RECOVERY AFTER SHUTDOWN:
      * mongod --dbpath /data/db --repair --repairpath /data/db0
@@ -33,96 +33,154 @@ public class MongoDB implements Database {
     private String username;
 
     public MongoDB() {
+        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
+                CodecRegistries.fromProviders(new UserCodecProvider()),
+                CodecRegistries.fromProviders(new ApplicationCodecProvider()),
+                CodecRegistries.fromProviders(new AppInstanceCodecProvider()),
+                MongoClient.getDefaultCodecRegistry());
+        MongoClientOptions options = MongoClientOptions.builder()
+                .codecRegistry(codecRegistry).build();
+        mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT, options);
     }
 
     @Override
     public void connect() throws IOException {
         Runtime.getRuntime().exec("mongod");
-        mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT);
         Logger.SEVERE("Database started.");
     }
 
+    @Override
+    public void updateApplication(Document document) {
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        BasicDBObject whereQ = getWhereQuery("id", document.getString("id"));
+        getApplicationsTable().findOneAndReplace(whereQ, document);
+    }
 
     @Override
-    public void addData(Document document, String username) {
+    public void addApplication(Document document) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("username", username);
-        FindIterable<Document> docs = db.getCollection("UserApplications").find(whereQuery);
-        Document first = docs.first();
-        if(first == null){
-            first = new Document();
-            first.append("username", username).append(document.getString("id"), document);
-            db.getCollection("UserApplications").insertOne(first);
-        }
-        else {
-            first.append(document.getString("id"), document);
-            db.getCollection("UserApplications").findOneAndReplace(whereQuery, first);
-        }
+        getApplicationsTable().insertOne(document);
+    }
+
+    @Override
+    public void removeApplication(String appID) {
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        BasicDBObject whereQ = getWhereQuery("id",appID);
+        getApplicationsTable().findOneAndDelete(whereQ);
     }
 
 
     public void addUser(Document document){
-        String id = document.getString("username");
-        Document doc =  new Document();
-        doc.append(id, document);
-        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        db.getCollection("Users").insertOne(doc);
-    }
-
-    @Override
-    public void removeData(String documentID, String username) {
-        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        BasicDBObject usernameQuery = new BasicDBObject();
-        usernameQuery.put("username", username);
-
-        Document userApplications = db.getCollection("UserApplications").find(usernameQuery).first();
-        userApplications.remove(documentID);
-
-        db.getCollection("UserApplications").findOneAndReplace(usernameQuery, userApplications);
-    }
-
-    @Override
-    public void updateData(Document document, String username) {
-        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        BasicDBObject usernameQuery = new BasicDBObject();
-        usernameQuery.put("username", username);
-
-        Document userApplications = db.getCollection("UserApplications").find(usernameQuery).first();
-        userApplications.remove(document.getString("id"));
-        userApplications.put(document.getString("id"), document);
-
-        db.getCollection("UserApplications").findOneAndReplace(usernameQuery, userApplications);
-    }
-
-    @Override
-    public Document getData(String documentId, String username) {
-        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        BasicDBObject usernameQuery = new BasicDBObject();
-        usernameQuery.put("username", username);
-        Document userApp = db.getCollection("UserApplications").find(usernameQuery).first();
-        Document doc = (Document) userApp.get(documentId);
-        String id = doc.getString("id");
-        String name = doc.getString("name");
-        @SuppressWarnings("unchecked") ArrayList<String> platforms = (ArrayList<String>)doc.get("platforms");
-        @SuppressWarnings("unchecked") ArrayList<ApplicationObject> objects = (ArrayList<ApplicationObject>) doc.get("objects");
-        @SuppressWarnings("unchecked") ArrayList<ApplicationBehavior> behaviors = (ArrayList<ApplicationBehavior>) doc.get("behaviors");
-        @SuppressWarnings("unchecked") ArrayList<ApplicationEvent> events = (ArrayList<ApplicationEvent>) doc.get("events");
-        return new Application(id, name, platforms, objects, behaviors, events);
+        MongoDatabase db = getMongoDatabase();
+        getUsersTable().insertOne(document);
     }
 
     public User getUser(String username){
-        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("username", username);
-        FindIterable<Document> docs = db.getCollection("Users").find(whereQuery);
-
+        MongoDatabase db = getMongoDatabase();
+        BasicDBObject whereQuery = getWhereQuery("username",username);
+        FindIterable<Document> docs = getUsersTable().find(whereQuery);
         return (User)docs.first();
     }
 
     @Override
+    public boolean isUserExist(String username) {
+        MongoDatabase db = getMongoDatabase();
+        BasicDBObject whereQuery = getWhereQuery("username",username);
+        return getUsersTable().count(whereQuery)>0;
+    }
+
+    @Override
+    public boolean isPasswordRight(String username, String pass) {
+        MongoDatabase db = getMongoDatabase();
+        BasicDBObject whereQuery = getWhereQuery("username", username);
+        whereQuery.put("password", pass);
+        return getUsersTable().count(whereQuery)>0;
+    }
+
+    private MongoCollection<Document> getUsersTable() {
+        return getMongoDatabase().getCollection("Users");
+    }
+
+    @Override
+    public List<Application> getApplicationOfUser(String username){
+        BasicDBObject whereQuery = getWhereQuery("username",username);
+        FindIterable<Document> docs = getApplicationsTable().find(whereQuery);
+        List<Application> ret = new LinkedList<>();
+        for (Document doc : docs){
+            ret.add(Application.fromDocument(doc));
+        }
+
+        return ret;
+    }
+
+    @Override
+    public void addApplicationInstance(AppInstance appInstance) {
+        MongoDatabase db = getMongoDatabase();
+        getAppInstanceTable().insertOne(appInstance);
+    }
+
+    @Override
+    public AppInstance getAppInstance(String id) {
+        BasicDBObject whereQuery = getWhereQuery(ID_KEY, id);
+        Document appDoc = getAppInstanceTable().find(whereQuery).first();
+        AppInstance instance = AppInstance.fromDocument(appDoc);
+        return instance;
+    }
+
+    @Override
+    public boolean isInstanceExist(String instanceId) {
+        BasicDBObject whereQuery = getWhereQuery(ID_KEY,instanceId);
+        MongoCollection<Document> appInstanceTable = getAppInstanceTable();
+        return appInstanceTable.count(whereQuery)>0;
+    }
+
+    @Override
+    public MongoDatabase getDB() {
+        MongoDatabase db = getMongoDatabase();
+        return db;
+    }
+
+    @Override
     public void clearAll() {
-        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        MongoDatabase db = getMongoDatabase();
         db.drop();
+    }
+
+    @Override
+    public void updateAppInstance(AppInstance instance) {
+        String id = instance.getString(ID_KEY);
+        BasicDBObject whereQuery = getWhereQuery(ID_KEY,id);
+        Document doc = getAppInstance(id);
+        getAppInstanceTable().findOneAndReplace(whereQuery,instance);
+    }
+
+    @Override
+    public Application getApplication(String id) {
+        BasicDBObject whereQuery = getWhereQuery("id", id);
+        Document doc = getApplicationsTable().find(whereQuery).first();
+        return (Application.fromDocument(doc));
+    }
+
+    //////////////// privates
+
+
+    private MongoCollection<Document> getApplicationsTable() {
+        MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
+        return db.getCollection("Applications");
+    }
+
+    private BasicDBObject getWhereQuery(String key, Object value) {
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put(key, value);
+        return whereQuery;
+    }
+
+    private MongoCollection<Document> getAppInstanceTable(){
+        MongoDatabase db = getMongoDatabase();
+        return db.getCollection(APPLICATION_INSTANCES_TABLE);
+    }
+
+    private MongoDatabase getMongoDatabase() {
+        return mongoClient.getDatabase(Strings.DB_NAME);
     }
 }

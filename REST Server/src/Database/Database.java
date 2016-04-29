@@ -1,10 +1,13 @@
 package Database;
 
-import Logic.ApplicationObject;
+import Logic.AppInstance;
+import Logic.Application;
 import Logic.User;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by victor on 11/12/2015.
@@ -23,32 +26,56 @@ public interface Database {
      */
     void clearAll();
 
+    ////////////////// Applications /////////////////
+
+
     /**
      * Removes the document with the given ID from the database.
-     * @param documentID the id of the collection to remove.
+     * @param appID the id of the collection to remove.
      */
-    void removeData(String documentID, String username);
+    void removeApplication(String appID);
 
     /**
      * Updates the document with the given ID in the database.
      * @param document the new document.
      */
-    void updateData(Document document, String username);
+    void updateApplication(Document document);
 
-    /**
-     * Retrieves a document with the given ID from the database.
-     * @param documentId the ID of the document to retrieve.
-     * @return the requested document.
-     */
-    Document getData(String documentId, String username);
 
     /**
      * Adds a new document to the database.
      * @param document the document to add.
      */
-    void addData(Document document, String username);
+    void addApplication(Document document);
+
+
+    Application getApplication(String id);
+
+
+    /////////////////////// Users //////////////////
 
     void addUser(Document document);
 
     User getUser(String username);
+
+    boolean isUserExist(String username);
+
+    boolean isPasswordRight(String username, String pass);
+
+    public List<Application> getApplicationOfUser(String username);
+
+    //////////////////////// app instances /////////////////
+
+    void addApplicationInstance(AppInstance appInstance);
+
+    AppInstance getAppInstance(String id);
+
+    boolean isInstanceExist(String instanceId);
+
+    void updateAppInstance(AppInstance instance);
+
+
+    ///////////////////   get database //////////////////////
+
+    MongoDatabase getDB();
 }

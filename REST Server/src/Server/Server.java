@@ -14,11 +14,11 @@ import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -30,8 +30,12 @@ import java.util.logging.Level;
 public class Server implements RESTServer {
 
     // Silence the built-in jersey logger
-    private final static java.util.logging.Logger COM_SUN_JERSEY_LOGGER = java.util.logging.Logger.getLogger( "com.sun.jersey" );
-    static { COM_SUN_JERSEY_LOGGER.setLevel( Level.SEVERE ); }
+    private final static java.util.logging.Logger COM_SUN_JERSEY_LOGGER = java.util.logging.Logger.getLogger("com.sun.jersey");
+
+    static {
+        COM_SUN_JERSEY_LOGGER.setLevel(Level.SEVERE);
+    }
+
     private static Facade facade = new hAPPiFacade();
     private Application currentlySelectedApplication;
     private User currentUser = new User("tempUsername", "tempPass", "tempMail");
@@ -52,11 +56,11 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String createApplication(Application data){
+    public String createApplication(Application data) {
         try {
             Logger.INFO("Creating a new application: " + data.getId());
             this.currentlySelectedApplication = data;
-            facade.createApplication(data, currentUser.getUsername());
+            facade.createApplication(data);
             return "Created " + data.getName();
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed execute cordova command", e.getMessage());
@@ -84,12 +88,11 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String createObject(ApplicationObject data){
+    public String createObject(ApplicationObject data) {
         try {
             facade.createObject(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
             return "Object " + data.getName() + " added!";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create object!";
         }
@@ -108,11 +111,11 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String createBehavior(ApplicationBehavior data){
+    public String createBehavior(ApplicationBehavior data) {
         try {
             facade.createBehavior(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
             return "Behavior " + data.getName() + " added!";
-        }  catch (Exception e) {
+        } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create behavior!";
         }
@@ -149,9 +152,9 @@ public class Server implements RESTServer {
     @Override
     public String addUser(User data) {
         Logger.INFO("start addUser");
-        try{
+        try {
             facade.addUser(data);
-        } catch (Exception e){
+        } catch (Exception e) {
             Logger.ERROR("Error : Failed to add user!", e.getMessage());
             return "Error: Failed to add user!";
         }
@@ -159,17 +162,30 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String login(User data) {
+    public List<Application> login(User data) {
         // TODO - check user credentials, send user applications.
+        Logger.INFO(" get applications for specific users");
+        try {
+            List<Application> applicationOfUser = facade.login(data);
+            return applicationOfUser;
+        } catch (Exception e) {
+            Logger.ERROR("username or password are wrong", e.getMessage());
+        }
+        return null;
+    }
 
-        ArrayList<String> platforms = new ArrayList<>();
-        platforms.add("android");
-
-        String app = new Application("111", "TEMP_APP", platforms, new ArrayList<ApplicationObject>(), new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>()).toJson();
-        String[] apps = {app};
-
-
-        return Arrays.toString(apps);
+    @Override
+    public String CreateObjInstance(String createObjInstanceRequest) {
+        Logger.INFO("start create instance");
+        try {
+            JSONObject jsonObject = new JSONObject(createObjInstanceRequest);
+            facade.addObjectInstance(jsonObject);
+        } catch (Exception e) {
+            Logger.ERROR("Error: Failed to create instance!", e.getMessage());
+            return "Error: Failed to create instance!";
+        }
+        Logger.INFO("created Instance successfully");
+        return "created Instance successfully";
     }
 
     @Override
@@ -209,8 +225,7 @@ public class Server implements RESTServer {
     public String removeApplication(Application application) {
         try {
             facade.removeApplication(application.getId(), currentUser.getUsername());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Logger.ERROR("Failed to remove application", e.getMessage());
             return "Failed to remove application!";
         }
@@ -236,13 +251,26 @@ public class Server implements RESTServer {
     @Override
     public String updateObject(ApplicationObject data) {
         try {
-            facade.updateApplicationObject(currentlySelectedApplication.getId(),currentUser.getUsername(), data);
+            facade.updateApplicationObject(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
         } catch (Exception e) {
             Logger.ERROR("Error : failed to update application object!", e.getMessage());
             return "Error: Failed to update application object!";
         }
         return "The object " + data.getName() + " was updated successfully";
     }
+
+    @Override
+    public String removeObjInstance(RemoveObjInstanceRequest reqParam) {
+        try {
+            facade.removeObjectInstance(reqParam.getInstanceId(), reqParam.getObjName(), reqParam.getIndex());
+        } catch (Exception e) {
+            Logger.ERROR("Error : failed to remove object instance!", e.getMessage());
+            return "Error: Failed to remove object instance!";
+        }
+        Logger.INFO("The object " + reqParam.getObjName() + " instance was removed successfully");
+        return "The object " + reqParam.getObjName() + " instance was removed successfully";
+    }
+
     /**
      * Starts the Server.
      */
@@ -286,6 +314,7 @@ public class Server implements RESTServer {
 
     /**
      * Starts the server and awaits termination.
+     *
      * @param args - null
      */
     public static void main(String[] args) {

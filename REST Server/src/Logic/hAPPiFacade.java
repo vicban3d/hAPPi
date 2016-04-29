@@ -6,7 +6,9 @@ import Exceptions.CordovaRuntimeException;
 import Utility.*;
 import com.dropbox.core.DbxException;
 import org.bson.Document;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -14,6 +16,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by victor on 11/10/2015.
@@ -35,20 +40,20 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void createApplication(Application application, String username) throws CordovaRuntimeException, JSONException {
-            database.addData(application, username);
+    public void createApplication(Application application) throws CordovaRuntimeException, JSONException {
+            database.addApplication(application);
             compiler.createApplication(application.toJSON());
             createPlatforms(application.getPlatforms(), application.getName());
     }
 
     @Override
     public void updateApplication(Application application, String username) throws IOException, CordovaRuntimeException {
-        Application oldApp = Application.fromDocument(database.getData(application.getId(), username));
+        Application oldApp = Application.fromDocument(database.getApplication(application.getId()));
         String oldApplicationName = oldApp.getName();
         removePlatforms(oldApplicationName);
         FileHandler.renameFolder(Strings.PATH_APPS + "\\" + oldApplicationName, Strings.PATH_APPS + "\\" + application.getName());
         createPlatforms(application.getPlatforms(), application.getName());
-        database.updateData(application, username);
+        database.updateApplication(application);
     }
 
     private void createPlatforms(ArrayList<String> platforms, String applicationName) throws CordovaRuntimeException {
@@ -62,7 +67,7 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public String buildApplication(String appId, String username) throws CordovaRuntimeException, IOException, DbxException {
-        Application application = Application.fromDocument(database.getData(appId, username));
+        Application application = Application.fromDocument(database.getApplication(appId));
         prepareApplicationForCompilation(application);
         compiler.buildApplication(application.getName());
         return fileUploader.uploadFile(application.getName(), Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
@@ -110,16 +115,16 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void createObject(String appId, String username, ApplicationObject data) {
-        Application application = Application.fromDocument(database.getData(appId, username));
+        Application application = Application.fromDocument(database.getApplication(appId));
         application.addObject(data);
-        database.updateData(application, username);
+        database.updateApplication(application);
     }
 
     @Override
     public void removeObject(String appId, String username, ApplicationObject object) {
-        Application application = Application.fromDocument(database.getData(appId, username));
+        Application application = Application.fromDocument(database.getApplication(appId));
         application.removeObject(object);
-        database.updateData(application, username);
+        database.updateApplication(application);
     }
 
     @Override
@@ -134,8 +139,8 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void removeApplication(String appId, String username) {
-        String appName = Application.fromDocument(database.getData(appId, username)).getName();
-        database.removeData(appId, username);
+        String appName = Application.fromDocument(database.getApplication(appId)).getName();
+        database.removeApplication(appId);
         FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + appName);
         Logger.INFO("The application " + appName + " was deleted.");
     }
@@ -143,21 +148,21 @@ public class hAPPiFacade implements Facade {
     @Override
     public void removePlatforms(String fileName){
         FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + fileName+ "\\platforms");
-        FileHandler.createFolder(Strings.PATH_APPS + "\\" + fileName+ "\\platforms");
+        FileHandler.createFolder(Strings.PATH_APPS + "\\" + fileName + "\\platforms");
     }
 
     @Override
     public void createBehavior(String appId, String username, ApplicationBehavior behavior) {
-        Application application = Application.fromDocument(database.getData(appId, username));
+        Application application = Application.fromDocument(database.getApplication(appId));
         application.addBehavior(behavior);
-        database.updateData(application, username);
+        database.updateApplication(application);
     }
 
     @Override
     public void removeBehavior(String appId, String username, ApplicationBehavior behavior) {
-        Application application = Application.fromDocument(database.getData(appId, username));
+        Application application = Application.fromDocument(database.getApplication(appId));
         application.removeBehavior(behavior);
-        database.updateData(application, username);
+        database.updateApplication(application);
     }
 
     @Override
@@ -172,21 +177,59 @@ public class hAPPiFacade implements Facade {
 
     @Override
     public void updateApplicationObject(String appId, String username, ApplicationObject object) {
-        Application application = Application.fromDocument(database.getData(appId, username));
+        Application application = Application.fromDocument(database.getApplication(appId));
         application.updateObject(object);
-        database.updateData(application, username);
+        database.updateApplication(application);
     }
 
     @Override
     public void updateApplicationBehavior(String appId, String username, ApplicationBehavior behavior) {
-        Application application = Application.fromDocument(database.getData(appId, username));
+        Application application = Application.fromDocument(database.getApplication(appId));
         application.updateBehavior(behavior);
-        database.updateData(application, username);
+        database.updateApplication(application);
     }
 
     @Override
     public void addUser(User user) {
         database.addUser(user);
+    }
+
+    @Override
+    public void addObjectInstance(JSONObject jsonObj) {
+        String id = null;
+        String app_id = null;
+        String objName = null;
+        List<String> attributes = new ArrayList<>();
+        try {
+            id = jsonObj.getString("id");
+            app_id = jsonObj.getString("app_id");
+            objName = jsonObj.getString("objName");
+            JSONArray jsonArray = (JSONArray)jsonObj.get("attributesList");
+            if (jsonArray!=null){
+                for (int i=0;i<jsonArray.length();i++)
+                    attributes.add(jsonArray.getString(i));
+            }
+        } catch (org.codehaus.jettison.json.JSONException e) {
+            e.printStackTrace();
+        }
+        Boolean isAppInstanceExist = database.isInstanceExist(id);
+        if (!isAppInstanceExist){
+            Map<String,List<String>> newMap = new HashMap<>();
+            newMap.put(objName,attributes);
+            AppInstance appInstance = new AppInstance(id,app_id,newMap);
+            database.addApplicationInstance(appInstance);
+        }else{
+            AppInstance appInstance = database.getAppInstance(id);
+            appInstance.addObjectInstance(objName, attributes);
+            database.updateAppInstance(appInstance);
+        }
+    }
+
+    @Override
+    public void removeObjectInstance(String instanceId, String objName, int index) {
+        AppInstance instance = database.getAppInstance(instanceId);
+        instance.removeObjectInstance(objName,index);
+        database.updateAppInstance(instance);
     }
 
     @Override
@@ -228,5 +271,14 @@ public class hAPPiFacade implements Facade {
 
     public void getUser(String userId){
 
+    }
+
+    @Override
+    public List<Application> login(User user) {
+        if(!database.isUserExist(user.getUsername()) ||
+                !database.isPasswordRight(user.getUsername(),user.getPassword()))
+            return null;
+
+        return database.getApplicationOfUser(user.getUsername());
     }
 }

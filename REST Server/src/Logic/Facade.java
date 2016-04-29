@@ -9,8 +9,10 @@ import Database.Database;
 import Exceptions.CordovaRuntimeException;
 import com.dropbox.core.DbxException;
 import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * A facade interface which allows the connection layer to communicate with the business layer.
@@ -21,7 +23,7 @@ public interface Facade {
      * Creates a new application with the given parameters.
      * @param application - a JSON compatible string describing the application.
      */
-    void createApplication(Application application, String username) throws CordovaRuntimeException, JSONException;
+    void createApplication(Application application) throws CordovaRuntimeException, JSONException;
 
      /**
      * Compiles and builds the application.
@@ -77,4 +79,10 @@ public interface Facade {
     void removeEvent(String id, String username, ApplicationEvent data);
 
     void updateApplicationEvent(String id, String username, ApplicationEvent event);
+
+    void addObjectInstance(JSONObject jsonObj);
+
+    void removeObjectInstance(String instanceId, String objName, int index);
+
+    List<Application> login(User user);
 }
