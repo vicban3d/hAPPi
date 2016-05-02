@@ -385,3 +385,43 @@ span.addAppButton{
     border-radius: 6%;
     padding: 5%;
 }
+
+.formInput{
+    padding: 1%;
+}
+
+.formInput10{
+    width: 10%;
+}
+
+.formInput15{
+    width: 15%;
+}
+
+.formInput20{
+    width: 20%;
+}
+
+.formInput35{
+    width: 35%;
+}
+
+.formInput40{
+    width: 40%;
+}
+
+.formInput80{
+    width: 80%;
+}
+
+/*.applicationTitle{*/
+    /*position: absolute;*/
+    /*left: 77%;*/
+    /*top: 0;*/
+    /*height: 10%;*/
+    /*font-size: 24px;*/
+    /*text-align: center;*/
+    /*vertical-align: middle;*/
+    /*background: black;*/
+    /*color: white;*/
+/*}*/

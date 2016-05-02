@@ -3,8 +3,9 @@
  */
 main_module.service('behaviorService',[function(){
 
-    this.currentBehavior = {
-        id: '',
+    this.currentBehavior =
+    {
+        id : '',
         name: '',
         operandObject: {},
         operator: '',

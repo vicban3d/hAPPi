@@ -261,24 +261,21 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.android = false;
             $scope.ios = false;
             $scope.windowsPhone = false;
+            $scope.switchAndroidImg = 1;
+            $scope.switchIosImg = 1;
+            $scope.switchWindowsImg = 1;
 
             for(var i=0; i<appService.currentApplication.platforms.length; i++)
             {
                 if(appService.currentApplication.platforms[i] == "android") {
                     $scope.switchAndroidImg = 2;
-                    $scope.switchIosImg = 1;
-                    $scope.switchWindowsImg = 1;
                     $scope.android = true;
                 }
                 else if(appService.currentApplication.platforms[i] == "ios") {
-                    $scope.switchAndroidImg = 1;
                     $scope.switchIosImg = 2;
-                    $scope.switchWindowsImg = 1;
                     $scope.ios = true;
                 }
                 else if(appService.currentApplication.platforms[i] == "wp8") {
-                    $scope.switchAndroidImg = 1;
-                    $scope.switchIosImg = 1;
                     $scope.switchWindowsImg = 2;
                     $scope.windowsPhone = true;
                 }
@@ -324,6 +321,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.getAttributeName = function(val){ objectService.getAttributeName(val); };
 
         $scope.addNewObject = function(){
+            $scope.indexToShow = -1;
             objectService.addNewObject();
             $scope.showNoObjectMembersImage = !$scope.showNoObjectMembersImage;
             $scope.toggleArea("objectCreateArea");
@@ -425,12 +423,13 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 name: '',
                 operandObject: {},
                 operator: '',
-                operand: '',
+                operandAttribute: {},
                 conditions: []
             };
         };
 
         $scope.addNewBehavior = function(){
+            $scope.indexToShow = -1;
             behaviorService.addNewBehavior();
             $scope.showNoBehaviorMembersImage = !$scope.showNoBehaviorMembersImage;
             $scope.toggleArea("behaviorCreateArea");
