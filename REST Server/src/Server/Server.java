@@ -260,15 +260,18 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String removeObjInstance(RemoveObjInstanceRequest reqParam) {
+    public String removeObjInstance(String reqParam) {
+        String objName = "";
         try {
-            facade.removeObjectInstance(reqParam.getInstanceId(), reqParam.getObjName(), reqParam.getIndex());
+            JSONObject jsonObject = new JSONObject(reqParam);
+            facade.removeObjectInstance(jsonObject);
+            objName = jsonObject.getString("objName");
         } catch (Exception e) {
             Logger.ERROR("Error : failed to remove object instance!", e.getMessage());
             return "Error: Failed to remove object instance!";
         }
-        Logger.INFO("The object " + reqParam.getObjName() + " instance was removed successfully");
-        return "The object " + reqParam.getObjName() + " instance was removed successfully";
+        Logger.INFO("The object " + objName + " instance was removed successfully");
+        return "The object " + objName + " instance was removed successfully";
     }
 
     /**
@@ -300,7 +303,7 @@ public class Server implements RESTServer {
         server.stop(0);
         Logger.SEVERE("Server stopped.");
         // TODO - remove in production!!!
-        facade.clearDatabase();// TODO - remove in production!!!
+//        facade.clearDatabase();// TODO - remove in production!!!
         // TODO - remove in production!!!
     }
 

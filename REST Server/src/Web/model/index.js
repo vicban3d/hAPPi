@@ -3,10 +3,12 @@ var main_module = angular.module('main', []);
 main_module.controller('ctrl_main', ['$scope',
     function($scope) {
         $scope.applicationName = "<[NAME]>";
+        $scope.applicationId = "<APP_ID>";
         $scope.objects = [];
         $scope.behaviors = [];
         $scope.currentInstance = '';
         $scope.showEmulatorMainPage = true;
+        $scope.showAddInstance = true;
         $scope.attribute_values = [];
         $scope.instances = [];
         $scope.emulatorOutput = '';
@@ -20,11 +22,11 @@ main_module.controller('ctrl_main', ['$scope',
 
         $scope.designDisplayObjectPage = function(object){
             $scope.currentInstance = object;
-            $scope.showEmulatorMainPage = false;
+            $scope.showAddInstance = true;
         };
 
         $scope.designDisplayBehaviorPage = function(){
-            $scope.showEmulatorMainPage = true;
+            $scope.showAddInstance = false;
         };
 
         $scope.addInstance = function(){
@@ -33,6 +35,14 @@ main_module.controller('ctrl_main', ['$scope',
             }
             $scope.instances[$scope.currentInstance.name].push($scope.attribute_values);
             $scope.attribute_values = [];
+
+            var postBody = {
+                id : generateUUID(),
+                app_id: $scope.applicationId,
+                objName: $scope.currentInstance.name,
+                attributesList: $scope.attribute_values
+            }
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
         };
 
         $scope.removeInstance = function(idx){

@@ -68,9 +68,9 @@ public interface Database {
 
     void addApplicationInstance(AppInstance appInstance);
 
-    AppInstance getAppInstance(String id);
+    AppInstance getAppInstance(String id, String app_id);
 
-    boolean isInstanceExist(String instanceId);
+    boolean isInstanceExist(String instanceId, String app_id);
 
     void updateAppInstance(AppInstance instance);
 

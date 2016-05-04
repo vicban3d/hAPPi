@@ -2,19 +2,32 @@
  * Created by Victor on 10/03/2016.
  */
 main_module.service('designService',[function(){
-
     this.currentInstance = [];
     this.showEmulatorMainPage = true;
+    this.showAddInstance = false;
     this.emulatorOutput = '';
 
     this.getShowEmulatorMainPage = function(){
         return this.showEmulatorMainPage;
     };
 
+    this.getShowAddInstance = function(){
+        return this.showAddInstance;
+    }
+
+    this.gotoAppInstance = function(phoneNumber){
+        this.phoneNumber = phoneNumber;
+        this.showEmulatorMainPage = false;
+    }
+
     this.designDisplayObjectPage = function(object){
         this.currentInstance = object;
         this.emulatorOutput = '';
-        this.showEmulatorMainPage = false;
+        this.showAddInstance = true;
+    };
+
+    this.designDisplayBehaviorPage = function(){
+        this.showAddInstance = false;
     };
 
     this.addInstance = function($scope, attributes){
@@ -23,21 +36,13 @@ main_module.service('designService',[function(){
         }
         $scope.instances[this.currentInstance.name].push(attributes);
         $scope.attribute_values = [];
+
         var postBody = {
-            id : generateUUID(),
+            id : this.phoneNumber,
             app_id: $scope.getCurrentApplication().id,
             objName: this.currentInstance.name,
             attributesList: attributes
         }
-/*
-        alert("here");
-        alert(this.currentInstance.name);
-        $scope.$watch('attributes',
-            function(newVal, oldVal) {
-                alert(newVal);
-
-            });
-        //TODO - add watch if there is event*/
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
     };
 

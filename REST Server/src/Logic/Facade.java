@@ -82,7 +82,7 @@ public interface Facade {
 
     void addObjectInstance(JSONObject jsonObj);
 
-    void removeObjectInstance(String instanceId, String objName, int index);
+    void removeObjectInstance(JSONObject jsonObject);
 
     List<Application> login(User user);
 }

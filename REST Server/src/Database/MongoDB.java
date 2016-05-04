@@ -120,16 +120,18 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public AppInstance getAppInstance(String id) {
+    public AppInstance getAppInstance(String id, String app_id) {
         BasicDBObject whereQuery = getWhereQuery(ID_KEY, id);
+        whereQuery.put("app_id",app_id);
         Document appDoc = getAppInstanceTable().find(whereQuery).first();
         AppInstance instance = AppInstance.fromDocument(appDoc);
         return instance;
     }
 
     @Override
-    public boolean isInstanceExist(String instanceId) {
+    public boolean isInstanceExist(String instanceId, String app_id) {
         BasicDBObject whereQuery = getWhereQuery(ID_KEY,instanceId);
+        whereQuery.put("app_id",app_id);
         MongoCollection<Document> appInstanceTable = getAppInstanceTable();
         return appInstanceTable.count(whereQuery)>0;
     }
@@ -150,7 +152,7 @@ public class MongoDB implements Database {
     public void updateAppInstance(AppInstance instance) {
         String id = instance.getString(ID_KEY);
         BasicDBObject whereQuery = getWhereQuery(ID_KEY,id);
-        Document doc = getAppInstance(id);
+        Document doc = getAppInstance(id, instance.getApp_id());
         getAppInstanceTable().findOneAndReplace(whereQuery,instance);
     }
 

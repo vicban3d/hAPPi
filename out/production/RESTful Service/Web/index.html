@@ -625,9 +625,14 @@
                     </div>
                 </nav>
                 <div class="designAreaPage" data-ng-show="getShowEmulatorMainPage()">
+                    <label class="componentMainTitle formInput">enter you phone number:</label>
+                    <input type="text" class="form-control" placeholder="phone number" data-ng-model="phoneNumber">
+                    <button class="btn btn-primary btn-block" data-ng-click="gotoAppInstance(phoneNumber)">goto app</button>
+                </div>
+                <div class="designAreaPage" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage()">
                     <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                 </div>
-                <div class="designAreaPage" data-ng-show="!getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
+                <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
                     <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                         <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
                     </form>

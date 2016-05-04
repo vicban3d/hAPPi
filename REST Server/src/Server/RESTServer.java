@@ -209,9 +209,9 @@ public interface RESTServer {
      * @param reqParam */
     @POST
     @Path(Strings.PATH_REMOVE_OBJECT_INSTANCE)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String removeObjInstance(RemoveObjInstanceRequest reqParam);
+    String removeObjInstance(String reqParam);
 
     /**
      * Removes an event from the currently selected application.

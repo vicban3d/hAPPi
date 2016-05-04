@@ -93,6 +93,7 @@ public class hAPPiFacade implements Facade {
         String HTMLContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.html");
         String MAINContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\main.html");
         String JSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.js");
+        String JSUtilContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\util.js");
         String CSSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.css");
         String ANGULARContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\angular.min.js");
         String JQUERYContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\jquery-1.10.2.min.js");
@@ -100,11 +101,14 @@ public class hAPPiFacade implements Facade {
         String BOOTSTRAPJSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\bootstrap.min.js");
         if (HTMLContent != null && JSContent != null && CSSContent != null) {
             JSContent = JSContent.replace("<[NAME]>", application.getName());
+            JSContent = JSContent.replace("<[APP_ID]>", application.getId());
             JSContent = JSContent.replace("<[OBJECTS]>", allActions.toString().replace("\"", "\\\""));
             JSContent = JSContent.replace("<[BEHAVIORS]>", allBehaviors.toString().replace("\"", "\\\""));
+//            JSContent = JSContent.replace("$scope.isWebMode = true;", "$scope.isWebMode = false;");
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html", HTMLContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\main.html", MAINContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js", JSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\util.js", JSUtilContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\angular.min.js", ANGULARContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\index.css", CSSContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\jquery-1.10.2.min.js", JQUERYContent);
@@ -212,22 +216,37 @@ public class hAPPiFacade implements Facade {
         } catch (org.codehaus.jettison.json.JSONException e) {
             e.printStackTrace();
         }
-        Boolean isAppInstanceExist = database.isInstanceExist(id);
+        Boolean isAppInstanceExist = database.isInstanceExist(id, app_id);
         if (!isAppInstanceExist){
             Map<String,List<String>> newMap = new HashMap<>();
             newMap.put(objName,attributes);
             AppInstance appInstance = new AppInstance(id,app_id,newMap);
             database.addApplicationInstance(appInstance);
         }else{
-            AppInstance appInstance = database.getAppInstance(id);
+            AppInstance appInstance = database.getAppInstance(id, app_id);
             appInstance.addObjectInstance(objName, attributes);
             database.updateAppInstance(appInstance);
         }
     }
 
     @Override
-    public void removeObjectInstance(String instanceId, String objName, int index) {
-        AppInstance instance = database.getAppInstance(instanceId);
+    public void removeObjectInstance(JSONObject jsonObj) {
+        String instanceId = null;
+        String app_id = null;
+        String objName = null;
+        int index = 0;
+
+        try {
+            instanceId = jsonObj.getString("id");
+            app_id = jsonObj.getString("app_id");
+            objName = jsonObj.getString("objName");
+            index = jsonObj.getInt("index");
+        } catch (org.codehaus.jettison.json.JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        AppInstance instance = database.getAppInstance(instanceId, app_id);
         instance.removeObjectInstance(objName,index);
         database.updateAppInstance(instance);
     }

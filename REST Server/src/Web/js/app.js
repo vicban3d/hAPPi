@@ -528,12 +528,20 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.designDisplayBehaviorPage = function(){
-            designService.showEmulatorMainPage = true;
-        };
+            designService.designDisplayBehaviorPage();
+        }
 
         $scope.getShowEmulatorMainPage = function(){
             return designService.getShowEmulatorMainPage()
         };
+
+        $scope.getShowAddInstance = function(){
+            return designService.getShowAddInstance();
+        };
+
+        $scope.gotoAppInstance = function(phoneNumber){
+            designService.gotoAppInstance(phoneNumber);
+        }
 
         $scope.addInstance = function(){
             designService.addInstance($scope, $scope.attribute_values);
