@@ -4,7 +4,6 @@ import Logic.AppInstance;
 import Logic.Application;
 import Logic.User;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,14 +38,14 @@ public interface Database {
      * Updates the document with the given ID in the database.
      * @param document the new document.
      */
-    void updateApplication(Document document);
+    void updateApplication(Application document);
 
 
     /**
      * Adds a new document to the database.
      * @param document the document to add.
      */
-    void addApplication(Document document);
+    void addApplication(Application document);
 
 
     Application getApplication(String id);
@@ -54,7 +53,7 @@ public interface Database {
 
     /////////////////////// Users //////////////////
 
-    void addUser(Document document);
+    void addUser(User document);
 
     User getUser(String username);
 

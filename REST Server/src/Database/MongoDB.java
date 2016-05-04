@@ -50,14 +50,14 @@ public class MongoDB implements Database {
     }
 
     @Override
-    public void updateApplication(Document document) {
+    public void updateApplication(Application document) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
         BasicDBObject whereQ = getWhereQuery("id", document.getString("id"));
         getApplicationsTable().findOneAndReplace(whereQ, document);
     }
 
     @Override
-    public void addApplication(Document document) {
+    public void addApplication(Application document) {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
         getApplicationsTable().insertOne(document);
     }
@@ -70,7 +70,7 @@ public class MongoDB implements Database {
     }
 
 
-    public void addUser(Document document){
+    public void addUser(User document){
         MongoDatabase db = getMongoDatabase();
         getUsersTable().insertOne(document);
     }
@@ -78,8 +78,8 @@ public class MongoDB implements Database {
     public User getUser(String username){
         MongoDatabase db = getMongoDatabase();
         BasicDBObject whereQuery = getWhereQuery("username",username);
-        FindIterable<Document> docs = getUsersTable().find(whereQuery);
-        return (User)docs.first();
+        FindIterable<User> docs = getUsersTable().find(whereQuery);
+        return docs.first();
     }
 
     @Override
@@ -97,14 +97,14 @@ public class MongoDB implements Database {
         return getUsersTable().count(whereQuery)>0;
     }
 
-    private MongoCollection<Document> getUsersTable() {
-        return getMongoDatabase().getCollection("Users");
+    private MongoCollection<User> getUsersTable() {
+        return getMongoDatabase().getCollection("Users", User.class);
     }
 
     @Override
     public List<Application> getApplicationOfUser(String username){
         BasicDBObject whereQuery = getWhereQuery("username",username);
-        FindIterable<Document> docs = getApplicationsTable().find(whereQuery);
+        FindIterable<Application> docs = getApplicationsTable().find(whereQuery);
         List<Application> ret = new LinkedList<>();
         for (Document doc : docs){
             ret.add(Application.fromDocument(doc));
@@ -164,9 +164,9 @@ public class MongoDB implements Database {
     //////////////// privates
 
 
-    private MongoCollection<Document> getApplicationsTable() {
+    private MongoCollection<Application> getApplicationsTable() {
         MongoDatabase db = mongoClient.getDatabase(Strings.DB_NAME);
-        return db.getCollection("Applications");
+        return db.getCollection("Applications", Application.class);
     }
 
     private BasicDBObject getWhereQuery(String key, Object value) {

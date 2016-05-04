@@ -29,15 +29,6 @@ main_module.service('designService',[function(){
             objName: this.currentInstance.name,
             attributesList: attributes
         }
-/*
-        alert("here");
-        alert(this.currentInstance.name);
-        $scope.$watch('attributes',
-            function(newVal, oldVal) {
-                alert(newVal);
-
-            });
-        //TODO - add watch if there is event*/
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
     };
 

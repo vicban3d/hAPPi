@@ -1,6 +1,8 @@
 package Database;
 
 import Logic.Application;
+import Logic.ApplicationBehavior;
+import Logic.ApplicationObject;
 import Logic.User;
 import org.bson.BsonReader;
 import org.bson.BsonType;
@@ -58,26 +60,35 @@ public class ApplicationCodec implements Codec<Application> {
         writer.writeString(application.getUsername());
 
         writer.writeStartArray("objects");
-        for (Document document : application.getObjects()) {
-            Codec<Document> documentCodec = codecRegistry.get(Document.class);
-            encoderContext.encodeWithChildContext(documentCodec, writer, document);
+
+        ArrayList<ApplicationObject> objects = application.getObjects();
+        if(objects != null) {
+            for (Document document : objects) {
+                Codec<Document> documentCodec = codecRegistry.get(Document.class);
+                encoderContext.encodeWithChildContext(documentCodec, writer, document);
+            }
         }
         writer.writeEndArray();
 
         writer.writeStartArray("behaviors");
-        for (Document document : application.getBehaviors()) {
-            Codec<Document> documentCodec = codecRegistry.get(Document.class);
-            encoderContext.encodeWithChildContext(documentCodec, writer, document);
+        ArrayList<ApplicationBehavior> behaviors = application.getBehaviors();
+        if(behaviors != null) {
+            for (Document document : behaviors) {
+                Codec<Document> documentCodec = codecRegistry.get(Document.class);
+                encoderContext.encodeWithChildContext(documentCodec, writer, document);
+            }
         }
         writer.writeEndArray();
 
         writer.writeStartArray("platforms");
-        for (String platform : application.getPlatforms()) {
-            Codec<String> documentCodec = codecRegistry.get(String.class);
-            encoderContext.encodeWithChildContext(documentCodec, writer, platform);
+        ArrayList<String> platforms = application.getPlatforms();
+        if(platforms != null) {
+            for (String platform : platforms) {
+                Codec<String> documentCodec = codecRegistry.get(String.class);
+                encoderContext.encodeWithChildContext(documentCodec, writer, platform);
+            }
         }
         writer.writeEndArray();
-
 
         writer.writeEndDocument();
     }

@@ -1,74 +1,61 @@
-package Tests.UnitTests;
+package Tests.unitTests;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
- * Created by victor on 1/18/2016.
- *
+ * Created by Gila-Ber on 04/05/2016.
  */
-public class ApplicationTest extends TestCase {
+public class ApplicationTest {
 
-    public void testGetId() throws Exception {
-
-    }
-
-    public void testSetId() throws Exception {
-
-    }
-
-    public void testGetName() throws Exception {
-
-    }
-
-    public void testSetName() throws Exception {
-
-    }
-
-    public void testGetPlatforms() throws Exception {
-
-    }
-
-    public void testSetPlatforms() throws Exception {
-
-    }
-
-    public void testGetObjects() throws Exception {
-
-    }
-
-    public void testSetObjects() throws Exception {
-
-    }
-
-    public void testGetBehaviors() throws Exception {
-
-    }
-
-    public void testSetBehaviors() throws Exception {
-
-    }
-
+    @Test
     public void testAddObject() throws Exception {
 
     }
 
+    @Test
     public void testAddBehavior() throws Exception {
 
     }
 
-    public void testToString() throws Exception {
+    @Test
+    public void testAddEvent() throws Exception {
 
     }
 
-    public void testToJSON() throws Exception {
-
-    }
-
+    @Test
     public void testRemoveObject() throws Exception {
 
     }
 
+    @Test
+    public void testUpdateObject() throws Exception {
+
+    }
+
+    @Test
     public void testRemoveBehavior() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateBehavior() throws Exception {
+
+    }
+
+    @Test
+    public void testFromDocument() throws Exception {
+
+    }
+
+    @Test
+    public void testRemoveEvent() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateEvent() throws Exception {
 
     }
 }
