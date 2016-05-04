@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONObject;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by victor on 1/13/2016.
@@ -27,23 +28,23 @@ public class Application extends Document{
     @XmlElement(required=true)
     private String username;
     @XmlElement(required=true)
-    private ArrayList<String> platforms;
+    private List<String> platforms;
     @XmlElement(required=true)
-    private ArrayList<ApplicationObject> objects;
+    private List<ApplicationObject> objects;
     @XmlElement(required=true)
-    private ArrayList<ApplicationBehavior> behaviors;
+    private List<ApplicationBehavior> behaviors;
     @XmlElement(required=true)
-    private ArrayList<ApplicationEvent> events;
+    private List<ApplicationEvent> events;
 
 
     @JsonCreator
     public Application(@JsonProperty("id") String id,
                        @JsonProperty("name") String name,
                        @JsonProperty("username") String username,
-                       @JsonProperty("platforms") ArrayList<String> platforms,
-                       @JsonProperty("objects") ArrayList<ApplicationObject> objects,
-                       @JsonProperty("behaviors") ArrayList<ApplicationBehavior> behaviors,
-                       @JsonProperty("events") ArrayList<ApplicationEvent> events){
+                       @JsonProperty("platforms") List<String> platforms,
+                       @JsonProperty("objects") List<ApplicationObject> objects,
+                       @JsonProperty("behaviors") List<ApplicationBehavior> behaviors,
+                       @JsonProperty("events") List<ApplicationEvent> events){
         super();
         this.append("id", id);
         this.append("name", name);

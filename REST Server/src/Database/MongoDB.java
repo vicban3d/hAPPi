@@ -106,8 +106,8 @@ public class MongoDB implements Database {
         BasicDBObject whereQuery = getWhereQuery("username",username);
         FindIterable<Application> docs = getApplicationsTable().find(whereQuery);
         List<Application> ret = new LinkedList<>();
-        for (Document doc : docs){
-            ret.add(Application.fromDocument(doc));
+        for (Application doc : docs){
+            ret.add(doc);
         }
 
         return ret;

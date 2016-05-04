@@ -29,23 +29,38 @@ public class ApplicationCodec implements Codec<Application> {
     @Override
     public Application decode(BsonReader reader, DecoderContext decoderContext) {
         reader.readStartDocument();
-
+        reader.readObjectId();
         String id = reader.readString("id");
         String name = reader.readString("name");
         String username = reader.readString("username");
 
-        Codec<Document> historyCodec = codecRegistry.get(Document.class);
-        List<Document> history = new ArrayList<>();
+        Codec<Document> documentCodec = codecRegistry.get(Document.class);
+        List<String> platforms = new ArrayList<>();
+
+//        reader.readName("platforms");
         reader.readStartArray();
         while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
-            history.add(historyCodec.decode(reader, decoderContext));
+            platforms.add(reader.readString());
         }
         reader.readEndArray();
+
+        List<ApplicationObject> objects = new ArrayList<>();
+        reader.readStartArray();
+        while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+            objects.add((ApplicationObject)documentCodec.decode(reader,decoderContext));
+        }
+        reader.readEndArray();
+
+        List<ApplicationBehavior> behaviors = new ArrayList<>();
+        reader.readStartArray();
+        while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+            behaviors.add((ApplicationBehavior)documentCodec.decode(reader,decoderContext));
+        }
+        reader.readEndArray();
+
+
         reader.readEndDocument();
-
-//        User user = new User(username,password,email);
-
-        return null;
+        return new Application(id,name,username,platforms,objects,behaviors,null);
     }
 
     @Override
@@ -58,6 +73,16 @@ public class ApplicationCodec implements Codec<Application> {
         writer.writeString(application.getName());
         writer.writeName("username");
         writer.writeString(application.getUsername());
+
+        writer.writeStartArray("platforms");
+        ArrayList<String> platforms = application.getPlatforms();
+        if(platforms != null) {
+            for (String platform : platforms) {
+                Codec<String> documentCodec = codecRegistry.get(String.class);
+                encoderContext.encodeWithChildContext(documentCodec, writer, platform);
+            }
+        }
+        writer.writeEndArray();
 
         writer.writeStartArray("objects");
 
@@ -78,16 +103,7 @@ public class ApplicationCodec implements Codec<Application> {
                 encoderContext.encodeWithChildContext(documentCodec, writer, document);
             }
         }
-        writer.writeEndArray();
 
-        writer.writeStartArray("platforms");
-        ArrayList<String> platforms = application.getPlatforms();
-        if(platforms != null) {
-            for (String platform : platforms) {
-                Codec<String> documentCodec = codecRegistry.get(String.class);
-                encoderContext.encodeWithChildContext(documentCodec, writer, platform);
-            }
-        }
         writer.writeEndArray();
 
         writer.writeEndDocument();
