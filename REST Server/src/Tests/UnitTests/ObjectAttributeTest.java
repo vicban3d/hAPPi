@@ -1,29 +1,16 @@
-package Tests.UnitTests;
+package Tests.unitTests;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
- * Created by victor on 1/18/2016.
+ * Created by Gila-Ber on 04/05/2016.
  */
-public class ObjectAttributeTest extends TestCase {
+public class ObjectAttributeTest {
 
-    public void testGetName() throws Exception {
-
-    }
-
-    public void testSetName() throws Exception {
-
-    }
-
-    public void testGetType() throws Exception {
-
-    }
-
-    public void testSetType() throws Exception {
-
-    }
-
-    public void testToString() throws Exception {
+    @Test
+    public void testFromDocument() throws Exception {
 
     }
 }

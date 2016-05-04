@@ -1,4 +1,4 @@
-package Tests.UnitTests;
+package Tests;
 
 import Database.Database;
 import Logic.*;
