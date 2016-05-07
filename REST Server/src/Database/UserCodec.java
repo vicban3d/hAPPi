@@ -26,8 +26,7 @@ public class UserCodec implements Codec<User> {
     @Override
     public User decode(BsonReader reader, DecoderContext decoderContext) {
         reader.readStartDocument();
-
-        reader.readString("_id");
+        reader.readObjectId();
         String username = reader.readString("username");
         String password = reader.readString("password");
         String email = reader.readString("email");

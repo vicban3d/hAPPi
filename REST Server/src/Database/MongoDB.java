@@ -37,6 +37,8 @@ public class MongoDB implements Database {
                 CodecRegistries.fromProviders(new UserCodecProvider()),
                 CodecRegistries.fromProviders(new ApplicationCodecProvider()),
                 CodecRegistries.fromProviders(new AppInstanceCodecProvider()),
+                CodecRegistries.fromProviders(new ApplicationObjectCodecProvider()),
+                CodecRegistries.fromProviders(new ApplicationBehaviorCodecProvider()),
                 MongoClient.getDefaultCodecRegistry());
         MongoClientOptions options = MongoClientOptions.builder()
                 .codecRegistry(codecRegistry).build();

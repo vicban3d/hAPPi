@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by victor on 1/13/2016.
@@ -22,13 +23,13 @@ public class ApplicationBehavior extends Document{
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
-    private ArrayList<BehaviorAction> actions;
+    private List<BehaviorAction> actions;
 
 
     @JsonCreator
     public ApplicationBehavior (@JsonProperty("id") String id,
                                @JsonProperty("name") String name,
-                               @JsonProperty("action") ArrayList<BehaviorAction> actions) {
+                               @JsonProperty("action") List<BehaviorAction> actions) {
 
         super();
         this.append("id", id);
@@ -47,7 +48,7 @@ public class ApplicationBehavior extends Document{
         this.name = name;
     }
 
-    public ArrayList<BehaviorAction> getActions() {
+    public List<BehaviorAction> getActions() {
         return actions;
     }
 

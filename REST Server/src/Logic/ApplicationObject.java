@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by victor on 11/10/2015.
@@ -27,15 +28,15 @@ public class ApplicationObject extends Document{
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
-    private ArrayList<ObjectAttribute> attributes;
+    private List<ObjectAttribute> attributes;
     @XmlElement(required = true)
-    private ArrayList<ObjectAction> actions;
+    private List<ObjectAction> actions;
 
     @JsonCreator
     public ApplicationObject(@JsonProperty("id") String id,
                              @JsonProperty("name") String name,
-                             @JsonProperty("attributes") ArrayList<ObjectAttribute> attributes,
-                             @JsonProperty("actions") ArrayList<ObjectAction> actions) {
+                             @JsonProperty("attributes") List<ObjectAttribute> attributes,
+                             @JsonProperty("actions") List<ObjectAction> actions) {
 
         super();
         this.append("id",id);
@@ -56,7 +57,7 @@ public class ApplicationObject extends Document{
         this.name = name;
     }
 
-    public ArrayList<ObjectAttribute> getAttributes() {
+    public List<ObjectAttribute> getAttributes() {
         return attributes;
     }
 
@@ -64,7 +65,7 @@ public class ApplicationObject extends Document{
         this.attributes = attributes;
     }
 
-    public ArrayList<ObjectAction> getActions() {
+    public List<ObjectAction> getActions() {
         return actions;
     }
 
@@ -97,6 +98,8 @@ public class ApplicationObject extends Document{
     }
 
     public static ApplicationObject fromDocument(Document data){
+
         return new ApplicationObject(data.getString("id"), data.getString("name"), (ArrayList<ObjectAttribute>) data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
     }
 }
+

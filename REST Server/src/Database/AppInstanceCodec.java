@@ -29,7 +29,7 @@ public class AppInstanceCodec implements Codec<AppInstance> {
     @Override
     public AppInstance decode(BsonReader reader, DecoderContext decoderContext) {
         reader.readStartDocument();
-
+        reader.readObjectId();
         String id = reader.readString("id");
         String app_id = reader.readString("app_id");
         Map<String, List<String>> objectInstances = new HashMap<>();

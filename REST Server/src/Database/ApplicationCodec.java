@@ -1,9 +1,6 @@
 package Database;
 
-import Logic.Application;
-import Logic.ApplicationBehavior;
-import Logic.ApplicationObject;
-import Logic.User;
+import Logic.*;
 import org.bson.BsonReader;
 import org.bson.BsonType;
 import org.bson.BsonWriter;
@@ -37,30 +34,31 @@ public class ApplicationCodec implements Codec<Application> {
         Codec<Document> documentCodec = codecRegistry.get(Document.class);
         List<String> platforms = new ArrayList<>();
 
-//        reader.readName("platforms");
         reader.readStartArray();
         while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
             platforms.add(reader.readString());
         }
         reader.readEndArray();
 
+        ApplicationObjectCodec objectCodec = new ApplicationObjectCodec(codecRegistry);
         List<ApplicationObject> objects = new ArrayList<>();
         reader.readStartArray();
         while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
-            objects.add((ApplicationObject)documentCodec.decode(reader,decoderContext));
+            objects.add(objectCodec.decode(reader,decoderContext));
         }
         reader.readEndArray();
 
         List<ApplicationBehavior> behaviors = new ArrayList<>();
+        ApplicationBehaviorCodec behaviorCodec = new ApplicationBehaviorCodec(codecRegistry);
         reader.readStartArray();
         while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
-            behaviors.add((ApplicationBehavior)documentCodec.decode(reader,decoderContext));
+            behaviors.add(behaviorCodec.decode(reader,decoderContext));
         }
         reader.readEndArray();
 
 
         reader.readEndDocument();
-        return new Application(id,name,username,platforms,objects,behaviors,null);
+        return new Application(id,name,username,platforms,objects,behaviors,new ArrayList<ApplicationEvent>());
     }
 
     @Override

@@ -167,7 +167,7 @@ public class ServerTest extends TestCase {
         createAttributeAndAction(attributes, actionsObject);
         actionsBehavior.add(action1);
         String result = server.createBehavior(behavior);
-        assertEquals("Behavior behavior_test added!", result);
+        assertEquals("Behavior behavior_new added!", result);
         actionsBehavior.clear();
         actionsBehavior.add(action2);
         app.addBehavior(behavior);
