@@ -293,10 +293,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // ----------------------------------------------------------------------Object Service methods-----------------
 
         $scope.addObject = function() {
-            alert("before adding object");
             objectService.addObject(appService.currentApplication);
-            alert("current app id: " + objectService.currentObject.applicationId);
-            alert("current user: " + objectService.currentObject.username);
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)));
             $scope.hideArea("objectCreateArea");
         };
@@ -485,7 +482,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addEvent = function(){
             eventService.addEvent(appService.getCurrentApplication(), $scope.currentUser.username);
-            alert(appService.getCurrentApplication().name);
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_EVENT, angular.toJson(eventService.currentEvent)));
             $scope.hideArea("eventCreateArea");
         };

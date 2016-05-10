@@ -10,6 +10,8 @@ import org.codehaus.jettison.json.JSONObject;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -240,37 +242,5 @@ public class Application extends Document{
             }
         }
         this.put("events", this.events);
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Application)) return false;
-        if (!super.equals(o)) return false;
-
-        Application that = (Application) o;
-
-        if (!id.equals(that.id)) return false;
-        if (!name.equals(that.name)) return false;
-        if (!username.equals(that.username)) return false;
-        if (!platforms.equals(that.platforms)) return false;
-        if (!objects.equals(that.objects)) return false;
-        if (!behaviors.equals(that.behaviors)) return false;
-        return events.equals(that.events);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + platforms.hashCode();
-        result = 31 * result + objects.hashCode();
-        result = 31 * result + behaviors.hashCode();
-        result = 31 * result + events.hashCode();
-        return result;
     }
 }
