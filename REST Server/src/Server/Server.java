@@ -281,6 +281,17 @@ public class Server implements RESTServer {
         return "The object " + objName + " instance was removed successfully";
     }
 
+    @Override
+    public AppInstance getObjInstance(String reqParam) {
+        try {
+            JSONObject jsonObject = new JSONObject(reqParam);
+            return facade.getObjectInstance(jsonObject);
+        } catch (Exception e) {
+            Logger.ERROR("Error : failed to get object instance!", e.getMessage());
+            return null;
+        }
+    }
+
     /**
      * Starts the Server.
      */

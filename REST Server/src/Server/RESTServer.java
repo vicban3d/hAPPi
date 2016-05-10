@@ -222,6 +222,15 @@ public interface RESTServer {
     String removeObjInstance(String reqParam);
 
     /**
+     * Creates new user in db
+     * @param reqParam */
+    @POST
+    @Path(Strings.PATH_GET_OBJECT_INSTANCE)
+    @Consumes({MediaType.TEXT_PLAIN})
+    @Produces(MediaType.APPLICATION_JSON)
+    AppInstance getObjInstance(String reqParam);
+
+    /**
      * Removes an event from the currently selected application.
      * @param data - a JSON representation of the application event.
      * @return - the status of the request.

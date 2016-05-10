@@ -32,20 +32,27 @@ public class AppInstanceCodec implements Codec<AppInstance> {
         reader.readObjectId();
         String id = reader.readString("id");
         String app_id = reader.readString("app_id");
-        Map<String, List<String>> objectInstances = new HashMap<>();
+        Map<String, List<List<String>>> objectInstances = new HashMap<>();
         reader.readStartDocument();
-            String key = reader.readName();   // read the name "c"
+            if (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+                String key = reader.readName();   // read the name "c"
 
-            Codec<String> docCodec = codecRegistry.get(String.class);
-            List<String> objArr = new ArrayList<>();
-            reader.readStartArray();
-            while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
-                objArr.add(docCodec.decode(reader, decoderContext));
+                List<List<String>> objArr = new ArrayList<>();
+                Codec<String> docCodec = codecRegistry.get(String.class);
+                reader.readStartArray();
+                while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+                    List<String> objAttr = new ArrayList<>();
+                    reader.readStartArray();
+                    while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+                        objAttr.add(docCodec.decode(reader, decoderContext));
+                    }
+                    objArr.add(objAttr);
+                    reader.readEndArray();
+                }
+                reader.readEndArray();
+
+                objectInstances.put(key, objArr);
             }
-            reader.readEndArray();
-
-            objectInstances.put(key,objArr);
-
         reader.readEndDocument();
 
         reader.readEndDocument();
@@ -64,12 +71,16 @@ public class AppInstanceCodec implements Codec<AppInstance> {
         writer.writeString(appInstance.getApp_id());
 
         writer.writeStartDocument("object_map");
-            for (Map.Entry<String,List<String>> entry : appInstance.getObjectInstances().entrySet()){
+            for (Map.Entry<String,List<List<String>>> entry : appInstance.getObjectInstances().entrySet()) {
                 writer.writeName(entry.getKey());
                 writer.writeStartArray();
-                    for (String str : entry.getValue()){
+                for (List<String> list : entry.getValue()) {
+                    writer.writeStartArray();
+                    for (String str : list){
                         writer.writeString(str);
                     }
+                    writer.writeEndArray();
+                }
                 writer.writeEndArray();
             }
         writer.writeEndDocument();

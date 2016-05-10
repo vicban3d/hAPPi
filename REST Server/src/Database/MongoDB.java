@@ -133,7 +133,7 @@ public class MongoDB implements Database {
     public boolean isInstanceExist(String instanceId, String app_id) {
         BasicDBObject whereQuery = getWhereQuery(ID_KEY,instanceId);
         whereQuery.put("app_id",app_id);
-        MongoCollection<Document> appInstanceTable = getAppInstanceTable();
+        MongoCollection<AppInstance> appInstanceTable = getAppInstanceTable();
         return appInstanceTable.count(whereQuery)>0;
     }
 
@@ -177,9 +177,9 @@ public class MongoDB implements Database {
         return whereQuery;
     }
 
-    private MongoCollection<Document> getAppInstanceTable(){
+    private MongoCollection<AppInstance> getAppInstanceTable(){
         MongoDatabase db = getMongoDatabase();
-        return db.getCollection(APPLICATION_INSTANCES_TABLE);
+        return db.getCollection(APPLICATION_INSTANCES_TABLE, AppInstance.class);
     }
 
     private MongoDatabase getMongoDatabase() {

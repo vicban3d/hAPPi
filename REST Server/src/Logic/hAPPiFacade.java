@@ -218,8 +218,10 @@ public class hAPPiFacade implements Facade {
         }
         Boolean isAppInstanceExist = database.isInstanceExist(id, app_id);
         if (!isAppInstanceExist){
-            Map<String,List<String>> newMap = new HashMap<>();
-            newMap.put(objName,attributes);
+            Map<String,List<List<String>>> newMap = new HashMap<>();
+            List<List<String>> list = new ArrayList<>();
+            list.add(attributes);
+            newMap.put(objName,list);
             AppInstance appInstance = new AppInstance(id,app_id,newMap);
             database.addApplicationInstance(appInstance);
         }else{
@@ -249,6 +251,22 @@ public class hAPPiFacade implements Facade {
         AppInstance instance = database.getAppInstance(instanceId, app_id);
         instance.removeObjectInstance(objName,index);
         database.updateAppInstance(instance);
+    }
+
+    @Override
+    public AppInstance getObjectInstance(JSONObject jsonObj) {
+        String instanceId = null;
+        String app_id = null;
+
+        try {
+            instanceId = jsonObj.getString("id");
+            app_id = jsonObj.getString("app_id");
+
+        } catch (org.codehaus.jettison.json.JSONException e) {
+            e.printStackTrace();
+        }
+
+        return getDataBase().getAppInstance(instanceId,app_id);
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,12 @@ public class AppInstance extends Document{
 
     // map between object and his attributes
     @XmlElement(required = true)
-    private Map<String, List<String>> objectInstances;
+    private Map<String, List<List<String>>> objectInstances;
 
     @JsonCreator
     public AppInstance(@JsonProperty("id")String id,
                        @JsonProperty("app_id")String app_id,
-                       @JsonProperty("object_map")Map<String, List<String>> objectInstances){
+                       @JsonProperty("object_map")Map<String, List<List<String>>> objectInstances){
         super();
 
 
@@ -59,11 +60,11 @@ public class AppInstance extends Document{
         this.put("app_id",app_id);
     }
 
-    public Map<String, List<String>> getObjectInstances() {
+    public Map<String, List<List<String>>> getObjectInstances() {
         return (Map)this.get("object_map");
     }
 
-    public void setObjectInstances(HashMap<String, List<String>> objectInstances) {
+    public void setObjectInstances(HashMap<String, List<List<String>>> objectInstances) {
         this.put("object_map",objectInstances);
     }
 
@@ -77,25 +78,27 @@ public class AppInstance extends Document{
     }
 
     public void addObjectInstance(String objName, List<String> attributes){
-        String objNameTmp = objName;
-        if (objectInstances.get(objNameTmp)!=null)
-        {
-            int i=1;
-            while (objectInstances.get(objNameTmp)!=null){
-                objNameTmp = objName + "_" +String.valueOf(i);
-                i++;
-            }
-
+        if (objectInstances.containsKey(objName)){
+            List<List<String>> objList = objectInstances.get(objName);
+            objList.add(attributes);
+        }else{
+            List<List<String>> objList = new ArrayList<>();
+            objList.add(attributes);
+            objectInstances.put(objName, objList);
         }
-        objectInstances.put(objNameTmp,attributes);
     }
 
     public void removeObjectInstance(String objName,int index){
-        String realObjname = objName;
-        if (index>0){
-            realObjname += "_" + String.valueOf(index);
+        if (objectInstances.containsKey(objName)){
+            List<List<String>> objList = objectInstances.get(objName);
+            if (objList.size()>index){
+                if (objList.size()>1){
+                    objList.remove(index);
+                }else{
+                    objectInstances.remove(objName);
+                }
+            }
         }
-        objectInstances.remove(realObjname);
     }
 
     private static Application getApp(String id){

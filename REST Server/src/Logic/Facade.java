@@ -84,5 +84,7 @@ public interface Facade {
 
     void removeObjectInstance(JSONObject jsonObject);
 
+    AppInstance getObjectInstance(JSONObject jsonObject);
+
     List<Application> login(User user);
 }

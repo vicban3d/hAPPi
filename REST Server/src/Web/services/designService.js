@@ -51,6 +51,15 @@ main_module.service('designService',[function(){
             $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);
         else
             alert("Please choose index from the list!");
+
+        var postBody = {
+            id : this.phoneNumber,
+            app_id: $scope.getCurrentApplication().id,
+            objName: this.currentInstance.name,
+            index: idx
+        }
+
+        $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVEOBJ_INSTANCE, angular.toJson(postBody)));
     };
 
     this.performBehaviorAction = function($scope, behavior){

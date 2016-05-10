@@ -32,6 +32,7 @@ public class Strings {
     public static final String PATH_LOGIN = "/login";
     public static final String PATH_CREATE_OBJECT_INSTANCE = "/AddObjInstance";
     public static final String PATH_REMOVE_OBJECT_INSTANCE = "/RemoveObjInstance";
+    public static final String PATH_GET_OBJECT_INSTANCE = "/GetObjInstance";
     public static final String DB_NAME = "hAPPiDB";
     public static final String DB_PORT = "27017";
     public static final String PATH_CREATE_EVENT = "/createEvent";

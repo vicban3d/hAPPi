@@ -27,5 +27,6 @@ var Paths = {
     CREATE_EVENT: "/createEvent",
     REMOVE_EVENT: "/removeEvent",
     UPDATE_EVENT: "/updateEvent",
-    ADDOBJ_INSTANCE: "/AddObjInstance"
+    ADDOBJ_INSTANCE: "/AddObjInstance",
+    REMOVEOBJ_INSTANCE: "/RemoveObjInstance"
 };
