@@ -69,8 +69,7 @@ public class AppInstance extends Document{
 
     public String toString(){
         Application app = getApp(id);
-        String res = "Application name = " + app.getName();
-        return res;
+        return "Application name = " + app.getName();
     }
 
     public static AppInstance fromDocument(Document data) {

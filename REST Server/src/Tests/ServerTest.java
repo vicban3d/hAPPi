@@ -30,7 +30,7 @@ public class ServerTest extends TestCase {
         facade.connectToDatabase();
         database = facade.getDataBase();
         facade.clearDatabase();
-        server.setFacade(facade);
+        Server.setFacade(facade);
         FileHandler.deleteFolder(Strings.PATH_APPS);
         FileHandler.createFolder(Strings.PATH_APPS);
         user = new User("gil","11","1111");

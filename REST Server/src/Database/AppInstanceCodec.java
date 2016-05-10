@@ -50,9 +50,7 @@ public class AppInstanceCodec implements Codec<AppInstance> {
 
         reader.readEndDocument();
 
-        AppInstance appInstance= new AppInstance(id,app_id,objectInstances);
-
-        return appInstance;
+        return new AppInstance(id,app_id,objectInstances);
     }
 
     @Override

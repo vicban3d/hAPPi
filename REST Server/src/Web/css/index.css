@@ -264,10 +264,11 @@ span.addAppButton{
 }
 
 .applicationEditArea{
-    width: 70%;
+    width: 100%;
+    /*background-color: #ffffee;*/
 }
 
-.objectsList{
+.itemList{
     width: 100%;
     display: inline-block;
 }
@@ -410,18 +411,18 @@ span.addAppButton{
     width: 40%;
 }
 
+.formInput60{
+    width: 40%;
+}
+
 .formInput80{
     width: 80%;
 }
 
-/*.applicationTitle{*/
-    /*position: absolute;*/
-    /*left: 77%;*/
-    /*top: 0;*/
-    /*height: 10%;*/
-    /*font-size: 24px;*/
-    /*text-align: center;*/
-    /*vertical-align: middle;*/
-    /*background: black;*/
-    /*color: white;*/
-/*}*/
+.appReleaseSquare{
+    border: solid dodgerblue thick;
+    box-shadow: 0 0 20px 0 #1769B9;
+    /*margin-left: 40%;*/
+    /*width: 22.4%;*/
+    /*padding-top: 30%;*/
+}

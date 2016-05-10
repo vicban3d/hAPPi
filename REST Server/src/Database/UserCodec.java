@@ -41,9 +41,7 @@ public class UserCodec implements Codec<User> {
 //        reader.readEndArray();
         reader.readEndDocument();
 
-        User user = new User(username,password,email);
-
-        return user;
+        return new User(username,password,email);
     }
 
     @Override

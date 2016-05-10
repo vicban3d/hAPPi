@@ -10,22 +10,21 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 </head>
 <body data-ng-app="main" data-ng-controller="ctrl_main" data-ng-init="initializeDataStructures()">
-<nav class="navbar navbar-inverse designAreaTabs" >
+<nav class="navbar navbar-inverse designAreaTopMenu" >
     <div class="container-fluid ">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{applicationName}}</a>
+            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
         </div>
         <ul class="nav navbar-nav navbar-right" >
-            <li data-ng-repeat="object in objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
+            <li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
         </ul>
     </div>
 </nav>
-
-<div class="designAreaButtons" data-ng-show="showEmulatorMainPage">
-    <button class="btn btn-primary btn-block" ng-repeat="behavior in behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+<div class="designAreaPage" data-ng-show="getShowEmulatorMainPage()">
+    <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
 </div>
-<div class="designAreaButtons" data-ng-show="!showEmulatorMainPage" data-ng-init="attribute_values=[]">
-    <form class="form-horizontal" role="form" data-ng-repeat="attr in currentInstance.attributes track by $index">
+<div class="designAreaPage" data-ng-show="!getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
+    <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
         <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
     </form>
     <button class="btn btn-primary btn-block" data-ng-click="addInstance()">Add</button><hr>
@@ -35,21 +34,20 @@
     <table class="table" style="width: 100%">
         <tr>
             <th style="width: 10%">Idx</th>
-            <th data-ng-repeat="attr in currentInstance.attributes track by $index">
+            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                 {{attr.name}}
             </th>
         </tr>
-        <tr data-ng-repeat="instance in instances[currentInstance.name] track by $index">
+        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
             <td>{{$index}}</td>
             <td data-ng-repeat="val in instance track by $index">
                 {{val}}
             </td>
         </tr>
-
     </table>
 </div>
 <div class="navbar navbar-inverse designAreaOutput">
-    <label class="designAreaOutputLabel">OUTPUT > <br>{{emulatorOutput}}</label>
+    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
 </div>
 </body>
 </html>

@@ -206,4 +206,19 @@ main_module.service('behaviorService',[function(){
         }
     };
 
+    this.isValidBehavior = function($scope){
+        var all_behaviors = $scope.getCurrentApplication().behaviors;
+        if (all_behaviors == undefined){
+            return true;
+        }
+        for (var i=0; i< all_behaviors.length; i++) {
+            if (all_behaviors[i].name.valueOf() == this.currentBehavior.name.valueOf()
+                && all_behaviors[i].id.valueOf() != this.currentBehavior.id.valueOf()){
+                $scope.createErrorMessage = "A Behavior by that name already exists!";
+                return false;
+            }
+        }
+        return true;
+    }
+
 }]);

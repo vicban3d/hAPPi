@@ -17,6 +17,22 @@ main_module.service('appService',[function(){
         return this.currentApplication;
     };
 
+    this.isValidApplication = function($scope){
+        if ($scope.applicationName == undefined){
+            return true;
+        }
+        var all_apps = $scope.applications;
+        $scope.message = $scope.applicationName.valueOf();
+        for (var i=0; i< all_apps.length; i++) {
+            if (all_apps[i].name.valueOf() == $scope.applicationName.valueOf())
+            {
+                $scope.createErrorMessage = "An Application by that name already exists!";
+                return false;
+            }
+        }
+        return true;
+    };
+
     this.deleteApplication = function(applications, application){
         removeApplicationFromApplicationList(applications, application.id);
         this.currentApplication = {};

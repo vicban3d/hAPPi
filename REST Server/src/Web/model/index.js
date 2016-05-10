@@ -41,7 +41,7 @@ main_module.controller('ctrl_main', ['$scope',
                 app_id: $scope.applicationId,
                 objName: $scope.currentInstance.name,
                 attributesList: $scope.attribute_values
-            }
+            };
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
         };
 

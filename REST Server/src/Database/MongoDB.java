@@ -126,8 +126,7 @@ public class MongoDB implements Database {
         BasicDBObject whereQuery = getWhereQuery(ID_KEY, id);
         whereQuery.put("app_id",app_id);
         Document appDoc = getAppInstanceTable().find(whereQuery).first();
-        AppInstance instance = AppInstance.fromDocument(appDoc);
-        return instance;
+        return AppInstance.fromDocument(appDoc);
     }
 
     @Override
@@ -140,8 +139,7 @@ public class MongoDB implements Database {
 
     @Override
     public MongoDatabase getDB() {
-        MongoDatabase db = getMongoDatabase();
-        return db;
+        return getMongoDatabase();
     }
 
     @Override

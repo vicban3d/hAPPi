@@ -295,9 +295,11 @@ public class hAPPiFacade implements Facade {
     @Override
     public List<Application> login(User user) {
         if(!database.isUserExist(user.getUsername()) ||
-                !database.isPasswordRight(user.getUsername(),user.getPassword()))
+                !database.isPasswordRight(user.getUsername(),user.getPassword())){
             return null;
-
-        return database.getApplicationOfUser(user.getUsername());
+        }
+        else {
+            return database.getApplicationOfUser(user.getUsername());
+        }
     }
 }

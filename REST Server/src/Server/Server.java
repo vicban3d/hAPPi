@@ -17,6 +17,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,6 +40,13 @@ public class Server implements RESTServer {
     private static Facade facade = new hAPPiFacade();
     private Application currentlySelectedApplication;
     private User currentUser = new User("tempUsername", "tempPass", "tempMail");
+
+    @Override
+    public Response handleCORS() {
+        return Response.ok() //200
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT").build();
+    }
 
     @Override
     public String getMainPage() {
@@ -166,8 +174,7 @@ public class Server implements RESTServer {
         // TODO - check user credentials, send user applications.
         Logger.INFO(" get applications for specific users");
         try {
-            List<Application> applicationOfUser = facade.login(data);
-            return applicationOfUser;
+            return facade.login(data);
         } catch (Exception e) {
             Logger.ERROR("username or password are wrong", e.getMessage());
         }
@@ -261,7 +268,7 @@ public class Server implements RESTServer {
 
     @Override
     public String removeObjInstance(String reqParam) {
-        String objName = "";
+        String objName;
         try {
             JSONObject jsonObject = new JSONObject(reqParam);
             facade.removeObjectInstance(jsonObject);
@@ -282,6 +289,7 @@ public class Server implements RESTServer {
         try {
             server = HttpServerFactory.create(Strings.SRV_HOST + ":" + Strings.SRV_PORT + "/");
             server.start();
+
         } catch (IOException e) {
             Logger.ERROR("Failed to start server", e.getMessage());
             return;

@@ -86,4 +86,19 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
+    this.isValidObject = function($scope){
+        var all_objects = $scope.getCurrentApplication().objects;
+        if (all_objects == undefined){
+            return true;
+        }
+        for (var i=0; i< all_objects.length; i++) {
+            if (all_objects[i].name.valueOf() == this.currentObject.name.valueOf()
+                && all_objects[i].id.valueOf() != this.currentObject.id.valueOf()){
+                $scope.createErrorMessage = "An Object by that name already exists!";
+                return false;
+            }
+        }
+        return true;
+    }
+
 }]);

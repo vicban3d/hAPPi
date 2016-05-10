@@ -5,12 +5,18 @@ import Utility.Strings;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
  * Created by victor on 1/21/2016.
  */
 public interface RESTServer {
+
+    @OPTIONS
+    @Path("*")
+    Response handleCORS();
+
     /**
      * Returns the main page of the application - "index.html".
      * @return the HTML content of the main page.
@@ -197,7 +203,8 @@ public interface RESTServer {
 
     /**
      * Creates new user in db
-     * @param createObjInstanceRequest */
+     * @param createObjInstanceRequest - request
+     * */
     @POST
     @Path(Strings.PATH_CREATE_OBJECT_INSTANCE)
     @Consumes({MediaType.TEXT_PLAIN})
@@ -206,7 +213,8 @@ public interface RESTServer {
 
     /**
      * Creates new user in db
-     * @param reqParam */
+     * @param reqParam - request
+     */
     @POST
     @Path(Strings.PATH_REMOVE_OBJECT_INSTANCE)
     @Consumes({MediaType.TEXT_PLAIN})

@@ -13,12 +13,12 @@ main_module.service('designService',[function(){
 
     this.getShowAddInstance = function(){
         return this.showAddInstance;
-    }
+    };
 
     this.gotoAppInstance = function(phoneNumber){
         this.phoneNumber = phoneNumber;
         this.showEmulatorMainPage = false;
-    }
+    };
 
     this.designDisplayObjectPage = function(object){
         this.currentInstance = object;
@@ -42,7 +42,7 @@ main_module.service('designService',[function(){
             app_id: $scope.getCurrentApplication().id,
             objName: this.currentInstance.name,
             attributesList: attributes
-        }
+        };
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
     };
 

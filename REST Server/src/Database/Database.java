@@ -61,7 +61,7 @@ public interface Database {
 
     boolean isPasswordRight(String username, String pass);
 
-    public List<Application> getApplicationOfUser(String username);
+    List<Application> getApplicationOfUser(String username);
 
     //////////////////////// app instances /////////////////
 
