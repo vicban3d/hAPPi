@@ -7,9 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -31,8 +29,7 @@ public class MongoDBTest {
         Application application = createApplication("testAppId", "testApp", "testUser", null, null, null, null);
         db.addApplication(application);
 
-        ArrayList<String> platforms = new ArrayList<String>();
-        platforms.add("android"); platforms.add("ios");
+        ArrayList<String> platforms = createPlatforms();
         application.setPlatforms(platforms);
 
         ArrayList<ApplicationObject> objects = new ArrayList<ApplicationObject>();
@@ -51,13 +48,7 @@ public class MongoDBTest {
         application.setObjects(objects);
 
         // create behavior
-        ArrayList<BehaviorAction> behaviorActions = new ArrayList<BehaviorAction>();
-        BehaviorAction bAction = new BehaviorAction(object, attr1, new ArrayList<Condition>(), "SumOfAll");
-        behaviorActions.add(bAction);
-        ApplicationBehavior behavior = new ApplicationBehavior("bId", "behavior1", behaviorActions);
-
-        ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();
-        behaviors.add(behavior);
+        ArrayList<ApplicationBehavior> behaviors = createApplicationBehaviors(attr1, object);
         application.setBehaviors(behaviors);
 
         application.setEvents(new ArrayList<ApplicationEvent>());
@@ -147,17 +138,53 @@ public class MongoDBTest {
 
     @Test
     public void testAddApplicationInstance() throws Exception {
-        //TODO
+        AppInstance appInstance = createAppInstance();
+        db.addApplicationInstance(appInstance);
+
+        AppInstance appInstanceResult = db.getAppInstance("appInstanceId", "appId");
+
+        validateAppInstanceResults(appInstance, appInstanceResult, "Attr1");
     }
 
     @Test
     public void testGetAppInstance() throws Exception {
-        //TODO
+        AppInstance appInstance = createAppInstance();
+        db.addApplicationInstance(appInstance);
+        AppInstance appInstanceResult = db.getAppInstance("appInstanceId", "appId");
+        validateAppInstanceResults(appInstance, appInstanceResult, "Attr1");
+    }
+
+    @Test
+    public void testGetNotExistApplication() {
+        boolean notExist = false;
+        try {
+            db.getApplication("testAppId");
+        }
+        catch(Exception e) {
+            notExist = true; // failed to get app because app not exist
+        }
+        assertTrue(notExist);
+    }
+
+    @Test
+    public void testGetNotExistAppInstance() {
+        boolean notExist = false;
+        try {
+            db.getAppInstance("testAppInstanceId", "appId");
+        }
+        catch(Exception e) {
+            notExist = true; // failed to get appInstance because appInstance not exist
+        }
+        assertTrue(notExist);
     }
 
     @Test
     public void testIsInstanceExist() throws Exception {
-        //TODO
+        AppInstance appInstance = createAppInstance();
+        db.addApplicationInstance(appInstance);
+
+        assertTrue(db.isInstanceExist(appInstance.getId(), appInstance.getApp_id()));
+        assertFalse(db.isInstanceExist("notExistInstanceId", appInstance.getApp_id()));
     }
 
     @Test
@@ -172,7 +199,16 @@ public class MongoDBTest {
 
     @Test
     public void testUpdateAppInstance() throws Exception {
-        //TODO
+        AppInstance appInstance = createAppInstance();
+        db.addApplicationInstance(appInstance);
+        appInstance = db.getAppInstance("appInstanceId", "appId");
+        assertTrue(appInstance.getObjectInstances().keySet().size() == 1);
+
+        appInstance.getObjectInstances().remove("Attr1");
+        db.updateAppInstance(appInstance);
+
+        AppInstance updatedAppInstance = db.getAppInstance("appInstanceId", "appId");
+        assertTrue(updatedAppInstance.getObjectInstances().keySet().size() == 0);
     }
 
     @Test
@@ -195,6 +231,38 @@ public class MongoDBTest {
         assertEquals(expectedApp.getObjects(), actualApp.getObjects());
         assertEquals(expectedApp.getBehaviors(), actualApp.getBehaviors());
         assertEquals(expectedApp.getEvents(), actualApp.getEvents());
+    }
+
+    private AppInstance createAppInstance() {
+        Map<String, List<List<String>>> instances = new HashMap<String, List<List<String>>>();
+        List<List<String>> instanceValues = new ArrayList<List<String>>();
+        instanceValues.add(Arrays.asList("1","2"));
+        instanceValues.add(Arrays.asList("3","4"));
+        instances.put("Attr1", instanceValues);
+        return new AppInstance("appInstanceId","appId", instances);
+    }
+
+    private void validateAppInstanceResults(AppInstance expectedAppInstance, AppInstance actualAppInstance, String attr) {
+        assertEquals(expectedAppInstance.keySet().size(), actualAppInstance.keySet().size());
+        assertEquals(expectedAppInstance.get(attr), actualAppInstance.get(attr));
+    }
+
+    private ArrayList<ApplicationBehavior> createApplicationBehaviors(ObjectAttribute attr1, ApplicationObject object) {
+        ArrayList<BehaviorAction> behaviorActions = new ArrayList<BehaviorAction>();
+        BehaviorAction bAction = new BehaviorAction(object, attr1, new ArrayList<Condition>(), "SumOfAll");
+        behaviorActions.add(bAction);
+        ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behavior1", behaviorActions);
+
+        ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();
+        behaviors.add(behavior);
+        return behaviors;
+    }
+
+    private ArrayList<String> createPlatforms() {
+        ArrayList<String> platforms = new ArrayList<String>();
+        platforms.add("android");
+        platforms.add("ios");
+        return platforms;
     }
 
 }
