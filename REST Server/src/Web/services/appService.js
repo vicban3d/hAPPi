@@ -10,7 +10,8 @@ main_module.service('appService',[function(){
         platforms: '',
         objects: [],
         behaviors: [],
-        events: []
+        events: [],
+        username: ''
     };
 
     this.getCurrentApplication = function(){

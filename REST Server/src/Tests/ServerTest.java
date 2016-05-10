@@ -1,3 +1,4 @@
+/*
 package Tests;
 
 import Database.Database;
@@ -12,10 +13,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 
+*/
 /**
  * Created by Almog on 11/01/2016.
  *
- */
+ *//*
+
 public class ServerTest extends TestCase {
 
     private Server server;
@@ -213,4 +216,4 @@ public class ServerTest extends TestCase {
         server.createApplication(app);
         return app;
     }
-}
+}*/

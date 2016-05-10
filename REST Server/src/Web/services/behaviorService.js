@@ -10,7 +10,9 @@ main_module.service('behaviorService',[function(){
         operandObject: {},
         operator: '',
         operandAttribute: {},
-        conditions: []
+        conditions: [],
+        applicationId: '',
+        username: ''
     };
 
     this.addNewBehavior = function() {
@@ -21,12 +23,16 @@ main_module.service('behaviorService',[function(){
             operandObject: {},
             operator: '',
             operandAttribute: {},
-            conditions: []
+            conditions: [],
+            applicationId: '',
+            username: ''
         };
     };
 
-    this.addBehavior = function(application){
+    this.addBehavior = function(application, username){
         this.currentBehavior.id = generateUUID();
+        this.currentBehavior.username = username;
+        this.currentBehavior.applicationId = application.id;
         addBehaviorToApplication(application, this.currentBehavior);
     };
 

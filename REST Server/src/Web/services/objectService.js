@@ -7,15 +7,19 @@ main_module.service('objectService',[function(){
         id: '',
         name: '',
         attributes: [],
-        actions: []
+        actions: [],
+        applicationId: '',
+        username: ''
     };
 
-    this.addNewObject = function() {
-        this.currentObject = {id: '', name: '', attributes: [], actions: []};
+    this.addNewObject = function(applicationId, username) {
+        this.currentObject = {id: '', name: '', attributes: [], actions: [], applicationId: applicationId, username: username};
     };
 
     this.addObject = function(application) {
         this.currentObject.id = generateUUID();
+        /*this.currentObject.applicationId = application.id;
+        this.currentObject.username = username;*/
         addObjectToApplication(application, this.currentObject);
     };
 
@@ -26,7 +30,7 @@ main_module.service('objectService',[function(){
 
     this.deleteObject = function(application, object){
        removeObjectFromApplication(application, object.name);
-        this.currentObject = {};
+        this.currentObject = {id: '', name: '', attributes: [], actions: [], applicationId: '', username: ''};
     };
 
     var addObjectToApplication = function(application, object){

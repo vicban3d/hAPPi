@@ -1,4 +1,4 @@
-package Tests.UnitTests;
+package Tests.unitTests;
 
 import Database.MongoDB;
 import Logic.*;
@@ -146,6 +146,7 @@ public class MongoDBTest {
     }
     
     private Application createApplication(String appId, String appName, String userName, ArrayList<String> platforms, ArrayList<ApplicationObject> objects, ArrayList<ApplicationBehavior> behaviors, ArrayList<ApplicationEvent> events) {
-        return new Application(appId, appName, userName, platforms, objects, behaviors, events);
+        Application app = new Application(appId, appName, userName, platforms, objects, behaviors, events);
+        return app;
     }
 }

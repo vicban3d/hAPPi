@@ -56,19 +56,19 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_CREATE_APP)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String createApplication(Application data);
+    String createApplication(String data);
 
     /**
      * Builds an application package that can be installed on a mobile phone.
-     * @param application - a JSON representation of the application.
+     * @param data - a JSON representation of the application.
      * @return - the status of the request.
      */
     @POST
     @Path(Strings.PATH_BUILD_APP)
     @Produces(MediaType.TEXT_PLAIN)
-    String buildApplication(Application application);
+    String buildApplication(String data);
 
     /**
      * Creates a new object in the currently selected application.
@@ -77,9 +77,9 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_CREATE_OBJECT)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String createObject(ApplicationObject data);
+    String createObject(String data);
 
     /**
      * Removes an object from the currently selected application.
@@ -88,9 +88,9 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_REMOVE_OBJECT)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String removeObject(ApplicationObject data);
+    String removeObject(String data);
 
     /**
      * Creates a behavior for the currently selected application.
@@ -99,9 +99,9 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_CREATE_BEHAVIOR)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String createBehavior(ApplicationBehavior data);
+    String createBehavior(String data);
 
     /**
      * Removes a behavior from the currently selected application.
@@ -110,20 +110,20 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_REMOVE_BEHAVIOR)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String removeBehavior(ApplicationBehavior data);
+    String removeBehavior(String data);
 
     /**
      * Removes an application.
-     * @param application - a JSON representation of the application.
+     * @param data - a JSON representation of the application.
      * @return - the request status.
      */
     @POST
     @Path(Strings.PATH_REMOVE_APP)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String removeApplication(Application application);
+    String removeApplication(String data);
 
     /**
      * Updates the content of an application.
@@ -132,9 +132,9 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_UPDATE_APP)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String updateApplication(Application data);
+    String updateApplication(String data);
 
     /**
      * Updates the content of an object.
@@ -143,9 +143,9 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_UPDATE_OBJECT)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String updateObject(ApplicationObject data);
+    String updateObject(String data);
 
     /**
      * Updates the content of a behavior.
@@ -154,9 +154,9 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_UPDATE_BEHAVIOR)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String updateBehavior(ApplicationBehavior data);
+    String updateBehavior(String data);
 
     /**
      * get signup page
@@ -186,9 +186,9 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_CREATE_EVENT)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String createEvent(ApplicationEvent data);
+    String createEvent(String data);
 
     /**
      * Checks user login credentials.
@@ -237,19 +237,19 @@ public interface RESTServer {
      */
     @POST
     @Path(Strings.PATH_REMOVE_EVENT)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String removeEvent(ApplicationEvent data);
+    String removeEvent(String data);
 
     /**
      * Updates the content of an event.
-     * @param event- a JSON representation of the event.
+     * @param data- a JSON representation of the event.
      * @return - the status of the request.
      */
     @POST
     @Path(Strings.PATH_UPDATE_EVENT)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.TEXT_PLAIN)
-    String updateEvent(ApplicationEvent event);
+    String updateEvent(String data);
 
 }

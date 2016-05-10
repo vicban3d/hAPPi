@@ -9,7 +9,9 @@ main_module.service('eventService',[function(){
         operandObject: {},
         operandAttribute: {},
         operator: '',
-        value: ''
+        value: '',
+        username: '',
+        applicationId: ''
     };
 
     this.addNewEvent = function() {
@@ -20,12 +22,16 @@ main_module.service('eventService',[function(){
             object: {},
             attribute: {},
             operator: '',
-            value: ''
+            value: '',
+            username: '',
+            applicationId: ''
         };
     };
 
-    this.addEvent = function(application){
+    this.addEvent = function(application, username){
         this.currentEvent.id = generateUUID();
+        this.currentEvent.username = username;
+        this.currentEvent.applicationId = application.id;
         addEventToApplication(application, this.currentEvent);
     };
 

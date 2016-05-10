@@ -13,12 +13,14 @@ import com.dropbox.core.DbxException;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -38,8 +40,6 @@ public class Server implements RESTServer {
     }
 
     private static Facade facade = new hAPPiFacade();
-    private Application currentlySelectedApplication;
-    private User currentUser = new User("tempUsername", "tempPass", "tempMail");
 
     @Override
     public Response handleCORS() {
@@ -64,42 +64,55 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String createApplication(Application data) {
+    public String createApplication(String data) {
+        Application application = null;
         try {
-            Logger.INFO("Creating a new application: " + data.getId());
-            this.currentlySelectedApplication = data;
-            facade.createApplication(data);
-            return "Created " + data.getName();
+            JSONObject jsonObject = new JSONObject(data);
+            application = createApplicationFromJsonObj(jsonObject);
+            Logger.INFO("Creating a new application: " + application.getId());
+            facade.createApplication(application);
+            return "Created " + application.getName();
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed execute cordova command", e.getMessage());
             return "Error: failed to create application!";
         } catch (JSONException e) {
             Logger.ERROR("Incorrect JSON format", e.getMessage());
             return "Error: failed to create application!";
+        } catch (IOException e) {
+            Logger.ERROR("Incorrect JSON format", e.getMessage());
+            return "Error: failed to create application!";
         }
     }
 
     @Override
-    public String buildApplication(Application application) {
+    public String buildApplication(String data) {
+        Application application = null;
         try {
-            return facade.buildApplication(application.getId(), currentUser.getUsername());
+            JSONObject jsonObject = new JSONObject(data);
+            application = createApplicationFromJsonObj(jsonObject);
+            return facade.buildApplication(application.getId(), jsonObject.getString("username"));
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed to build application", e.getMessage());
-            return "Error building application " + application;
+            return "Error building application " + application.getName();
         } catch (IOException e) {
             Logger.ERROR("Failed to read application files", e.getMessage());
-            return "Error building application " + application;
+            return "Error building application " + application.getName();
         } catch (DbxException e) {
             Logger.ERROR("Failed to access Dropbox", e.getMessage());
-            return "Error building application " + application;
+            return "Error building application " + application.getName();
+        } catch (JSONException e) {
+            Logger.ERROR("Failed to build json", e.getMessage());
+            return "Error building application " + application.getName();
         }
     }
 
     @Override
-    public String createObject(ApplicationObject data) {
+    public String createObject(String data) {
         try {
-            facade.createObject(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
-            return "Object " + data.getName() + " added!";
+            JSONObject jsonObject = new JSONObject(data);
+            ApplicationObject applicationObject = createApplicationObjectFromJson(jsonObject);
+            facade.createObject(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationObject);
+            return "Object " + applicationObject.getName() + " added!";
         } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create object!";
@@ -107,10 +120,32 @@ public class Server implements RESTServer {
 
     }
 
+    private ApplicationObject createApplicationObjectFromJson(JSONObject data) throws JSONException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(data.toString(), ApplicationObject.class);
+    }
+
+    private Application createApplicationFromJsonObj(JSONObject data) throws JSONException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(data.toString(), Application.class);
+    }
+
+    private ApplicationEvent createApplicationEventFromJsonObj(JSONObject data) throws JSONException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return  mapper.readValue(data.toString(), ApplicationEvent.class);
+    }
+
+    private ApplicationBehavior createApplicationBehaviorFromJson(JSONObject data) throws JSONException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(data.toString(), ApplicationBehavior.class);
+    }
+
     @Override
-    public String removeObject(ApplicationObject data) {
+    public String removeObject(String data) {
         try {
-            facade.removeObject(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
+            JSONObject jsonObject = new JSONObject(data);
+            ApplicationObject applicationObject = createApplicationObjectFromJson(jsonObject);
+            facade.removeObject(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationObject);
         } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to remove object!";
@@ -119,10 +154,12 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String createBehavior(ApplicationBehavior data) {
+    public String createBehavior(String data) {
         try {
-            facade.createBehavior(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
-            return "Behavior " + data.getName() + " added!";
+            JSONObject jsonObject = new JSONObject(data);
+            ApplicationBehavior applicationBehavior = createApplicationBehaviorFromJson(jsonObject);
+            facade.createBehavior(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationBehavior);
+            return "Behavior " + applicationBehavior.getName() + " added!";
         } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create behavior!";
@@ -130,9 +167,11 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String removeBehavior(ApplicationBehavior data) {
+    public String removeBehavior(String data) {
         try {
-            facade.removeBehavior(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
+            JSONObject jsonObject = new JSONObject(data);
+            ApplicationBehavior applicationBehavior = createApplicationBehaviorFromJson(jsonObject);
+            facade.removeBehavior(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationBehavior);
         } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to remove behavior!";
@@ -141,14 +180,17 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String updateBehavior(ApplicationBehavior data) {
+    public String updateBehavior(String data) {
+        ApplicationBehavior applicationBehavior = null;
         try {
-            facade.updateApplicationBehavior(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
+            JSONObject jsonObject = new JSONObject(data);
+            applicationBehavior = createApplicationBehaviorFromJson(jsonObject);
+            facade.updateApplicationBehavior(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationBehavior);
         } catch (Exception e) {
             Logger.ERROR("Error : failed to update application object!", e.getMessage());
             return "Error: Failed to update application object!";
         }
-        return "The object " + data.getName() + " was updated successfully";
+        return "The Behavior " + applicationBehavior.getName() + " was updated successfully";
     }
 
     @Override
@@ -196,20 +238,26 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String removeEvent(ApplicationEvent data) {
+    public String removeEvent(String data) {
+        ApplicationEvent event = null;
         try {
-            facade.removeEvent(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
+            JSONObject jsonObject = new JSONObject(data);
+            event = createApplicationEventFromJsonObj(jsonObject);
+            facade.removeEvent(jsonObject.getString("applicationId"), jsonObject.getString("username"), event);
         } catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to remove event!";
         }
-        return "Event Removed!";
+        return "Event " + event.getName() + " Removed!";
     }
 
     @Override
-    public String updateEvent(ApplicationEvent event) {
+    public String updateEvent(String data) {
+        ApplicationEvent event = null;
         try {
-            facade.updateApplicationEvent(currentlySelectedApplication.getId(),currentUser.getUsername(), event);
+            JSONObject jsonObject = new JSONObject(data);
+            event = createApplicationEventFromJsonObj(jsonObject);
+            facade.updateApplicationEvent(jsonObject.getString("applicationId"),jsonObject.getString("username"), event);
         } catch (Exception e) {
             Logger.ERROR("Error : failed to update application event!", e.getMessage());
             return "Error: Failed to update application event!";
@@ -218,10 +266,13 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String createEvent(ApplicationEvent data) {
+    public String createEvent(String data) {
+        ApplicationEvent event = null;
         try {
-            facade.createEvent(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
-            return "Event " + data.getName() + " added!";
+            JSONObject jsonObject = new JSONObject(data);
+            event = createApplicationEventFromJsonObj(jsonObject);
+            facade.createEvent(jsonObject.getString("applicationId"), jsonObject.getString("username"), event);
+            return "Event " + event.getName() + " added!";
         }  catch (Exception e) {
             Logger.ERROR("Incorrect data format", e.getMessage());
             return "Error: failed to create event!";
@@ -229,41 +280,51 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public String removeApplication(Application application) {
+    public String removeApplication(String data) {
+        Application application = null;
         try {
-            facade.removeApplication(application.getId(), currentUser.getUsername());
+            JSONObject jsonObject = new JSONObject(data);
+            application = createApplicationFromJsonObj(jsonObject);
+            facade.removeApplication(application.getId(), jsonObject.getString("username"));
         } catch (Exception e) {
             Logger.ERROR("Failed to remove application", e.getMessage());
             return "Failed to remove application!";
         }
 
-        return "Application Removed!";
+        return "Application "+ application.getName() +" Removed!";
     }
 
     @Override
-    public String updateApplication(Application data) {
+    public String updateApplication(String data) {
+        Application app = null;
         try {
-            facade.updateApplication(data, currentUser.getUsername());
+            JSONObject jsonObject = new JSONObject(data);
+            app = createApplicationFromJsonObj(jsonObject);
+            facade.updateApplication(app, jsonObject.getString("username"));
         } catch (CordovaRuntimeException e) {
             Logger.ERROR("Failed execute cordova command", e.getMessage());
             return "Error: failed to update application!";
         } catch (IOException e) {
             Logger.ERROR("Error reading data", e.getMessage());
             return "Error: Failed to update application!";
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        this.currentlySelectedApplication = data;
-        return "The application " + data.getName() + " was updated successfully";
+        return "The application " + app.getName() + " was updated successfully";
     }
 
     @Override
-    public String updateObject(ApplicationObject data) {
+    public String updateObject(String data) {
+        ApplicationObject applicationObject = null;
         try {
-            facade.updateApplicationObject(currentlySelectedApplication.getId(), currentUser.getUsername(), data);
+            JSONObject jsonObject = new JSONObject(data);
+            applicationObject = createApplicationObjectFromJson(jsonObject);
+            facade.updateApplicationObject(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationObject);
         } catch (Exception e) {
             Logger.ERROR("Error : failed to update application object!", e.getMessage());
             return "Error: Failed to update application object!";
         }
-        return "The object " + data.getName() + " was updated successfully";
+        return "The object " + applicationObject.getName() + " was updated successfully";
     }
 
     @Override

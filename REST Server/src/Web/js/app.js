@@ -186,7 +186,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.deleteApplication = function(application){
             appService.deleteApplication($scope.applications, application);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_APP, angular.toJson(application)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_APP, angular.toJson(application)));
         };
 
         $scope.addApplication = function(){
@@ -206,9 +206,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             appService.addApplication($scope.applications);
             $scope.completeApplications[appService.currentApplication.id] = false;
             var id = appService.currentApplication.id;
-
             $scope.acceptMessageResult(
-                sendPOSTRequest(Paths.CREATE_APP, angular.toJson(appService.currentApplication)),
+                sendPOSTRequestPlainText(Paths.CREATE_APP, angular.toJson(appService.currentApplication)),
                 function(){
                     $scope.completeApplications[id] = true;
                 });
@@ -222,11 +221,11 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             var id = application.id;
 
             appService.currentApplication.platforms = appService.getPlatformsArray([$scope.android, $scope.ios, $scope.windowsPhone]);
-
+            appService.currentApplication.username = $scope.currentUser.username;
             appService.editApplication($scope.applications, application);
             $scope.indexToShow = -1;
             $scope.acceptMessageResult(
-                sendPOSTRequest(Paths.UPDATE_APP, angular.toJson(appService.currentApplication)),
+                sendPOSTRequestPlainText(Paths.UPDATE_APP, angular.toJson(appService.currentApplication)),
                 function(){
                     $scope.completeApplications[id] = true;
                 });
@@ -294,8 +293,11 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // ----------------------------------------------------------------------Object Service methods-----------------
 
         $scope.addObject = function() {
+            alert("before adding object");
             objectService.addObject(appService.currentApplication);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)));
+            alert("current app id: " + objectService.currentObject.applicationId);
+            alert("current user: " + objectService.currentObject.username);
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)));
             $scope.hideArea("objectCreateArea");
         };
 
@@ -309,7 +311,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 $scope.showNoObjectMembersImage = true;
             }
             $scope.indexToShow = -1;
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_OBJECT, angular.toJson(object)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_OBJECT, angular.toJson(object)));
         };
 
         $scope.addAttribute = function(){ objectService.addAttribute(); };
@@ -328,7 +330,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addNewObject = function(){
             $scope.indexToShow = -1;
-            objectService.addNewObject();
+            objectService.addNewObject(appService.currentApplication.id, $scope.currentUser.username);
             $scope.showNoObjectMembersImage = !$scope.showNoObjectMembersImage;
             $scope.toggleArea("objectCreateArea");
         };
@@ -349,7 +351,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             }
 
             objectService.editObject(appService.currentApplication, object);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_OBJECT, angular.toJson(objectService.currentObject)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_OBJECT, angular.toJson(objectService.currentObject)));
             $scope.indexToShow = -1;
         };
 
@@ -385,8 +387,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 
         $scope.addBehavior = function(){
-            behaviorService.addBehavior(appService.getCurrentApplication());
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)));
+            behaviorService.addBehavior(appService.getCurrentApplication(), $scope.currentUser.username);
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)));
             $scope.hideArea("behaviorCreateArea");
         };
 
@@ -400,7 +402,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.editBehavior = function(behavior){
             behaviorService.editBehavior(appService.getCurrentApplication(), behavior);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)));
             $scope.indexToShow = -1;
         };
 
@@ -454,7 +456,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 $scope.showNoBehaviorMembersImage = true;
             }
             $scope.indexToShow = -1;
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_BEHAVIOR, angular.toJson(behavior)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_BEHAVIOR, angular.toJson(behavior)));
         };
 
         $scope.showBehaviorDetails = function(behavior){
@@ -482,9 +484,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.addEvent = function(){
-            eventService.addEvent(appService.getCurrentApplication());
+            eventService.addEvent(appService.getCurrentApplication(), $scope.currentUser.username);
             alert(appService.getCurrentApplication().name);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.CREATE_EVENT, angular.toJson(eventService.currentEvent)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_EVENT, angular.toJson(eventService.currentEvent)));
             $scope.hideArea("eventCreateArea");
         };
 
@@ -511,7 +513,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 $scope.showNoEventMembersImage = true;
             }*/
             $scope.indexToShow = -1;
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.REMOVE_EVENT, angular.toJson(event)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_EVENT, angular.toJson(event)));
         };
 
         $scope.hideEventEditArea = function(){
@@ -528,7 +530,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.editEvent = function(event){
             eventService.editEvent(appService.getCurrentApplication(), event);
-            $scope.acceptMessageResult(sendPOSTRequest(Paths.UPDATE_EVENT, angular.toJson(eventService.currentEvent)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_EVENT, angular.toJson(eventService.currentEvent)));
             $scope.indexToShow = -1;
         };
 

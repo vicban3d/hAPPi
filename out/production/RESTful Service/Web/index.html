@@ -660,9 +660,27 @@
             <div class="componentMainTitle">
                 Release
             </div>
-            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())">release {{getCurrentApplication().name}}</span>
-            <div class={{circleLoadingAnimation}} data-ng-show="!completeApplications[getCurrentApplication().id]"></div>
-            <div id="appQRImage"></div>
+            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="!completeApplications[getCurrentApplication().id]">release {{getCurrentApplication().name}}</span>
+            <br><br>
+                <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="!completeApplications[getCurrentApplication().id]">
+                </div>
+            <table style="width: 100%;" data-ng-show="getApplicationBuilt()">
+                <tr>
+                    <td class="formInput formInput20">
+                        <!--PADDING-->
+                    </td>
+                    <td class="formInput formInput20">
+                        <div id="appQRImage"></div>
+                    </td>
+                    <td class="formInput formInput40">
+                        <p class="applicationTitle">Your Application is complete!</p>
+                        <p class="applicationTitle">Scan this QR code to get it.</p>
+                    </td>
+                    <td class="formInput formInput20">
+                        <!--PADDING-->
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
