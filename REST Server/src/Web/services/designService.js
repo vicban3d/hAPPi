@@ -57,7 +57,7 @@ main_module.service('designService',[function(){
             app_id: $scope.getCurrentApplication().id,
             objName: this.currentInstance.name,
             index: idx
-        }
+        };
 
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVEOBJ_INSTANCE, angular.toJson(postBody)));
     };

@@ -106,7 +106,7 @@ main_module.service('behaviorService',[function(){
             return instances;
         }
         var filteredInstances = [];
-        for (i = 0 ; i < conditions.length; i++){
+        for (var i = 0 ; i < conditions.length; i++){
             var attrIndex =  object.attributes.indexOf(conditions[i].attribute);
             var temp = instances.map(function(instance) {
                     var instanceValue = instance[attrIndex];

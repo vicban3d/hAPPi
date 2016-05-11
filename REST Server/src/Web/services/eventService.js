@@ -47,14 +47,6 @@ main_module.service('eventService',[function(){
         this.currentEvent = {};
     };
 
-    var removeEventFromApplication = function(application, eventName){
-        for(var i = application.events.length - 1; i >= 0; i--){
-            if(application.events[i].name == eventName){
-                application.events.splice(i,1);
-            }
-        }
-    };
-
     this.editEvent = function(application, event){
         removeEventFromApplication(application, event.name);
         addEventToApplication(application, this.currentEvent);

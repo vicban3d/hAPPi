@@ -7,14 +7,17 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  * Created by Gila on 12/04/2016.
  */
-public class RemoveObjInstanceRequest {
+class RemoveObjInstanceRequest {
     @XmlElement(required = true)
+    private
     String instanceId;
 
     @XmlElement(required = true)
+    private
     String objName;
 
     @XmlElement(required = true)
+    private
     int index;
 
     public RemoveObjInstanceRequest(@JsonProperty("id")String instanceId,

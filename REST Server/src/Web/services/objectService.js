@@ -25,6 +25,7 @@ main_module.service('objectService',[function(){
 
     this.editObject = function(application, object){
         removeObjectFromApplication(application, object.name);
+        this.currentObject.applicationId = application.id;
         addObjectToApplication(application, this.currentObject);
     };
 

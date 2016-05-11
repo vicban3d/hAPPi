@@ -10,7 +10,7 @@ public class Strings {
     public static final String SRV_HOST =  "http://localhost";
     public static final String SRV_PORT = "80";
     public static final String SRV_MAIN = "/";
-    public static final String SRV_FULL = SRV_HOST + ":" + SRV_PORT + SRV_MAIN;
+//    public static final String SRV_FULL = SRV_HOST + ":" + SRV_PORT + SRV_MAIN;
     public static final String PATH_WEB_CONTENT = "C:\\users\\" + username + "\\IdeaProjects\\hAPPi\\REST Server\\src\\Web\\";
     public static final String PATH_CORDOVA = "C:\\users\\" + username + "\\AppData\\Roaming\\npm\\cordova.cmd";
     public static final String PATH_APPS = "C:\\users\\" + username + "\\HAPPI\\Applications";
@@ -27,7 +27,7 @@ public class Strings {
     public static final String PATH_UPDATE_APP = "/updateApplication";
     public static final String PATH_UPDATE_OBJECT = "/updateObject";
     public static final String PATH_UPDATE_BEHAVIOR = "/updateBehavior";
-    public static final String PATH_SIGNUP_PAGE = "/signup";
+//    public static final String PATH_SIGNUP_PAGE = "/signup";
     public static final String PATH_CREATE_USER = "/addUser";
     public static final String PATH_LOGIN = "/login";
     public static final String PATH_CREATE_OBJECT_INSTANCE = "/AddObjInstance";

@@ -70,7 +70,7 @@ public class BehaviorAction extends Document {
         return conditions;
     }
 
-    public void setConditions(List<Condition> Condition) {
+    public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
 

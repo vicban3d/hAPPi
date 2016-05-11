@@ -1,62 +1,126 @@
+/*
+REQUIRED FUNCTIONS:
+     initializeDataStructures
+     designDisplayBehaviorPage
+     getCurrentApplication
+     designDisplayObjectPage
+     gotoAppInstance
+     getShowEmulatorMainPage
+     getShowAddInstance
+     performBehaviorAction
+     getBehaviorAction
+     addInstance
+     removeInstance
+     getCurrentInstance
+     getOutput
+
+REQUIRED STYLES:
+     designAreaTopMenu
+     designAreaPage
+     formInput
+     componentMainTitle
+     removeFormFieldsButton
+     designAreaOutputLabel
+ */
+
+
 var main_module = angular.module('main', []);
 
 main_module.controller('ctrl_main', ['$scope',
     function($scope) {
-        $scope.applicationName = "<[NAME]>";
-        $scope.applicationId = "<APP_ID>";
-        $scope.objects = [];
-        $scope.behaviors = [];
+
+        $scope.currentApplication = {
+            id: "<[APP_ID]>",
+            name: "<[NAME]>",
+            platforms: '',
+            objects: JSON.parse("<[OBJECTS]>"),
+            behaviors: JSON.parse("<[BEHAVIORS]>"),
+            events: [],
+            username: ''
+        };
+
         $scope.currentInstance = '';
         $scope.showEmulatorMainPage = true;
         $scope.showAddInstance = true;
         $scope.attribute_values = [];
         $scope.instances = [];
         $scope.emulatorOutput = '';
-
-        $scope.initializeDataStructures = function(){
-            var objectsString = "<[OBJECTS]>";
-            var behaviorsString = "<[BEHAVIORS]>";
-            $scope.objects = JSON.parse(objectsString);
-            $scope.behaviors = JSON.parse(behaviorsString);
-        };
+        this.phoneNumber = '';
 
         $scope.designDisplayObjectPage = function(object){
-            $scope.currentInstance = object;
-            $scope.showAddInstance = true;
+            this.currentInstance = object;
+            this.emulatorOutput = '';
+            this.showAddInstance = true;
+        };
+
+        $scope.getShowAddInstance = function(){
+            return this.showAddInstance;
+        };
+
+        $scope.getCurrentApplication = function(){
+            return $scope.currentApplication;
+        };
+
+        $scope.getShowEmulatorMainPage = function(){
+            return this.showEmulatorMainPage;
+        };
+
+        $scope.gotoAppInstance = function(phoneNumber){
+            this.phoneNumber = phoneNumber;
+            this.showEmulatorMainPage = false;
         };
 
         $scope.designDisplayBehaviorPage = function(){
-            $scope.showAddInstance = false;
+            this.showAddInstance = false;
         };
 
-        $scope.addInstance = function(){
-            if ($scope.instances[$scope.currentInstance.name] == undefined){
-                $scope.instances[$scope.currentInstance.name] = [];
+        $scope.addInstance = function($scope, attributes){
+            if ($scope.instances[this.currentInstance.name] == undefined){
+                $scope.instances[this.currentInstance.name] = [];
             }
-            $scope.instances[$scope.currentInstance.name].push($scope.attribute_values);
+            $scope.instances[this.currentInstance.name].push(attributes);
             $scope.attribute_values = [];
 
             var postBody = {
-                id : generateUUID(),
-                app_id: $scope.applicationId,
-                objName: $scope.currentInstance.name,
-                attributesList: $scope.attribute_values
+                id : this.phoneNumber,
+                app_id: $scope.getCurrentApplication().id,
+                objName: this.currentInstance.name,
+                attributesList: attributes
             };
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
         };
 
-        $scope.removeInstance = function(idx){
-            $scope.instances[$scope.currentInstance.name].splice(parseInt(idx),1);
+        $scope.removeInstance = function($scope, idx){
+            if($scope.isNumber(idx))
+                $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);
+            else
+                alert("Please choose index from the list!");
+
+            var postBody = {
+                id : this.phoneNumber,
+                app_id: $scope.getCurrentApplication().id,
+                objName: this.currentInstance.name,
+                index: idx
+            };
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVEOBJ_INSTANCE, angular.toJson(postBody)));
         };
 
-        $scope.performBehaviorAction = function(behavior){
+        $scope.getOutput = function(){
+            return this.emulatorOutput;
+        };
+
+        $scope.getCurrentInstance = function(){
+            return this.currentInstance;
+        };
+
+        $scope.performBehaviorAction = function($scope, behavior){
             var object = behavior.operandObject;
             var operand1 = behavior.operandAttribute.name;
             var action = $scope.getBehaviorAction(object, behavior.operator, behavior.conditions);
             if (action == undefined){
-                $scope.emulatorOutput = "Unsupported Operation"
+                this.emulatorOutput = "Unsupported Operation"
             } else {
-                $scope.emulatorOutput = action(operand1);
+                this.emulatorOutput = action(operand1);
             }
         };
 
@@ -128,7 +192,7 @@ main_module.controller('ctrl_main', ['$scope',
             if(conditions == null || conditions.length ==  0){
                 return instances;
             }
-            for (i = 0 ; i < conditions.length; i++){
+            for (var i = 0 ; i < conditions.length; i++){
                 var attrIndex =  object.attributes.indexOf(conditions[i].attribute);
                 var temp = instances.map(function(instance) {
                     var instanceValue = instance[attrIndex];
@@ -214,9 +278,9 @@ main_module.controller('ctrl_main', ['$scope',
                     };
                     return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
                 };
-            } else if (actionName == "Display") {
-                return function (operand) {
-                    var accumulatorFunction = function (initial, action, index) {
+            } else if (actionName == "Display"){
+                return function (operand){
+                    var accumulatorFunction = function(initial, action, index) {
                         for (var i = 0; i < instances.length - 1; i++) {
                             initial = initial + action(instances[i][index]) + ", ";
                         }

@@ -9,7 +9,6 @@
     <script type="text/javascript" src="http://localhost/js/util.js"></script>
     <script type="text/javascript" src="http://localhost/js/index.js"></script>
     <script type="text/javascript" src="http://localhost/js/app.js"></script>
-    <script type="text/javascript" src="http://localhost/js/signup.js"></script>
     <script type="text/javascript" src="http://localhost/services/appService.js"></script>
     <script type="text/javascript" src="http://localhost/services/objectService.js"></script>
     <script type="text/javascript" src="http://localhost/services/behaviorService.js"></script>
@@ -664,6 +663,7 @@
             <br><br>
                 <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="!completeApplications[getCurrentApplication().id]">
                 </div>
+            <div class="componentMainTitle" data-ng-show="!completeApplications[getCurrentApplication().id]">Creating your Application...</div>
             <table style="width: 100%;" data-ng-show="getApplicationBuilt()">
                 <tr>
                     <td class="formInput formInput20">
@@ -688,51 +688,91 @@
             <div class="componentMainTitle">
                 Preview
             </div>
-            <div id="emulatedCode" class="designAreaEmulator">
-                <nav class="navbar navbar-inverse designAreaTopMenu" >
-                    <div class="container-fluid ">
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
-                        </div>
-                        <ul class="nav navbar-nav navbar-right" >
-                            <li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
-                        </ul>
-                    </div>
-                </nav>
-                <div class="designAreaPage" data-ng-show="getShowEmulatorMainPage()">
-                    <label class="componentMainTitle formInput">enter you phone number:</label>
-                    <input type="text" class="form-control" placeholder="phone number" data-ng-model="phoneNumber">
-                    <button class="btn btn-primary btn-block" data-ng-click="gotoAppInstance(phoneNumber)">goto app</button>
-                </div>
-                <div class="designAreaPage" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage()">
-                    <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
-                </div>
-                <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
-                    <form class="form-horizontal" role="form" data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                        <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]">
-                    </form>
-                    <button class="btn btn-primary btn-block" data-ng-click="addInstance()">Add</button><hr>
-                    <input type="text" class="form-control" placeholder="Index to Remove" data-ng-model="idx">
-                    <button class="btn btn-primary btn-block" data-ng-click="removeInstance(idx)">Remove</button>
-                    <hr>
-                    <table class="table" style="width: 100%">
-                        <tr>
-                            <th style="width: 10%">Idx</th>
-                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                                {{attr.name}}
-                            </th>
+            <div style="width: 60%; margin-left: 10%">
+                <!--<PHONE_CODE_START>-->
+                <div id="emulatedCode">
+                    <table class="designAreaEmulator" style="width:100%;">
+                        <tr style="height: 10%;">
+                            <td>
+                                <nav class="navbar navbar-inverse designAreaTopMenu" >
+                                    <div class="container-fluid ">
+                                        <div class="navbar-header">
+                                            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
+                                        </div>
+                                        <ul class="nav navbar-nav navbar-right" >
+                                            <li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </td>
                         </tr>
-                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
-                            <td>{{$index}}</td>
-                            <td data-ng-repeat="val in instance track by $index">
-                                {{val}}
+                        <tr style="height: 80%">
+                            <td>
+                                <form class="designAreaPage" data-ng-submit="gotoAppInstance(phoneNumber)" data-ng-show="getShowEmulatorMainPage()">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td class="formInput">
+                                                <div class="componentMainTitle">Enter Your Phone Number</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="formInput">
+                                                <input type="text" class="form-control" placeholder="Phone Number" data-ng-model="phoneNumber">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="formInput">
+                                                <input type="submit" value="Enter" class="btn btn-primary btn-block">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                                <div class="designAreaPage" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage()">
+                                    <div style="padding: 1%;" class="componentMainTitle">Behavior</div><hr>
+                                    <div style="padding: 1%;" class="componentMainTitle" data-ng-show="getCurrentApplication().behaviors.length == 0">This Application has no defined behavior.</div>
+                                    <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+                                </div>
+                                <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
+                                    <div style="padding: 1%;" class="componentMainTitle">{{getCurrentInstance().name}}</div><hr>
+
+                                    <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
+                                        <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index" class="formInput">
+                                            <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]" required>
+                                        </div>
+                                        <input type="submit" class="btn btn-primary btn-block" value="Add">
+                                    </form>
+                                    <hr>
+                                    <table class="table" style="width: 100%">
+                                        <tr>
+                                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                                                {{attr.name}}
+                                            </th>
+                                            <th>
+                                                <!--PADDING-->
+                                            </th>
+                                        </tr>
+                                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+                                            <td data-ng-repeat="val in instance track by $index">
+                                                {{val}}
+                                            </td>
+                                            <td>
+                                                <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height: 10%;">
+                            <td>
+                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
+                                    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
+                                </div>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="navbar navbar-inverse designAreaOutput">
-                    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
-                </div>
+                <!--<PHONE_CODE_END>-->
             </div>
         </div>
     </div>

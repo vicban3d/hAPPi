@@ -12,9 +12,9 @@ import org.codehaus.jettison.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,21 +90,68 @@ public class hAPPiFacade implements Facade {
         FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html");
         FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js");
         FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\index.css");
+
+        if (Files.exists(Paths.get(Strings.PATH_WEB_CONTENT + "\\model\\main.html"))){
+            Files.delete(Paths.get(Strings.PATH_WEB_CONTENT + "\\model\\main.html"));
+        }
+
+        FileInputStream stream = new FileInputStream(Strings.PATH_WEB_CONTENT + "\\index.html");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        FileOutputStream out = new FileOutputStream(Strings.PATH_WEB_CONTENT + "\\model\\main.html");
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+
+        String strLine;
+        boolean startWriting = false;
+
+        writer.write("<!DOCTYPE html>\n" +
+                "<!--suppress ALL -->\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "    <script type=\"text/javascript\" src=\"js/jquery-1.10.2.min.js\"></script>\n" +
+                "    <script type=\"text/javascript\" src=\"js/bootstrap.min.js\"></script>\n" +
+                "    <script type=\"text/javascript\" src=\"js/angular.min.js\"></script>\n" +
+                "    <script type=\"text/javascript\" src=\"js/index.js\"></script>\n" +
+                "    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/index.css\">\n" +
+                "    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.min.css\">\n" +
+                "</head>\n" +
+                "<body data-ng-app=\"main\" data-ng-controller=\"ctrl_main\">\n");
+        while ((strLine = reader.readLine()) != null){
+
+            if (strLine.contains("<!--<PHONE_CODE_START>-->")){
+                startWriting = true;
+                continue;
+            }
+            if (strLine.contains("<!--<PHONE_CODE_END>-->")){
+                break;
+            }
+            if (startWriting){
+                writer.write(strLine + "\n");
+            }
+        }
+        writer.write("</body></html>");
+        writer.close();
+        reader.close();
+        stream.close();
+        out.close();
+
+        // model files
         String HTMLContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.html");
         String MAINContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\main.html");
         String JSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.js");
         String JSUtilContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\util.js");
         String CSSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\model\\index.css");
+        // lib files
         String ANGULARContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\angular.min.js");
         String JQUERYContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\jquery-1.10.2.min.js");
         String BOOTSTRAPCSSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\bootstrap.min.css");
         String BOOTSTRAPJSContent = FileHandler.readFile(Strings.PATH_WEB_CONTENT + "\\lib\\bootstrap.min.js");
+
         if (HTMLContent != null && JSContent != null && CSSContent != null) {
             JSContent = JSContent.replace("<[NAME]>", application.getName());
             JSContent = JSContent.replace("<[APP_ID]>", application.getId());
             JSContent = JSContent.replace("<[OBJECTS]>", allActions.toString().replace("\"", "\\\""));
             JSContent = JSContent.replace("<[BEHAVIORS]>", allBehaviors.toString().replace("\"", "\\\""));
-//            JSContent = JSContent.replace("$scope.isWebMode = true;", "$scope.isWebMode = false;");
+
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html", HTMLContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\main.html", MAINContent);
             FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js", JSContent);
@@ -146,7 +193,7 @@ public class hAPPiFacade implements Facade {
         String appName = Application.fromDocument(database.getApplication(appId)).getName();
         database.removeApplication(appId);
         FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + appName);
-        Logger.INFO("The application " + appName + " was deleted.");
+        Logger.DEBUG("The application " + appName + " was deleted.");
     }
 
     @Override
@@ -304,10 +351,6 @@ public class hAPPiFacade implements Facade {
         Application application = Application.fromDocument(database.getApplication(appId));
         application.updateEvent(event);
         database.updateApplication(application);
-    }
-
-    public void getUser(String userId){
-
     }
 
     @Override

@@ -34,7 +34,7 @@ public interface RESTServer {
     @GET
     @Path(Strings.PATH_IMAGES)
     @Produces("image/*")
-    byte[] getImage(@PathParam("resource") String resource);
+    byte[] getImage(@SuppressWarnings("RSReferenceInspection") @PathParam("resource") String resource);
 
     /**
      * Returns requested resource file.
@@ -45,7 +45,7 @@ public interface RESTServer {
     @GET
     @Path(Strings.PATH_RESOURCE)
     @Produces({"text/html", "text/css"})
-    String getResource(@PathParam("folder") String folder, @PathParam("resource") String resource);
+    String getResource(@SuppressWarnings("RSReferenceInspection") @PathParam("folder") String folder, @SuppressWarnings("RSReferenceInspection") @PathParam("resource") String resource);
 
 
 
@@ -158,14 +158,14 @@ public interface RESTServer {
     @Produces(MediaType.TEXT_PLAIN)
     String updateBehavior(String data);
 
-    /**
-     * get signup page
-     * @return - signup page.
-     */
-    @GET
-    @Path(Strings.PATH_SIGNUP_PAGE)
-    @Produces(MediaType.WILDCARD)
-    String getSignupPage();
+//    /**
+//     * get signup page
+//     * @return - signup page.
+//     */
+//    @GET
+//    @Path(Strings.PATH_SIGNUP_PAGE)
+//    @Produces(MediaType.WILDCARD)
+//    String getSignupPage();
 
 
     /**
@@ -223,7 +223,8 @@ public interface RESTServer {
 
     /**
      * Creates new user in db
-     * @param reqParam */
+     * @param reqParam - request
+     * */
     @POST
     @Path(Strings.PATH_GET_OBJECT_INSTANCE)
     @Consumes({MediaType.TEXT_PLAIN})

@@ -1,7 +1,7 @@
 var main_module = angular.module('main', []);
 
-main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', 'eventService', 'designService', 'releaseService', '$scope', '$timeout',
-    function(appService, objectService, behaviorService, eventService, designService, releaseService, $scope, $timeout) {
+main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorService', 'eventService', 'designService', 'releaseService', '$scope',
+    function(appService, objectService, behaviorService, eventService, designService, releaseService, $scope) {
 
         // ----------------------------------------------------------------------Variable Declaration-------------------
 
@@ -336,7 +336,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.editObject = function(object){
             var all_behaviors = appService.currentApplication.behaviors;
-            for (i=0; i< all_behaviors.length; i++){
+            for (var i=0; i< all_behaviors.length; i++){
                 if (all_behaviors[i].operandObject == object){
                     all_behaviors[i].operandObject = objectService.currentObject;
                     if (objectService.currentObject.attributes.indexOf(objectService.currentObject.operandAttribute) >= 0){

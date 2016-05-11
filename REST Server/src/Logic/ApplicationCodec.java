@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Gila on 18/04/2016.
  */
-public class ApplicationCodec implements Codec<Application> {
+class ApplicationCodec implements Codec<Application> {
     @Override
     public Application decode(BsonReader reader, DecoderContext decoderContext) {
         reader.readStartDocument();

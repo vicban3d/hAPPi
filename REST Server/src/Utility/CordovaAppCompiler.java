@@ -5,6 +5,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by victor on 11/11/2015.
@@ -22,22 +23,22 @@ public class CordovaAppCompiler implements AppCompiler {
 
     @Override
     public void addPlatform(String applicationName, String platform) throws CordovaRuntimeException {
-        Logger.INFO("Adding " + platform + " platform to application " + applicationName + "...");
+        Logger.DEBUG("Adding " + platform + " platform to application " + applicationName + "...");
         executeCommand(applicationName, "platform add " + platform);
-        Logger.INFO("Added " + platform + " platform to application " + applicationName + ".");
+        Logger.DEBUG("Added " + platform + " platform to application " + applicationName + ".");
     }
 
     @Override
     public void buildApplication(String applicationName) throws CordovaRuntimeException {
-        Logger.INFO("Building application " + applicationName + "...");
+        Logger.DEBUG("Building application " + applicationName + "...");
         executeCommand(applicationName, "build");
-        Logger.INFO("application " + applicationName + " built.");
+        Logger.DEBUG("application " + applicationName + " built.");
     }
 
 //    private void initializeFiles(String application) throws IOException {
-//        Logger.INFO("Initializing application files in " + application + "...");
+//        Logger.DEBUG("Initializing application files in " + application + "...");
 //        FileHandler.writeFile(application + "\\www\\js\\helper.js", JSCreator.JSFUNCTION_MAKE_STRUCT);
-//        Logger.INFO("Initialized application files " + application + ".");
+//        Logger.DEBUG("Initialized application files " + application + ".");
 //    }
 
 
@@ -50,10 +51,10 @@ public class CordovaAppCompiler implements AppCompiler {
                 byte[] error = new byte[1024];
                 //noinspection ResultOfMethodCallIgnored
                 p.getErrorStream().read(error);
-                throw new CordovaRuntimeException(new String(error));
+                throw new CordovaRuntimeException(new Exception(Arrays.toString(error)));
             }
         } catch (InterruptedException | IOException e) {
-            Logger.ERROR("Error adding android to application!", e.getMessage());
+            Logger.ERROR("Error adding android to application!", e);
         }
     }
 }
