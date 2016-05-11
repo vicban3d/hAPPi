@@ -91,14 +91,18 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
-    this.isValidObject = function($scope){
+    this.isValidObject = function($scope, object){
+        if (object == undefined || object === ""){
+            return false;
+        }
+        
         var all_objects = $scope.getCurrentApplication().objects;
         if (all_objects == undefined){
             return true;
         }
         for (var i=0; i< all_objects.length; i++) {
-            if (all_objects[i].name.valueOf() == this.currentObject.name.valueOf()
-                && all_objects[i].id.valueOf() != this.currentObject.id.valueOf()){
+            if (all_objects[i].name.valueOf() == object.name.valueOf()
+                && all_objects[i].id.valueOf() != object.id.valueOf()){
                 $scope.createErrorMessage = "An Object by that name already exists!";
                 return false;
             }

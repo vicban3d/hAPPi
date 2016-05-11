@@ -298,8 +298,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("objectCreateArea");
         };
 
-        $scope.isValidObject = function() {
-            return objectService.isValidObject($scope);
+        $scope.isValidObject = function(object) {
+            return objectService.isValidObject($scope, object);
         };
 
         $scope.deleteObject = function(object){

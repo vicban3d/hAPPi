@@ -228,7 +228,7 @@
                                 <span class="applicationTitle">Create a new Object</span>
                             </td>
                             <td class="formInput formInput60">
-                                <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject()">
+                                <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
                                     {{createErrorMessage}}
                                 </div>
                             </td>
@@ -236,7 +236,7 @@
                                 <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewObject()">
                             </td>
                             <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidObject()">
+                                <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidObject(getCurrentObject())">
                             </td>
                         </tr>
                     </table>
@@ -252,7 +252,8 @@
                                     <input data-ng-model="attribute.name" class="form-control" placeholder="Enter Attribute Name" required>
                                 </td>
                                 <td class="formInput formInput15">
-                                    <select class="form-control" data-ng-init="attribute.type = basic_types[0]" data-ng-model="attribute.type" ng-options="i for i in basic_types">
+                                    <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
+                                        <option value="" selected="selected">Type</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput10">
@@ -269,16 +270,17 @@
                     <div class="form-group">
                         <table style="width: 100%">
                             <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
-                                <td class="formInput formInput40">
+                                <td class="formInput formInput30">
                                     <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
                                 </td>
-                                <td class="formInput formInput15">
-                                    <select class="form-control" data-ng-init="action.operand1 = getCurrentObject().attributes[0]" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
+                                <td class="formInput formInput20">
+                                    <select class="form-control" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
+                                        <option value="" selected="selected">Choose Attribute</option>
                                     </select>
                                 </td>
-                                <td class="formInput formInput15">
-                                    <select class="form-control" data-ng-init="action.operator = operators[0]" ng-model="action.operator" ng-options="i for i in operators" required>
-                                        <option selected="selected">Operator</option>
+                                <td class="formInput formInput20">
+                                    <select class="form-control" ng-model="action.operator" ng-options="i for i in operators" required>
+                                        <option value="" selected="selected">Choose Action</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput20">
@@ -318,7 +320,7 @@
                                         <span class="applicationTitle">Edit Object {{object.name}}</span>
                                     </td>
                                     <td class="formInput formInput60">
-                                        <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject()">
+                                        <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
                                             {{createErrorMessage}}
                                         </div>
                                     </td>
@@ -326,7 +328,7 @@
                                         <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideObjectEditArea()">
                                     </td>
                                     <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidObject()">
+                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidObject(getCurrentObject())">
                                     </td>
                                 </tr>
                             </table>
@@ -342,7 +344,8 @@
                                             <input class="form-control" placeholder="Enter Attribute name" data-ng-model="attribute.name" required>
                                         </td>
                                         <td class="formInput formInput15">
-                                            <select class="form-control" data-ng-init="attribute.type = basic_types[0]" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
+                                            <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
+                                                <option value="" selected="selected">Type</option>
                                             </select>
                                         </td>
                                         <td class="formInput formInput10">
@@ -359,15 +362,17 @@
                                 <p>Actions:</p>
                                 <table style="width: 100%">
                                     <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
-                                        <td class="formInput formInput40">
+                                        <td class="formInput formInput30">
                                             <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
                                         </td>
-                                        <td class="formInput formInput15">
-                                            <select class="form-control" data-ng-init="action.operand1 = getCurrentObject().attributes[0]" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
+                                        <td class="formInput formInput20">
+                                            <select class="form-control" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
+                                                <option value="" selected="selected">Choose Attribute</option>
                                             </select>
                                         </td>
-                                        <td class="formInput formInput15">
-                                            <select class="form-control" data-ng-init="action.operator = operators[0]" ng-model="action.operator" ng-options="i for i in operators" required>
+                                        <td class="formInput formInput20">
+                                            <select class="form-control" ng-model="action.operator" ng-options="i for i in operators" required>
+                                                <option value="" selected="selected">Choose Action</option>
                                             </select>
                                         </td>
                                         <td class="formInput formInput20">
@@ -424,15 +429,18 @@
                         <table style="width: 100%">
                             <tr>
                                 <td class="formInput formInput20">
-                                    <select class="form-control" data-ng-init="getCurrentBehavior().operandObject = getCurrentApplication().objects[0]" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects" required>
+                                    <select class="form-control" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects.filter(isValidObject)" required>
+                                        <option value="" selected="selected">Choose Object</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput20">
-                                    <select class="form-control" data-ng-init="getCurrentBehavior().operator = behaviorOperators[0]" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
+                                    <select class="form-control" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
+                                        <option value="" selected="selected">Choose Action</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput20">
                                     <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                        <option value="" selected="selected">Choose Operand</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput40">
@@ -446,11 +454,13 @@
                         <table style="width: 100%;">
                             <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
                                 <td class="formInput formInput20">
-                                    <select class="form-control" data-ng-init="condition.attribute = getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)[0]" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                    <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                        <option value="" selected="selected">Choose Attribute</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput20">
-                                    <select class="form-control" data-ng-init="condition.logicOperation = logicOperations[0]" ng-model="condition.logicOperation" ng-options="i for i in logicOperations" required>
+                                    <select class="form-control" ng-model="condition.logicOperation" ng-options="i for i in logicOperations" required>
+                                        <option value="" selected="selected">Choose Condition</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput20">
@@ -515,15 +525,18 @@
                                     <table style="width: 100%">
                                         <tr>
                                             <td class="formInput formInput20">
-                                                <select class="form-control" data-ng-init="getCurrentBehavior().operandObject = getCurrentApplication().objects[0]" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects" required>
+                                                <select class="form-control" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects" required>
+                                                    <option value="" selected="selected">Choose Object</option>
                                                 </select>
                                             </td>
                                             <td class="formInput formInput20">
-                                                <select class="form-control" data-ng-init="getCurrentBehavior().operator = behaviorOperators[0]" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
+                                                <select class="form-control" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
+                                                    <option value="" selected="selected">Choose Action</option>
                                                 </select>
                                             </td>
                                             <td class="formInput formInput20">
                                                 <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                                    <option value="" selected="selected">Choose Operand</option>
                                                 </select>
                                             </td>
                                             <td class="formInput formInput40">
@@ -539,10 +552,12 @@
                                     <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
                                         <td class="formInput formInput20">
                                             <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                                <option value="" selected="selected">Choose Attribute</option>
                                             </select>
                                         </td>
                                         <td class="formInput formInput20">
                                             <select class="form-control" ng-model="condition.logicOperation" ng-options="i for i in logicOperations" required>
+                                                <option value="" selected="selected">Choose Condition</option>
                                             </select>
                                         </td>
                                         <td class="formInput formInput20">
@@ -578,12 +593,18 @@
                         <table>
                             <tr>
                                 <td style="width: 15%; padding: 1%;">
-                                    <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects"></select>
+                                    <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects">
+                                        <option value="" selected="selected">Choose Object</option>
+                                    </select>
                                 </td>
                                 <td style="width: 15%; padding: 1%;">
-                                    <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)"></select>
+                                    <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)">
+                                        <option value="" selected="selected">Choose Attribute</option>
+                                    </select>
                                 <td style="width: 15%; padding: 1%;">
-                                    <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations"></select>
+                                    <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations">
+                                        <option value="" selected="selected">Choose Operation</option>
+                                    </select>
                                 </td>
                             </tr>
                         </table>
@@ -623,12 +644,18 @@
                                 <table>
                                     <tr>
                                         <td style="width: 15%; padding: 1%;">
-                                            <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects"></select>
+                                            <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects">
+                                                <option value="" selected="selected">Choose Object</option>
+                                            </select>
                                         </td>
                                         <td style="width: 15%; padding: 1%;">
-                                            <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)"></select>
+                                            <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)">
+                                                <option value="" selected="selected">Choose Attribute</option>
+                                            </select>
                                         <td style="width: 15%; padding: 1%;">
-                                            <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations"></select>
+                                            <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations">
+                                                <option value="" selected="selected">Choose Operation</option>
+                                            </select>
                                         </td>
                                     </tr>
                                 </table>
