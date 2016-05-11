@@ -73,7 +73,5 @@ public class ApplicationBehavior extends Document{
             result  = result + "\t* " + act.toString();
         }
         return result;
-
-
     }
 }

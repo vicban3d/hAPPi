@@ -31,8 +31,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.basic_types = ["Number", "Text"];
         $scope.andOrOperator = ["Or", "And"];
         $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
-        $scope.operators = ['Increase By', 'Reduce By', 'Multiply By', 'Divide By', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Product of All', 'Maximum', 'Minimum', 'Average', 'Display'];
+        $scope.operators = ['Increase By', 'Multiply By', 'Reduce By', 'Divide By', 'Change To'];
+        $scope.behaviorOperators = ['Sum of All', 'Display', 'Product of All', 'Maximum', 'Minimum', 'Average'];
+        $scope.actionOperations = ["+", "-", "DONE"];
 
         $scope.instances = [];
         $scope.emulatorOutput = '';
@@ -49,6 +50,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 images[i].src = preload.arguments[i];
             }
         }
+
 
         preload(
             "http://localhost/img/ios_disabled.png",
@@ -318,9 +320,15 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
         
         $scope.addAction = function(){ objectService.addAction(); };
+
+        $scope.addActionChain = function(){ objectService.addActionChain(); };
         
-        $scope.removeAction = function($index){
-            objectService.removeAction($index);
+        $scope.removeAction = function($index){ objectService.removeAction($index); };
+
+        $scope.removeActionChain = function($index){ objectService.removeActionChain($index); };
+
+        $scope.checkDisabled = function(){
+            return objectService.checkDisabled();
         };
 
         $scope.getAttributeName = function(val){ objectService.getAttributeName(val); };
@@ -332,7 +340,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.toggleArea("objectCreateArea");
         };
 
-        $scope.getObjectAction = function(actionName, operand2){ return objectService.getObjectAction(actionName, operand2); };
+        $scope.getObjectAction = function(actionChainName, object){ return objectService.getObjectAction(actionChainName, object); };
 
         $scope.editObject = function(object){
             var all_behaviors = appService.currentApplication.behaviors;

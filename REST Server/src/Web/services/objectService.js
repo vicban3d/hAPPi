@@ -8,12 +8,14 @@ main_module.service('objectService',[function(){
         name: '',
         attributes: [],
         actions: [],
+        actionsChain: [],
         applicationId: '',
         username: ''
     };
 
     this.addNewObject = function(applicationId, username) {
-        this.currentObject = {id: '', name: '', attributes: [], actions: [], applicationId: applicationId, username: username};
+        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionsChain: [], applicationId: applicationId, username: username};
+        this.currentObject.actionsChain.push({name: '', actions: []});
     };
 
     this.addObject = function(application) {
@@ -31,7 +33,7 @@ main_module.service('objectService',[function(){
 
     this.deleteObject = function(application, object){
        removeObjectFromApplication(application, object.name);
-        this.currentObject = {id: '', name: '', attributes: [], actions: [], applicationId: '', username: ''};
+        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionsChain: [], applicationId: '', username: ''};
     };
 
     var addObjectToApplication = function(application, object){
@@ -58,32 +60,85 @@ main_module.service('objectService',[function(){
         this.currentObject.actions.push({name: '', operand1: '', operator: '', operand2: ''});
     };
 
+    this.addActionChain = function(){
+        this.currentObject.actionsChain[0].actions.push({operand: '', operator: ''});
+    };
+
     this.removeAction = function($index){
         this.currentObject.actions.splice($index, 1);
     };
 
-    this.getObjectAction = function(actionName, operand2){
-        if (actionName == "Increase By") {
+    this.removeActionChain = function($index){
+        this.currentObject.actionsChain.actions.splice($index, 1);
+    };
+
+    this.checkDisabled = function(){
+        if(this.currentObject.actionsChain[0] != undefined && this.currentObject.actionsChain[0].actions.length > 0 && this.currentObject.actionsChain[0].actions[this.currentObject.actionsChain[0].actions.length - 1].operator == 'DONE') {
+            return true;
+        }
+        return false;
+    };
+
+    this.getObjectAction = function(actionChainName, object){
+        for (var i = 0; i < object.actionsChain.length; i++){
+            if(object.actionsChain[i].name == actionChainName){
+                var actions = object.actionsChain[i].actions;
+                return function (instances){
+                    var newInstances = [];
+                    if(actions.length == 0)
+                        return 0;
+                    for (var i = 0; i < actions.length; i++){
+                        var index = object.attributes.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);
+                        if(index >= 0)//if its attributes
+                            newInstances.push(parseFloat(instances[index]));
+                        else {
+                            index = object.actions.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);//exam5 : exam , exam5
+                            var index2 = object.attributes.map(function(a) {return a.name;}).indexOf(object.actions[index].operand1.name);
+                            if(index2 >= 0){//if its actions
+                                var action = getAction(actions[i].operand.name, object);
+                                newInstances.push(action(parseFloat(instances[index2])));
+                            }
+                        }
+                    }
+                    var sum = newInstances[0];
+                    for (var i = 0; i < newInstances.length; i++){
+                        if(actions[i].operator == '+')
+                            sum += parseFloat(newInstances[i+1]);
+                        else if(actions[i].operator == '-')
+                            sum -= parseFloat(newInstances[i+1]);
+                    }
+                    return sum;
+                };
+            }
+        }
+        return undefined;
+    };
+
+    var getAction = function(actionName, object){
+        var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
+        var action = object.actions[index].operator;
+        var operand2 = parseFloat(object.actions[index].operand2);
+        if (action == "Increase By") {
             return function (operand) {
                 return operand + operand2;
             };
         }
-        if (actionName == "Reduce By") {
+        if (action == "Reduce By") {
             return function (operand) {
                 return operand - operand2;
             };
         }
-        if (actionName == "Multiply By") {
+        if (action == "Multiply By") {
             return function (operand) {
                 return operand * operand2;
             };
         }
-        if (actionName == "Divide By") {
+        if (action == "Divide By") {
             return function (operand) {
                 return operand / operand2;
             };
         }
-        if (actionName == "Change To") {
+        if (action == "Change To") {
             return function () {
                 return operand2;
             };
@@ -95,7 +150,7 @@ main_module.service('objectService',[function(){
         if (object == undefined || object === ""){
             return false;
         }
-        
+
         var all_objects = $scope.getCurrentApplication().objects;
         if (all_objects == undefined){
             return true;

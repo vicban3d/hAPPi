@@ -195,7 +195,7 @@ main_module.controller('ctrl_main', ['$scope',
             for (var i = 0 ; i < conditions.length; i++){
                 var attrIndex =  object.attributes.indexOf(conditions[i].attribute);
                 var temp = instances.map(function(instance) {
-                    var instanceValue = instance[attrIndex];
+                    var instanceValue = parseInt(instance[attrIndex]);
                     var logicOperation = conditions[i].logicOperation;
                     var conditionValue = conditions[i].value;
 

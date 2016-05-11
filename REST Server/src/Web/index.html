@@ -293,6 +293,33 @@
                         </table>
                         <div class="addFormFieldsButton" data-ng-click="addAction()"></div>
                     </div>
+                    <div class="form-group">
+                        <p>Actions Chain:</p>
+                        <div class="form-group" style="width: 25%">
+                            <input data-ng-model="actionChain.name" class="form-control" placeholder="Enter Action Chain Name">
+                        </div>
+                        <div data-ng-repeat="action in getCurrentObject().actionsChain[0].actions track by $index">
+                            <table>
+                                <tr>
+                                    <td style="width:15%; padding: 1%">
+                                        <select class="form-control" ng-model="action.operand" ng-options="i.name for i in getCurrentObject().actions.concat(getCurrentObject().attributes)"></select>
+                                    </td>
+                                    <td style="width:15%; padding: 1%">
+                                        <select class="form-control" ng-model="action.operator" ng-options="i for i in actionOperations"></select>
+                                    </td>
+                                    <td style="width:10%; padding: 1%">
+                                    <div class="removeFormFieldsButton" data-ng-click="removeActionChain($index)"></div>
+                                    </td>
+                                    <td style="width:60%; padding: 1%;">
+                                        <!--PADDING-->
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <input type="button" class="addFormFieldsButton" data-ng-disabled="checkDisabled()" data-ng-click="addActionChain()">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">save</button>
+                    <hr>
                 </form>
             </div>
             <div class="itemList" data-ng-init="indexToShow = -1" data-ng-show="!areaFlags['objectCreateArea']">
@@ -439,7 +466,7 @@
                                     </select>
                                 </td>
                                 <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                    <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
                                         <option value="" selected="selected">Choose Operand</option>
                                     </select>
                                 </td>
@@ -551,7 +578,7 @@
                                 <table style="width:100%;">
                                     <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
                                         <td class="formInput formInput20">
-                                            <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                            <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
                                                 <option value="" selected="selected">Choose Attribute</option>
                                             </select>
                                         </td>
@@ -566,7 +593,7 @@
                                         <td class="formInput formInput10">
                                             <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
                                         </td>
-                                        <td style="width: 30%;">
+                                        <td class="formInput formInput30">
                                             <!--PADDING-->
                                         </td>
                                     </tr>
