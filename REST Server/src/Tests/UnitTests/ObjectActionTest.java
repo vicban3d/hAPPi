@@ -1,5 +1,9 @@
-package Tests.unitTests;
+package Tests.UnitTests;
 
+import Logic.ObjectAction;
+import Logic.ObjectAttribute;
+import org.bson.Document;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,5 +16,18 @@ public class ObjectActionTest {
     @Test
     public void testFromDocument() throws Exception {
 
+        ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
+
+        Document doc = new Document();
+        doc.append("name", "objActionName");
+        doc.append("operand1", attr);
+        doc.append("operator", "Increase By");
+        doc.append("operand2", "2");
+
+        ObjectAction objectAction = ObjectAction.fromDocument(doc);
+        assertEquals("objActionName", objectAction.getName());
+        assertEquals(attr, objectAction.getOperand1());
+        assertEquals("Increase By", objectAction.getOperator());
+        assertEquals("2", objectAction.getOperand2());
     }
 }

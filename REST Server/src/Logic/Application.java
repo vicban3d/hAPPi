@@ -219,8 +219,6 @@ public class Application extends Document{
     }
 
     public static Application fromDocument(Document data) {
-        //noinspection unchecked
-//        return new Application(data.getString("id"), data.getString("name"),  (ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"));
         return new Application(data.getString("id"), data.getString("name"), data.getString("username"),(ArrayList<String>)data.get("platforms"),(ArrayList<ApplicationObject>) data.get("objects"), (ArrayList<ApplicationBehavior>) data.get("behaviors"), (ArrayList<ApplicationEvent>) data.get("events"));
     }
 
