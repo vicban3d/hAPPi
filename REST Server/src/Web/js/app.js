@@ -616,6 +616,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 $scope.applicationStates[app.id] = $scope.states.READY;
                 releaseService.applicationBuilt = true;
                 releaseService.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result);
+                $scope.qrLink = result;
             },
               function(){
                   $scope.message = "ERROR";
