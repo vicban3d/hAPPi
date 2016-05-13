@@ -83,10 +83,10 @@
 <div ng-show="areaFlags['frontPage']">
     <h3 style="text-align: center; height: 5%">Create a New Application</h3><hr>
 
-    <form data-ng-submit="circleLoadingAnimation = 'loadingCircle smallBlackLoadingCircle';addApplication()">
+    <form data-ng-submit="addApplication()">
         <div class="form-group" style="width: 20%; margin-left: 40%">
             <input type="text" data-ng-model="applicationName" class="form-control" maxlength="30" placeholder="My App Name" required>
-            <br><div style="color: red; font: 16px bold calibri" data-ng-show="!isValidApplication()">
+            <br><div style="color: red; font: 16px bold calibri" data-ng-show="!isValidApplication(getCurrentApplication())">
                 {{createErrorMessage}}
             </div>
         </div>
@@ -119,7 +119,7 @@
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-block" value="start" data-ng-disabled="!isValidApplication()">
+            <input type="submit" class="btn btn-primary btn-block" value="start" data-ng-disabled="!isValidApplication(getCurrentApplication())">
         </div>
     </form>
 </div>
@@ -127,23 +127,40 @@
     <div>
         <h3  style="text-align: center;">My Apps</h3>
         <hr><br>
-        <div style="text-align: center;" class="applicationsList" data-ng-init="indexToShow = -1">
-            <div href="#" class="list-group-item" data-ng-repeat="application in applications.sort(compare) track by $index">
+        <div style="text-align: center;" class="applicationsList" data-ng-init="indexToShow=-1; indexToDelete=-1;">
+            <div href="#" class="list-group-item" data-ng-repeat="application in applications.sort(compare) track by $index" data-ng-show="(indexToShow == -1 && indexToDelete == -1) || indexToShow == application.id || indexToDelete == application.id">
                 <form data-ng-submit="editApplication(application)">
-                    <div class="form-group">
+                    <div class="form-group" >
                         <table style="width: 100%">
                             <tr>
-                                <td class="formInput formInput50">
+                                <td class="formInput formInput10">
+                                    <div class="loadingCircle smallBlackLoadingCircle" data-ng-show="applicationStates[application.id] != states.READY"></div>
+                                    <div class="readyCircle smallBlackLoadingCircle" data-ng-show="applicationStates[application.id] == states.READY"></div>
+                                </td>
+                                <td class="formInput formInput40">
                                     <span class="applicationTitle">{{application.name}}</span>
                                 </td>
-                                <td class="formInput formInput10">
-                                    <div class={{circleLoadingAnimation}} data-ng-show="applicationStates[application.id] != states.READY"></div>
+                                <!--Status Labels-->
+                                <td class="formInput formInput20" data-ng-show="indexToDelete == -1 && indexToShow == -1">
+                                   <p data-ng-show="applicationStates[application.id] == states.BUILDING"><b>Releasing...</b></p>
+                                   <p data-ng-show="applicationStates[application.id] == states.UPDATING"><b>Updating...</b></p>
+                                    <p data-ng-show="applicationStates[application.id] == states.READY"><b>Ready</b></p>
                                 </td>
-                                <td class="formInput formInput20">
-                                    <p data-ng-show="applicationStates[application.id] == states.BUILDING">Releasing...</p>
-                                    <p data-ng-show="applicationStates[application.id] == states.UPDATING">Updating...</p>
+                                <!--Applications List Buttons-->
+                                <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
+                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationDeleteArea(application)">
+                                </td>
+                                <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
+                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationEditArea(application)">
+                                </td>
+                                <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
+                                    <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="menuAddObjects();">
                                 </td>
 
+                                <!--Edit Menu Buttons-->
+                                <td class="formInput formInput10" data-ng-show="(indexToShow == application.id)">
+                                    <!--PADDING-->
+                                </td>
                                 <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="(indexToShow == application.id)">
                                     <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideApplicationEditArea()">
                                 </td>
@@ -151,17 +168,25 @@
                                     <input type="submit" value="Save" class="btn btn-primary btn-app-list">
                                 </td>
 
-                                <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="!(indexToShow == application.id)">
-                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="deleteApplication(application)" data-ng-show="!(indexToShow == application.id)">
+                                <!--Delete menu Buttons-->
+                                <td class="formInput formInput10" data-ng-show="(indexToDelete == application.id)">
+                                    <!--PADDING-->
                                 </td>
-                                <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id)">
-                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationEditArea($event, application)" data-ng-show="!(indexToShow == application.id)">
+                                <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="(indexToDelete == application.id)">
+                                    <input type="button" value="Back" class="btn btn-primary btn-app-list" data-ng-click="hideApplicationDeleteArea()">
                                 </td>
-                                <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id)">
-                                    <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="getApplication(application);menuAddObjects()" data-ng-show="!(indexToShow == application.id)">
+                                <td class="formInput formInput10" data-ng-show="(indexToDelete == application.id)">
+                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteApplication(application)">
                                 </td>
+
                             </tr>
                         </table>
+                    </div>
+                    <!--Delete application menu-->
+                    <div class="applicationEditArea form-group" style="background: #ffffee" data-ng-show="indexToDelete == application.id">
+                        <hr>
+                        <p>Are you sure you want to delete this application?</p>
+                        <p style="color: red">* ALL APPLICATION DATA WILL BE LOST!</p>
                     </div>
                     <div class="applicationEditArea form-group" data-ng-show="indexToShow == application.id">
                         <hr>

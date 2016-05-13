@@ -116,6 +116,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.menuAddObjects = function(){
+            $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showWorkAreas();
             $scope.showArea("objectsAddArea");
@@ -185,8 +186,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getPlatformsArray = function(){ appService.getPlatformsArray(); };
 
-        $scope.isValidApplication = function () {
-            return appService.isValidApplication($scope);
+        $scope.isValidApplication = function (application) {
+            return appService.isValidApplication($scope, application);
         };
 
         $scope.getCurrentApplication = function() { return appService.getCurrentApplication() };
@@ -194,6 +195,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.showCurrentPlatforms = function(){ appService.showCurrentPlatforms(); };
 
         $scope.deleteApplication = function(application){
+            $scope.indexToDelete = -1;
             appService.deleteApplication($scope.applications, application);
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_APP, angular.toJson(application)));
         };
@@ -213,6 +215,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             
 
             appService.addApplication($scope.applications);
+
             $scope.applicationStates[appService.currentApplication.id] = $scope.states.UPDATING;
             var id = appService.currentApplication.id;
             $scope.acceptMessageResult(
@@ -221,14 +224,16 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     $scope.applicationStates[id] = $scope.states.READY;
                 });
             $scope.getApplication(appService.currentApplication);
+            // $scope.indexToShow = -1;
+            // $scope.indexToDelete = -1;
             $scope.menuAddObjects();
         };
 
         $scope.editApplication = function(application){
             $scope.message = "Updating application...";
-            $scope.applicationStates[application.id] = $scope.states.UPDATING;
-            var id = application.id;
 
+            var id = application.id;
+            $scope.applicationStates[id] = $scope.states.UPDATING;
             appService.currentApplication.platforms = appService.getPlatformsArray([$scope.android, $scope.ios, $scope.windowsPhone]);
             appService.currentApplication.username = $scope.currentUser.username;
             appService.editApplication($scope.applications, application);
@@ -248,6 +253,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.indexToShow = -1;
             appService.getApplication($scope, application); };
 
+        $scope.hideApplicationDeleteArea = function(){
+            $scope.indexToDelete = -1;
+        }
+
         $scope.hideApplicationEditArea = function(){
             $scope.indexToShow = -1;
             $scope.applicationName = "";
@@ -256,13 +265,20 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.windowsPhone = false;
         };
 
-        $scope.showApplicationEditArea = function($event, application){
-            $event.stopPropagation();
-            if ($scope.indexToShow != application.id) {
-                $scope.indexToShow = application.id;
-            } else {
-                $scope.indexToShow = -1
-            }
+        $scope.showApplicationDeleteArea = function(application){
+            $scope.indexToDelete = application.id;
+            appService.currentApplication = {
+                id: application.id,
+                name: application.name,
+                username: $scope.currentUser.username,
+                platforms: application.platforms,
+                objects: application.objects,
+                behaviors: application.behaviors
+            };
+        };
+
+        $scope.showApplicationEditArea = function(application){
+            $scope.indexToShow = application.id;
             appService.currentApplication = {
                 id: application.id,
                 name: application.name,
@@ -297,7 +313,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         };
 
-        $scope.createApplication = function(id, name, platforms){ appService.createApplication($scope, id, name, platforms); };
+        // $scope.createApplication = function(id, name, platforms){ appService.createApplication($scope, id, name, platforms); };
 
         // ----------------------------------------------------------------------Object Service methods-----------------
 

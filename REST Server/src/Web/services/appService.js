@@ -18,12 +18,12 @@ main_module.service('appService',[function(){
         return this.currentApplication;
     };
 
-    this.isValidApplication = function($scope){
+    this.isValidApplication = function($scope, application){
         if ($scope.applicationName == undefined){
             return true;
         }
         var all_apps = $scope.applications;
-        $scope.message = $scope.applicationStates[currentApplication.id];
+        $scope.message = $scope.applicationStates[application.id];
         for (var i=0; i< all_apps.length; i++) {
             if (all_apps[i].name.valueOf() == $scope.applicationName.valueOf())
             {
