@@ -224,8 +224,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     $scope.applicationStates[id] = $scope.states.READY;
                 });
             $scope.getApplication(appService.currentApplication);
-            // $scope.indexToShow = -1;
-            // $scope.indexToDelete = -1;
             $scope.menuAddObjects();
         };
 
@@ -251,11 +249,14 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getApplication = function(application){
             $scope.indexToShow = -1;
-            appService.getApplication($scope, application); };
+            appService.getApplication($scope, application);
+            $scope.menuAddObjects();
+
+        };
 
         $scope.hideApplicationDeleteArea = function(){
             $scope.indexToDelete = -1;
-        }
+        };
 
         $scope.hideApplicationEditArea = function(){
             $scope.indexToShow = -1;

@@ -445,3 +445,9 @@ span.addAppButton{
     /*width: 22.4%;*/
     /*padding-top: 30%;*/
 }
+
+.mainApplicationTitle{
+    font: 24px calibri;
+    width: 100%;
+    text-align: center;
+}

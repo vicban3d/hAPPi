@@ -154,7 +154,7 @@
                                     <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationEditArea(application)">
                                 </td>
                                 <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
-                                    <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="menuAddObjects();">
+                                    <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="getApplication(application);">
                                 </td>
 
                                 <!--Edit Menu Buttons-->
@@ -231,6 +231,9 @@
             </div>
         </div>
     </div>
+</div>
+<div class="mainApplicationTitle" ng-hide="areaFlags['frontPage'] || areaFlags['mainPage'] || areaFlags['myApps']">
+    {{getCurrentApplication().name}}
 </div>
 <div class="workArea" ng-hide="areaFlags['frontPage']">
     <ul class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
