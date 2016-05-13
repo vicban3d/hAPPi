@@ -133,11 +133,15 @@
                     <div class="form-group">
                         <table style="width: 100%">
                             <tr>
-                                <td class="formInput formInput80">
+                                <td class="formInput formInput50">
                                     <span class="applicationTitle">{{application.name}}</span>
                                 </td>
                                 <td class="formInput formInput10">
-                                    <div class={{circleLoadingAnimation}} data-ng-show="!completeApplications[application.id]"></div>
+                                    <div class={{circleLoadingAnimation}} data-ng-show="applicationStates[application.id] != states.READY"></div>
+                                </td>
+                                <td class="formInput formInput20">
+                                    <p data-ng-show="applicationStates[application.id] == states.BUILDING">Releasing...</p>
+                                    <p data-ng-show="applicationStates[application.id] == states.UPDATING">Updating...</p>
                                 </td>
 
                                 <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="(indexToShow == application.id)">
@@ -148,10 +152,10 @@
                                 </td>
 
                                 <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="!(indexToShow == application.id)">
-                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-disabled="!completeApplications[application.id]" data-ng-click="deleteApplication(application)" data-ng-show="!(indexToShow == application.id)">
+                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="deleteApplication(application)" data-ng-show="!(indexToShow == application.id)">
                                 </td>
                                 <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id)">
-                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="!completeApplications[application.id]" data-ng-click="showApplicationEditArea($event, application)" data-ng-show="!(indexToShow == application.id)">
+                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationEditArea($event, application)" data-ng-show="!(indexToShow == application.id)">
                                 </td>
                                 <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id)">
                                     <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="getApplication(application);menuAddObjects()" data-ng-show="!(indexToShow == application.id)">
@@ -252,7 +256,7 @@
                                     <input data-ng-model="attribute.name" class="form-control" placeholder="Enter Attribute Name" required>
                                 </td>
                                 <td class="formInput formInput15">
-                                    <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
+                                    <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types track by $$index" required>
                                         <option value="" selected="selected">Type</option>
                                     </select>
                                 </td>
@@ -371,7 +375,7 @@
                                             <input class="form-control" placeholder="Enter Attribute name" data-ng-model="attribute.name" required>
                                         </td>
                                         <td class="formInput formInput15">
-                                            <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
+                                            <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types track by $$index" required>
                                                 <option value="" selected="selected">Type</option>
                                             </select>
                                         </td>
@@ -713,11 +717,15 @@
             <div class="componentMainTitle">
                 Release
             </div>
-            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="!completeApplications[getCurrentApplication().id]">release {{getCurrentApplication().name}}</span>
+            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release {{getCurrentApplication().name}}</span>
+            <div data-ng-show="applicationStates[getCurrentApplication().id] == states.READY">
+                <img class="noMembersImage" src="http://localhost/img/before_release.png">
+            </div>
             <br><br>
-                <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="!completeApplications[getCurrentApplication().id]">
+                <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY">
                 </div>
-            <div class="componentMainTitle" data-ng-show="!completeApplications[getCurrentApplication().id]">Creating your Application...</div>
+            <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.BUILDING">Releasing your Application...</div>
+            <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.UPDATING">Your Application is being updated, please wait...</div>
             <table style="width: 100%;" data-ng-show="getApplicationBuilt()">
                 <tr>
                     <td class="formInput formInput20">

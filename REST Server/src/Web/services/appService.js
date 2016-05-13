@@ -23,7 +23,7 @@ main_module.service('appService',[function(){
             return true;
         }
         var all_apps = $scope.applications;
-        $scope.message = $scope.applicationName.valueOf();
+        $scope.message = $scope.applicationStates[currentApplication.id];
         for (var i=0; i< all_apps.length; i++) {
             if (all_apps[i].name.valueOf() == $scope.applicationName.valueOf())
             {

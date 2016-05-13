@@ -10,7 +10,14 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.message = "";
 
         $scope.applications = [];
-        $scope.completeApplications = {};
+
+        $scope.states = {
+            READY : 0,
+            UPDATING : 1,
+            BUILDING : 2
+        };
+        
+        $scope.applicationStates = {};
 
         $scope.areaFlags = [];
         $scope.areaFlags["mainPage"] = true;
@@ -206,12 +213,12 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             
 
             appService.addApplication($scope.applications);
-            $scope.completeApplications[appService.currentApplication.id] = false;
+            $scope.applicationStates[appService.currentApplication.id] = $scope.states.UPDATING;
             var id = appService.currentApplication.id;
             $scope.acceptMessageResult(
                 sendPOSTRequestPlainText(Paths.CREATE_APP, angular.toJson(appService.currentApplication)),
                 function(){
-                    $scope.completeApplications[id] = true;
+                    $scope.applicationStates[id] = $scope.states.READY;
                 });
             $scope.getApplication(appService.currentApplication);
             $scope.menuAddObjects();
@@ -219,7 +226,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.editApplication = function(application){
             $scope.message = "Updating application...";
-            $scope.completeApplications[application.id] = false;
+            $scope.applicationStates[application.id] = $scope.states.UPDATING;
             var id = application.id;
 
             appService.currentApplication.platforms = appService.getPlatformsArray([$scope.android, $scope.ios, $scope.windowsPhone]);
@@ -229,7 +236,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.acceptMessageResult(
                 sendPOSTRequestPlainText(Paths.UPDATE_APP, angular.toJson(appService.currentApplication)),
                 function(){
-                    $scope.completeApplications[id] = true;
+                    $scope.applicationStates[id] = $scope.states.READY;
                 });
         };
 
@@ -584,12 +591,12 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.releaseBuildApplication = function(application){
             $scope.message = "Building application...";
-            $scope.completeApplications[application.id] = false;
+            $scope.applicationStates[application.id] = $scope.states.BUILDING;
             // releaseService.releaseBuildApplication($scope, application);
             var app = application;
             $scope.acceptMessageResult(sendPOSTRequest(Paths.BUILD_APP, angular.toJson(application)),
             function(result){
-                $scope.completeApplications[app.id] = true;
+                $scope.applicationStates[app.id] = $scope.states.READY;
                 releaseService.applicationBuilt = true;
                 releaseService.applicationQRCode = new QRCode(document.getElementById("appQRImage"), result);
             },
@@ -643,7 +650,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     var fixedResponse = appsList.replace(/\\'/g, "'");
                     $scope.applications = JSON.parse(fixedResponse);
                     for (var i=0; i< $scope.applications.length; i++){
-                        $scope.completeApplications[$scope.applications[i].id] = true;
+                        $scope.applicationStates[$scope.applications[i].id] = $scope.states.READY;
                     }
                     if ($scope.applications.length > 0){
                         $scope.showAppsList();
