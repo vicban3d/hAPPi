@@ -18,6 +18,7 @@ main_module.service('designService',[function(){
     this.gotoAppInstance = function(phoneNumber){
         this.phoneNumber = phoneNumber;
         this.showEmulatorMainPage = false;
+        this.showAddInstance = false;
     };
 
     this.designDisplayObjectPage = function(object){

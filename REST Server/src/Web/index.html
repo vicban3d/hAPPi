@@ -718,7 +718,7 @@
                 Release
             </div>
             <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release {{getCurrentApplication().name}}</span>
-            <div data-ng-show="applicationStates[getCurrentApplication().id] == states.READY">
+            <div data-ng-show="applicationStates[getCurrentApplication().id] == states.READY && !getApplicationBuilt()">
                 <img class="noMembersImage" src="http://localhost/img/before_release.png">
             </div>
             <br><br>
