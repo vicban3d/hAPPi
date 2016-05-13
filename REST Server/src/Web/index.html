@@ -85,7 +85,7 @@
 
     <form data-ng-submit="circleLoadingAnimation = 'loadingCircle smallBlackLoadingCircle';addApplication()">
         <div class="form-group" style="width: 20%; margin-left: 40%">
-            <input type="text" data-ng-model="applicationName" class="form-control" placeholder="My App Name" required>
+            <input type="text" data-ng-model="applicationName" class="form-control" maxlength="30" placeholder="My App Name" required>
             <br><div style="color: red; font: 16px bold calibri" data-ng-show="!isValidApplication()">
                 {{createErrorMessage}}
             </div>
@@ -165,7 +165,7 @@
                     </div>
                     <div class="applicationEditArea form-group" data-ng-show="indexToShow == application.id">
                         <hr>
-                        <input type="text" class="form-control" placeholder="My App Name" data-ng-model="getCurrentApplication().name" style="width:70%;" required>
+                        <input type="text" class="form-control" placeholder="My App Name" maxlength="30" data-ng-model="getCurrentApplication().name" style="width:70%;" required>
                         <table style="width:70%;">
                             <tr>
                                 <td>Platforms:</td>
@@ -256,7 +256,7 @@
                                     <input data-ng-model="attribute.name" class="form-control" placeholder="Enter Attribute Name" required>
                                 </td>
                                 <td class="formInput formInput15">
-                                    <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types track by $$index" required>
+                                    <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
                                         <option value="" selected="selected">Type</option>
                                     </select>
                                 </td>
@@ -375,7 +375,7 @@
                                             <input class="form-control" placeholder="Enter Attribute name" data-ng-model="attribute.name" required>
                                         </td>
                                         <td class="formInput formInput15">
-                                            <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types track by $$index" required>
+                                            <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
                                                 <option value="" selected="selected">Type</option>
                                             </select>
                                         </td>

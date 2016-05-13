@@ -49,7 +49,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addAttribute = function(){
-        this.currentObject.attributes.push({name: '', type: 'Text'});
+        this.currentObject.attributes.push({name: '', type: ''});
     };
 
     this.removeAttribute = function($index){
