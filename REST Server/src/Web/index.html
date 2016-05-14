@@ -445,7 +445,7 @@
                                 <p>Actions:</p>
                                 <table style="width: 100%">
                                     <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
-                                        <td class="formInput formInput30">
+                                        <td class="formInput formInput20">
                                             <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
                                         </td>
                                         <td class="formInput formInput20">
@@ -453,14 +453,36 @@
                                                 <option value="" selected="selected">Choose Attribute</option>
                                             </select>
                                         </td>
-                                        <td class="formInput formInput20">
+                                        <td class="formInput formInput15">
                                             <select class="form-control" ng-model="action.operator" ng-options="i for i in operators" required>
                                                 <option value="" selected="selected">Choose Action</option>
                                             </select>
                                         </td>
-                                        <td class="formInput formInput20">
-                                            <input class="form-control"  ng-model="action.operand2" placeholder="Enter Operand Value" required>
+
+                                        <td class="formInput formInput15">
+                                            <select class="form-control" ng-model="action.type" ng-options="i for i in operand_types" required>
+                                                <option value="" selected="selected">Choose Operand Type</option>
+                                            </select>
                                         </td>
+
+                                        <td class="formInput formInput15" data-ng-show="action.type === 'Fixed Value'">
+                                            <input class="form-control" ng-model="action.operand2" placeholder="Enter Operand Value" data-ng-disabled="action.type !== 'Fixed Value'" required>
+                                        </td>
+
+                                        <td class="formInput formInput15" data-ng-show="action.type === 'Attribute'">
+                                            <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes" data-ng-disabled="action.type !== 'Attribute'" required>
+                                                <option value="" selected="selected">Choose Attribute</option>
+                                            </select>
+                                        </td>
+                                        <td class="formInput15" data-ng-show="action.type === 'Dynamic'">
+                                            Value will be chosen later.
+                                        </td>
+                                        <td class="formInput15" data-ng-show="action.type === '' || action.type == undefined">
+                                            <!--PADDING-->
+                                        </td>
+
+
+
                                         <td class="formInput formInput10">
                                             <div class="removeFormFieldsButton" data-ng-click="removeAction($index)"></div>
                                         </td>
