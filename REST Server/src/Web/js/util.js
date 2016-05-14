@@ -2,6 +2,13 @@
  * Created by victor on 11/6/2015.
  * Contains utility functions.
  */
+
+
+
+
+
+
+// Global Functions
 function createRequest() {
     var result = null;
     if (window.XMLHttpRequest) {

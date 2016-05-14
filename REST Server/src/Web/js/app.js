@@ -117,6 +117,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.menuAddObjects = function(){
+            $scope.showNoBehaviorMembersImage = true;
             $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showWorkAreas();
@@ -124,6 +125,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.menuAddBehaviors = function(){
+            $scope.showNoObjectMembersImage = true;
+            $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showWorkAreas();
             $scope.showArea("behaviorCreateArea");
@@ -131,21 +134,33 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.menuRelease = function(){
+            $scope.showNoObjectMembersImage = true;
+            $scope.showNoBehaviorMembersImage = true;
+            $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showWorkAreas();
             $scope.showArea("releaseArea");
         };
 
         $scope.gotoApp = function(){
+            $scope.showNoObjectMembersImage = true;
+            $scope.showNoBehaviorMembersImage = true;
+            $scope.indexToShow = -1;
             $scope.hideArea("frontPage");
         };
 
         $scope.gotoMainPage = function(){
+            $scope.showNoObjectMembersImage = true;
+            $scope.showNoBehaviorMembersImage = true;
+            $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showArea('mainPage');
         };
 
         $scope.backToMain = function(){
+            $scope.showNoObjectMembersImage = true;
+            $scope.showNoBehaviorMembersImage = true;
+            $scope.indexToShow = -1;
             $scope.hideArea('myApps');
             $scope.hideArea('mainPage');
             $scope.switchAndroidImg = 1;
@@ -159,6 +174,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.showAppsList = function(){
+            $scope.showNoObjectMembersImage = true;
+            $scope.showNoBehaviorMembersImage = true;
+            $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showArea("myApps");
         };
