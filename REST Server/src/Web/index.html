@@ -22,10 +22,7 @@
 <nav class="navbar navbar-inverse" >
     <div class="container-fluid">
         <div class="navbar-header">
-            <!--<img src="http://localhost/img/logo1.png" style="width: 100px">-->
-            <!--<img src="http://localhost/img/logo2.png" style="width: 100px">-->
             <a href="#" data-ng-click="gotoMainPage()"><img src="http://localhost/img/writing.png" style="width: 50px"></a>
-            <!--<a class="navbar-brand" href="#" data-ng-click="gotoMainPage()">hAPPi</a>-->
         </div>
         <ul class="nav navbar-nav navbar-left">
             <li><a href="#" data-ng-click="backToMain()" data-ng-show="currentUser != undefined">+ Create App</a></li>
@@ -39,7 +36,6 @@
 </nav>
 <div data-ng-show="areaFlags['mainPage'] && currentUser != undefined"><h2 style="text-align: center;">Welcome {{currentUser.username}}!</h2><hr><br></div>
 <div data-ng-show="areaFlags['mainPage'] && currentUser == undefined">
-    <!--<h2 style="text-align: center;">Welcome to </h2><hr><br>-->
     <h2 style="text-align: center;"><img src="http://localhost/img/logo3.png" style="width: 250px"></h2>
     <h3 style="text-align: center;">To start creating applications you can either:</h3>
     <br>
@@ -308,7 +304,7 @@
                     <div class="form-group">
                         <table style="width: 100%">
                             <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
-                                <td class="formInput formInput30">
+                                <td class="formInput formInput20">
                                     <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
                                 </td>
                                 <td class="formInput formInput20">
@@ -316,14 +312,36 @@
                                         <option value="" selected="selected">Choose Attribute</option>
                                     </select>
                                 </td>
-                                <td class="formInput formInput20">
+                                <td class="formInput formInput15">
                                     <select class="form-control" ng-model="action.operator" ng-options="i for i in operators" required>
                                         <option value="" selected="selected">Choose Action</option>
                                     </select>
                                 </td>
-                                <td class="formInput formInput20">
-                                    <input class="form-control"  ng-model="action.operand2" placeholder="Enter Operand Value" required>
+
+                                <td class="formInput formInput15">
+                                    <select class="form-control" ng-model="action.type" ng-options="i for i in operand_types" required>
+                                        <option value="" selected="selected">Choose Operand Type</option>
+                                    </select>
                                 </td>
+
+                                <td class="formInput formInput15" data-ng-show="action.type === 'Fixed Value'">
+                                    <input class="form-control" ng-model="action.operand2" placeholder="Enter Operand Value" data-ng-disabled="action.type !== 'Fixed Value'" required>
+                                </td>
+
+                                <td class="formInput formInput15" data-ng-show="action.type === 'Attribute'">
+                                    <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes" data-ng-disabled="action.type !== 'Attribute'" required>
+                                        <option value="" selected="selected">Choose Attribute</option>
+                                    </select>
+                                </td>
+                                <td class="formInput15" data-ng-show="action.type === 'Dynamic'">
+                                    Value will be chosen later.
+                                </td>
+                                <td class="formInput15" data-ng-show="action.type === '' || action.type == undefined">
+                                    <!--PADDING-->
+                                </td>
+
+
+
                                 <td class="formInput formInput10">
                                     <div class="removeFormFieldsButton" data-ng-click="removeAction($index)"></div>
                                 </td>
@@ -473,7 +491,7 @@
                                 <span class="applicationTitle">Create a new Behavior</span>
                             </td>
                             <td class="formInput formInput60">
-                                <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior()">
+                                <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
                                     {{createErrorMessage}}
                                 </div>
                             </td>
@@ -481,7 +499,7 @@
                                 <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewBehavior()">
                             </td>
                             <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidBehavior()">
+                                <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidBehavior(getCurrentBehavior())">
                             </td>
                         </tr>
                     </table>
@@ -568,7 +586,7 @@
                                         <span class="applicationTitle">Edit Behavior {{behavior.name}}</span>
                                     </td>
                                     <td class="formInput formInput60">
-                                        <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior()">
+                                        <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
                                             {{createErrorMessage}}
                                         </div>
                                     </td>
@@ -576,7 +594,7 @@
                                         <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideBehaviorEditArea()">
                                     </td>
                                     <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidBehavior()">
+                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidBehavior(getCurrentBehavior())">
                                     </td>
                                 </tr>
                             </table>
@@ -834,35 +852,48 @@
 
                                     <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
                                         <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index" class="formInput">
-                                            <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]" required>
+                                            <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attribute_values[$index]" required>
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-block" value="Add">
                                     </form>
                                     <hr>
                                     <table class="table" style="width: 100%">
-                                        <tr>
+                                        <thead>
                                             <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                                                 {{attr.name}}
                                             </th>
                                             <th>
                                                 <!--PADDING-->
                                             </th>
-                                        </tr>
-                                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
-                                            <td data-ng-repeat="val in instance track by $index">
+                                        </thead>
+                                        <tbody data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+                                        <tr style="border-bottom: none; border-top: solid thick silver">
+                                            <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
                                                 {{val}}
                                             </td>
-                                            <td>
+                                            <td style="width: 10%; border-left: silver thin dashed">
                                                 <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
                                             </td>
                                         </tr>
+                                        <tr style="border-top: none">
+                                            <td colspan="{{ ((instance.length) / 2) + 1 }}">
+                                                <select class="form-control" ng-model="chosenAction" ng-options="action as action.name for action in getCurrentInstance().actions">
+                                                    <option value="" selected="selected">Choose Action</option>
+                                                </select>
+                                                <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-show="chosenAction.type === 'Dynamic'" required>
+                                            </td>
+                                            <td colspan="{{ ((instance.length) / 2) }}">
+                                                <input class="btn btn-primary btn-block" type="button" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
+                                            </td>
+                                        </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </td>
                         </tr>
                         <tr style="height: 10%;">
                             <td>
-                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
+                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
                                     <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
                                 </div>
                             </td>

@@ -2,7 +2,7 @@
  * Created by Victor on 10/03/2016.
  */
 main_module.service('designService',[function(){
-    this.currentInstance = [];
+    this.currentInstance = {};
     this.showEmulatorMainPage = true;
     this.showAddInstance = false;
     this.emulatorOutput = '';
@@ -28,6 +28,7 @@ main_module.service('designService',[function(){
     };
 
     this.designDisplayBehaviorPage = function(){
+        this.currentInstance = {};
         this.showAddInstance = false;
     };
 

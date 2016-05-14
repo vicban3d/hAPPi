@@ -41,6 +41,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.operators = ['Increase By', 'Multiply By', 'Reduce By', 'Divide By', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Display', 'Product of All', 'Maximum', 'Minimum', 'Average'];
         $scope.actionOperations = ["+", "-", "DONE"];
+        $scope.operand_types = ["Fixed Value", "Attribute", "Dynamic"];
 
         $scope.instances = [];
         $scope.emulatorOutput = '';
@@ -334,6 +335,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 $scope.showNoObjectMembersImage = true;
             }
             $scope.indexToShow = -1;
+            if (object.name === designService.currentInstance.name){
+                designService.designDisplayBehaviorPage();
+            }
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_OBJECT, angular.toJson(object)));
         };
 
@@ -382,6 +386,11 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             objectService.editObject(appService.currentApplication, object);
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_OBJECT, angular.toJson(objectService.currentObject)));
             $scope.indexToShow = -1;
+
+            if (designService.currentInstance.name === object.name){
+                designService.designDisplayObjectPage(objectService.currentObject);
+            }
+
         };
 
         $scope.showObjectEditArea = function($event, object){
@@ -413,6 +422,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             return objectService.currentObject;
         };
 
+        $scope.performObjectAction = function(actionName, object, instance, dynamicValue){
+            objectService.performObjectAction(actionName, object, instance, dynamicValue);
+        };
+
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 
         $scope.addBehavior = function(){
@@ -421,8 +434,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.hideArea("behaviorCreateArea");
         };
 
-        $scope.isValidBehavior = function() {
-            return behaviorService.isValidBehavior($scope);
+        $scope.isValidBehavior = function(behavior) {
+            return behaviorService.isValidBehavior($scope, behavior);
         };
 
         $scope.getCurrentBehavior = function(){

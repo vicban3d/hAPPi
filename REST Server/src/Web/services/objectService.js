@@ -57,7 +57,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addAction = function(){
-        this.currentObject.actions.push({name: '', operand1: '', operator: '', operand2: ''});
+        this.currentObject.actions.push({name: '', operand1: '', operator: '', type: '', operand2: ''});
     };
 
     this.addActionChain = function(){
@@ -73,7 +73,14 @@ main_module.service('objectService',[function(){
     };
 
     this.checkDisabled = function(){
-        if(this.currentObject.actionsChain[0] != undefined && this.currentObject.actionsChain[0].actions.length > 0 && this.currentObject.actionsChain[0].actions[this.currentObject.actionsChain[0].actions.length - 1].operator == 'DONE') {
+        if (
+            this.currentObject.actionsChain != undefined &&
+            this.currentObject.actionsChain[0] != undefined &&
+            this.currentObject.actionsChain[0].actions.length > 0 &&
+            this.currentObject.actionsChain[0].actions[
+                this.currentObject.actionsChain[0].actions.length - 1
+                ].operator == 'DONE') {
+
             return true;
         }
         return false;
@@ -101,7 +108,7 @@ main_module.service('objectService',[function(){
                         }
                     }
                     var sum = newInstances[0];
-                    for (var i = 0; i < newInstances.length; i++){
+                    for (i = 0; i < newInstances.length; i++){
                         if(actions[i].operator == '+')
                             sum += parseFloat(newInstances[i+1]);
                         else if(actions[i].operator == '-')
@@ -114,10 +121,12 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
-    var getAction = function(actionName, object){
+    var getAction = function(actionName, object, operand2){
         var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
         var action = object.actions[index].operator;
-        var operand2 = parseFloat(object.actions[index].operand2);
+        if (operand2 == undefined) {
+            operand2 = parseFloat(object.actions[index].operand2);
+        }
         if (action == "Increase By") {
             return function (operand) {
                 return operand + operand2;
@@ -163,6 +172,34 @@ main_module.service('objectService',[function(){
             }
         }
         return true;
-    }
+    };
+
+    this.performObjectAction = function(action, object, instance, dynamicValue){
+        var operand2 = undefined;
+
+        if (action.type === "Fixed Value"){
+            operand2 = parseFloat(action.operand2);
+        }
+        if (action.type === "Attribute"){
+            for (var j = 0; j < object.attributes.length; j++) {
+                if (object.attributes[j].name === action.operand2.name) {
+                    break;
+                }
+            }
+            operand2 = parseFloat(instance[j]);
+        }
+        if (action.type === "Dynamic"){
+            operand2 = parseFloat(dynamicValue);
+        }
+
+
+        var actionFunc = getAction(action.name, object, operand2);
+            for (var i = 0; i < object.attributes.length; i++) {
+                if (object.attributes[i].name === action.operand1.name) {
+                    break;
+                }
+            }
+        instance[i] = actionFunc(parseFloat(instance[i]));
+    };
 
 }]);

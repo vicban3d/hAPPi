@@ -78,7 +78,8 @@ main_module.service('behaviorService',[function(){
             }
             result = accumulatorFunction(initial, action, index);
         } else {
-            result = accumulatorFunction(initial, function (x){return x}, index);
+            result = accumulatorFunction(initial, undefined, index);
+            // result = accumulatorFunction(initial, function (x){return x}, index);
         }
         return result;
     };
@@ -227,14 +228,14 @@ main_module.service('behaviorService',[function(){
         }
     };
 
-    this.isValidBehavior = function($scope){
+    this.isValidBehavior = function($scope, behavior){
         var all_behaviors = $scope.getCurrentApplication().behaviors;
         if (all_behaviors == undefined){
             return true;
         }
         for (var i=0; i< all_behaviors.length; i++) {
-            if (all_behaviors[i].name.valueOf() == this.currentBehavior.name.valueOf()
-                && all_behaviors[i].id.valueOf() != this.currentBehavior.id.valueOf()){
+            if (all_behaviors[i].name.valueOf() == behavior.name.valueOf()
+                && all_behaviors[i].id.valueOf() != behavior.id.valueOf()){
                 $scope.createErrorMessage = "A Behavior by that name already exists!";
                 return false;
             }
