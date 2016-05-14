@@ -338,6 +338,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             if (object.name === designService.currentInstance.name){
                 designService.designDisplayBehaviorPage();
             }
+	    object["username"] = $scope.currentUser.username;
+            object["applicationId"] = appService.currentApplication.id;
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_OBJECT, angular.toJson(object)));
         };
 
@@ -384,6 +386,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             }
 
             objectService.editObject(appService.currentApplication, object);
+
+            objectService.currentObject["username"] = $scope.currentUser.username;
+            objectService.currentObject["applicationId"] = appService.currentApplication.id;
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_OBJECT, angular.toJson(objectService.currentObject)));
             $scope.indexToShow = -1;
 
@@ -444,6 +449,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.editBehavior = function(behavior){
             behaviorService.editBehavior(appService.getCurrentApplication(), behavior);
+            behavior["username"] = $scope.currentUser.username;
+            behavior["applicationId"] = appService.currentApplication.id;
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)));
             $scope.indexToShow = -1;
         };
@@ -498,6 +505,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 $scope.showNoBehaviorMembersImage = true;
             }
             $scope.indexToShow = -1;
+            behavior["username"] = $scope.currentUser.username;
+            behavior["applicationId"] = appService.currentApplication.id;
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_BEHAVIOR, angular.toJson(behavior)));
         };
 

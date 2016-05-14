@@ -84,43 +84,45 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
         writer.writeName("name");
         writer.writeString(applicationBehavior.getName());
 
-        writer.writeStartArray();
-        for (BehaviorAction action : applicationBehavior.getActions())
-        {
-            ApplicationObjectCodec applicationObjectCodec = new ApplicationObjectCodec(codecRegistry);
-            encoderContext.encodeWithChildContext(applicationObjectCodec,writer,action.getOperandObject());
+        writer.writeStartArray("actions");
+        if (applicationBehavior.getActions()!=null){// && applicationBehavior.getActions().size()>0) {
+            for (BehaviorAction action : applicationBehavior.getActions()) {
+                ApplicationObjectCodec applicationObjectCodec = new ApplicationObjectCodec(codecRegistry);
+                encoderContext.encodeWithChildContext(applicationObjectCodec, writer, action.getOperandObject());
 
-            writer.writeStartDocument("operandAttribute");
+                writer.writeStartDocument("operandAttribute");
                 writer.writeName("name");
                 writer.writeString(action.getOperandAttribute().getName());
                 writer.writeName("type");
                 writer.writeString(action.getOperandAttribute().getType());
-            writer.writeEndDocument();
-
-            writer.writeStartArray("Conditions");
-            for (Condition cond : action.getConditions()) {
-                writer.writeStartDocument("attribute");
-                writer.writeName("name");
-                writer.writeString(cond.getAttribute().getName());
-                writer.writeName("type");
-                writer.writeString(cond.getAttribute().getType());
                 writer.writeEndDocument();
 
-                writer.writeName("logicOperation");
-                writer.writeString(cond.getLogicOperation());
+                writer.writeStartArray("Conditions");
+                for (Condition cond : action.getConditions()) {
+                    writer.writeStartDocument("attribute");
+                    writer.writeName("name");
+                    writer.writeString(cond.getAttribute().getName());
+                    writer.writeName("type");
+                    writer.writeString(cond.getAttribute().getType());
+                    writer.writeEndDocument();
 
-                writer.writeName("value");
-                writer.writeString(cond.getValue());
+                    writer.writeName("logicOperation");
+                    writer.writeString(cond.getLogicOperation());
 
-                writer.writeName("andOrOperator");
-                writer.writeString(cond.getandOrOperator());
+                    writer.writeName("value");
+                    writer.writeString(cond.getValue());
+
+                    writer.writeName("andOrOperator");
+                    writer.writeString(cond.getandOrOperator());
+                }
+                writer.writeEndArray();
+
+                writer.writeName("operator");
+                writer.writeString(action.getOperator());
             }
-            writer.writeEndArray();
-
-            writer.writeName("operator");
-            writer.writeString(action.getOperator());
         }
-
+//
+//        }
         writer.writeEndArray();
         writer.writeEndDocument();
     }

@@ -79,8 +79,9 @@ public class AppInstance extends Document{
 
     public void addObjectInstance(String objName, List<String> attributes){
         if (objectInstances.containsKey(objName)){
-            List<List<String>> objList = objectInstances.get(objName);
+            List<List<String>> objList = objectInstances.remove(objName);
             objList.add(attributes);
+            objectInstances.put(objName,objList);
         }else{
             List<List<String>> objList = new ArrayList<>();
             objList.add(attributes);

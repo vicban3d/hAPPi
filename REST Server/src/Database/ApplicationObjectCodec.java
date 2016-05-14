@@ -73,17 +73,20 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
         writer.writeName("name");
         writer.writeString(applicationObject.getName());
 
-        writer.writeStartArray();
+        writer.writeStartArray("attributes");
             for (ObjectAttribute attribute : applicationObject.getAttributes()){
-                writer.writeName("name");
-                writer.writeString(attribute.getName());
-                writer.writeName("type");
-                writer.writeString(attribute.getType());
+                writer.writeStartDocument();
+                    writer.writeName("name");
+                    writer.writeString(attribute.getName());
+                    writer.writeName("type");
+                    writer.writeString(attribute.getType());
+                writer.writeEndDocument();
             }
         writer.writeEndArray();
 
-        writer.writeStartArray();
+        writer.writeStartArray("actions");
             for (ObjectAction action : applicationObject.getActions()){
+                writer.writeStartDocument();
                 writer.writeName("name");
                 writer.writeString(action.getName());
                 ObjectAttribute attribute = action.getOperand1();
@@ -97,6 +100,7 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
                 writer.writeString(action.getOperator());
                 writer.writeName("operand2");
                 writer.writeString(action.getOperand2());
+                writer.writeEndDocument();
             }
         writer.writeEndArray();
 

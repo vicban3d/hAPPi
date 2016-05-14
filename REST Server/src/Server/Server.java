@@ -119,24 +119,32 @@ public class Server implements RESTServer {
 
     }
 
-    private ApplicationObject createApplicationObjectFromJson(JSONObject data) throws IOException {
+    private ApplicationObject createApplicationObjectFromJson(JSONObject data) throws JSONException, IOException {
+        String[] names = {"id","name","attributes","actions"};
+        JSONObject copy = new JSONObject(data,names);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(data.toString(), ApplicationObject.class);
+        return mapper.readValue(copy.toString(), ApplicationObject.class);
     }
 
-    private Application createApplicationFromJsonObj(JSONObject data) throws IOException {
+    private Application createApplicationFromJsonObj(JSONObject data) throws JSONException, IOException {
+        String[] names = {"id","name","username","platforms","objects","behaviors","events"};
+        JSONObject copy = new JSONObject(data,names);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(data.toString(), Application.class);
+        return mapper.readValue(copy.toString(), Application.class);
     }
 
-    private ApplicationEvent createApplicationEventFromJsonObj(JSONObject data) throws IOException {
+    private ApplicationEvent createApplicationEventFromJsonObj(JSONObject data) throws JSONException, IOException {
+        String[] names = {"id","name","object","attribute","operator","value"};
+        JSONObject copy = new JSONObject(data,names);
         ObjectMapper mapper = new ObjectMapper();
-        return  mapper.readValue(data.toString(), ApplicationEvent.class);
+        return  mapper.readValue(copy.toString(), ApplicationEvent.class);
     }
 
-    private ApplicationBehavior createApplicationBehaviorFromJson(JSONObject data) throws IOException {
+    private ApplicationBehavior createApplicationBehaviorFromJson(JSONObject data) throws JSONException, IOException {
+        String[] names = {"id","name","action"};
+        JSONObject copy = new JSONObject(data,names);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(data.toString(), ApplicationBehavior.class);
+        return mapper.readValue(copy.toString(), ApplicationBehavior.class);
     }
 
     @Override

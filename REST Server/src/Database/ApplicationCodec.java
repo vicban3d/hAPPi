@@ -86,9 +86,9 @@ public class ApplicationCodec implements Codec<Application> {
 
         ArrayList<ApplicationObject> objects = application.getObjects();
         if(objects != null) {
-            for (Document document : objects) {
-                Codec<Document> documentCodec = codecRegistry.get(Document.class);
-                encoderContext.encodeWithChildContext(documentCodec, writer, document);
+            for (ApplicationObject document : objects) {
+                Codec<ApplicationObject> objCodec = codecRegistry.get(ApplicationObject.class);
+                encoderContext.encodeWithChildContext(objCodec, writer, document);
             }
         }
         writer.writeEndArray();
@@ -96,8 +96,8 @@ public class ApplicationCodec implements Codec<Application> {
         writer.writeStartArray("behaviors");
         ArrayList<ApplicationBehavior> behaviors = application.getBehaviors();
         if(behaviors != null) {
-            for (Document document : behaviors) {
-                Codec<Document> documentCodec = codecRegistry.get(Document.class);
+            for (ApplicationBehavior document : behaviors) {
+                Codec<ApplicationBehavior> documentCodec = codecRegistry.get(ApplicationBehavior.class);
                 encoderContext.encodeWithChildContext(documentCodec, writer, document);
             }
         }

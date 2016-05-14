@@ -34,7 +34,7 @@ public class AppInstanceCodec implements Codec<AppInstance> {
         String app_id = reader.readString("app_id");
         Map<String, List<List<String>>> objectInstances = new HashMap<>();
         reader.readStartDocument();
-            if (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+            while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
                 String key = reader.readName();   // read the name "c"
 
                 List<List<String>> objArr = new ArrayList<>();
