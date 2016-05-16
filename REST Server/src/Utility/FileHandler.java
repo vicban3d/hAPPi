@@ -54,6 +54,17 @@ public class FileHandler {
     }
 
     /**
+     * check if file exist
+     * @param path - the path of the relevant file.
+     */
+    public static boolean isFileExist(String path) {
+        Path filePath = Paths.get(path);
+        if (Files.exists(filePath))
+            return true;
+        return false;
+    }
+
+    /**
      * Clears the target file of all content.
      * @param path the path to the file that should be cleared.
      * @throws IOException

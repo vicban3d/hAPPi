@@ -1,4 +1,4 @@
-package Tests.UnitTests;
+package Tests.unitTests;
 
 import Logic.AppInstance;
 import org.bson.Document;
