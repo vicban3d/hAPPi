@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="DB tests">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Logic/ApplicationBehavior.java" afterPath="$PROJECT_DIR$/REST Server/src/Logic/ApplicationBehavior.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Database/ApplicationBehaviorCodec.java" afterPath="$PROJECT_DIR$/REST Server/src/Database/ApplicationBehaviorCodec.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Tests/UnitTests/ApplicationTest.java" afterPath="$PROJECT_DIR$/REST Server/src/Tests/UnitTests/ApplicationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Tests/UnitTests/MongoDBTest.java" afterPath="$PROJECT_DIR$/REST Server/src/Tests/UnitTests/MongoDBTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" afterPath="$PROJECT_DIR$/REST Server/src/Web/js/app.js" />
+    <list default="true" id="79c7f8f0-1285-4124-8779-d35f0089b91c" name="Default" comment="fix behavior db problems">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="046db900-75fd-4240-b4ef-926e463f7fae" name="Rejected commit: Default" comment="Fixed add android function" />
@@ -1114,13 +1109,7 @@
       <workItem from="1463211551443" duration="8336000" />
       <workItem from="1463388938575" duration="1236000" />
       <workItem from="1463399391547" duration="2508000" />
-      <workItem from="1463404493288" duration="10702000" />
-    </task>
-    <task id="LOCAL-00043" summary="Behavior">
-      <created>1450013784072</created>
-      <option name="number" value="00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1450013784072</updated>
+      <workItem from="1463404493288" duration="10839000" />
     </task>
     <task id="LOCAL-00044" summary="Show feedback on creation of applications">
       <created>1450031329820</created>
@@ -1410,7 +1399,13 @@
       <option name="project" value="LOCAL" />
       <updated>1463227027127</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="fix behavior db problems">
+      <created>1463484506040</created>
+      <option name="number" value="00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1463484506093</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1446,7 +1441,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="562378000" />
+    <option name="totallyTimeSpent" value="562515000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1459,7 +1454,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980973" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1482,7 +1477,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3984252" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3984252" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1504,7 +1499,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Strings" />
     <MESSAGE value="Test" />
     <MESSAGE value="Show feedback on creation of applications" />
     <MESSAGE value="Loading..." />
@@ -1529,7 +1523,8 @@
     <MESSAGE value="added DB tests, remove alerts from app.js file" />
     <MESSAGE value="DB tests" />
     <MESSAGE value="fix db bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix db bugs" />
+    <MESSAGE value="fix behavior db problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix behavior db problems" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
