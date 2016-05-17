@@ -33,7 +33,7 @@ public class ApplicationTest {
 
     @Test
     public void testAddBehavior() throws Exception {
-        ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behaviorName", new ArrayList<BehaviorAction>());
+        ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behaviorName", null);
         app.addBehavior(behavior);
         assertTrue(app.getBehaviors().size() == 1);
         assertEquals(app.getBehaviors().get(0), behavior);
@@ -75,7 +75,7 @@ public class ApplicationTest {
 
     @Test
     public void testRemoveBehavior() throws Exception {
-        ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behaviorName", new ArrayList<BehaviorAction>());
+        ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behaviorName", null);
         app.addBehavior(behavior);
         assertTrue(app.getBehaviors().size() == 1);
         app.removeBehavior(behavior);
@@ -84,21 +84,20 @@ public class ApplicationTest {
 
     @Test
     public void testUpdateBehavior() throws Exception {
-        ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behaviorName", new ArrayList<BehaviorAction>());
+        ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behaviorName", null);
         app.addBehavior(behavior);
         behavior.setName("newBehaviorName");
 
         ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
         ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>());
         BehaviorAction action = new BehaviorAction(obj, attr, new ArrayList<Condition>(), "SumOfAll");
-        ArrayList<BehaviorAction> actions = new ArrayList<BehaviorAction>();
-        actions.add(action);
-        behavior.setActions(actions);
+
+        behavior.setAction(action);
 
         app.updateBehavior(behavior);
         ApplicationBehavior updatedBehavior = app.getBehaviors().get(0);
         assertEquals("newBehaviorName", updatedBehavior.getName());
-        assertEquals(actions, updatedBehavior.getActions());
+        assertEquals(action, updatedBehavior.getAction());
     }
 
     @Test
@@ -141,8 +140,8 @@ public class ApplicationTest {
         objects.add(obj1); objects.add(obj2);
         // behaviors
         ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();
-        ApplicationBehavior behavior1 = new ApplicationBehavior("behaviorId1", "behaviorName1", new ArrayList<BehaviorAction>());
-        ApplicationBehavior behavior2 = new ApplicationBehavior("behaviorId2", "behaviorName2", new ArrayList<BehaviorAction>());
+        ApplicationBehavior behavior1 = new ApplicationBehavior("behaviorId1", "behaviorName1", null);
+        ApplicationBehavior behavior2 = new ApplicationBehavior("behaviorId2", "behaviorName2", null);
         behaviors.add(behavior1); behaviors.add(behavior2);
 
         // create document

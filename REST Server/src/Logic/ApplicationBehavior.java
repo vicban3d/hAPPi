@@ -23,21 +23,21 @@ public class ApplicationBehavior extends Document{
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
-    private List<BehaviorAction> actions;
+    private BehaviorAction action;
 
 
     @JsonCreator
     public ApplicationBehavior (@JsonProperty("id") String id,
                                @JsonProperty("name") String name,
-                               @JsonProperty("action") List<BehaviorAction> actions) {
+                               @JsonProperty("action") BehaviorAction action) {
 
         super();
         this.append("id", id);
         this.append("name", name);
-        this.append("actions", actions);
+        this.append("action", action);
         this.id = id;
         this.name = name;
-        this.actions = actions;
+        this.action = action;
     }
 
     public String getName() {
@@ -48,12 +48,12 @@ public class ApplicationBehavior extends Document{
         this.name = name;
     }
 
-    public List<BehaviorAction> getActions() {
-        return actions;
+    public BehaviorAction getAction() {
+        return action;
     }
 
-    public void setActions(ArrayList<BehaviorAction> actions) {
-        this.actions = actions;
+    public void setAction(BehaviorAction action) {
+        this.action = action;
     }
 
     public String getId() {
@@ -69,9 +69,8 @@ public class ApplicationBehavior extends Document{
         String result = "Behavior:\n" +
                 "\t* Name: " + name + "\n" +
                 "\t* Actions:\n";
-        for (BehaviorAction act : this.actions){
-            result  = result + "\t* " + act.toString();
-        }
+            result  = result + "\t* " + action.toString();
+
         return result;
     }
 }

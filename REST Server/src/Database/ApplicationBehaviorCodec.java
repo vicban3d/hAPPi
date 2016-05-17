@@ -10,9 +10,7 @@ import org.bson.codecs.EncoderContext;
 import org.bson.codecs.configuration.CodecRegistry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Gila on 25/04/2016.
@@ -31,9 +29,6 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
         String id = reader.readString("id");
         String name = reader.readString("name");
 
-        List<BehaviorAction> actions = new ArrayList<>();
-        reader.readStartArray();
-        while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
             reader.readStartDocument();
             ApplicationObjectCodec objectCodec = new ApplicationObjectCodec(codecRegistry);
             ApplicationObject applicationObject = objectCodec.decode(reader,decoderContext);
@@ -66,12 +61,10 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
             }
             String operator = reader.readString("operator");
             reader.readEndDocument();
-            actions.add(new BehaviorAction(applicationObject, attribute, conds, operator));
-        }
-        reader.readEndArray();
+            BehaviorAction action = new BehaviorAction(applicationObject, attribute, conds, operator);
 
         reader.readEndDocument();
-        return new ApplicationBehavior(id,name,actions);
+        return new ApplicationBehavior(id,name,action);
     }
 
     @Override
@@ -84,9 +77,11 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
         writer.writeName("name");
         writer.writeString(applicationBehavior.getName());
 
-        writer.writeStartArray("actions");
-        if (applicationBehavior.getActions()!=null){// && applicationBehavior.getActions().size()>0) {
-            for (BehaviorAction action : applicationBehavior.getActions()) {
+        writer.writeStartDocument("action");
+        if (applicationBehavior.getAction()!=null){// && applicationBehavior.getActions().size()>0) {
+//            for (BehaviorAction action : applicationBehavior.getActions()) {
+            BehaviorAction action = applicationBehavior.getAction();
+                writer.writeName("operandObject");
                 ApplicationObjectCodec applicationObjectCodec = new ApplicationObjectCodec(codecRegistry);
                 encoderContext.encodeWithChildContext(applicationObjectCodec, writer, action.getOperandObject());
 
@@ -120,10 +115,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
                 writer.writeName("operator");
                 writer.writeString(action.getOperator());
             }
-        }
-//
-//        }
-        writer.writeEndArray();
+        writer.writeEndDocument();
         writer.writeEndDocument();
     }
 

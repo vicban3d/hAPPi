@@ -451,9 +451,31 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 
+        var behaviorObjToJSONOBJ = function(behaviorObj){
+            var jsonObj = {};
+            jsonObj["id"] = behaviorObj["id"];
+            jsonObj["name"] = behaviorObj["name"];
+            jsonObj["applicationId"] = behaviorObj["applicationId"];
+            jsonObj["username"] = behaviorObj["username"];
+
+            jsonObj["action"] = {};
+            jsonObj["action"]["operandObject"] = behaviorObj["operandObject"];
+            jsonObj["action"]["operandAttribute"] = behaviorObj["operandAttribute"]["name"];
+            if (behaviorObj["Conditions"]===undefined)
+                jsonObj["action"]["Conditions"]=[];
+            else
+                jsonObj["action"]["Conditions"] = behaviorObj["Conditions"];
+
+            jsonObj["action"]["operator"] = behaviorObj["operator"];
+            return jsonObj;
+        };
+
         $scope.addBehavior = function(){
             behaviorService.addBehavior(appService.getCurrentApplication(), $scope.currentUser.username);
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)));
+
+            var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
+
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_BEHAVIOR, angular.toJson(jsonObj)));
             $scope.hideArea("behaviorCreateArea");
         };
 
@@ -469,7 +491,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             behaviorService.editBehavior(appService.getCurrentApplication(), behavior);
             behavior["username"] = $scope.currentUser.username;
             behavior["applicationId"] = appService.currentApplication.id;
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)));
+            var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_BEHAVIOR, angular.toJson(jsonObj)));
             $scope.indexToShow = -1;
         };
 
