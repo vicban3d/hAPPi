@@ -56,7 +56,7 @@ public interface Facade {
 
     void updateApplication(Application application, String username) throws IOException, CordovaRuntimeException;
 
-    void removePlatforms(String application);
+    void removePlatforms(String application, String username);
 
     void createBehavior(String appId, String username, ApplicationBehavior behavior);
 

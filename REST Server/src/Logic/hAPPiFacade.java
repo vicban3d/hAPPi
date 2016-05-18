@@ -43,25 +43,25 @@ public class hAPPiFacade implements Facade {
     public void createApplication(Application application) throws CordovaRuntimeException, JSONException {
             database.addApplication(application);
             compiler.createApplication(application.toJSON());
-            createPlatforms(application.getPlatforms(), application.getName());
+            createPlatforms(application.getPlatforms(), application.getName(), application.getUsername());
     }
 
     @Override
     public void updateApplication(Application application, String username) throws IOException, CordovaRuntimeException {
         Application oldApp = Application.fromDocument(database.getApplication(application.getId()));
         String oldApplicationName = oldApp.getName();
-        removePlatforms(oldApplicationName);
-        FileHandler.renameFolder(Strings.PATH_APPS + "\\" + oldApplicationName, Strings.PATH_APPS + "\\" + application.getName());
-        createPlatforms(application.getPlatforms(), application.getName());
+        removePlatforms(oldApplicationName, application.getUsername());
+        FileHandler.renameFolder(Strings.PATH_APPS + "\\" + application.getUsername() + "\\" +oldApplicationName, Strings.PATH_APPS + "\\" + application.getUsername() + "\\" + application.getName());
+        createPlatforms(application.getPlatforms(), application.getName(), application.getUsername());
         database.updateApplication(application);
     }
 
-    private void createPlatforms(ArrayList<String> platforms, String applicationName) throws CordovaRuntimeException {
+    private void createPlatforms(ArrayList<String> platforms, String applicationName, String appUsername) throws CordovaRuntimeException {
         if(platforms == null || platforms.isEmpty()) {
             return;
         }
         for (String platform : platforms){
-            compiler.addPlatform(applicationName, platform);
+            compiler.addPlatform(applicationName, appUsername, platform);
         }
     }
 
@@ -69,13 +69,14 @@ public class hAPPiFacade implements Facade {
     public String buildApplication(String appId, String username) throws CordovaRuntimeException, IOException, DbxException {
         Application application = Application.fromDocument(database.getApplication(appId));
         prepareApplicationForCompilation(application);
-        compiler.buildApplication(application.getName());
-        return fileUploader.uploadFile(application.getName(), Strings.PATH_APPS + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
+        compiler.buildApplication(application.getName(), application.getUsername());
+        return fileUploader.uploadFile(application.getName(), Strings.PATH_APPS + "/" + application.getUsername() + "/" +application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
 
     }
 
     private void prepareApplicationForCompilation(Application application) throws IOException {
         String name = application.getName();
+        String username = application.getUsername();
         ArrayList<ApplicationObject> objects = application.getObjects();
         ArrayList<ApplicationBehavior> behaviors = application.getBehaviors();
         ArrayList<String> allActions = new ArrayList<>();
@@ -87,9 +88,9 @@ public class hAPPiFacade implements Facade {
             allBehaviors.add(beh.toJson());
         }
 
-        FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html");
-        FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js");
-        FileHandler.clearFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\index.css");
+        FileHandler.clearFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\index.html");
+        FileHandler.clearFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\js\\index.js");
+        FileHandler.clearFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\css\\index.css");
 
         if (Files.exists(Paths.get(Strings.PATH_WEB_CONTENT + "\\model\\main.html"))){
             Files.delete(Paths.get(Strings.PATH_WEB_CONTENT + "\\model\\main.html"));
@@ -152,15 +153,15 @@ public class hAPPiFacade implements Facade {
             JSContent = JSContent.replace("<[OBJECTS]>", allActions.toString().replace("\"", "\\\""));
             JSContent = JSContent.replace("<[BEHAVIORS]>", allBehaviors.toString().replace("\"", "\\\""));
 
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\index.html", HTMLContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\main.html", MAINContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\index.js", JSContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\util.js", JSUtilContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\angular.min.js", ANGULARContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\index.css", CSSContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\jquery-1.10.2.min.js", JQUERYContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\css\\bootstrap.min.css", BOOTSTRAPCSSContent);
-            FileHandler.writeFile(Strings.PATH_APPS + "\\" + name + "\\www\\js\\bootstrap.min.js", BOOTSTRAPJSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\index.html", HTMLContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\main.html", MAINContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\js\\index.js", JSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\js\\util.js", JSUtilContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\js\\angular.min.js", ANGULARContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\css\\index.css", CSSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\js\\jquery-1.10.2.min.js", JQUERYContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\css\\bootstrap.min.css", BOOTSTRAPCSSContent);
+            FileHandler.writeFile(Strings.PATH_APPS + "\\" + username + "\\" + name + "\\www\\js\\bootstrap.min.js", BOOTSTRAPJSContent);
         }
     }
 
@@ -192,14 +193,14 @@ public class hAPPiFacade implements Facade {
     public void removeApplication(String appId, String username) {
         String appName = Application.fromDocument(database.getApplication(appId)).getName();
         database.removeApplication(appId);
-        FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + appName);
+        FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + username + "\\" + appName);
         Logger.DEBUG("The application " + appName + " was deleted.");
     }
 
     @Override
-    public void removePlatforms(String fileName){
-        FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + fileName+ "\\platforms");
-        FileHandler.createFolder(Strings.PATH_APPS + "\\" + fileName + "\\platforms");
+    public void removePlatforms(String appName, String username){
+        FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + username + "\\" + appName+ "\\platforms");
+        FileHandler.createFolder(Strings.PATH_APPS + "\\" + username + "\\" + appName + "\\platforms");
     }
 
     @Override
@@ -243,6 +244,7 @@ public class hAPPiFacade implements Facade {
     @Override
     public void addUser(User user) {
         database.addUser(user);
+        FileHandler.createFolder(Strings.PATH_APPS + "\\" + user.getUsername());
     }
 
     @Override

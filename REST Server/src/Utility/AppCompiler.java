@@ -25,12 +25,12 @@ public interface AppCompiler {
      * @param applicationName - the name of the application.
      * @param platform - the platform that should be added.
      */
-    void addPlatform(String applicationName, String platform) throws CordovaRuntimeException;
+    void addPlatform(String applicationName, String appUsername, String platform) throws CordovaRuntimeException;
 
     /**
      * Compiles the given application and creates a package file on all added modules.
      * @param applicationName - the name of the application to build.
      */
-    void buildApplication(String applicationName) throws CordovaRuntimeException;
+    void buildApplication(String applicationName, String appUsername) throws CordovaRuntimeException;
 
 }

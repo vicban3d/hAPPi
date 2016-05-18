@@ -1,9 +1,8 @@
-package Tests.unitTests;
+package Tests.UnitTests;
 
 import Database.MongoDB;
 import Logic.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -62,7 +61,8 @@ public class MongoDBTest {
 
     @Test
     public void testAddApplication() throws Exception {
-        Application application = createApplication("testAppId", "testApp", "testUser", new ArrayList<String>(), new ArrayList<ApplicationObject>(),
+        ArrayList<String> platforms = createPlatforms();
+        Application application = createApplication("testAppId", "testApp", "testUser", platforms, new ArrayList<ApplicationObject>(),
                 new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         db.addApplication(application);
         Application appResult = db.getApplication("testAppId");
@@ -101,23 +101,33 @@ public class MongoDBTest {
     }
 
     @Test
-    public void testIsUserExist() throws Exception {
+    public void testIsUserExistWhenUserReallyExist() throws Exception {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
         assertTrue(db.isUserExist("user1"));
-        assertFalse(db.isUserExist("user2"));
     }
 
     @Test
-    public void testIsPasswordRight() throws Exception {
+    public void testIsUserExistWhenUserNotExist() throws Exception {
+        assertFalse(db.isUserExist("user"));
+    }
+
+    @Test
+    public void testIsPasswordRightWhenItsReallyRight() throws Exception {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
         assertTrue(db.isPasswordRight("user1", "pass"));
+    }
+
+    @Test
+    public void testIsPasswordRightWhenItsWrong() throws Exception {
+        User user = new User("user1", "pass", "user1@gmail.com");
+        db.addUser(user);
         assertFalse(db.isPasswordRight("user1", "wrongPass"));
     }
 
     @Test
-    public void testGetApplicationOfUser() throws Exception {
+    public void testGetAllApplicationsOfUser() throws Exception {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
 
@@ -179,22 +189,17 @@ public class MongoDBTest {
     }
 
     @Test
-    public void testIsInstanceExist() throws Exception {
+    public void testIsInstanceExistWhenInstanceExist() throws Exception {
         AppInstance appInstance = createAppInstance();
         db.addApplicationInstance(appInstance);
 
         assertTrue(db.isInstanceExist(appInstance.getId(), appInstance.getApp_id()));
+    }
+
+    @Test
+    public void testIsInstanceExistWhenInstanceNotExist() throws Exception {
+        AppInstance appInstance = createAppInstance();
         assertFalse(db.isInstanceExist("notExistInstanceId", appInstance.getApp_id()));
-    }
-
-    @Test
-    public void testGetDB() throws Exception {
-        //TODO
-    }
-
-    @Test
-    public void testClearAll() throws Exception {
-        //TODO
     }
 
     @Test
@@ -219,7 +224,23 @@ public class MongoDBTest {
         Application appFromDB = db.getApplication(app.getId());
         validateApplicationResults(app, appFromDB);
     }
-    
+
+    @Test
+    public void testClearAll() throws Exception {
+        Application app = createApplication("appId", "appName", "user1", new ArrayList<String>(), new ArrayList<ApplicationObject>(),
+                new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
+        db.addApplication(app);
+
+        db.clearAll();
+        boolean emptyDB = false;
+        try {
+            db.getApplication(app.getId());
+        } catch (Exception e) {
+            emptyDB = true;
+        }
+        assertTrue(emptyDB);
+    }
+
     private Application createApplication(String appId, String appName, String userName, ArrayList<String> platforms, ArrayList<ApplicationObject> objects, ArrayList<ApplicationBehavior> behaviors, ArrayList<ApplicationEvent> events) {
         Application app = new Application(appId, appName, userName, platforms, objects, behaviors, events);
         return app;

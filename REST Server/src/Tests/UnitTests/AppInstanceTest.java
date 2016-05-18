@@ -1,10 +1,9 @@
-package Tests.unitTests;
+package Tests.UnitTests;
 
 import Logic.AppInstance;
 import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
-import org.jvnet.ws.wadl.Doc;
 
 import java.util.*;
 

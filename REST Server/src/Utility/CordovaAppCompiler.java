@@ -17,21 +17,22 @@ public class CordovaAppCompiler implements AppCompiler {
     @Override
     public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException {
         String name = application.getString("name");
-        executeCommand("","create \"" + Strings.PATH_APPS + "\\" + name + "\" com.happi.app \"" + name + "\"");
+        String username = application.getString("username");
+        executeCommand("","create \"" + Strings.PATH_APPS + "\\" + username + "\\" + name + "\" com.happi.app \"" + name + "\"");
         //initializeFiles(Strings.PATH_APPS + "\\" + name);
     }
 
     @Override
-    public void addPlatform(String applicationName, String platform) throws CordovaRuntimeException {
+    public void addPlatform(String applicationName, String appUsername, String platform) throws CordovaRuntimeException {
         Logger.DEBUG("Adding " + platform + " platform to application " + applicationName + "...");
-        executeCommand(applicationName, "platform add " + platform);
+        executeCommand(appUsername + "\\" + applicationName, "platform add " + platform);
         Logger.DEBUG("Added " + platform + " platform to application " + applicationName + ".");
     }
 
     @Override
-    public void buildApplication(String applicationName) throws CordovaRuntimeException {
+    public void buildApplication(String applicationName, String appUsername) throws CordovaRuntimeException {
         Logger.DEBUG("Building application " + applicationName + "...");
-        executeCommand(applicationName, "build");
+        executeCommand(appUsername + "\\" + applicationName, "build");
         Logger.DEBUG("application " + applicationName + " built.");
     }
 

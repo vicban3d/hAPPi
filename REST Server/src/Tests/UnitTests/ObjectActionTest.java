@@ -1,9 +1,8 @@
-package Tests.unitTests;
+package Tests.UnitTests;
 
 import Logic.ObjectAction;
 import Logic.ObjectAttribute;
 import org.bson.Document;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

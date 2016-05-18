@@ -1,4 +1,4 @@
-package Tests.unitTests;
+package Tests.UnitTests;
 
 import Logic.*;
 import org.bson.Document;

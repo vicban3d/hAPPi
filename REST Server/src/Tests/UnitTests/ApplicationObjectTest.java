@@ -1,10 +1,9 @@
-package Tests.unitTests;
+package Tests.UnitTests;
 
 import Logic.ApplicationObject;
 import Logic.ObjectAction;
 import Logic.ObjectAttribute;
 import org.bson.Document;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
