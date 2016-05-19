@@ -44,16 +44,58 @@ main_module.controller('ctrl_main', ['$scope',
         $scope.attribute_values = [];
         $scope.instances = [];
         $scope.emulatorOutput = '';
-        this.phoneNumber = '';
+        $scope.phoneNumber = '';
+
+        $scope.objectOperators = [];
+        $scope.objectOperators['Increase By'] = {
+            TYPE: "Number",
+            /**
+             * @return {number}
+             */
+            FUNCTION: function(op1, op2){ return parseFloat(op1) + parseFloat(op2); }
+        };
+        $scope.objectOperators['Multiply By'] = {
+            TYPE: "Number",
+            /**
+             * @return {number}
+             */
+            FUNCTION: function(op1, op2){ return parseFloat(op1) * parseFloat(op2); }
+        };
+        $scope.objectOperators['Reduce By'] = {
+            TYPE: "Number",
+            /**
+             * @return {number}
+             */
+            FUNCTION: function(op1, op2){ return parseFloat(op1) - parseFloat(op2); }
+        };
+        $scope.objectOperators['Divide By'] = {
+            TYPE: "Number",
+            /**
+             * @return {number}
+             */
+            FUNCTION: function(op1, op2){ return parseFloat(op1) / parseFloat(op2); }
+        };
+        $scope.objectOperators['Add Prefix'] = {
+            TYPE: "Text",
+            FUNCTION: function(op1, op2){ return op2 + op1; }
+        };
+        $scope.objectOperators['Add Suffix'] = {
+            TYPE: "Text",
+            FUNCTION: function(op1, op2){ return op1 + op2; }
+        };
+        $scope.objectOperators['Change To'] = {
+            TYPE: "Text",
+            FUNCTION: function (op1, op2){ return op2; }
+        };
 
         $scope.designDisplayObjectPage = function(object){
-            this.currentInstance = object;
-            this.emulatorOutput = '';
-            this.showAddInstance = true;
+            $scope.currentInstance = object;
+            $scope.emulatorOutput = '';
+            $scope.showAddInstance = true;
         };
 
         $scope.getShowAddInstance = function(){
-            return this.showAddInstance;
+            return $scope.showAddInstance;
         };
 
         $scope.getCurrentApplication = function(){
@@ -61,68 +103,98 @@ main_module.controller('ctrl_main', ['$scope',
         };
 
         $scope.getShowEmulatorMainPage = function(){
-            return this.showEmulatorMainPage;
+            return $scope.showEmulatorMainPage;
         };
 
         $scope.gotoAppInstance = function(phoneNumber){
-            this.phoneNumber = phoneNumber;
-            this.showEmulatorMainPage = false;
-            this.showAddInstance = false;
+            $scope.phoneNumber = phoneNumber;
+            $scope.showEmulatorMainPage = false;
+            $scope.showAddInstance = false;
         };
 
         $scope.designDisplayBehaviorPage = function(){
-            this.currentInstance = {};
-            this.showAddInstance = false;
+            $scope.currentInstance = {};
+            $scope.showAddInstance = false;
         };
 
-        $scope.addInstance = function($scope, attributes){
-            if ($scope.instances[this.currentInstance.name] == undefined){
-                $scope.instances[this.currentInstance.name] = [];
+        $scope.addInstance = function(){
+            if ($scope.instances[$scope.currentInstance.name] == undefined){
+                $scope.instances[$scope.currentInstance.name] = [];
             }
-            $scope.instances[this.currentInstance.name].push(attributes);
-            $scope.attribute_values = [];
+            $scope.instances[$scope.currentInstance.name].push($scope.attribute_values);
 
             var postBody = {
-                id : this.phoneNumber,
-                app_id: $scope.getCurrentApplication().id,
-                objName: this.currentInstance.name,
-                attributesList: attributes
+                id : $scope.phoneNumber,
+                app_id: $scope.currentApplication.id,
+                objName: $scope.currentInstance.name,
+                attributesList: $scope.attribute_values
             };
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
+            $scope.attribute_values = [];
         };
 
-        $scope.removeInstance = function($scope, idx){
+        $scope.removeInstance = function(idx){
             if(isNumber(idx))
-                $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);
+                $scope.instances[$scope.currentInstance.name].splice(parseInt(idx),1);
             else
                 alert("Please choose index from the list!");
 
             var postBody = {
-                id : this.phoneNumber,
-                app_id: $scope.getCurrentApplication().id,
-                objName: this.currentInstance.name,
+                id : $scope.phoneNumber,
+                app_id: $scope.currentApplication.id,
+                objName: $scope.currentInstance.name,
                 index: idx
             };
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVEOBJ_INSTANCE, angular.toJson(postBody)));
         };
 
         $scope.getOutput = function(){
-            return this.emulatorOutput;
+            return $scope.emulatorOutput;
         };
 
         $scope.getCurrentInstance = function(){
-            return this.currentInstance;
+            return $scope.currentInstance;
         };
 
-        $scope.performBehaviorAction = function($scope, behavior){
-            var object = behavior.operandObject;
-            var operand1 = behavior.operandAttribute.name;
-            var action = $scope.getBehaviorAction(object, behavior.operator, behavior.conditions);
+        $scope.performBehaviorAction = function(behavior){
+            var object = behavior.action.operandObject;
+            var operand1 = behavior.action.operandAttribute.name;
+            var action = $scope.getBehaviorAction(object, behavior.action.operator, behavior.action.conditions);
             if (action == undefined){
-                this.emulatorOutput = "Unsupported Operation"
+                $scope.emulatorOutput = "Unsupported Operation"
             } else {
-                this.emulatorOutput = action(operand1);
+                $scope.emulatorOutput = action(operand1);
             }
+        };
+
+        $scope.performObjectAction = function(action, object, instance, dynamicValue){
+            var operand2 = undefined;
+
+            if (action.operandType === "Fixed Value"){
+                operand2 = action.operand2;
+            }
+            if (action.operandType === "Attribute"){
+                for (var j = 0; j < object.attributes.length; j++) {
+                    if (object.attributes[j].name === action.operand2.name) {
+                        break;
+                    }
+                }
+                operand2 = instance[j];
+            }
+            if (action.operandType === "Dynamic"){
+                operand2 = dynamicValue;
+            }
+
+
+            var actionFunc = getAction(action.name, object);
+
+            for (var i = 0; i < object.attributes.length; i++) {
+                if (object.attributes[i].name === action.operand1.name) {
+                    break;
+                }
+            }
+
+            instance[i] = actionFunc(instance[i], operand2);
         };
 
         $scope.getObjectAction = function(actionChainName, object){
@@ -160,59 +232,10 @@ main_module.controller('ctrl_main', ['$scope',
             return undefined;
         };
 
-        var getAction = function(actionName, object, operand2){
+        var getAction = function(actionName, object){
             var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
             var action = object.actions[index].operator;
-            if (operand2 == undefined) {
-                operand2 = object.actions[index].operand2;
-            }
-
-            if (isNumber(operand2)) {
-                if (action == "Increase By") {
-                    return function (operand) {
-                        return operand + operand2;
-                    };
-                }
-                if (action == "Reduce By") {
-                    return function (operand) {
-                        return operand - operand2;
-                    };
-                }
-                if (action == "Multiply By") {
-                    return function (operand) {
-                        return operand * operand2;
-                    };
-                }
-                if (action == "Divide By") {
-                    return function (operand) {
-                        return operand / operand2;
-                    };
-                }
-                if (action == "Change To") {
-                    return function () {
-                        return operand2;
-                    };
-                }
-            }
-            // operand is Text
-            else {
-                if (action == "Add Prefix") {
-                    return function (operand) {
-                        return operand + operand2;
-                    };
-                }
-                if (action == "Add Suffix") {
-                    return function (operand) {
-                        return operand2 + operand;
-                    };
-                }
-                if (action == "Change To") {
-                    return function () {
-                        return operand2;
-                    };
-                }
-            }
-            return undefined;
+            return $scope.objectOperators[action].FUNCTION;
         };
 
 
@@ -248,10 +271,10 @@ main_module.controller('ctrl_main', ['$scope',
          }
          return initial
          };
-         return getAccumulatedValue($scope, object, operand, accumulatorFunction);
+         return getAccumulatedValue(object, operand, accumulatorFunction);
          };
          * ---------------------------------------------------------------------------------- */
-        this.getInstancesFilteredByConditions = function(instances, conditions, object){
+        $scope.getInstancesFilteredByConditions = function(instances, conditions, object){
             if(conditions == null || conditions.length ==  0){
                 return instances;
             }
@@ -285,8 +308,8 @@ main_module.controller('ctrl_main', ['$scope',
             return temp;
         };
 
-        this.getBehaviorAction = function($scope, object, actionName, conditions){
-            var instances = this.getInstancesFilteredByConditions($scope.instances[object.name], conditions, object);
+        $scope.getBehaviorAction = function(object, actionName, conditions){
+            var instances = $scope.getInstancesFilteredByConditions($scope.instances[object.name], conditions, object);
             if (actionName == "Sum of All"){
                 return function (operand){
                     var accumulatorFunction = function(initial, action, index) {
@@ -295,7 +318,7 @@ main_module.controller('ctrl_main', ['$scope',
                         }
                         return initial
                     };
-                    return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
+                    return $scope.getAccumulatedValue(object, operand, 0, accumulatorFunction);
                 };
             } else if (actionName == "Maximum") {
                 return function (operand){
@@ -307,7 +330,7 @@ main_module.controller('ctrl_main', ['$scope',
                         }
                         return initial
                     };
-                    return getAccumulatedValue($scope, object, operand, Number.MIN_VALUE, accumulatorFunction);
+                    return $scope.getAccumulatedValue(object, operand, Number.MIN_VALUE, accumulatorFunction);
                 };
             } else if (actionName == "Minimum"){
                 return function (operand){
@@ -319,7 +342,7 @@ main_module.controller('ctrl_main', ['$scope',
                         }
                         return initial
                     };
-                    return getAccumulatedValue($scope, object, operand, Number.MAX_VALUE, accumulatorFunction);
+                    return $scope.getAccumulatedValue(object, operand, Number.MAX_VALUE, accumulatorFunction);
                 };
             } else if (actionName == "Product of All"){
                 return function (operand){
@@ -329,7 +352,7 @@ main_module.controller('ctrl_main', ['$scope',
                         }
                         return initial
                     };
-                    return getAccumulatedValue($scope, object, operand, 1, accumulatorFunction);
+                    return $scope.getAccumulatedValue(object, operand, 1, accumulatorFunction);
                 };
             } else if (actionName == "Average"){
                 return function (operand){
@@ -339,7 +362,7 @@ main_module.controller('ctrl_main', ['$scope',
                         }
                         return initial/instances.length;
                     };
-                    return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
+                    return $scope.getAccumulatedValue(object, operand, 0, accumulatorFunction);
                 };
             } else if (actionName == "Display"){
                 return function (operand){
@@ -350,7 +373,7 @@ main_module.controller('ctrl_main', ['$scope',
                         initial = initial + action(instances[i][index]);
                         return initial;
                     };
-                    return getAccumulatedValue($scope, object, operand, "", accumulatorFunction);
+                    return $scope.getAccumulatedValue(object, operand, "", accumulatorFunction);
                 };
             }
             else {
@@ -358,4 +381,83 @@ main_module.controller('ctrl_main', ['$scope',
             }
         };
 
+        $scope.acceptMessageResult = function(result, success, fail){
+            if (success == undefined){
+                success = function(){};
+            }
+            if (fail == undefined){
+                fail = function(){};
+            }
+            result.onreadystatechange = function(){
+                if (result.readyState != 4 && result.status != 200){
+                    $scope.message = "Error";
+                    fail();
+                    $scope.$apply();
+                }
+                else if (result.readyState == 4 && result.status == 200){
+                    $scope.message = result.responseText;
+                    success(result.responseText);
+                    $scope.$apply();
+                }
+            };
+        };
+
     }]);
+
+function sendPOSTRequestPlainText(path, data) {
+    var req = createRequest();
+    req.open("POST", Paths.ROOT + path, true);
+    req.setRequestHeader("Content-Type", "text/plain");
+    req.send(data);
+    return req;
+}
+
+function createRequest() {
+    var result = null;
+    if (window.XMLHttpRequest) {
+        // FireFox, Safari, etc.
+        result = new XMLHttpRequest();
+        if (typeof result.overrideMimeType != 'undefined') {
+            result.overrideMimeType('text/xml'); // Or anything else
+        }
+    }
+    else if (window.ActiveXObject) {
+        // Internet Explorer
+        result = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    else {
+        alert("Invalid Browser!");
+    }
+    return result;
+}
+
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+var Paths = {
+    ROOT: "http://localhost",
+    PATH_APP_INDEX: "/www/index.html",
+    CREATE_APP: "/createApplication",
+    CREATE_OBJECT: "/createObject",
+    CREATE_BEHAVIOR: "/createBehavior",
+    REMOVE_APP: "/removeApplication",
+    REMOVE_OBJECT: "/removeObject",
+    REMOVE_BEHAVIOR: "/removeBehavior",
+    UPDATE_APP: "/updateApplication",
+    UPDATE_OBJECT: "/updateObject",
+    UPDATE_BEHAVIOR: "/updateBehavior",
+    ADD_PLATFORM_ANDROID: "/addAndroid",
+    ADD_PLATFORM_IOS: "/addIOS",
+    ADD_PLATFORM_WINDOWS_PHONE: "/addWindowsPhone",
+    EMULATE_ANDROID: "/emulateAndroid",
+    BUILD_APP: "/build",
+    SIGNUP_PAGE: "/signup",
+    CREATE_USER: "/addUser",
+    LOGIN: "/login",
+    CREATE_EVENT: "/createEvent",
+    REMOVE_EVENT: "/removeEvent",
+    UPDATE_EVENT: "/updateEvent",
+    ADDOBJ_INSTANCE: "/AddObjInstance",
+    REMOVEOBJ_INSTANCE: "/RemoveObjInstance"
+};

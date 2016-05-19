@@ -972,7 +972,7 @@
                                                             {{val}}
                                                         </td>
                                                         <td style="width: 10%; border-left: silver thin dashed">
-                                                            <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
+                                                            <input type="button" class="btn btn-danger" value="Remove" data-ng-click="removeInstance($index)">
                                                         </td>
                                                     </tr>
                                                     <tr style="border-top: none">
@@ -980,7 +980,7 @@
                                                             <select class="form-control" ng-model="chosenAction" ng-options="action as action.name for action in getCurrentInstance().actions">
                                                                 <option value="" selected="selected">Choose Action</option>
                                                             </select>
-                                                            <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
+                                                            <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-disabled="chosenAction.operandType !== 'Dynamic'" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
                                                         </td>
                                                         <td colspan="{{ ((instance.length) / 2) }}">
                                                             <input class="btn btn-primary btn-block" type="submit" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
@@ -994,7 +994,7 @@
                             </tr>
                             <tr style="height: 10%;">
                                 <td>
-                                    <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
+                                    <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && (!getShowAddInstance()|| chosenObject == undefined)">
                                         <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
                                     </div>
                                 </td>
