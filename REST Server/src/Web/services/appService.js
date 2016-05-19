@@ -25,9 +25,9 @@ main_module.service('appService',[function(){
         var all_apps = $scope.applications;
         $scope.message = $scope.applicationStates[application.id];
         for (var i=0; i< all_apps.length; i++) {
-            if (all_apps[i].name.valueOf() == $scope.applicationName.valueOf())
+            if (all_apps[i].name === $scope.applicationName)
             {
-                $scope.createErrorMessage = "An Application by that name already exists!";
+                $scope.applicationCreateErrorMessage = "An Application by that name already exists!";
                 return false;
             }
         }

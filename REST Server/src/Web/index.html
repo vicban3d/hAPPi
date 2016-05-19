@@ -95,7 +95,7 @@
             <div class="form-group" style="width: 20%; margin-left: 40%">
                 <input type="text" data-ng-model="applicationName" class="form-control" maxlength="30" placeholder="My App Name" required>
                 <br><div style="color: red; font: 16px bold calibri" data-ng-show="!isValidApplication(getCurrentApplication())">
-                    {{createErrorMessage}}
+                    {{applicationCreateErrorMessage}}
                 </div>
             </div>
             <br>
@@ -252,10 +252,10 @@
     <!--WORK AREA START-->
     <div class="workArea" ng-hide="areaFlags['frontPage']">
         <ul class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
-            <li class="active"><a data-toggle="tab" href="#objectsAddArea"><p class="menuTab">Objects</p></a></li>
-            <li><a data-toggle="tab" href="#behaviorAddArea"><p class="menuTab">Behavior</p></a></li>
-            <li><a data-toggle="tab" href="#eventsAddArea"><p class="menuTab">Events</p></a></li>
-            <li><a data-toggle="tab" href="#releaseArea"><p class="menuTab">Release</p></a></li>
+            <li class="active" data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#objectsAddArea"><p class="menuTab">Objects</p></a></li>
+            <li data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#behaviorAddArea"><p class="menuTab">Behavior</p></a></li>
+            <li data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#eventsAddArea"><p class="menuTab">Events</p></a></li>
+            <li data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#releaseArea"><p class="menuTab">Release</p></a></li>
         </ul>
         <div class="workAreaComponent centralArea tab-content" data-ng-show="areaFlags['centralArea']">
             <!--OBJECT AREA START-->
@@ -278,7 +278,7 @@
                                 </td>
                                 <td class="formInput formInput60">
                                     <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
-                                        {{createErrorMessage}}
+                                        {{objectCreateErrorMessage}}
                                     </div>
                                 </td>
                                 <td class="formInput formInput10" style="border-left: dashed thin silver">
@@ -365,9 +365,6 @@
                                     <td class="formInput15" data-ng-show="action.operandType === '' || action.operandType == undefined">
                                         <!--PADDING-->
                                     </td>
-
-
-
                                     <td class="formInput formInput10">
                                         <div class="removeFormFieldsButton" data-ng-click="removeAction($index)"></div>
                                     </td>
@@ -454,7 +451,7 @@
                                         </td>
                                         <td class="formInput formInput60">
                                             <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
-                                                {{createErrorMessage}}
+                                                {{objectCreateErrorMessage}}
                                             </div>
                                         </td>
                                         <td class="formInput formInput10" style="border-left: dashed thin silver">
@@ -575,7 +572,7 @@
                                 </td>
                                 <td class="formInput formInput60">
                                     <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
-                                        {{createErrorMessage}}
+                                        {{behaviorCreateErrorMessage}}
                                     </div>
                                 </td>
                                 <td class="formInput formInput10" style="border-left: dashed thin silver">
@@ -670,7 +667,7 @@
                                         </td>
                                         <td class="formInput formInput60">
                                             <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
-                                                {{createErrorMessage}}
+                                                {{behaviorCreateErrorMessage}}
                                             </div>
                                         </td>
                                         <td class="formInput formInput10" style="border-left: dashed thin silver">

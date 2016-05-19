@@ -237,9 +237,9 @@ main_module.service('behaviorService',[function(){
             return true;
         }
         for (var i=0; i< all_behaviors.length; i++) {
-            if (all_behaviors[i].name.valueOf() == behavior.name.valueOf()
-                && all_behaviors[i].id.valueOf() != behavior.id.valueOf()){
-                $scope.createErrorMessage = "A Behavior by that name already exists!";
+            if (all_behaviors[i].name === behavior.name
+                && all_behaviors[i].id !== behavior.id){
+                $scope.behaviorCreateErrorMessage = "A Behavior by that name already exists!";
                 return false;
             }
         }

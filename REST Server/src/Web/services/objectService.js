@@ -206,9 +206,9 @@ main_module.service('objectService',[function(){
             return true;
         }
         for (var i=0; i< all_objects.length; i++) {
-            if (all_objects[i].name.valueOf() == object.name.valueOf()
-                && all_objects[i].id.valueOf() != object.id.valueOf()){
-                $scope.createErrorMessage = "An Object by that name already exists!";
+            if (all_objects[i].name === object.name
+                && all_objects[i].id !== object.id){
+                $scope.objectCreateErrorMessage = "An Object by that name already exists!";
                 return false;
             }
         }
