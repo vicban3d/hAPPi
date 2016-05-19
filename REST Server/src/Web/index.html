@@ -909,7 +909,7 @@
                                                 <!--<li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>-->
                                             <!--</ul>-->
                                                     <td class="formInput formInput80">
-                                                        <select class="form-control" ng-model="chosenObject" ng-options="chosenObject as chosenObject.name for chosenObject in getCurrentApplication().objects" ng-change="designDisplayObjectPage(chosenObject)" data-ng-show="getCurrentApplication().objects.length > 0">
+                                                        <select class="form-control" ng-model="chosenObject" ng-options="chosenObject as chosenObject.name for chosenObject in getCurrentApplication().objects" ng-change="designDisplayObjectPage(chosenObject)" data-ng-show="!getShowEmulatorMainPage() && getCurrentApplication().objects.length > 0">
                                                             <option value="" select="selected">Behavior</option>
                                                         </select>
                                                     </td>
