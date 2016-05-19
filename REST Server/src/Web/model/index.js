@@ -1,6 +1,5 @@
 /*
 REQUIRED FUNCTIONS:
-     initializeDataStructures
      designDisplayBehaviorPage
      getCurrentApplication
      designDisplayObjectPage
@@ -68,9 +67,11 @@ main_module.controller('ctrl_main', ['$scope',
         $scope.gotoAppInstance = function(phoneNumber){
             this.phoneNumber = phoneNumber;
             this.showEmulatorMainPage = false;
+            this.showAddInstance = false;
         };
 
         $scope.designDisplayBehaviorPage = function(){
+            this.currentInstance = {};
             this.showAddInstance = false;
         };
 
@@ -91,7 +92,7 @@ main_module.controller('ctrl_main', ['$scope',
         };
 
         $scope.removeInstance = function($scope, idx){
-            if($scope.isNumber(idx))
+            if(isNumber(idx))
                 $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);
             else
                 alert("Please choose index from the list!");
@@ -124,34 +125,96 @@ main_module.controller('ctrl_main', ['$scope',
             }
         };
 
-        $scope.getObjectAction = function(actionName, operand2){
-            if (actionName == "Increase By") {
-                return function (operand) {
-                    return operand + operand2;
-                };
-            }
-            if (actionName == "Reduce By") {
-                return function (operand) {
-                    return operand - operand2;
-                };
-            }
-            if (actionName == "Multiply By") {
-                return function (operand) {
-                    return operand * operand2;
-                };
-            }
-            if (actionName == "Divide By") {
-                return function (operand) {
-                    return operand / operand2;
-                };
-            }
-            if (actionName == "Change To") {
-                return function () {
-                    return operand2;
-                };
+        $scope.getObjectAction = function(actionChainName, object){
+            for (var i = 0; i < object.actionsChain.length; i++){
+                if(object.actionsChain[i].name == actionChainName){
+                    var actions = object.actionsChain[i].actions;
+                    return function (instances){
+                        var newInstances = [];
+                        if(actions.length == 0)
+                            return 0;
+                        for (var i = 0; i < actions.length; i++){
+                            var index = object.attributes.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);
+                            if(index >= 0)//if its attributes
+                                newInstances.push(parseFloat(instances[index]));
+                            else {
+                                index = object.actions.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);//exam5 : exam , exam5
+                                var index2 = object.attributes.map(function(a) {return a.name;}).indexOf(object.actions[index].operand1.name);
+                                if(index2 >= 0){//if its actions
+                                    var action = getAction(actions[i].operand.name, object);
+                                    newInstances.push(action(parseFloat(instances[index2])));
+                                }
+                            }
+                        }
+                        var sum = newInstances[0];
+                        for (i = 0; i < newInstances.length; i++){
+                            if(actions[i].operator == '+')
+                                sum += parseFloat(newInstances[i+1]);
+                            else if(actions[i].operator == '-')
+                                sum -= parseFloat(newInstances[i+1]);
+                        }
+                        return sum;
+                    };
+                }
             }
             return undefined;
         };
+
+        var getAction = function(actionName, object, operand2){
+            var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
+            var action = object.actions[index].operator;
+            if (operand2 == undefined) {
+                operand2 = object.actions[index].operand2;
+            }
+
+            if (isNumber(operand2)) {
+                if (action == "Increase By") {
+                    return function (operand) {
+                        return operand + operand2;
+                    };
+                }
+                if (action == "Reduce By") {
+                    return function (operand) {
+                        return operand - operand2;
+                    };
+                }
+                if (action == "Multiply By") {
+                    return function (operand) {
+                        return operand * operand2;
+                    };
+                }
+                if (action == "Divide By") {
+                    return function (operand) {
+                        return operand / operand2;
+                    };
+                }
+                if (action == "Change To") {
+                    return function () {
+                        return operand2;
+                    };
+                }
+            }
+            // operand is Text
+            else {
+                if (action == "Add Prefix") {
+                    return function (operand) {
+                        return operand + operand2;
+                    };
+                }
+                if (action == "Add Suffix") {
+                    return function (operand) {
+                        return operand2 + operand;
+                    };
+                }
+                if (action == "Change To") {
+                    return function () {
+                        return operand2;
+                    };
+                }
+            }
+            return undefined;
+        };
+
 
         $scope.getAccumulatedValue = function(object, operand, initial, accumulatorFunction){
             var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);

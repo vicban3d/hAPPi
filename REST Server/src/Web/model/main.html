@@ -57,35 +57,49 @@
 
                                     <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
                                         <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index" class="formInput">
-                                            <input type="text" class="form-control" placeholder="{{attr.name}}" data-ng-model="attribute_values[$index]" required>
+                                            <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attribute_values[$index]" required>
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-block" value="Add">
                                     </form>
                                     <hr>
                                     <table class="table" style="width: 100%">
-                                        <tr>
+                                        <thead>
                                             <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
                                                 {{attr.name}}
                                             </th>
                                             <th>
                                                 <!--PADDING-->
                                             </th>
-                                        </tr>
-                                        <tr data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
-                                            <td data-ng-repeat="val in instance track by $index">
+                                        </thead>
+                                        <tbody data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+                                        <tr style="border-bottom: none; border-top: solid thick silver">
+                                            <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
                                                 {{val}}
                                             </td>
-                                            <td>
-                                                <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
+                                            <td style="width: 10%; border-left: silver thin dashed">
+                                                <div class="removeFormFieldsButton" style="background: transparent url('http://{{address}}/img/minus-icon.png') no-repeat center;" data-ng-click="removeInstance($index)"></div>
                                             </td>
                                         </tr>
+                                        <tr style="border-top: none">
+                                            <td colspan="{{ ((instance.length) / 2) + 1 }}">
+                                                <select class="form-control" ng-model="chosenAction" ng-options="action as action.name for action in getCurrentInstance().actions">
+                                                    <option value="" selected="selected">Choose Action</option>
+                                                </select>
+                                                <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
+                                                {{chosenAction.operandType}}
+                                            </td>
+                                            <td colspan="{{ ((instance.length) / 2) }}">
+                                                <input class="btn btn-primary btn-block" type="button" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
+                                            </td>
+                                        </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </td>
                         </tr>
                         <tr style="height: 10%;">
                             <td>
-                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
+                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
                                     <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
                                 </div>
                             </td>

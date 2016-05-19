@@ -1,9 +1,8 @@
-package Database;
+package database;
 
-import Logic.AppInstance;
-import Logic.ApplicationObject;
-import Logic.ObjectAction;
-import Logic.ObjectAttribute;
+import logic.ApplicationObject;
+import logic.ObjectAction;
+import logic.ObjectAttribute;
 import org.bson.BsonReader;
 import org.bson.BsonType;
 import org.bson.BsonWriter;
@@ -52,8 +51,9 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
                         ObjectAttribute operand1 = new ObjectAttribute(attrName,attrType);
                     reader.readEndDocument();
                     String operator = reader.readString("operator");
+                    String operandType = reader.readString("operandType");
                     String operand2 = reader.readString("operand2");
-                    actions.add(new ObjectAction(actionName,operand1,operator,operand2));
+                    actions.add(new ObjectAction(actionName,operand1,operator,operandType,operand2));
                 reader.readEndDocument();
             }
         reader.readEndArray();
@@ -98,6 +98,8 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
                 writer.writeEndDocument();
                 writer.writeName("operator");
                 writer.writeString(action.getOperator());
+                writer.writeName("operandType");
+                writer.writeString(action.getOperandType());
                 writer.writeName("operand2");
                 writer.writeString(action.getOperand2());
                 writer.writeEndDocument();

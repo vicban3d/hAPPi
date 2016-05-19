@@ -1,6 +1,6 @@
-package Database;
+package database;
 
-import Logic.*;
+import logic.*;
 import org.bson.BsonReader;
 import org.bson.BsonType;
 import org.bson.BsonWriter;

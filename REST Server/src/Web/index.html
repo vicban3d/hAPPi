@@ -19,916 +19,964 @@
     <link rel="stylesheet" type="text/css" href="http://localhost/lib/bootstrap.min.css">
 </head>
 <body data-ng-init="initHomePage()" data-ng-app="main" data-ng-controller="ctrl_main">
-<nav class="navbar navbar-inverse" >
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a href="#" data-ng-click="gotoMainPage()"><img src="http://localhost/img/writing.png" style="width: 50px"></a>
+    <!--MAIN MENU START-->
+    <nav class="navbar navbar-inverse" >
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#" data-ng-click="gotoMainPage()"><img src="http://localhost/img/writing.png" style="width: 50px"></a>
+            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="#" data-ng-click="backToMain()" data-ng-show="currentUser != undefined">+ Create App</a></li>
+                <li><a href="#" data-ng-click="showAppsList()" data-ng-show="currentUser != undefined">My Apps</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" data-ng-show="currentUser != undefined">
+                <li><a href="#">{{currentUser.username}}</a></li>
+                <li><a href="#" data-ng-click="currentUser=undefined;gotoMainPage();">Log Out</a></li>
+            </ul>
         </div>
-        <ul class="nav navbar-nav navbar-left">
-            <li><a href="#" data-ng-click="backToMain()" data-ng-show="currentUser != undefined">+ Create App</a></li>
-            <li><a href="#" data-ng-click="showAppsList()" data-ng-show="currentUser != undefined">My Apps</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right" data-ng-show="currentUser != undefined">
-            <li><a href="#">{{currentUser.username}}</a></li>
-            <li><a href="#" data-ng-click="currentUser=undefined;gotoMainPage();">Log Out</a></li>
-        </ul>
+    </nav>
+    <!--MAIN MENU END-->
+    <!--MAIN PAGE START-->
+    <div data-ng-show="areaFlags['mainPage'] && currentUser != undefined">
+        <h2 style="text-align: center;">Welcome {{currentUser.username}}!</h2><hr><br>
     </div>
-</nav>
-<div data-ng-show="areaFlags['mainPage'] && currentUser != undefined"><h2 style="text-align: center;">Welcome {{currentUser.username}}!</h2><hr><br></div>
-<div data-ng-show="areaFlags['mainPage'] && currentUser == undefined">
-    <h2 style="text-align: center;"><img src="http://localhost/img/logo3.png" style="width: 250px"></h2>
-    <h3 style="text-align: center;">To start creating applications you can either:</h3>
-    <br>
-    <table style="width: 50%; margin-left: 25%; height: 60%">
-        <tr>
-            <td style="width: 20%;" valign="top">
-                <div class="mainLoginForm" data-ng-init="invalidUsernameMessage='';loginUser={username: '', password: '', email: ''};">
-                    <form class="form-signin" data-ng-submit="login(loginUser)">
-                        <h2 class="form-signin-heading">Log In</h2><hr>
-                        <input type="text" data-ng-model="loginUser.username" id="inputUsername" class="form-control" placeholder="Enter Username" required autofocus><br>
-                        <input type="password" data-ng-model="loginUser.password" id="inputPassword" class="form-control" placeholder="Enter Password" required><br>
+    <div data-ng-show="areaFlags['mainPage'] && currentUser == undefined">
+        <h2 style="text-align: center;"><img src="http://localhost/img/logo3.png" style="width: 250px"></h2>
+        <h3 style="text-align: center;">To start creating applications you can either:</h3>
+        <br>
+        <table style="width: 50%; margin-left: 25%; height: 60%">
+            <tr>
+                <td style="width: 20%;" valign="top">
+                    <div class="mainLoginForm" data-ng-init="invalidUsernameMessage='';loginUser={username: '', password: '', email: ''};">
+                        <form class="form-signin" data-ng-submit="login(loginUser)">
+                            <h2 class="form-signin-heading">Log In</h2><hr>
+                            <input type="text" data-ng-model="loginUser.username" id="inputUsername" class="form-control" placeholder="Enter Username" required autofocus><br>
+                            <input type="password" data-ng-model="loginUser.password" id="inputPassword" class="form-control" placeholder="Enter Password" required><br>
 
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-                        <br><label style="color: red;">{{invalidUsernameMessage}}</label>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+                            <br><label style="color: red;">{{invalidUsernameMessage}}</label>
 
+                        </form>
+                    </div>
+                </td>
+                <td style="width: 10%; padding-top: 5%" valign="top">
+                    <h2 style="text-align: center;">OR</h2>
+                </td>
+                <td style="width: 20%" valign="top">
+                <div class="mainSignupForm" data-ng-init="invalidSignupMessage='';signupUser={username: '', password: '', email: ''}; confirmPassword='';">
+                    <form role="form" data-ng-submit="signUp(signupUser)">
+                        <h2 class="form-signin-heading">Sign Up</h2><hr>
+                        <div class="form-group">
+                            <input type="text" data-ng-model="signupUser.username" name="last_name" id="last_name" class="form-control input" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" data-ng-model="signupUser.email" name="email" id="email" class="form-control input" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" data-ng-model="signupUser.password" name="password" id="password" class="form-control input" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" data-ng-model="confirmPassword" name="password_confirmation" id="password_confirmation" class="form-control input" placeholder="Confirm Password" required>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+                        <br><label style="color: red;">{{invalidSignupMessage}}</label>
                     </form>
                 </div>
             </td>
-            <td style="width: 10%; padding-top: 5%" valign="top">
-                <h2 style="text-align: center;">OR</h2>
-            </td>
-            <td style="width: 20%" valign="top">
-            <div class="mainSignupForm" data-ng-init="invalidSignupMessage='';signupUser={username: '', password: '', email: ''}; confirmPassword='';">
-                <form role="form" data-ng-submit="signUp(signupUser)">
-                    <h2 class="form-signin-heading">Sign Up</h2><hr>
-                    <div class="form-group">
-                        <input type="text" data-ng-model="signupUser.username" name="last_name" id="last_name" class="form-control input" placeholder="Username" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" data-ng-model="signupUser.email" name="email" id="email" class="form-control input" placeholder="Email Address" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" data-ng-model="signupUser.password" name="password" id="password" class="form-control input" placeholder="Password" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" data-ng-model="confirmPassword" name="password_confirmation" id="password_confirmation" class="form-control input" placeholder="Confirm Password" required>
-                    </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
-                    <br><label style="color: red;">{{invalidSignupMessage}}</label>
-                </form>
+            </tr>
+        </table>
+    </div>
+    <!--MAIN PAGE END-->
+    <!--APPLICATION CREATION AREA START-->
+    <div ng-show="areaFlags['frontPage']">
+        <h3 style="text-align: center; height: 5%">Create a New Application</h3><hr>
+        <form data-ng-submit="addApplication()">
+            <div class="form-group" style="width: 20%; margin-left: 40%">
+                <input type="text" data-ng-model="applicationName" class="form-control" maxlength="30" placeholder="My App Name" required>
+                <br><div style="color: red; font: 16px bold calibri" data-ng-show="!isValidApplication(getCurrentApplication())">
+                    {{createErrorMessage}}
+                </div>
             </div>
-        </td>
-        </tr>
-    </table>
-</div>
-<div ng-show="areaFlags['frontPage']">
-    <h3 style="text-align: center; height: 5%">Create a New Application</h3><hr>
+            <br>
+            <div class="form-group" style="text-align: center; max-height: 40%; height: 40%">
+                <h3>Develop For</h3>
+                <div ng-switch="switchIosImg==1">
+                    <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
+                        <img data-ng-click="toggleIos()" class="phoneImg" src="http://localhost/img/{{iosImg}}">
+                    </div>
+                    <div class="imgDivWidth imgMarginLeft" ng-switch-when=false>
+                        <img data-ng-click="toggleIos()" class="phoneImgEnabled" src="http://localhost/img/{{iosImgEnable}}">
+                    </div>
+                </div>
+                <div ng-switch="switchAndroidImg==1">
+                    <div class="imgDivWidth" ng-switch-when=true>
+                        <img data-ng-click="toggleAndroid()" class="phoneImg" src="http://localhost/img/{{androidImg}}">
+                    </div>
+                    <div class="imgDivWidth" ng-switch-when=false>
+                        <img data-ng-click="toggleAndroid()" class="phoneImgEnabled" src="http://localhost/img/{{androidImgEnable}}">
+                    </div>
+                </div>
+                <div class="clearFloats" ng-switch="switchWindowsImg==1">
+                    <div class="imgDivWidth" ng-switch-when=true>
+                        <img data-ng-click="toggleWindows()" class="phoneImg" src="http://localhost/img/{{windowsImg}}">
+                    </div>
+                    <div class="imgDivWidth" ng-switch-when=false>
+                        <img data-ng-click="toggleWindows()" class="phoneImgEnabled" src="http://localhost/img/{{windowsImgEnable}}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block" value="start" data-ng-disabled="!isValidApplication(getCurrentApplication())">
+            </div>
+        </form>
+    </div>
+    <!--APPLICATION CREATION AREA END-->
+    <!--APPLICATIONS LIST START-->
+    <div data-ng-show="areaFlags['myApps']">
+        <div>
+            <h3  style="text-align: center;">My Apps</h3>
+            <hr><br>
+            <div style="text-align: center;" class="applicationsList" data-ng-init="indexToShow=-1; indexToDelete=-1;">
+                <div href="#" class="list-group-item" data-ng-repeat="application in applications.sort(compare) track by $index" data-ng-show="(indexToShow == -1 && indexToDelete == -1) || indexToShow == application.id || indexToDelete == application.id">
+                    <form data-ng-submit="editApplication(application)">
+                        <div class="form-group" >
+                            <table style="width: 100%">
+                                <tr>
+                                    <td class="formInput formInput10">
+                                        <div class="loadingCircle smallBlackLoadingCircle" data-ng-show="applicationStates[application.id] != states.READY"></div>
+                                        <div class="readyCircle smallBlackLoadingCircle" data-ng-show="applicationStates[application.id] == states.READY"></div>
+                                    </td>
+                                    <td class="formInput formInput40">
+                                        <span class="applicationTitle">{{application.name}}</span>
+                                    </td>
+                                    <!--Status Labels-->
+                                    <td class="formInput formInput20" data-ng-show="indexToDelete == -1 && indexToShow == -1">
+                                       <p data-ng-show="applicationStates[application.id] == states.BUILDING"><b>Releasing...</b></p>
+                                       <p data-ng-show="applicationStates[application.id] == states.UPDATING"><b>Updating...</b></p>
+                                        <p data-ng-show="applicationStates[application.id] == states.READY"><b>Ready</b></p>
+                                    </td>
+                                    <!--Applications List Buttons-->
+                                    <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
+                                        <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationDeleteArea(application)">
+                                    </td>
+                                    <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
+                                        <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationEditArea(application)">
+                                    </td>
+                                    <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
+                                        <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="getApplication(application);">
+                                    </td>
 
-    <form data-ng-submit="addApplication()">
-        <div class="form-group" style="width: 20%; margin-left: 40%">
-            <input type="text" data-ng-model="applicationName" class="form-control" maxlength="30" placeholder="My App Name" required>
-            <br><div style="color: red; font: 16px bold calibri" data-ng-show="!isValidApplication(getCurrentApplication())">
-                {{createErrorMessage}}
-            </div>
-        </div>
-        <br>
-        <div class="form-group" style="text-align: center; max-height: 40%; height: 40%">
-            <h3>Develop For</h3>
-            <div ng-switch="switchIosImg==1">
-                <div class="imgDivWidth imgMarginLeft" ng-switch-when=true>
-                    <img data-ng-click="toggleIos()" class="phoneImg" src="http://localhost/img/{{iosImg}}">
-                </div>
-                <div class="imgDivWidth imgMarginLeft" ng-switch-when=false>
-                    <img data-ng-click="toggleIos()" class="phoneImgEnabled" src="http://localhost/img/{{iosImgEnable}}">
-                </div>
-            </div>
-            <div ng-switch="switchAndroidImg==1">
-                <div class="imgDivWidth" ng-switch-when=true>
-                    <img data-ng-click="toggleAndroid()" class="phoneImg" src="http://localhost/img/{{androidImg}}">
-                </div>
-                <div class="imgDivWidth" ng-switch-when=false>
-                    <img data-ng-click="toggleAndroid()" class="phoneImgEnabled" src="http://localhost/img/{{androidImgEnable}}">
-                </div>
-            </div>
-            <div class="clearFloats" ng-switch="switchWindowsImg==1">
-                <div class="imgDivWidth" ng-switch-when=true>
-                    <img data-ng-click="toggleWindows()" class="phoneImg" src="http://localhost/img/{{windowsImg}}">
-                </div>
-                <div class="imgDivWidth" ng-switch-when=false>
-                    <img data-ng-click="toggleWindows()" class="phoneImgEnabled" src="http://localhost/img/{{windowsImgEnable}}">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-block" value="start" data-ng-disabled="!isValidApplication(getCurrentApplication())">
-        </div>
-    </form>
-</div>
-<div data-ng-show="areaFlags['myApps']">
-    <div>
-        <h3  style="text-align: center;">My Apps</h3>
-        <hr><br>
-        <div style="text-align: center;" class="applicationsList" data-ng-init="indexToShow=-1; indexToDelete=-1;">
-            <div href="#" class="list-group-item" data-ng-repeat="application in applications.sort(compare) track by $index" data-ng-show="(indexToShow == -1 && indexToDelete == -1) || indexToShow == application.id || indexToDelete == application.id">
-                <form data-ng-submit="editApplication(application)">
-                    <div class="form-group" >
-                        <table style="width: 100%">
-                            <tr>
-                                <td class="formInput formInput10">
-                                    <div class="loadingCircle smallBlackLoadingCircle" data-ng-show="applicationStates[application.id] != states.READY"></div>
-                                    <div class="readyCircle smallBlackLoadingCircle" data-ng-show="applicationStates[application.id] == states.READY"></div>
-                                </td>
-                                <td class="formInput formInput40">
-                                    <span class="applicationTitle">{{application.name}}</span>
-                                </td>
-                                <!--Status Labels-->
-                                <td class="formInput formInput20" data-ng-show="indexToDelete == -1 && indexToShow == -1">
-                                   <p data-ng-show="applicationStates[application.id] == states.BUILDING"><b>Releasing...</b></p>
-                                   <p data-ng-show="applicationStates[application.id] == states.UPDATING"><b>Updating...</b></p>
-                                    <p data-ng-show="applicationStates[application.id] == states.READY"><b>Ready</b></p>
-                                </td>
-                                <!--Applications List Buttons-->
-                                <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
-                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationDeleteArea(application)">
-                                </td>
-                                <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
-                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationEditArea(application)">
-                                </td>
-                                <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
-                                    <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="getApplication(application);">
-                                </td>
+                                    <!--Edit Menu Buttons-->
+                                    <td class="formInput formInput10" data-ng-show="(indexToShow == application.id)">
+                                        <!--PADDING-->
+                                    </td>
+                                    <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="(indexToShow == application.id)">
+                                        <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideApplicationEditArea()">
+                                    </td>
+                                    <td class="formInput formInput10" data-ng-show="(indexToShow == application.id)">
+                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list">
+                                    </td>
 
-                                <!--Edit Menu Buttons-->
-                                <td class="formInput formInput10" data-ng-show="(indexToShow == application.id)">
-                                    <!--PADDING-->
-                                </td>
-                                <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="(indexToShow == application.id)">
-                                    <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideApplicationEditArea()">
-                                </td>
-                                <td class="formInput formInput10" data-ng-show="(indexToShow == application.id)">
-                                    <input type="submit" value="Save" class="btn btn-primary btn-app-list">
-                                </td>
+                                    <!--Delete menu Buttons-->
+                                    <td class="formInput formInput10" data-ng-show="(indexToDelete == application.id)">
+                                        <!--PADDING-->
+                                    </td>
+                                    <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="(indexToDelete == application.id)">
+                                        <input type="button" value="Back" class="btn btn-primary btn-app-list" data-ng-click="hideApplicationDeleteArea()">
+                                    </td>
+                                    <td class="formInput formInput10" data-ng-show="(indexToDelete == application.id)">
+                                        <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteApplication(application)">
+                                    </td>
 
-                                <!--Delete menu Buttons-->
-                                <td class="formInput formInput10" data-ng-show="(indexToDelete == application.id)">
-                                    <!--PADDING-->
-                                </td>
-                                <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="(indexToDelete == application.id)">
-                                    <input type="button" value="Back" class="btn btn-primary btn-app-list" data-ng-click="hideApplicationDeleteArea()">
-                                </td>
-                                <td class="formInput formInput10" data-ng-show="(indexToDelete == application.id)">
-                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteApplication(application)">
-                                </td>
-
-                            </tr>
-                        </table>
-                    </div>
-                    <!--Delete application menu-->
-                    <div class="applicationEditArea form-group" style="background: #ffffee" data-ng-show="indexToDelete == application.id">
-                        <hr>
-                        <p>Are you sure you want to delete this application?</p>
-                        <p style="color: red">* ALL APPLICATION DATA WILL BE LOST!</p>
-                    </div>
-                    <div class="applicationEditArea form-group" data-ng-show="indexToShow == application.id">
-                        <hr>
-                        <input type="text" class="form-control" placeholder="My App Name" maxlength="30" data-ng-model="getCurrentApplication().name" style="width:70%;" required>
-                        <table style="width:70%;">
-                            <tr>
-                                <td>Platforms:</td>
-                                <td>
-                                    <div class="checkbox" ng-switch="switchAndroidImg==1">
-                                        <div ng-switch-when=true>
-                                            <img data-ng-click="toggleAndroid()" class="checkboxIcon" src="http://localhost/img/{{androidCheckboxImg}}">
+                                </tr>
+                            </table>
+                        </div>
+                        <!--Delete application menu-->
+                        <div class="applicationEditArea form-group" style="background: #ffffee" data-ng-show="indexToDelete == application.id">
+                            <hr>
+                            <p>Are you sure you want to delete this application?</p>
+                            <p style="color: red">* ALL APPLICATION DATA WILL BE LOST!</p>
+                        </div>
+                        <div class="applicationEditArea form-group" data-ng-show="indexToShow == application.id">
+                            <hr>
+                            <input type="text" class="form-control" placeholder="My App Name" maxlength="30" data-ng-model="getCurrentApplication().name" style="width:70%;" required>
+                            <table style="width:70%;">
+                                <tr>
+                                    <td>Platforms:</td>
+                                    <td>
+                                        <div class="checkbox" ng-switch="switchAndroidImg==1">
+                                            <div ng-switch-when=true>
+                                                <img data-ng-click="toggleAndroid()" class="checkboxIcon" src="http://localhost/img/{{androidCheckboxImg}}">
+                                            </div>
+                                            <div ng-switch-when=false>
+                                                <img data-ng-click="toggleAndroid()" class="checkboxIcon" src="http://localhost/img/{{androidCheckboxImgEnable}}">
+                                            </div>
                                         </div>
-                                        <div ng-switch-when=false>
-                                            <img data-ng-click="toggleAndroid()" class="checkboxIcon" src="http://localhost/img/{{androidCheckboxImgEnable}}">
+                                    </td>
+                                    <td>
+                                        <div class="checkbox" ng-switch="switchIosImg==1">
+                                            <div ng-switch-when=true>
+                                                <img data-ng-click="toggleIos()" class="checkboxIcon" src="http://localhost/img/{{iosCheckboxImg}}">
+                                            </div>
+                                            <div ng-switch-when=false>
+                                                <img data-ng-click="toggleIos()" class="checkboxIcon" src="http://localhost/img/{{iosCheckboxImgEnable}}">
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="checkbox" ng-switch="switchIosImg==1">
-                                        <div ng-switch-when=true>
-                                            <img data-ng-click="toggleIos()" class="checkboxIcon" src="http://localhost/img/{{iosCheckboxImg}}">
+                                    </td>
+                                    <td>
+                                        <div class="checkbox" ng-switch="switchWindowsImg==1">
+                                            <div ng-switch-when=true>
+                                                <img data-ng-click="toggleWindows()" class="checkboxIcon" src="http://localhost/img/{{windowsCheckboxImg}}">
+                                            </div>
+                                            <div ng-switch-when=false>
+                                                <img data-ng-click="toggleWindows()" class="checkboxIcon" src="http://localhost/img/{{windowsCheckboxImgEnable}}">
+                                            </div>
                                         </div>
-                                        <div ng-switch-when=false>
-                                            <img data-ng-click="toggleIos()" class="checkboxIcon" src="http://localhost/img/{{iosCheckboxImgEnable}}">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="checkbox" ng-switch="switchWindowsImg==1">
-                                        <div ng-switch-when=true>
-                                            <img data-ng-click="toggleWindows()" class="checkboxIcon" src="http://localhost/img/{{windowsCheckboxImg}}">
-                                        </div>
-                                        <div ng-switch-when=false>
-                                            <img data-ng-click="toggleWindows()" class="checkboxIcon" src="http://localhost/img/{{windowsCheckboxImgEnable}}">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="mainApplicationTitle" ng-hide="areaFlags['frontPage'] || areaFlags['mainPage'] || areaFlags['myApps']">
-    {{getCurrentApplication().name}}
-    <hr>
-</div>
-<div class="workArea" ng-hide="areaFlags['frontPage']">
-    <ul class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
-        <li class="active"><a data-toggle="tab" href="#objectsAddArea"><p class="menuTab">Objects</p></a></li>
-        <li><a data-toggle="tab" href="#behaviorAddArea"><p class="menuTab">Behavior</p></a></li>
-        <li><a data-toggle="tab" href="#eventsAddArea"><p class="menuTab">Events</p></a></li>
-        <li><a data-toggle="tab" href="#releaseArea"><p class="menuTab">Release</p></a></li>
-    </ul>
-    <div class="workAreaComponent centralArea tab-content" data-ng-show="areaFlags['centralArea']">
-        <div id="objectsAddArea" class="centralAreaComponent tab-pane fade in active">
-            <div class="componentMainTitle">
-                Objects
-            </div>
-                <div data-ng-show="!areaFlags['objectCreateArea'] && indexToShow == -1">
-                    <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">+ new object</span>
+    <!--APPLICATIONS LIST END-->
+    <!--APPLICATION TITLE START-->
+    <div class="mainApplicationTitle" ng-hide="areaFlags['frontPage'] || areaFlags['mainPage'] || areaFlags['myApps']">
+        {{getCurrentApplication().name}}
+        <hr>
+    </div>
+    <!--APPLICATION TITLE END-->
+    <!--WORK AREA START-->
+    <div class="workArea" ng-hide="areaFlags['frontPage']">
+        <ul class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
+            <li class="active"><a data-toggle="tab" href="#objectsAddArea"><p class="menuTab">Objects</p></a></li>
+            <li><a data-toggle="tab" href="#behaviorAddArea"><p class="menuTab">Behavior</p></a></li>
+            <li><a data-toggle="tab" href="#eventsAddArea"><p class="menuTab">Events</p></a></li>
+            <li><a data-toggle="tab" href="#releaseArea"><p class="menuTab">Release</p></a></li>
+        </ul>
+        <div class="workAreaComponent centralArea tab-content" data-ng-show="areaFlags['centralArea']">
+            <!--OBJECT AREA START-->
+            <div id="objectsAddArea" class="centralAreaComponent tab-pane fade in active">
+                <div class="componentMainTitle">
+                    Objects
                 </div>
-            <div data-ng-show="showNoObjectMembersImage && !getCurrentApplication().objects.length">
-                <img class="noMembersImage" src="http://localhost/img/no_objects.png"></div>
-            <div class="mergeLeft" data-ng-show="areaFlags['objectCreateArea']" style="padding-top: 1%;">
-                <form data-ng-submit="addObject()" style="border-bottom: thin silver solid; padding: 1%;">
-                    <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
-                        <tr>
-                            <td class="formInput formInput20">
-                                <span class="applicationTitle">Create a new Object</span>
-                            </td>
-                            <td class="formInput formInput60">
-                                <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
-                                    {{createErrorMessage}}
-                                </div>
-                            </td>
-                            <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewObject()">
-                            </td>
-                            <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidObject(getCurrentObject())">
-                            </td>
-                        </tr>
-                    </table>
-                    <br>
-                    <div class="form-group">
-                        <input data-ng-model="getCurrentObject().name" class="form-control" placeholder="Enter Object Name" style="width: 40%" maxlength="40" required>
+                    <div data-ng-show="!areaFlags['objectCreateArea'] && indexToShow == -1">
+                        <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">+ new object</span>
                     </div>
-                    <p>Attributes:</p>
-                    <div class="form-group">
-                        <table style="width: 100%;">
-                            <tr data-ng-repeat="attribute in getCurrentObject().attributes track by $index">
-                                <td class="formInput formInput40">
-                                    <input data-ng-model="attribute.name" class="form-control" placeholder="Enter Attribute Name" required>
+                <div data-ng-show="showNoObjectMembersImage && !getCurrentApplication().objects.length">
+                    <img class="noMembersImage" src="http://localhost/img/no_objects.png"></div>
+                <!--OBJECT CREATION AREA START-->
+                <div class="mergeLeft" data-ng-show="areaFlags['objectCreateArea']" style="padding-top: 1%;">
+                    <form data-ng-submit="addObject()" style="border-bottom: thin silver solid; padding: 1%;">
+                        <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
+                            <tr>
+                                <td class="formInput formInput20">
+                                    <span class="applicationTitle">Create a new Object</span>
                                 </td>
-                                <td class="formInput formInput15">
-                                    <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
-                                        <option value="" selected="selected">Type</option>
-                                    </select>
+                                <td class="formInput formInput60">
+                                    <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
+                                        {{createErrorMessage}}
+                                    </div>
                                 </td>
-                                <td class="formInput formInput10">
-                                    <div class="removeFormFieldsButton" data-ng-click="removeAttribute($index)"></div>
+                                <td class="formInput formInput10" style="border-left: dashed thin silver">
+                                    <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewObject()">
                                 </td>
-                                <td class="formInput formInput35">
-                                    <!--PADDING-->
+                                <td class="formInput formInput10" style="border-right: dashed thin silver">
+                                    <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidObject(getCurrentObject())">
                                 </td>
                             </tr>
                         </table>
-                        <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
-                    </div>
-                    <p>Actions:</p>
-                    <div class="form-group">
-                        <table style="width: 100%">
-                            <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
-                                <td class="formInput formInput20">
-                                    <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
-                                </td>
-                                <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
-                                        <option value="" selected="selected">Choose Attribute</option>
-                                    </select>
-                                </td>
-                                <td class="formInput formInput15">
-                                    <select class="form-control" ng-model="action.operator" ng-options="i for i in operators" required>
-                                        <option value="" selected="selected">Choose Action</option>
-                                    </select>
-                                </td>
-
-                                <td class="formInput formInput15">
-                                    <select class="form-control" ng-model="action.type" ng-options="i for i in operand_types" required>
-                                        <option value="" selected="selected">Choose Operand Type</option>
-                                    </select>
-                                </td>
-
-                                <td class="formInput formInput15" data-ng-show="action.type === 'Fixed Value'">
-                                    <input class="form-control" ng-model="action.operand2" placeholder="Enter Operand Value" data-ng-disabled="action.type !== 'Fixed Value'" required>
-                                </td>
-
-                                <td class="formInput formInput15" data-ng-show="action.type === 'Attribute'">
-                                    <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes" data-ng-disabled="action.type !== 'Attribute'" required>
-                                        <option value="" selected="selected">Choose Attribute</option>
-                                    </select>
-                                </td>
-                                <td class="formInput15" data-ng-show="action.type === 'Dynamic'">
-                                    Value will be chosen later.
-                                </td>
-                                <td class="formInput15" data-ng-show="action.type === '' || action.type == undefined">
-                                    <!--PADDING-->
-                                </td>
-
-
-
-                                <td class="formInput formInput10">
-                                    <div class="removeFormFieldsButton" data-ng-click="removeAction($index)"></div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="addFormFieldsButton" data-ng-click="addAction()"></div>
-                    </div>
-                    <div class="form-group">
-                        <p>Actions Chain:</p>
-                        <div class="form-group" style="width: 25%">
-                            <input data-ng-model="actionChain.name" class="form-control" placeholder="Enter Action Chain Name">
+                        <br>
+                        <div class="form-group">
+                            <input data-ng-model="getCurrentObject().name" class="form-control" placeholder="Enter Object Name" style="width: 40%" maxlength="40" required>
                         </div>
-                        <div data-ng-repeat="action in getCurrentObject().actionsChain[0].actions track by $index">
-                            <table>
+                        <p>Attributes:</p>
+                        <div class="form-group">
+                            <table style="width: 100%;">
+                                <tr data-ng-repeat="attribute in getCurrentObject().attributes track by $index">
+                                    <td class="formInput formInput40">
+                                        <input data-ng-model="attribute.name" class="form-control" placeholder="Enter Attribute Name" required>
+                                    </td>
+                                    <td class="formInput formInput15">
+                                        <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
+                                            <option value="" selected="selected">Type</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput10">
+                                        <div class="removeFormFieldsButton" data-ng-click="removeAttribute($index)"></div>
+                                    </td>
+                                    <td class="formInput formInput35">
+                                        <!--PADDING-->
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="addFormFieldsButton"  data-ng-click="addAttribute()"></div>
+                        </div>
+                        <p>Actions:</p>
+                        <div class="form-group">
+                            <table style="width: 100%">
+                                <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
+                                    <td class="formInput formInput20">
+                                        <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
+                                    </td>
+                                    <td class="formInput formInput20">
+                                        <select class="form-control" ng-model="action.operand1" ng-options="i as i.name for i in getCurrentObject().attributes" required>
+                                            <option value="" selected="selected">Choose Attribute</option>
+
+                                            Operand1: {{action.operand1}}
+                                        </select>
+                                    </td>
+
+                                    <td class="formInput formInput15" data-ng-show="action.operand1.type !== 'Number' && action.operand1.type !== 'Text'">
+                                        <select class="form-control" disabled>
+                                            <option value="" selected="selected">Choose Action</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput15" data-ng-show="action.operand1.type === 'Number'">
+                                        <select class="form-control" ng-model="action.operator" ng-options="i for i in getOperatorListByType('Number')" data-ng-disabled="action.operand1.type !== 'Number'" required>
+                                            <option value="" selected="selected">Choose Action</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput15" data-ng-show="action.operand1.type === 'Text'">
+                                        <select class="form-control" ng-model="action.operator" ng-options="i for i in getOperatorListByType('Text')" data-ng-disabled="action.operand1.type !== 'Text'" required>
+                                            <option value="" selected="selected">Choose Action</option>
+                                        </select>
+                                    </td>
+
+                                    <td class="formInput formInput15">
+                                        <select class="form-control" ng-model="action.operandType" ng-options="i for i in operand_types" required>
+                                            <option value="" selected="selected">Choose Operand Type</option>
+                                        </select>
+                                    </td>
+
+                                    <td class="formInput formInput15" data-ng-show="action.operandType === 'Fixed Value'">
+                                        <input class="form-control" ng-model="action.operand2" placeholder="Enter Operand Value" data-ng-disabled="action.operandType !== 'Fixed Value'" required>
+                                    </td>
+
+                                    <td class="formInput formInput15" data-ng-show="action.operandType === 'Attribute'">
+                                        <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes" data-ng-disabled="action.operandType !== 'Attribute'" required>
+                                            <option value="" selected="selected">Choose Attribute</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput15" data-ng-show="action.operandType === 'Dynamic'">
+                                        Value will be chosen later.
+                                    </td>
+                                    <td class="formInput15" data-ng-show="action.operandType === '' || action.operandType == undefined">
+                                        <!--PADDING-->
+                                    </td>
+
+
+
+                                    <td class="formInput formInput10">
+                                        <div class="removeFormFieldsButton" data-ng-click="removeAction($index)"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="addFormFieldsButton" data-ng-click="addAction()"></div>
+                        </div>
+                        <div class="form-group">
+                            <p>Actions Chain:</p>
+                            <div class="form-group" style="width: 25%">
+                                <input data-ng-model="actionChain.name" class="form-control" placeholder="Enter Action Chain Name">
+                            </div>
+                            <div data-ng-repeat="action in getCurrentObject().actionsChain[0].actions track by $index">
+                                <table>
+                                    <tr>
+                                        <td style="width:15%; padding: 1%">
+                                            <select class="form-control" ng-model="action.operand" ng-options="i.name for i in getCurrentObject().actions.concat(getCurrentObject().attributes)"></select>
+                                        </td>
+                                        <td style="width:15%; padding: 1%">
+                                            <select class="form-control" ng-model="action.operator" ng-options="i for i in actionOperations"></select>
+                                        </td>
+                                        <td style="width:10%; padding: 1%">
+                                        <div class="removeFormFieldsButton" data-ng-click="removeActionChain($index)"></div>
+                                        </td>
+                                        <td style="width:60%; padding: 1%;">
+                                            <!--PADDING-->
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <input type="button" class="addFormFieldsButton" data-ng-disabled="checkDisabled()" data-ng-click="addActionChain()">
+                        </div>
+                    </form>
+                </div>
+                <!--OBJECT CREATION AREA END-->
+                <!--OBJECT LIST START-->
+                <div class="itemList" data-ng-init="indexToShow = -1" data-ng-show="!areaFlags['objectCreateArea']">
+                    <div data-ng-repeat="object in getCurrentApplication().objects track by $index">
+                        <div data-ng-show="indexToShow == -1">
+                            <table style="width: 100%; border-bottom: thin silver solid;">
                                 <tr>
-                                    <td style="width:15%; padding: 1%">
-                                        <select class="form-control" ng-model="action.operand" ng-options="i.name for i in getCurrentObject().actions.concat(getCurrentObject().attributes)"></select>
+                                    <td class="formInput formInput80">
+                                        <span class="applicationTitle">{{object.name}}</span>
                                     </td>
-                                    <td style="width:15%; padding: 1%">
-                                        <select class="form-control" ng-model="action.operator" ng-options="i for i in actionOperations"></select>
+                                    <td class="formInput formInput10" style="border-left: dashed thin silver">
+                                        <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteObject(object)">
                                     </td>
-                                    <td style="width:10%; padding: 1%">
-                                    <div class="removeFormFieldsButton" data-ng-click="removeActionChain($index)"></div>
+                                    <td class="formInput formInput10" style="border-right: dashed thin silver">
+                                        <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showObjectEditArea(object)">
                                     </td>
-                                    <td style="width:60%; padding: 1%;">
+                                </tr>
+                            </table>
+                        </div>
+                        <!--OBJECT EDIT AREA START-->
+                        <div data-ng-show="indexToShow == object.id" style="padding: 1%;">
+                            <form data-ng-submit="editObject(object)" style="border-bottom: thin silver solid; padding: 1%;">
+                                <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
+                                    <tr>
+                                        <td class="formInput formInput20">
+                                            <span class="applicationTitle">Edit Object {{object.name}}</span>
+                                        </td>
+                                        <td class="formInput formInput60">
+                                            <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
+                                                {{createErrorMessage}}
+                                            </div>
+                                        </td>
+                                        <td class="formInput formInput10" style="border-left: dashed thin silver">
+                                            <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideObjectEditArea()">
+                                        </td>
+                                        <td class="formInput formInput10" style="border-right: dashed thin silver">
+                                            <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidObject(getCurrentObject())">
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br>
+                                <div class="form-group" style="width: 50%">
+                                    <input type="text" class="form-control" data-ng-model="getCurrentObject().name" placeholder="Enter Object Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <p>Attributes:</p>
+                                    <table style="width: 100%">
+                                        <tr data-ng-repeat="attribute in getCurrentObject().attributes track by $index">
+                                            <td class="formInput formInput40">
+                                                <input class="form-control" placeholder="Enter Attribute name" data-ng-model="attribute.name" required>
+                                            </td>
+                                            <td class="formInput formInput15">
+                                                <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
+                                                    <option value="" selected="selected">Type</option>
+                                                </select>
+                                            </td>
+                                            <td class="formInput formInput10">
+                                                <div class="removeFormFieldsButton" data-ng-click="removeAttribute($index)"></div>
+                                            </td>
+                                            <td class="formInput formInput35">
+                                                <!--PADDING-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
+                                </div>
+                                <div class="form-group">
+                                    <p>Actions:</p>
+                                    <table style="width: 100%">
+                                        <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
+                                            <td class="formInput formInput20">
+                                                <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
+                                            </td>
+                                            <td class="formInput formInput20">
+                                                {{action.operand1.name}}
+                                                {{object.actions[$index].operand1.name}}
+                                                {{object.actions[$index].operand1.name == o.operand1.name}}
+                                                <select class="form-control" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
+                                                    <option value="" selected="selected">Choose Attribute</option>
+                                                </select>
+                                            </td>
+                                            <td class="formInput formInput15" data-ng-show="action.operand1.type !== 'Number' && action.operand1.type !== 'Text'">
+                                                <select class="form-control" disabled>
+                                                    <option value="" selected="selected">Choose Action</option>
+                                                </select>
+                                            </td>
+                                            <td class="formInput formInput15" data-ng-show="action.operand1.type === 'Number'">
+                                                <select class="form-control" ng-model="action.operator" ng-options="i for i in getOperatorListByType('Number')" data-ng-disabled="action.operand1.type !== 'Number'" required>
+                                                    <option value="" selected="selected">Choose Action</option>
+                                                </select>
+                                            </td>
+                                            <td class="formInput formInput15" data-ng-show="action.operand1.type === 'Text'">
+                                                <select class="form-control" ng-model="action.operator" ng-options="i for i in getOperatorListByType('Text')" data-ng-disabled="action.operand1.type !== 'Text'" required>
+                                                    <option value="" selected="selected">Choose Action</option>
+                                                </select>
+                                            </td>
+
+                                            <td class="formInput formInput15">
+                                                <select class="form-control" ng-model="action.operandType" ng-options="i for i in operand_types" required>
+                                                    <option value="" selected="selected">Choose Operand Type</option>
+                                                </select>
+                                            </td>
+
+                                            <td class="formInput formInput15" data-ng-show="action.operandType === 'Fixed Value'">
+                                                <input class="form-control" ng-model="action.operand2" placeholder="Enter Operand Value" data-ng-disabled="action.operandType !== 'Fixed Value'" required>
+                                            </td>
+
+                                            <td class="formInput formInput15" data-ng-show="action.operandType === 'Attribute'">
+                                                <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes.filter(function(a) {return a.type === action.operand1.type})" data-ng-disabled="action.operandType !== 'Attribute'" required>
+                                                    <option value="" selected="selected">Choose Attribute</option>
+                                                </select>
+                                            </td>
+                                            <td class="formInput15" data-ng-show="action.operandType === 'Dynamic'">
+                                                Value will be chosen later.
+                                            </td>
+                                            <td class="formInput15" data-ng-show="action.operandType === '' || action.operandType == undefined">
+                                                <!--PADDING-->
+                                            </td>
+                                            <td class="formInput formInput10">
+                                                <div class="removeFormFieldsButton" data-ng-click="removeAction($index)"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="addFormFieldsButton" data-ng-click="addAction()"></div>
+                            </form>
+                        </div>
+                        <!--OBJECT EDIT AREA END-->
+                    </div>
+                </div>
+                <!--OBJECT LIST END-->
+            </div>
+            <!--OBJECT AREA END-->
+            <!--BEHAVIOR AREA START-->
+            <div id="behaviorAddArea" class="centralAreaComponent tab-pane fade">
+                <div class="componentMainTitle">
+                    Behavior
+                </div>
+                        <div data-ng-show="!areaFlags['behaviorCreateArea'] && indexToShow == -1">
+                            <span class="btn btn-primary btn-block" data-ng-click="addNewBehavior()">+ new behavior</span>
+                        </div>
+                <div data-ng-show="showNoBehaviorMembersImage && !getCurrentApplication().behaviors.length">
+                    <img class="noMembersImage" src="http://localhost/img/no_behaviors.png">
+                </div>
+                <div class="mergeLeft" data-ng-show="areaFlags['behaviorCreateArea']" style="padding-top: 1%;">
+                    <form data-ng-submit="addBehavior()" style="border-bottom: thin silver solid; padding: 1%;">
+                        <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
+                            <tr>
+                                <td class="formInput formInput20">
+                                    <span class="applicationTitle">Create a new Behavior</span>
+                                </td>
+                                <td class="formInput formInput60">
+                                    <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
+                                        {{createErrorMessage}}
+                                    </div>
+                                </td>
+                                <td class="formInput formInput10" style="border-left: dashed thin silver">
+                                    <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewBehavior()">
+                                </td>
+                                <td class="formInput formInput10" style="border-right: dashed thin silver">
+                                    <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidBehavior(getCurrentBehavior())">
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div class="form-group">
+                            <input data-ng-model="getCurrentBehavior().name" class="form-control" placeholder="Enter Behavior Name" style="width: 40%" maxlength="40" required>
+                        </div>
+                        <p>Behavior Target:</p>
+                        <div class="form-group">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td class="formInput formInput20">
+                                        <select class="form-control" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects.filter(isValidObject)" required>
+                                            <option value="" selected="selected">Choose Object</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput20">
+                                        <select class="form-control" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
+                                            <option value="" selected="selected">Choose Action</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput20">
+                                        <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
+                                            <option value="" selected="selected">Choose Operand</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput40">
                                         <!--PADDING-->
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                        <input type="button" class="addFormFieldsButton" data-ng-disabled="checkDisabled()" data-ng-click="addActionChain()">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">save</button>
-                    <hr>
-                </form>
-            </div>
-            <div class="itemList" data-ng-init="indexToShow = -1" data-ng-show="!areaFlags['objectCreateArea']">
-                <div data-ng-repeat="object in getCurrentApplication().objects track by $index">
-                    <div data-ng-show="indexToShow == -1">
-                        <table style="width: 100%; border-bottom: thin silver solid;">
-                            <tr>
-                                <td class="formInput formInput80">
-                                    <span class="applicationTitle">{{object.name}}</span>
-                                </td>
-                                <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteObject(object)">
-                                </td>
-                                <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showObjectEditArea($event, object)">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div data-ng-show="indexToShow == object.id" style="padding: 1%;">
-                        <form data-ng-submit="editObject(object)" style="border-bottom: thin silver solid; padding: 1%;">
-                            <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
-                                <tr>
+                        <p>Conditions:</p>
+                        <div class="form-group">
+                            <table style="width: 100%;">
+                                <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
                                     <td class="formInput formInput20">
-                                        <span class="applicationTitle">Edit Object {{object.name}}</span>
+                                        <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                            <option value="" selected="selected">Choose Attribute</option>
+                                        </select>
                                     </td>
-                                    <td class="formInput formInput60">
-                                        <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
-                                            {{createErrorMessage}}
-                                        </div>
+                                    <td class="formInput formInput20">
+                                        <select class="form-control" ng-model="condition.logicOperation" ng-options="i for i in logicOperations" required>
+                                            <option value="" selected="selected">Choose Condition</option>
+                                        </select>
                                     </td>
-                                    <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                        <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideObjectEditArea()">
+                                    <td class="formInput formInput20">
+                                        <input class="form-control" ng-model="condition.value" required>
                                     </td>
-                                    <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidObject(getCurrentObject())">
+                                    <td class="formInput formInput10">
+                                        <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
+                                    </td>
+                                    <td style="width: 30%; padding: 1%;">
+                                        <!--PADDING-->
                                     </td>
                                 </tr>
                             </table>
-                            <br>
-                            <div class="form-group" style="width: 50%">
-                                <input type="text" class="form-control" data-ng-model="getCurrentObject().name" placeholder="Enter Object Name" required>
-                            </div>
-                            <div class="form-group">
-                                <p>Attributes:</p>
-                                <table style="width: 100%">
-                                    <tr data-ng-repeat="attribute in getCurrentObject().attributes track by $index">
-                                        <td class="formInput formInput40">
-                                            <input class="form-control" placeholder="Enter Attribute name" data-ng-model="attribute.name" required>
+                            <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="itemList" data-ng-init="indexToShow = -1" data-ng-show="!areaFlags['behaviorCreateArea']">
+                    <div data-ng-repeat="behavior in getCurrentApplication().behaviors track by $index">
+                        <div data-ng-show="indexToShow == -1">
+                            <table style="width: 100%; border-bottom: thin silver solid;">
+                                <tr>
+                                    <td class="formInput formInput80">
+                                        <span class="applicationTitle">{{behavior.name}}</span>
+                                    </td>
+                                    <td class="formInput formInput10" style="border-left: dashed thin silver">
+                                        <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteBehavior(behavior)">
+                                    </td>
+                                    <td class="formInput formInput10" style="border-right: dashed thin silver">
+                                        <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showBehaviorEditArea($event, behavior)">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div data-ng-show="indexToShow == behavior.id" style="padding: 1%;">
+                            <form data-ng-submit="editBehavior(behavior)" style="border-bottom: thin silver solid; padding: 1%;">
+                                <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
+                                    <tr>
+                                        <td class="formInput formInput20">
+                                            <span class="applicationTitle">Edit Behavior {{behavior.name}}</span>
                                         </td>
-                                        <td class="formInput formInput15">
-                                            <select class="form-control" data-ng-model="attribute.type" ng-options="i for i in basic_types" required>
-                                                <option value="" selected="selected">Type</option>
-                                            </select>
+                                        <td class="formInput formInput60">
+                                            <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
+                                                {{createErrorMessage}}
+                                            </div>
                                         </td>
-                                        <td class="formInput formInput10">
-                                            <div class="removeFormFieldsButton" data-ng-click="removeAttribute($index)"></div>
+                                        <td class="formInput formInput10" style="border-left: dashed thin silver">
+                                            <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideBehaviorEditArea()">
                                         </td>
-                                        <td class="formInput formInput35">
-                                            <!--PADDING-->
+                                        <td class="formInput formInput10" style="border-right: dashed thin silver">
+                                            <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidBehavior(getCurrentBehavior())">
                                         </td>
                                     </tr>
                                 </table>
-                                <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div>
-                            </div>
-                            <div class="form-group">
-                                <p>Actions:</p>
-                                <table style="width: 100%">
-                                    <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
-                                        <td class="formInput formInput20">
-                                            <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
-                                        </td>
-                                        <td class="formInput formInput20">
-                                            <select class="form-control" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
-                                                <option value="" selected="selected">Choose Attribute</option>
-                                            </select>
-                                        </td>
-                                        <td class="formInput formInput15">
-                                            <select class="form-control" ng-model="action.operator" ng-options="i for i in operators" required>
-                                                <option value="" selected="selected">Choose Action</option>
-                                            </select>
-                                        </td>
-
-                                        <td class="formInput formInput15">
-                                            <select class="form-control" ng-model="action.type" ng-options="i for i in operand_types" required>
-                                                <option value="" selected="selected">Choose Operand Type</option>
-                                            </select>
-                                        </td>
-
-                                        <td class="formInput formInput15" data-ng-show="action.type === 'Fixed Value'">
-                                            <input class="form-control" ng-model="action.operand2" placeholder="Enter Operand Value" data-ng-disabled="action.type !== 'Fixed Value'" required>
-                                        </td>
-
-                                        <td class="formInput formInput15" data-ng-show="action.type === 'Attribute'">
-                                            <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes" data-ng-disabled="action.type !== 'Attribute'" required>
-                                                <option value="" selected="selected">Choose Attribute</option>
-                                            </select>
-                                        </td>
-                                        <td class="formInput15" data-ng-show="action.type === 'Dynamic'">
-                                            Value will be chosen later.
-                                        </td>
-                                        <td class="formInput15" data-ng-show="action.type === '' || action.type == undefined">
-                                            <!--PADDING-->
-                                        </td>
-
-
-
-                                        <td class="formInput formInput10">
-                                            <div class="removeFormFieldsButton" data-ng-click="removeAction($index)"></div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="addFormFieldsButton" data-ng-click="addAction()"></div>
-                        </form>
+                                <br>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" data-ng-model="getCurrentBehavior().name" placeholder="Enter Behavior Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <p>Behavior Target:</p>
+                                    <div class="form-group">
+                                        <table style="width: 100%">
+                                            <tr>
+                                                <td class="formInput formInput20">
+                                                    <select class="form-control" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects" required>
+                                                        <option value="" selected="selected">Choose Object</option>
+                                                    </select>
+                                                </td>
+                                                <td class="formInput formInput20">
+                                                    <select class="form-control" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
+                                                        <option value="" selected="selected">Choose Action</option>
+                                                    </select>
+                                                </td>
+                                                <td class="formInput formInput20">
+                                                    <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
+                                                        <option value="" selected="selected">Choose Operand</option>
+                                                    </select>
+                                                </td>
+                                                <td class="formInput formInput40">
+                                                    <!--PADDING-->
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Conditions:</label>
+                                    <table style="width:100%;">
+                                        <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
+                                            <td class="formInput formInput20">
+                                                <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
+                                                    <option value="" selected="selected">Choose Attribute</option>
+                                                </select>
+                                            </td>
+                                            <td class="formInput formInput20">
+                                                <select class="form-control" ng-model="condition.logicOperation" ng-options="i for i in logicOperations" required>
+                                                    <option value="" selected="selected">Choose Condition</option>
+                                                </select>
+                                            </td>
+                                            <td class="formInput formInput20">
+                                                <input type="text" class="form-control" ng-model="condition.value" required>
+                                            </td>
+                                            <td class="formInput formInput10">
+                                                <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
+                                            </td>
+                                            <td class="formInput formInput30">
+                                                <!--PADDING-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="behaviorAddArea" class="centralAreaComponent tab-pane fade">
-            <div class="componentMainTitle">
-                Behavior
-            </div>
-                    <div data-ng-show="!areaFlags['behaviorCreateArea'] && indexToShow == -1">
-                        <span class="btn btn-primary btn-block" data-ng-click="addNewBehavior()">+ new behavior</span>
-                    </div>
-            <div data-ng-show="showNoBehaviorMembersImage && !getCurrentApplication().behaviors.length">
-                <img class="noMembersImage" src="http://localhost/img/no_behaviors.png">
-            </div>
-            <div class="mergeLeft" data-ng-show="areaFlags['behaviorCreateArea']" style="padding-top: 1%;">
-                <form data-ng-submit="addBehavior()" style="border-bottom: thin silver solid; padding: 1%;">
-                    <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
-                        <tr>
-                            <td class="formInput formInput20">
-                                <span class="applicationTitle">Create a new Behavior</span>
-                            </td>
-                            <td class="formInput formInput60">
-                                <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
-                                    {{createErrorMessage}}
-                                </div>
-                            </td>
-                            <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewBehavior()">
-                            </td>
-                            <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidBehavior(getCurrentBehavior())">
-                            </td>
-                        </tr>
-                    </table>
-                    <br>
-                    <div class="form-group">
-                        <input data-ng-model="getCurrentBehavior().name" class="form-control" placeholder="Enter Behavior Name" style="width: 40%" maxlength="40" required>
-                    </div>
-                    <p>Behavior Target:</p>
-                    <div class="form-group">
-                        <table style="width: 100%">
-                            <tr>
-                                <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects.filter(isValidObject)" required>
-                                        <option value="" selected="selected">Choose Object</option>
-                                    </select>
-                                </td>
-                                <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
-                                        <option value="" selected="selected">Choose Action</option>
-                                    </select>
-                                </td>
-                                <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
-                                        <option value="" selected="selected">Choose Operand</option>
-                                    </select>
-                                </td>
-                                <td class="formInput formInput40">
-                                    <!--PADDING-->
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <p>Conditions:</p>
-                    <div class="form-group">
-                        <table style="width: 100%;">
-                            <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
-                                <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
-                                        <option value="" selected="selected">Choose Attribute</option>
-                                    </select>
-                                </td>
-                                <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="condition.logicOperation" ng-options="i for i in logicOperations" required>
-                                        <option value="" selected="selected">Choose Condition</option>
-                                    </select>
-                                </td>
-                                <td class="formInput formInput20">
-                                    <input class="form-control" ng-model="condition.value" required>
-                                </td>
-                                <td class="formInput formInput10">
-                                    <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
-                                </td>
-                                <td style="width: 30%; padding: 1%;">
-                                    <!--PADDING-->
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="itemList" data-ng-init="indexToShow = -1" data-ng-show="!areaFlags['behaviorCreateArea']">
-                <div data-ng-repeat="behavior in getCurrentApplication().behaviors track by $index">
-                    <div data-ng-show="indexToShow == -1">
-                        <table style="width: 100%; border-bottom: thin silver solid;">
-                            <tr>
-                                <td class="formInput formInput80">
-                                    <span class="applicationTitle">{{behavior.name}}</span>
-                                </td>
-                                <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteBehavior(behavior)">
-                                </td>
-                                <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showBehaviorEditArea($event, behavior)">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div data-ng-show="indexToShow == behavior.id" style="padding: 1%;">
-                        <form data-ng-submit="editBehavior(behavior)" style="border-bottom: thin silver solid; padding: 1%;">
-                            <table style="width:100%; border-top: thin silver solid; border-bottom: thin silver solid; background-color: #ffffee">
+            <!--BEHAVIOR AREA END-->
+            <!--EVENT AREA START-->
+            <div id="eventsAddArea" class="centralAreaComponent tab-pane fade in">
+                <div class="componentMainTitle">
+                    Events
+                </div>
+                <span class="btn btn-primary btn-block" data-ng-click="addNewEvent()">new event</span>
+                <div class="mergeLeft" data-ng-show="areaFlags['eventCreateArea']">
+                    <hr>
+                    <form data-ng-submit="addEvent()">
+                        <div class="form-group" style="width: 60%">
+                            <input data-ng-model="getCurrentEvent().name" class="form-control" placeholder="Enter Event Name" style="width: 30%">
+                        </div>
+                        <div class="form-group">
+                            <table>
                                 <tr>
-                                    <td class="formInput formInput20">
-                                        <span class="applicationTitle">Edit Behavior {{behavior.name}}</span>
+                                    <td style="width: 15%; padding: 1%;">
+                                        <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects">
+                                            <option value="" selected="selected">Choose Object</option>
+                                        </select>
                                     </td>
-                                    <td class="formInput formInput60">
-                                        <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidBehavior(getCurrentBehavior())">
-                                            {{createErrorMessage}}
-                                        </div>
-                                    </td>
-                                    <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                        <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideBehaviorEditArea()">
-                                    </td>
-                                    <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidBehavior(getCurrentBehavior())">
+                                    <td style="width: 15%; padding: 1%;">
+                                        <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)">
+                                            <option value="" selected="selected">Choose Attribute</option>
+                                        </select>
+                                    <td style="width: 15%; padding: 1%;">
+                                        <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations">
+                                            <option value="" selected="selected">Choose Operation</option>
+                                        </select>
                                     </td>
                                 </tr>
                             </table>
-                            <br>
-                            <div class="form-group">
-                                <input type="text" class="form-control" data-ng-model="getCurrentBehavior().name" placeholder="Enter Behavior Name" required>
-                            </div>
-                            <div class="form-group">
-                                <p>Behavior Target:</p>
+                        </div>
+                        <div class="form-group" style="width: 60%">
+                            <input data-ng-model="getCurrentEvent().value" class="form-control" placeholder="Enter Event Value" style="width: 30%">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Event</button>
+                        <hr>
+                    </form>
+                </div>
+
+                <div class="itemList" data-ng-init="indexToShow = -1">
+                    <div href="#" class="list-group-item" data-ng-repeat="event in getCurrentApplication().events track by $index">
+                        <div>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 80%; padding-left: 1%;">
+                                        <h3>{{event.name}}</h3>
+                                    </td>
+                                    <td style="width: 10%; padding-left: 1%;">
+                                        <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteEvent(event)">
+                                    </td>
+                                    <td style="width: 10%; padding-left: 1%;">
+                                        <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showEventEditArea($event, event)">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div data-ng-show="indexToShow == event.id">
+                            <hr>
+                            <form>
                                 <div class="form-group">
-                                    <table style="width: 100%">
+                                    <input type="text" class="form-control" data-ng-model="getCurrentEvent().name" placeholder="Enter Event Name">
+                                </div>
+                                <div class="form-group">
+                                    <table>
                                         <tr>
-                                            <td class="formInput formInput20">
-                                                <select class="form-control" ng-model="getCurrentBehavior().operandObject" ng-options="item as item.name for item in getCurrentApplication().objects" required>
+                                            <td style="width: 15%; padding: 1%;">
+                                                <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects">
                                                     <option value="" selected="selected">Choose Object</option>
                                                 </select>
                                             </td>
-                                            <td class="formInput formInput20">
-                                                <select class="form-control" ng-model="getCurrentBehavior().operator" ng-options="i for i in behaviorOperators" required>
-                                                    <option value="" selected="selected">Choose Action</option>
+                                            <td style="width: 15%; padding: 1%;">
+                                                <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)">
+                                                    <option value="" selected="selected">Choose Attribute</option>
                                                 </select>
-                                            </td>
-                                            <td class="formInput formInput20">
-                                                <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions)" required>
-                                                    <option value="" selected="selected">Choose Operand</option>
+                                            <td style="width: 15%; padding: 1%;">
+                                                <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations">
+                                                    <option value="" selected="selected">Choose Operation</option>
                                                 </select>
-                                            </td>
-                                            <td class="formInput formInput40">
-                                                <!--PADDING-->
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Conditions:</label>
-                                <table style="width:100%;">
-                                    <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
-                                        <td class="formInput formInput20">
-                                            <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
-                                                <option value="" selected="selected">Choose Attribute</option>
-                                            </select>
-                                        </td>
-                                        <td class="formInput formInput20">
-                                            <select class="form-control" ng-model="condition.logicOperation" ng-options="i for i in logicOperations" required>
-                                                <option value="" selected="selected">Choose Condition</option>
-                                            </select>
-                                        </td>
-                                        <td class="formInput formInput20">
-                                            <input type="text" class="form-control" ng-model="condition.value" required>
-                                        </td>
-                                        <td class="formInput formInput10">
-                                            <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
-                                        </td>
-                                        <td class="formInput formInput30">
+                                <div class="form-group" style="width: 60%">
+                                    <input data-ng-model="getCurrentEvent().value" class="form-control" placeholder="Enter Event Value" style="width: 30%">
+                                </div>
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="width: 80%">
                                             <!--PADDING-->
                                         </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="addFormFieldsButton" data-ng-click="addCondition()"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="eventsAddArea" class="centralAreaComponent tab-pane fade in">
-            <div class="componentMainTitle">
-                Events
-            </div>
-            <span class="btn btn-primary btn-block" data-ng-click="addNewEvent()">new event</span>
-            <div class="mergeLeft" data-ng-show="areaFlags['eventCreateArea']">
-                <hr>
-                <form data-ng-submit="addEvent()">
-                    <div class="form-group" style="width: 60%">
-                        <input data-ng-model="getCurrentEvent().name" class="form-control" placeholder="Enter Event Name" style="width: 30%">
-                    </div>
-                    <div class="form-group">
-                        <table>
-                            <tr>
-                                <td style="width: 15%; padding: 1%;">
-                                    <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects">
-                                        <option value="" selected="selected">Choose Object</option>
-                                    </select>
-                                </td>
-                                <td style="width: 15%; padding: 1%;">
-                                    <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)">
-                                        <option value="" selected="selected">Choose Attribute</option>
-                                    </select>
-                                <td style="width: 15%; padding: 1%;">
-                                    <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations">
-                                        <option value="" selected="selected">Choose Operation</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="form-group" style="width: 60%">
-                        <input data-ng-model="getCurrentEvent().value" class="form-control" placeholder="Enter Event Value" style="width: 30%">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Create Event</button>
-                    <hr>
-                </form>
-            </div>
-
-            <div class="itemList" data-ng-init="indexToShow = -1">
-                <div href="#" class="list-group-item" data-ng-repeat="event in getCurrentApplication().events track by $index">
-                    <div>
-                        <table style="width: 100%">
-                            <tr>
-                                <td style="width: 80%; padding-left: 1%;">
-                                    <h3>{{event.name}}</h3>
-                                </td>
-                                <td style="width: 10%; padding-left: 1%;">
-                                    <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteEvent(event)">
-                                </td>
-                                <td style="width: 10%; padding-left: 1%;">
-                                    <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showEventEditArea($event, event)">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div data-ng-show="indexToShow == event.id">
-                        <hr>
-                        <form>
-                            <div class="form-group">
-                                <input type="text" class="form-control" data-ng-model="getCurrentEvent().name" placeholder="Enter Event Name">
-                            </div>
-                            <div class="form-group">
-                                <table>
-                                    <tr>
-                                        <td style="width: 15%; padding: 1%;">
-                                            <select ng-model="getCurrentEvent().object" ng-options="item as item.name for item in getCurrentApplication().objects">
-                                                <option value="" selected="selected">Choose Object</option>
-                                            </select>
+                                        <td style="width: 10%; padding: 1%">
+                                            <button type="button" class="btn btn-danger btn-app-list" data-ng-click="hideEventEditArea()">Cancel</button>
                                         </td>
-                                        <td style="width: 15%; padding: 1%;">
-                                            <select ng-model="getCurrentEvent().attribute" ng-options="item as item.name for item in getCurrentEvent().object.attributes.concat(getCurrentEvent().operandObject.actions)">
-                                                <option value="" selected="selected">Choose Attribute</option>
-                                            </select>
-                                        <td style="width: 15%; padding: 1%;">
-                                            <select ng-model="getCurrentEvent().operator" ng-options="i for i in logicOperations">
-                                                <option value="" selected="selected">Choose Operation</option>
-                                            </select>
+                                        <td style="width: 10%; padding: 1%;">
+                                            <button type="button" class="btn btn-primary btn-app-list" data-ng-click="editEvent(event)">Save</button>
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-                            <div class="form-group" style="width: 60%">
-                                <input data-ng-model="getCurrentEvent().value" class="form-control" placeholder="Enter Event Value" style="width: 30%">
-                            </div>
-                            <table style="width: 100%;">
-                                <tr>
-                                    <td style="width: 80%">
-                                        <!--PADDING-->
-                                    </td>
-                                    <td style="width: 10%; padding: 1%">
-                                        <button type="button" class="btn btn-danger btn-app-list" data-ng-click="hideEventEditArea()">Cancel</button>
-                                    </td>
-                                    <td style="width: 10%; padding: 1%;">
-                                        <button type="button" class="btn btn-primary btn-app-list" data-ng-click="editEvent(event)">Save</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <div id="releaseArea" class="centralAreaComponent tab-pane fade">
-            <div class="componentMainTitle">
-                Release
             </div>
-            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release {{getCurrentApplication().name}}</span>
-            <div data-ng-show="applicationStates[getCurrentApplication().id] == states.READY && !getApplicationBuilt()">
-                <img class="noMembersImage" src="http://localhost/img/before_release.png">
-            </div>
-            <br><br>
-                <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY">
+            <!--EVENT AREA END-->
+            <!--RELEASE AREA START-->
+            <div id="releaseArea" class="centralAreaComponent tab-pane fade">
+                <div class="componentMainTitle">
+                    Release
                 </div>
-            <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.BUILDING">Releasing your Application...</div>
-            <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.UPDATING">Your Application is being updated, please wait...</div>
-            <table style="width: 100%;" data-ng-show="getApplicationBuilt()">
-                <tr>
-                    <td class="formInput formInput20">
-                        <!--PADDING-->
-                    </td>
-                    <td class="formInput formInput20">
-                        <div id="appQRImage"></div>
-                    </td>
-                    <td class="formInput formInput40">
-                        <p class="applicationTitle">Your Application is complete!</p>
-                        <p class="applicationTitle">Scan this QR code to get it.</p>
-                        <p>(Or visit <a href="{{qrLink}}">here</a>)</p>
-                    </td>
-                    <td class="formInput formInput20">
-                        <!--PADDING-->
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
-        <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()" data-ng-show="areaFlags['designArea']">
-            <div class="componentMainTitle">
-                Preview
+                <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release {{getCurrentApplication().name}}</span>
+                <div data-ng-show="applicationStates[getCurrentApplication().id] == states.READY && !getApplicationBuilt()">
+                    <img class="noMembersImage" src="http://localhost/img/before_release.png">
+                </div>
+                <br><br>
+                    <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY">
+                    </div>
+                <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.BUILDING">Releasing your Application...</div>
+                <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.UPDATING">Your Application is being updated, please wait...</div>
+                <table style="width: 100%;" data-ng-show="getApplicationBuilt()">
+                    <tr>
+                        <td class="formInput formInput20">
+                            <!--PADDING-->
+                        </td>
+                        <td class="formInput formInput20">
+                            <div id="appQRImage"></div>
+                        </td>
+                        <td class="formInput formInput40">
+                            <p class="applicationTitle">Your Application is complete!</p>
+                            <p class="applicationTitle">Scan this QR code to get it.</p>
+                            <p>(Or visit <!--suppress HtmlUnknownTarget -->
+                                <a href="{{qrLink}}">here</a>)</p>
+                        </td>
+                        <td class="formInput formInput20">
+                            <!--PADDING-->
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div style="width: 60%; margin-left: 10%">
-                <!--<PHONE_CODE_START>-->
-                <div id="emulatedCode">
-                    <table class="designAreaEmulator" style="width:100%;">
-                        <tr style="height: 10%;">
-                            <td>
-                                <nav class="navbar navbar-inverse designAreaTopMenu" >
-                                    <div class="container-fluid ">
-                                        <div class="navbar-header">
-                                            <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
+            <!--RELEASE AREA END-->
+        </div>
+        <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
+            <!--EMULATOR START-->
+            <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()" data-ng-show="areaFlags['designArea']">
+                <div class="componentMainTitle">
+                    Preview
+                </div>
+                <div style="width: 60%; margin-left: 10%">
+                    <!--<PHONE CODE START>-->
+                    <div id="emulatedCode">
+                        <table class="designAreaEmulator" style="width:100%;">
+                            <tr style="height: 10%;">
+                                <td>
+                                    <nav class="navbar navbar-inverse designAreaTopMenu" >
+                                        <div class="container-fluid ">
+                                            <div class="navbar-header">
+                                                <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
+                                            </div>
+                                            <ul class="nav navbar-nav navbar-right" >
+                                                <li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
+                                            </ul>
                                         </div>
-                                        <ul class="nav navbar-nav navbar-right" >
-                                            <li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
-                                        </ul>
-                                    </div>
-                                </nav>
-                            </td>
-                        </tr>
-                        <tr style="height: 80%">
-                            <td>
-                                <form class="designAreaPage" data-ng-submit="gotoAppInstance(phoneNumber)" data-ng-show="getShowEmulatorMainPage()">
-                                    <table style="width: 100%">
-                                        <tr>
-                                            <td class="formInput">
-                                                <div class="componentMainTitle">Enter Your Phone Number</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="formInput">
-                                                <input type="text" class="form-control" placeholder="Phone Number" data-ng-model="phoneNumber">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="formInput">
-                                                <input type="submit" value="Enter" class="btn btn-primary btn-block">
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </form>
-                                <div class="designAreaPage" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage()">
-                                    <div style="padding: 1%;" class="componentMainTitle">Behavior</div><hr>
-                                    <div style="padding: 1%;" class="componentMainTitle" data-ng-show="getCurrentApplication().behaviors.length == 0">This Application has no defined behavior.</div>
-                                    <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
-                                </div>
-                                <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
-                                    <div style="padding: 1%;" class="componentMainTitle">{{getCurrentInstance().name}}</div><hr>
-
-                                    <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
-                                        <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index" class="formInput">
-                                            <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attribute_values[$index]" required>
-                                        </div>
-                                        <input type="submit" class="btn btn-primary btn-block" value="Add">
+                                    </nav>
+                                </td>
+                            </tr>
+                            <tr style="height: 80%">
+                                <td>
+                                    <form class="designAreaPage" data-ng-submit="gotoAppInstance(phoneNumber)" data-ng-show="getShowEmulatorMainPage()">
+                                        <table style="width: 100%">
+                                            <tr>
+                                                <td class="formInput">
+                                                    <div class="componentMainTitle">Enter Your Phone Number</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="formInput">
+                                                    <input type="text" class="form-control" placeholder="Phone Number" data-ng-model="phoneNumber" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="formInput">
+                                                    <input type="submit" value="Enter" class="btn btn-primary btn-block">
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </form>
-                                    <hr>
-                                    <table class="table" style="width: 100%">
-                                        <thead>
-                                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                                                {{attr.name}}
-                                            </th>
-                                            <th>
-                                                <!--PADDING-->
-                                            </th>
-                                        </thead>
-                                        <tbody data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
-                                        <tr style="border-bottom: none; border-top: solid thick silver">
-                                            <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
-                                                {{val}}
-                                            </td>
-                                            <td style="width: 10%; border-left: silver thin dashed">
-                                                <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
-                                            </td>
-                                        </tr>
-                                        <tr style="border-top: none">
-                                            <td colspan="{{ ((instance.length) / 2) + 1 }}">
-                                                <select class="form-control" ng-model="chosenAction" ng-options="action as action.name for action in getCurrentInstance().actions">
-                                                    <option value="" selected="selected">Choose Action</option>
-                                                </select>
-                                                <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-show="chosenAction.type === 'Dynamic'" required>
-                                            </td>
-                                            <td colspan="{{ ((instance.length) / 2) }}">
-                                                <input class="btn btn-primary btn-block" type="button" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="height: 10%;">
-                            <td>
-                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
-                                    <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                                    <div class="designAreaPage" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage()">
+                                        <div style="padding: 1%;" class="componentMainTitle">Behavior</div><hr>
+                                        <div style="padding: 1%;" class="componentMainTitle" data-ng-show="getCurrentApplication().behaviors.length == 0">This Application has no defined behavior.</div>
+                                        <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
+                                    </div>
+                                    <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
+                                        <div style="padding: 1%;" class="componentMainTitle">{{getCurrentInstance().name}}</div><hr>
+
+                                        <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
+                                            <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index" class="formInput">
+                                                <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attribute_values[$index]" required>
+                                            </div>
+                                            <input type="submit" class="btn btn-primary btn-block" value="Add">
+                                        </form>
+                                        <hr>
+                                        <table class="table" style="width: 100%">
+                                            <thead>
+                                                <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                                                    {{attr.name}}
+                                                </th>
+                                                <th>
+                                                    <!--PADDING-->
+                                                </th>
+                                            </thead>
+                                            <tbody data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+                                            <tr style="border-bottom: none; border-top: solid thick silver">
+                                                <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
+                                                    {{val}}
+                                                </td>
+                                                <td style="width: 10%; border-left: silver thin dashed">
+                                                    <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
+                                                </td>
+                                            </tr>
+                                            <tr style="border-top: none">
+                                                <td colspan="{{ ((instance.length) / 2) + 1 }}">
+                                                    <select class="form-control" ng-model="chosenAction" ng-options="action as action.name for action in getCurrentInstance().actions">
+                                                        <option value="" selected="selected">Choose Action</option>
+                                                    </select>
+                                                    <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
+                                                </td>
+                                                <td colspan="{{ ((instance.length) / 2) }}">
+                                                    <input class="btn btn-primary btn-block" type="button" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="height: 10%;">
+                                <td>
+                                    <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage() && getCurrentApplication().behaviors.length > 0">
+                                        <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--<PHONE CODE END>-->
                 </div>
-                <!--<PHONE_CODE_END>-->
             </div>
+            <!--EMULATOR END-->
         </div>
     </div>
-</div>
-<div class="panel panel-success container-fluid debug" data-ng-show="DEBUG">
-    <label data-ng-model="message">DEBUG:  {{message}}</label>
-</div>
+    <!--WORK AREA END-->
 </body>
 </html>

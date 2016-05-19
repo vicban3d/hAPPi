@@ -1,6 +1,6 @@
-package Tests.UnitTests;
+package tests.unitTests;
 
-import Logic.User;
+import logic.User;
 import org.bson.Document;
 import org.junit.Test;
 

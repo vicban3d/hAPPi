@@ -1,14 +1,14 @@
-package Tests.UnitTests;
+package tests.unitTests;
 
-import Logic.ApplicationObject;
-import Logic.ObjectAction;
-import Logic.ObjectAttribute;
+import logic.ApplicationObject;
+import logic.ObjectAction;
+import logic.ObjectAttribute;
 import org.bson.Document;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Gila-Ber on 04/05/2016.
@@ -26,8 +26,8 @@ public class ApplicationObjectTest {
 
         // actions
         ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
-        ObjectAction action1 = new ObjectAction("action1", attr1, "Increase By", "1");
-        ObjectAction action2 = new ObjectAction("action2", attr2, "Reduce By", "5");
+        ObjectAction action1 = new ObjectAction("action1", attr1, "Increase By", "Constant Value",  "1");
+        ObjectAction action2 = new ObjectAction("action2", attr2, "Reduce By", "Constant Value", "5");
         actions.add(action1); actions.add(action2);
 
         // create document

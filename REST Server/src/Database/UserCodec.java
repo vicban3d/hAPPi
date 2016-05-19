@@ -1,17 +1,12 @@
-package Database;
+package database;
 
-import Logic.User;
+import logic.User;
 import org.bson.BsonReader;
-import org.bson.BsonType;
 import org.bson.BsonWriter;
-import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.DecoderContext;
 import org.bson.codecs.EncoderContext;
 import org.bson.codecs.configuration.CodecRegistry;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Gila on 25/04/2016.

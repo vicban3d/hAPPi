@@ -49,7 +49,7 @@ main_module.service('designService',[function(){
     };
 
     this.removeInstance = function($scope, idx){
-        if($scope.isNumber(idx))
+        if(isNumber(idx))
             $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);
         else
             alert("Please choose index from the list!");

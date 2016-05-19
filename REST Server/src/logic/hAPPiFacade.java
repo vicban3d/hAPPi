@@ -1,9 +1,10 @@
-package Logic;
+package logic;
 
-import Database.Database;
-import Database.MongoDB;
-import Exceptions.CordovaRuntimeException;
-import Utility.*;
+import database.Database;
+import database.MongoDB;
+import exceptions.CordovaRuntimeException;
+import exceptions.InvalidUserCredentialsException;
+import utility.*;
 import com.dropbox.core.DbxException;
 import org.bson.Document;
 import org.codehaus.jettison.json.JSONArray;
@@ -118,11 +119,11 @@ public class hAPPiFacade implements Facade {
                 "<body data-ng-app=\"main\" data-ng-controller=\"ctrl_main\">\n");
         while ((strLine = reader.readLine()) != null){
 
-            if (strLine.contains("<!--<PHONE_CODE_START>-->")){
+            if (strLine.contains("<!--<PHONE CODE START>-->")){
                 startWriting = true;
                 continue;
             }
-            if (strLine.contains("<!--<PHONE_CODE_END>-->")){
+            if (strLine.contains("<!--<PHONE CODE END>-->")){
                 break;
             }
             if (startWriting){
@@ -223,7 +224,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public String getPage(String page) {
+    public String getPage(String page) throws IOException {
         return FileHandler.readFile(Strings.PATH_WEB_CONTENT + page);
     }
 
@@ -242,7 +243,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(User user) throws InvalidUserCredentialsException {
         database.addUser(user);
         FileHandler.createFolder(Strings.PATH_APPS + "\\" + user.getUsername());
     }
@@ -356,10 +357,10 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public List<Application> login(User user) {
+    public List<Application> login(User user) throws InvalidUserCredentialsException {
         if(!database.isUserExist(user.getUsername()) ||
                 !database.isPasswordRight(user.getUsername(),user.getPassword())){
-            return null;
+            throw new InvalidUserCredentialsException(new Exception("Invalid user credentials!"));
         }
         else {
             return database.getApplicationOfUser(user.getUsername());

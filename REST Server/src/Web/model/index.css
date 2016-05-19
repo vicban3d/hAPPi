@@ -27,7 +27,6 @@ body{
 
 .removeFormFieldsButton{
     text-align: center;
-    background: transparent url("http://localhost/img/minus-icon.png") no-repeat center;
     background-size: contain;
     display: inline-block;
     min-width: 20px;

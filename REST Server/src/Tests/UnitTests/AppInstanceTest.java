@@ -1,6 +1,6 @@
-package Tests.UnitTests;
+package tests.unitTests;
 
-import Logic.AppInstance;
+import logic.AppInstance;
 import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;

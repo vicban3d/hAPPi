@@ -1,4 +1,4 @@
-package Utility;
+package utility;
 
 
 import java.util.GregorianCalendar;
@@ -9,11 +9,15 @@ import java.util.GregorianCalendar;
  */
 public class Logger {
 
+    private static final boolean DEBUG = true;
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger("hAPPi_Logger");
 
     public static void DEBUG(String s){
-        System.out.println("[" + new GregorianCalendar().getTime() + "] DEBUG:");
-        System.out.println(s);
+        if (DEBUG) {
+            System.out.println("[" + new GregorianCalendar().getTime() + "] DEBUG:");
+            System.out.println(s);
+        }
     }
 
     public static void SEVERE(String s){

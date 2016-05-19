@@ -1,4 +1,4 @@
-package Utility;
+package utility;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,15 +18,9 @@ public class FileHandler {
      * @param path - the path to read from.
      * @return - A string containing the content of the read file.
      */
-    public static String readFile(String path)
-    {
+    public static String readFile(String path) throws IOException {
         byte[] encoded;
-        try {
-            encoded = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            Logger.ERROR("Failed to read from file " + path + "!", e);
-            return null;
-        }
+        encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
     }
 

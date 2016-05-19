@@ -1,13 +1,14 @@
-package Logic;
+package logic;
 
 /**
  * Created by victor on 11/10/2015.
  *
  */
 
-import Database.Database;
-import Exceptions.CordovaRuntimeException;
+import database.Database;
+import exceptions.CordovaRuntimeException;
 import com.dropbox.core.DbxException;
+import exceptions.InvalidUserCredentialsException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -64,13 +65,13 @@ public interface Facade {
 
     Database getDataBase();
 
-    String getPage(String page);
+    String getPage(String page) throws IOException;
 
     void updateApplicationObject(String appId, String username, ApplicationObject object);
 
     void updateApplicationBehavior(String appId, String username, ApplicationBehavior behavior);
 
-    void addUser(User user);
+    void addUser(User user) throws InvalidUserCredentialsException;
 
     byte[] getImageAsBytes(String resource);
 
@@ -86,5 +87,5 @@ public interface Facade {
 
     AppInstance getObjectInstance(JSONObject jsonObject);
 
-    List<Application> login(User user);
+    List<Application> login(User user) throws InvalidUserCredentialsException;
 }

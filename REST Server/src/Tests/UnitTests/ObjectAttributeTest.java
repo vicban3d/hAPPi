@@ -1,6 +1,6 @@
-package Tests.UnitTests;
+package tests.unitTests;
 
-import Logic.ObjectAttribute;
+import logic.ObjectAttribute;
 import org.bson.Document;
 import org.junit.Test;
 

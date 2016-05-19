@@ -1,4 +1,4 @@
-package Logic;
+package logic;
 
 import org.bson.Document;
 import org.codehaus.jackson.annotate.JsonCreator;
@@ -6,8 +6,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by victor on 1/13/2016.

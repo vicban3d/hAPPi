@@ -5,8 +5,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         // ----------------------------------------------------------------------Variable Declaration-------------------
 
-        // Shows debug messages on the web page.
-        $scope.DEBUG = true;
         $scope.message = "";
 
         $scope.applications = [];
@@ -38,7 +36,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.basic_types = ["Number", "Text"];
         $scope.andOrOperator = ["Or", "And"];
         $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
-        $scope.operators = ['Increase By', 'Multiply By', 'Reduce By', 'Divide By', 'Change To'];
+        // $scope.numberOperators = ['Increase By', 'Multiply By', 'Reduce By', 'Divide By', 'Change To'];
+        // $scope.textOperators = ['Add Prefix', 'Add Suffix', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Display', 'Product of All', 'Maximum', 'Minimum', 'Average'];
         $scope.actionOperations = ["+", "-", "DONE"];
         $scope.operand_types = ["Fixed Value", "Attribute", "Dynamic"];
@@ -416,8 +415,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         };
 
-        $scope.showObjectEditArea = function($event, object){
-            // $event.stopPropagation();
+        $scope.showObjectEditArea = function(object){
+
             if ($scope.indexToShow != object.id) {
                 $scope.indexToShow = object.id;
                 objectService.currentObject = {
@@ -426,6 +425,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     attributes: copyArray(object.attributes),
                     actions: copyArray(object.actions)
                 };
+                alert($scope.getCurrentObject().attributes.filter(function(a) {return a.type === "Number"}).map(function (b) {return b.name}));
             } else {
                 $scope.indexToShow = -1
             }
@@ -449,6 +449,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             objectService.performObjectAction(actionName, object, instance, dynamicValue);
         };
 
+        $scope.getOperatorListByType = function (type) {
+            return objectService.getOperatorListByType(type);
+        };
+
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 
         var behaviorObjToJSONOBJ = function(behaviorObj){
@@ -467,6 +471,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 jsonObj["action"]["Conditions"] = behaviorObj["Conditions"];
 
             jsonObj["action"]["operator"] = behaviorObj["operator"];
+            jsonObj["action"]["operandType"] = behaviorObj["operandType"];
+            jsonObj["action"]["operand2"] = behaviorObj["operand2"];
             return jsonObj;
         };
 
@@ -729,8 +735,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                         email: ''
                     };
                     var fixedResponse = appsList.replace(/\\'/g, "'");
-                    $scope.applications = JSON.parse(fixedResponse);
-                    for (var i=0; i< $scope.applications.length; i++){
+                    $scope.applications = [];
+                    var temp = JSON.parse(fixedResponse);
+                    for (var i=0; i< temp.length; i++){
+                        $scope.applications.push(JSON.parse(temp[i]));
                         $scope.applicationStates[$scope.applications[i].id] = $scope.states.READY;
                     }
                     if ($scope.applications.length > 0){
@@ -770,10 +778,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 }
             };
         };
-
-        $scope.isNumber = function(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-        };
+        //
+        // $scope.isNumber = function(n) {
+        //     return !isNaN(parseFloat(n)) && isFinite(n);
+        // };
 
         $scope.compare = function(a,b) {
             if (a.name.toLowerCase() < b.name.toLowerCase())

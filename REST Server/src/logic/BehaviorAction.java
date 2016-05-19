@@ -1,4 +1,4 @@
-package Logic;
+package logic;
 
 import org.bson.Document;
 import org.codehaus.jackson.annotate.JsonCreator;

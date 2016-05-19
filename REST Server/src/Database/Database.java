@@ -1,8 +1,9 @@
-package Database;
+package database;
 
-import Logic.AppInstance;
-import Logic.Application;
-import Logic.User;
+import exceptions.InvalidUserCredentialsException;
+import logic.AppInstance;
+import logic.Application;
+import logic.User;
 import com.mongodb.client.MongoDatabase;
 
 import java.io.IOException;
@@ -53,7 +54,7 @@ public interface Database {
 
     /////////////////////// Users //////////////////
 
-    void addUser(User document);
+    void addUser(User document) throws InvalidUserCredentialsException;
 
     User getUser(String username);
 

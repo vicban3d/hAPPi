@@ -1,7 +1,6 @@
-package Database;
+package database;
 
-import Logic.AppInstance;
-import Logic.ApplicationObject;
+import logic.ApplicationObject;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;

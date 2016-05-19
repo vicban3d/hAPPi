@@ -1,19 +1,18 @@
-package Tests.systemTests;
+package tests.systemTests;
 
-import Database.Database;
-import Exceptions.CordovaRuntimeException;
-import Logic.*;
-import Utility.FileHandler;
-import Utility.Strings;
+
+import database.Database;
+import exceptions.CordovaRuntimeException;
+import exceptions.InvalidUserCredentialsException;
+import utility.FileHandler;
+import utility.Strings;
+import logic.*;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +26,7 @@ public class hAPPiFacadeTest {
     Application app ;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException, InvalidUserCredentialsException {
         facade.connectToDatabase();
         // clear the database
         dataBase.clearAll();

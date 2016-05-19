@@ -55,7 +55,7 @@ function sendPOSTRequest(path, data) {
 function copyArray(array){
     var copy = [];
     for (var i=0; i< array.length; i++){
-        copy.push(clone(array[i]));
+            copy.push(clone(array[i]));
     }
     return copy;
 }
@@ -76,4 +76,8 @@ function generateUUID() {
         d = Math.floor(d / 16);
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
+}
+
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }

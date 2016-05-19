@@ -13,13 +13,66 @@ main_module.service('objectService',[function(){
         username: ''
     };
 
+    this.objectOperators = [];
+    this.objectOperators['Increase By'] = {
+            TYPE: "Number",
+        /**
+         * @return {number}
+         */
+        FUNCTION: function(op1, op2){ return parseFloat(op1) + parseFloat(op2); }
+        };
+    this.objectOperators['Multiply By'] = {
+            TYPE: "Number",
+        /**
+         * @return {number}
+         */
+        FUNCTION: function(op1, op2){ return parseFloat(op1) * parseFloat(op2); }
+        };
+    this.objectOperators['Reduce By'] = {
+            TYPE: "Number",
+        /**
+         * @return {number}
+         */
+        FUNCTION: function(op1, op2){ return parseFloat(op1) - parseFloat(op2); }
+        };
+    this.objectOperators['Divide By'] = {
+            TYPE: "Number",
+        /**
+         * @return {number}
+         */
+        FUNCTION: function(op1, op2){ return parseFloat(op1) / parseFloat(op2); }
+        };
+    this.objectOperators['Add Prefix'] = {
+            TYPE: "Text",
+            FUNCTION: function(op1, op2){ return op2 + op1; }
+        };
+    this.objectOperators['Add Suffix'] = {
+            TYPE: "Text",
+            FUNCTION: function(op1, op2){ return op1 + op2; }
+        };
+    this.objectOperators['Change To'] = {
+            TYPE: "Text",
+            FUNCTION: function (op1, op2){ return op2; }
+        };
+
+    this.getOperatorListByType = function (type){
+        var keys = [];
+        for (var key in this.objectOperators) {
+            if (this.objectOperators.hasOwnProperty(key) && this.objectOperators[key].TYPE === type) {
+                keys.push(key);
+            }
+        }
+        return keys;
+    };
+
     this.addNewObject = function(applicationId, username) {
         this.currentObject = {id: '', name: '', attributes: [], actions: [], actionsChain: [], applicationId: applicationId, username: username};
-        this.currentObject.actionsChain.push({name: '', actions: []});
+        // this.currentObject.actionsChain.push({name: '', actions: []});
     };
 
     this.addObject = function(application) {
         this.currentObject.id = generateUUID();
+
         /*this.currentObject.applicationId = application.id;
         this.currentObject.username = username;*/
         addObjectToApplication(application, this.currentObject);
@@ -57,7 +110,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addAction = function(){
-        this.currentObject.actions.push({name: '', operand1: '', operator: '', type: '', operand2: ''});
+        this.currentObject.actions.push({name: '', operand1: '', operator: '', operandType: '', operand2: ''});
     };
 
     this.addActionChain = function(){
@@ -97,22 +150,22 @@ main_module.service('objectService',[function(){
                     for (var i = 0; i < actions.length; i++){
                         var index = object.attributes.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);
                         if(index >= 0)//if its attributes
-                            newInstances.push(parseFloat(instances[index]));
+                            newInstances.push(myParseFloat(instances[index]));
                         else {
                             index = object.actions.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);//exam5 : exam , exam5
                             var index2 = object.attributes.map(function(a) {return a.name;}).indexOf(object.actions[index].operand1.name);
                             if(index2 >= 0){//if its actions
-                                var action = getAction(actions[i].operand.name, object);
-                                newInstances.push(action(parseFloat(instances[index2])));
+                                var action = this.getAction(actions[i].operand.name, object);
+                                newInstances.push(action(instances[index2], object.actions[index].operand2));
                             }
                         }
                     }
                     var sum = newInstances[0];
                     for (i = 0; i < newInstances.length; i++){
                         if(actions[i].operator == '+')
-                            sum += parseFloat(newInstances[i+1]);
+                            sum += myParseFloat(newInstances[i+1]);
                         else if(actions[i].operator == '-')
-                            sum -= parseFloat(newInstances[i+1]);
+                            sum -= myParseFloat(newInstances[i+1]);
                     }
                     return sum;
                 };
@@ -121,38 +174,10 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
-    var getAction = function(actionName, object, operand2){
+    this.getAction = function(actionName, object){
         var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
         var action = object.actions[index].operator;
-        if (operand2 == undefined) {
-            operand2 = parseFloat(object.actions[index].operand2);
-        }
-        if (action == "Increase By") {
-            return function (operand) {
-                return operand + operand2;
-            };
-        }
-        if (action == "Reduce By") {
-            return function (operand) {
-                return operand - operand2;
-            };
-        }
-        if (action == "Multiply By") {
-            return function (operand) {
-                return operand * operand2;
-            };
-        }
-        if (action == "Divide By") {
-            return function (operand) {
-                return operand / operand2;
-            };
-        }
-        if (action == "Change To") {
-            return function () {
-                return operand2;
-            };
-        }
-        return undefined;
+        return this.objectOperators[action].FUNCTION;
     };
 
     this.isValidObject = function($scope, object){
@@ -177,29 +202,39 @@ main_module.service('objectService',[function(){
     this.performObjectAction = function(action, object, instance, dynamicValue){
         var operand2 = undefined;
 
-        if (action.type === "Fixed Value"){
-            operand2 = parseFloat(action.operand2);
+        if (action.operandType === "Fixed Value"){
+            operand2 = action.operand2;
         }
-        if (action.type === "Attribute"){
+        if (action.operandType === "Attribute"){
             for (var j = 0; j < object.attributes.length; j++) {
                 if (object.attributes[j].name === action.operand2.name) {
                     break;
                 }
             }
-            operand2 = parseFloat(instance[j]);
+            operand2 = instance[j];
         }
-        if (action.type === "Dynamic"){
-            operand2 = parseFloat(dynamicValue);
+        if (action.operandType === "Dynamic"){
+            operand2 = dynamicValue;
         }
 
 
-        var actionFunc = getAction(action.name, object, operand2);
-            for (var i = 0; i < object.attributes.length; i++) {
-                if (object.attributes[i].name === action.operand1.name) {
-                    break;
-                }
+        var actionFunc = this.getAction(action.name, object);
+
+        for (var i = 0; i < object.attributes.length; i++) {
+            if (object.attributes[i].name === action.operand1.name) {
+                break;
             }
-        instance[i] = actionFunc(parseFloat(instance[i]));
+        }
+
+        instance[i] = actionFunc(instance[i], operand2);
+    };
+
+    var myParseFloat = function(n){
+        if (isNumber(n)){
+            return parseFloat(n);
+        } else {
+            return n;
+        }
     };
 
 }]);

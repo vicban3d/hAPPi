@@ -1,4 +1,4 @@
-package Logic;
+package logic;
 
 import org.bson.Document;
 import org.codehaus.jackson.annotate.JsonCreator;
@@ -83,7 +83,7 @@ public class ApplicationObject extends Document{
         }
         result += "\tActions:\n";
         for (ObjectAction key : this.actions){
-            result += "\t* " + key.getName() + ": " + key.getOperand1().getName() + " " + key.getOperator() + " " + key.getOperand2() + "\n";
+            result += "\t* " + key.getName() + ": " + key.getOperand1().getName() + " " + key.getOperator() + " " + key.getOperandType() + " " +key.getOperand2() + "\n";
         }
         return result;
     }

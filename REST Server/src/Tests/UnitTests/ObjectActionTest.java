@@ -1,11 +1,11 @@
-package Tests.UnitTests;
+package tests.unitTests;
 
-import Logic.ObjectAction;
-import Logic.ObjectAttribute;
+import logic.ObjectAction;
+import logic.ObjectAttribute;
 import org.bson.Document;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Gila-Ber on 04/05/2016.

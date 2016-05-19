@@ -1,8 +1,9 @@
-package Database;
+package database;
 
-import Logic.*;
-import Utility.Logger;
-import Utility.Strings;
+import exceptions.InvalidUserCredentialsException;
+import logic.*;
+import utility.Logger;
+import utility.Strings;
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
@@ -72,8 +73,11 @@ public class MongoDB implements Database {
     }
 
 
-    public void addUser(User document){
+    public void addUser(User document) throws InvalidUserCredentialsException {
         MongoDatabase db = getMongoDatabase();
+        if (isUserExist(document.getUsername())){
+            throw new InvalidUserCredentialsException(new Exception("Failed to create user!"));
+        }
         getUsersTable().insertOne(document);
     }
 

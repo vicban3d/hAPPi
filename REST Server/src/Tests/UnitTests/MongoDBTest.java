@@ -1,7 +1,8 @@
-package Tests.UnitTests;
+package tests.unitTests;
 
-import Database.MongoDB;
-import Logic.*;
+import database.MongoDB;
+import exceptions.InvalidUserCredentialsException;
+import logic.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class MongoDBTest {
         attributes.add(attr1); attributes.add(attr2);
         // create actions
         ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
-        ObjectAction action = new ObjectAction("action1", attr2, "increase by", "1");
+        ObjectAction action = new ObjectAction("action1", attr2, "increase by", "Constant Value", "1");
         actions.add(action);
         // create object
         ApplicationObject object = new ApplicationObject("objectId", "objectName", attributes, actions);
@@ -85,7 +86,7 @@ public class MongoDBTest {
     }
 
     @Test
-    public void testAddUser() throws Exception {
+    public void testAddUser() throws Exception, InvalidUserCredentialsException {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
         User userFromDB = db.getUser("user1");
@@ -93,7 +94,7 @@ public class MongoDBTest {
     }
 
     @Test
-    public void testGetUser() throws Exception {
+    public void testGetUser() throws Exception, InvalidUserCredentialsException {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
         User userFromDB = db.getUser("user1");
@@ -101,7 +102,7 @@ public class MongoDBTest {
     }
 
     @Test
-    public void testIsUserExistWhenUserReallyExist() throws Exception {
+    public void testIsUserExistWhenUserReallyExist() throws Exception, InvalidUserCredentialsException {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
         assertTrue(db.isUserExist("user1"));
@@ -113,21 +114,21 @@ public class MongoDBTest {
     }
 
     @Test
-    public void testIsPasswordRightWhenItsReallyRight() throws Exception {
+    public void testIsPasswordRightWhenItsReallyRight() throws Exception, InvalidUserCredentialsException {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
         assertTrue(db.isPasswordRight("user1", "pass"));
     }
 
     @Test
-    public void testIsPasswordRightWhenItsWrong() throws Exception {
+    public void testIsPasswordRightWhenItsWrong() throws Exception, InvalidUserCredentialsException {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
         assertFalse(db.isPasswordRight("user1", "wrongPass"));
     }
 
     @Test
-    public void testGetAllApplicationsOfUser() throws Exception {
+    public void testGetAllApplicationsOfUser() throws Exception, InvalidUserCredentialsException {
         User user = new User("user1", "pass", "user1@gmail.com");
         db.addUser(user);
 
