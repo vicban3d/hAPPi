@@ -505,9 +505,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.editBehavior = function(behavior){
-            behaviorService.editBehavior(appService.getCurrentApplication(), behavior);
-            behavior["username"] = $scope.currentUser.username;
-            behavior["applicationId"] = appService.currentApplication.id;
+            behaviorService.editBehavior(appService.getCurrentApplication(), $scope.currentUser.username, behavior);
+            // behavior["username"] = $scope.currentUser.username;
+            // behavior["applicationId"] = appService.currentApplication.id;
             var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_BEHAVIOR, angular.toJson(jsonObj)));
             $scope.indexToShow = -1;
@@ -519,8 +519,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getBehaviorAction = function(object, actionName, conditions){return behaviorService.getBehaviorAction($scope, object, actionName, conditions);};
 
-        $scope.showBehaviorEditArea = function($event, behavior){
-            $event.stopPropagation();
+        $scope.showBehaviorEditArea = function(behavior){
             if ($scope.indexToShow != behavior.id) {
                 $scope.indexToShow = behavior.id;
                 behaviorService.currentBehavior = {

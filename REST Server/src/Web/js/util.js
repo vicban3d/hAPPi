@@ -53,6 +53,9 @@ function sendPOSTRequest(path, data) {
 // }
 
 function copyArray(array){
+    if (array == undefined){
+        return [];
+    }
     var copy = [];
     for (var i=0; i< array.length; i++){
             copy.push(clone(array[i]));

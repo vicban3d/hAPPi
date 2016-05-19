@@ -36,8 +36,11 @@ main_module.service('behaviorService',[function(){
         addBehaviorToApplication(application, this.currentBehavior);
     };
 
-    this.editBehavior = function(application, behavior){
+    this.editBehavior = function(application, username, behavior){
         removeBehaviorFromApplication(application, behavior.name);
+        this.currentBehavior.id = behavior.id;
+        this.currentBehavior.applicationId = application.id;
+        this.currentBehavior.username = username;
         addBehaviorToApplication(application, this.currentBehavior);
     };
 

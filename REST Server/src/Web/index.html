@@ -656,7 +656,7 @@
                                         <input type="button" value="Delete" class="btn btn-danger btn-app-list" data-ng-click="deleteBehavior(behavior)">
                                     </td>
                                     <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                        <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showBehaviorEditArea($event, behavior)">
+                                        <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-click="showBehaviorEditArea(behavior)">
                                     </td>
                                 </tr>
                             </table>
@@ -901,12 +901,23 @@
                                 <td>
                                     <nav class="navbar navbar-inverse designAreaTopMenu" >
                                         <div class="container-fluid ">
-                                            <div class="navbar-header">
-                                                <a class="navbar-brand" href="#" data-ng-click="designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
-                                            </div>
-                                            <ul class="nav navbar-nav navbar-right" >
-                                                <li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>
-                                            </ul>
+                                            <table>
+                                                <tr>
+                                                    <td class="formInput formInput20">
+                                                        <div class="navbar-header">
+                                                            <a class="navbar-brand" href="#" data-ng-click="chosenObject=undefined;designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
+                                                        </div>
+                                                    </td>
+                                            <!--<ul class="nav navbar-nav navbar-right" >-->
+                                                <!--<li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>-->
+                                            <!--</ul>-->
+                                                    <td class="formInput formInput80">
+                                                        <select class="form-control" ng-model="chosenObject" ng-options="chosenObject as chosenObject.name for chosenObject in getCurrentApplication().objects" ng-change="designDisplayObjectPage(chosenObject)" data-ng-show="getCurrentApplication().objects.length > 0">
+                                                            <option value="" select="selected">Behavior</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </nav>
                                 </td>
@@ -932,12 +943,12 @@
                                             </tr>
                                         </table>
                                     </form>
-                                    <div class="designAreaPage" data-ng-show="!getShowAddInstance() && !getShowEmulatorMainPage()">
+                                    <div class="designAreaPage" data-ng-show="!getShowEmulatorMainPage() && (!getShowAddInstance()|| chosenObject == undefined)">
                                         <div style="padding: 1%;" class="componentMainTitle">Behavior</div><hr>
                                         <div style="padding: 1%;" class="componentMainTitle" data-ng-show="getCurrentApplication().behaviors.length == 0">This Application has no defined behavior.</div>
                                         <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                                     </div>
-                                    <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage()" data-ng-init="attribute_values=[]">
+                                    <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage() && chosenObject != undefined" data-ng-init="attribute_values=[]">
                                         <div style="padding: 1%;" class="componentMainTitle">{{getCurrentInstance().name}}</div><hr>
 
                                         <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
