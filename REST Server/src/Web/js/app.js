@@ -425,7 +425,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     attributes: copyArray(object.attributes),
                     actions: copyArray(object.actions)
                 };
-                alert($scope.getCurrentObject().attributes.filter(function(a) {return a.type === "Number"}).map(function (b) {return b.name}));
             } else {
                 $scope.indexToShow = -1
             }

@@ -7,6 +7,6 @@ import utility.Logger;
  */
 public class InvalidUserCredentialsException extends Throwable {
     public InvalidUserCredentialsException(Exception e) {
-        Logger.ERROR("Failed to run Cordova command!", e);
+        Logger.ERROR("Invalid user credentials!", e);
     }
 }

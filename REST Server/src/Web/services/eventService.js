@@ -36,9 +36,6 @@ main_module.service('eventService',[function(){
     };
 
     var addEventToApplication = function(application, event){
-        alert(application.name);
-        alert(application.behaviors);
-        alert(application.events);
         application.events.push(event);
     };
 
