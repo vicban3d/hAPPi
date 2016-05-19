@@ -1,6 +1,6 @@
-package Utility;
+package utility;
 
-import Exceptions.CordovaRuntimeException;
+import exceptions.CordovaRuntimeException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
