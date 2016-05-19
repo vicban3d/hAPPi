@@ -126,9 +126,9 @@ main_module.controller('ctrl_main', ['$scope',
         };
 
         $scope.getObjectAction = function(actionChainName, object){
-            for (var i = 0; i < object.actionsChain.length; i++){
-                if(object.actionsChain[i].name == actionChainName){
-                    var actions = object.actionsChain[i].actions;
+            for (var i = 0; i < object.actionChains.length; i++){
+                if(object.actionChains[i].name == actionChainName){
+                    var actions = object.actionChains[i].actions;
                     return function (instances){
                         var newInstances = [];
                         if(actions.length == 0)

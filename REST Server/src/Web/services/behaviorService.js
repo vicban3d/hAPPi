@@ -70,8 +70,8 @@ main_module.service('behaviorService',[function(){
         var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand.name);
         var result = 0;
         if (index < 0){//not an attribute
-            var actionChainIndex = object.actionsChain.map(function(a) {return a.name;}).indexOf(operand.name);
-            var actionChainName = object.actionsChain[actionChainIndex].name;
+            var actionChainIndex = object.actionChains.map(function(a) {return a.name;}).indexOf(operand.name);
+            var actionChainName = object.actionChains[actionChainIndex].name;
             var action = $scope.getObjectAction(actionChainName, object);
             if (action == undefined){
                 return undefined;

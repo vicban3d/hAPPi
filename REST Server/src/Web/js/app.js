@@ -39,7 +39,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // $scope.numberOperators = ['Increase By', 'Multiply By', 'Reduce By', 'Divide By', 'Change To'];
         // $scope.textOperators = ['Add Prefix', 'Add Suffix', 'Change To'];
         $scope.behaviorOperators = ['Sum of All', 'Display', 'Product of All', 'Maximum', 'Minimum', 'Average'];
-        $scope.actionOperations = ["+", "-", "DONE"];
+        $scope.actionOperations = ["+", "-"];
         $scope.operand_types = ["Fixed Value", "Attribute", "Dynamic"];
 
         $scope.instances = [];
@@ -47,6 +47,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.attribute_values = [];
         $scope.showNoObjectMembersImage = true;
         $scope.showNoBehaviorMembersImage = true;
+        
+        $scope.isLastActionChainLink = function(chainIndex, index){
+            return objectService.isLastActionChainLink(chainIndex, index)
+        };
 
         // Preload phone images
         var images = [];
@@ -373,6 +377,14 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.removeAction = function($index){ objectService.removeAction($index); };
 
         $scope.removeActionChain = function($index){ objectService.removeActionChain($index); };
+
+        $scope.addActionChainLink = function(index){
+            objectService.addActionChainLink(index);
+        };
+
+        $scope.removeActionChainLink = function(chainIndex, linkIndex){
+            objectService.removeActionChainLink(chainIndex, linkIndex);
+        };
 
         $scope.checkDisabled = function(){
             return objectService.checkDisabled();

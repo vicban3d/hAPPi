@@ -1,3 +1,4 @@
+<!--suppress HtmlFormInputWithoutLabel -->
 <html>
 <head>
     <title>hAPPi - Human - Application Interpreter</title>
@@ -312,7 +313,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div class="addFormFieldsButton"  data-ng-click="addAttribute()"></div>
+                            <div class="addFormFieldsButton"  data-ng-click="addAttribute()"></div> Add Attribute
                         </div>
                         <p>Actions:</p>
                         <div class="form-group">
@@ -372,32 +373,55 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div class="addFormFieldsButton" data-ng-click="addAction()"></div>
+                            <div class="addFormFieldsButton" data-ng-click="addAction()"></div> Add Action
                         </div>
                         <div class="form-group">
-                            <p>Actions Chain:</p>
-                            <div class="form-group" style="width: 25%">
-                                <input data-ng-model="actionChain.name" class="form-control" placeholder="Enter Action Chain Name">
-                            </div>
-                            <div data-ng-repeat="action in getCurrentObject().actionsChain[0].actions track by $index">
-                                <table>
+                            <p>Actions Chains:</p>
+                            <div data-ng-repeat="actionChain in getCurrentObject().actionChains track by $index">
+                                <table style="width: 100%">
                                     <tr>
-                                        <td style="width:15%; padding: 1%">
-                                            <select class="form-control" ng-model="action.operand" ng-options="i.name for i in getCurrentObject().actions.concat(getCurrentObject().attributes)"></select>
+                                        <td class="formInput formInput30" colspan="2">
+                                            <div class="form-group">
+                                                <input data-ng-model="actionChain.name" class="form-control" placeholder="Enter Action Chain Name" required>
+                                            </div>
                                         </td>
-                                        <td style="width:15%; padding: 1%">
-                                            <select class="form-control" ng-model="action.operator" ng-options="i for i in actionOperations"></select>
+                                        <td class="formInput formInput10">
+                                            <div class="removeFormFieldsButton" data-ng-click="removeActionChain($index)"></div>
                                         </td>
-                                        <td style="width:10%; padding: 1%">
-                                        <div class="removeFormFieldsButton" data-ng-click="removeActionChain($index)"></div>
-                                        </td>
-                                        <td style="width:60%; padding: 1%;">
+                                        <td class="formInput formInput15">
                                             <!--PADDING-->
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            Chain Links:
+                                        </td>
+                                    </tr>
+                                    <tr data-ng-repeat="chainLink in actionChain.actions track by $index">
+                                        <td class="formInput formInput15">
+                                            <select class="form-control" ng-model="chainLink.operand" ng-options="i.name for i in getCurrentObject().actions.concat(getCurrentObject().attributes)" required>
+                                                <option value="" select="selected">Choose Operand</option>
+                                            </select>
+                                        </td>
+                                        <td class="formInput formInput15">
+                                            <select class="form-control" ng-model="chainLink.operator" ng-options="i for i in actionOperations.concat(isLastActionChainLink($parent.$index, $index))" required>
+                                                <option value="" select="selected">Choose Action</option>
+                                            </select>
+                                        </td>
+                                        <td class="formInput formInput10">
+                                            <div class="removeFormFieldsButton" data-ng-click="removeActionChainLink($parent.$index, $index)"></div>
+                                        </td>
+                                    </tr>
                                 </table>
+                                <div data-ng-hide="checkDisabled()">
+                                    <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div>
+                                    Add Link
+                                </div>
+                                <hr>
+                                <hr>
                             </div>
-                            <input type="button" class="addFormFieldsButton" data-ng-disabled="checkDisabled()" data-ng-click="addActionChain()">
+                            <div class="addFormFieldsButton" data-ng-click="addActionChain()"></div> Add Chain
+                            <hr>
                         </div>
                     </form>
                 </div>
@@ -475,9 +499,6 @@
                                                 <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
                                             </td>
                                             <td class="formInput formInput20">
-                                                {{action.operand1.name}}
-                                                {{object.actions[$index].operand1.name}}
-                                                {{object.actions[$index].operand1.name == o.operand1.name}}
                                                 <select class="form-control" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
                                                     <option value="" selected="selected">Choose Attribute</option>
                                                 </select>
@@ -509,7 +530,7 @@
                                             </td>
 
                                             <td class="formInput formInput15" data-ng-show="action.operandType === 'Attribute'">
-                                                <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes.filter(function(a) {return a.type === action.operand1.type})" data-ng-disabled="action.operandType !== 'Attribute'" required>
+                                                <select class="form-control" ng-model="action.operand2" ng-options="i.name for i in getCurrentObject().attributes" data-ng-disabled="action.operandType !== 'Attribute'" required>
                                                     <option value="" selected="selected">Choose Attribute</option>
                                                 </select>
                                             </td>
@@ -584,7 +605,7 @@
                                         </select>
                                     </td>
                                     <td class="formInput formInput20">
-                                        <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
+                                        <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionChains)" required>
                                             <option value="" selected="selected">Choose Operand</option>
                                         </select>
                                     </td>
@@ -696,7 +717,7 @@
                                     <table style="width:100%;">
                                         <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
                                             <td class="formInput formInput20">
-                                                <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionsChain)" required>
+                                                <select class="form-control" ng-model="condition.attribute" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionChains)" required>
                                                     <option value="" selected="selected">Choose Attribute</option>
                                                 </select>
                                             </td>
@@ -926,37 +947,40 @@
                                             <input type="submit" class="btn btn-primary btn-block" value="Add">
                                         </form>
                                         <hr>
-                                        <table class="table" style="width: 100%">
-                                            <thead>
-                                                <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                                                    {{attr.name}}
-                                                </th>
-                                                <th>
-                                                    <!--PADDING-->
-                                                </th>
-                                            </thead>
-                                            <tbody data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
-                                            <tr style="border-bottom: none; border-top: solid thick silver">
-                                                <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
-                                                    {{val}}
-                                                </td>
-                                                <td style="width: 10%; border-left: silver thin dashed">
-                                                    <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
-                                                </td>
-                                            </tr>
-                                            <tr style="border-top: none">
-                                                <td colspan="{{ ((instance.length) / 2) + 1 }}">
-                                                    <select class="form-control" ng-model="chosenAction" ng-options="action as action.name for action in getCurrentInstance().actions">
-                                                        <option value="" selected="selected">Choose Action</option>
-                                                    </select>
-                                                    <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
-                                                </td>
-                                                <td colspan="{{ ((instance.length) / 2) }}">
-                                                    <input class="btn btn-primary btn-block" type="button" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <form>
+                                            <table class="table" style="width: 100%">
+                                                <thead>
+                                                    <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                                                        {{attr.name}}
+                                                    </th>
+                                                    <th>
+                                                        <!--PADDING-->
+                                                    </th>
+                                                </thead>
+                                                <tbody data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+
+                                                    <tr style="border-bottom: none; border-top: solid thick silver">
+                                                        <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
+                                                            {{val}}
+                                                        </td>
+                                                        <td style="width: 10%; border-left: silver thin dashed">
+                                                            <div class="removeFormFieldsButton" data-ng-click="removeInstance($index)"></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-top: none">
+                                                        <td colspan="{{ ((instance.length) / 2) + 1 }}">
+                                                            <select class="form-control" ng-model="chosenAction" ng-options="action as action.name for action in getCurrentInstance().actions">
+                                                                <option value="" selected="selected">Choose Action</option>
+                                                            </select>
+                                                            <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
+                                                        </td>
+                                                        <td colspan="{{ ((instance.length) / 2) }}">
+                                                            <input class="btn btn-primary btn-block" type="submit" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

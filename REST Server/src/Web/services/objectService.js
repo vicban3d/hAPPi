@@ -8,7 +8,7 @@ main_module.service('objectService',[function(){
         name: '',
         attributes: [],
         actions: [],
-        actionsChain: [],
+        actionChains: [],
         applicationId: '',
         username: ''
     };
@@ -66,8 +66,8 @@ main_module.service('objectService',[function(){
     };
 
     this.addNewObject = function(applicationId, username) {
-        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionsChain: [], applicationId: applicationId, username: username};
-        // this.currentObject.actionsChain.push({name: '', actions: []});
+        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionChains: [], applicationId: applicationId, username: username};
+        // this.currentObject.actionChains.push({name: '', actions: []});
     };
 
     this.addObject = function(application) {
@@ -86,7 +86,7 @@ main_module.service('objectService',[function(){
 
     this.deleteObject = function(application, object){
        removeObjectFromApplication(application, object.name);
-        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionsChain: [], applicationId: '', username: ''};
+        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionChains: [], applicationId: '', username: ''};
     };
 
     var addObjectToApplication = function(application, object){
@@ -114,24 +114,40 @@ main_module.service('objectService',[function(){
     };
 
     this.addActionChain = function(){
-        this.currentObject.actionsChain[0].actions.push({operand: '', operator: ''});
+        this.currentObject.actionChains.push({name: "", actions: []});
     };
 
-    this.removeAction = function($index){
-        this.currentObject.actions.splice($index, 1);
+    this.addActionChainLink = function(index){
+        this.currentObject.actionChains[index].actions.push({operand: "", operator: ""});
     };
 
-    this.removeActionChain = function($index){
-        this.currentObject.actionsChain.actions.splice($index, 1);
+    this.isLastActionChainLink = function(chainIndex, index){
+        if (index == this.currentObject.actionChains[chainIndex].actions.length - 1){
+            return ["DONE"];
+        } else {
+            return [];
+        }
+    };
+
+    this.removeAction = function(index){
+        this.currentObject.actions.splice(index, 1);
+    };
+
+    this.removeActionChain = function(index){
+        this.currentObject.actionChains.splice(index, 1);
+    };
+
+    this.removeActionChainLink = function(chainIndex, linkIndex){
+        this.currentObject.actionChains[chainIndex].actions.splice(linkIndex, 1);
     };
 
     this.checkDisabled = function(){
         if (
-            this.currentObject.actionsChain != undefined &&
-            this.currentObject.actionsChain[0] != undefined &&
-            this.currentObject.actionsChain[0].actions.length > 0 &&
-            this.currentObject.actionsChain[0].actions[
-                this.currentObject.actionsChain[0].actions.length - 1
+            this.currentObject.actionChains != undefined &&
+            this.currentObject.actionChains[0] != undefined &&
+            this.currentObject.actionChains[0].actions.length > 0 &&
+            this.currentObject.actionChains[0].actions[
+                this.currentObject.actionChains[0].actions.length - 1
                 ].operator == 'DONE') {
 
             return true;
@@ -140,9 +156,9 @@ main_module.service('objectService',[function(){
     };
 
     this.getObjectAction = function(actionChainName, object){
-        for (var i = 0; i < object.actionsChain.length; i++){
-            if(object.actionsChain[i].name == actionChainName){
-                var actions = object.actionsChain[i].actions;
+        for (var i = 0; i < object.actionChains.length; i++){
+            if(object.actionChains[i].name == actionChainName){
+                var actions = object.actionChains[i].actions;
                 return function (instances){
                     var newInstances = [];
                     if(actions.length == 0)
