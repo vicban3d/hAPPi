@@ -49,7 +49,9 @@ public class Condition extends Document {
     }
 
     public void setAttribute(ObjectAttribute attribute) {
+
         this.attribute = attribute;
+        this.put("attribute", attribute);
     }
 
     public String getLogicOperation() {
@@ -58,6 +60,7 @@ public class Condition extends Document {
 
     public void setLogicOperation(String logicOperation) {
         this.logicOperation = logicOperation;
+        this.put("logicOperation", logicOperation);
     }
 
     public String getValue() {
@@ -66,5 +69,7 @@ public class Condition extends Document {
 
     public void setValue(String value) {
         this.value = value;
+        this.put("value", value);
     }
+
 }

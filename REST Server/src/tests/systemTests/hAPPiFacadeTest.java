@@ -153,8 +153,6 @@ public class hAPPiFacadeTest {
         assertTrue(appNotExist);
     }
 
-    // TODO - from here i need to add to ADD file
-
     @Test
     public void testUpdateNotExistApplication () {
         boolean appNotExist = false;
@@ -420,43 +418,9 @@ public class hAPPiFacadeTest {
 
     @Test
     public void testBuildApplication() throws Exception {
-        //TODO
-    }
-
-    @Test
-    public void testConnectToDatabase() throws Exception {
-        //TODO
-    }
-
-    @Test
-    public void testGetDataBase() throws Exception {
-        //TODO
-    }
-
-    @Test
-    public void testGetPage() throws Exception {
-        //TODO
-    }
-
-    @Test
-    public void testGetImageAsBytes() throws Exception {
-        //TODO
-    }
-
-
-    @Test
-    public void testCreateEvent() throws Exception {
-        //TODO - only DB
-    }
-
-    @Test
-    public void testRemoveEvent() throws Exception {
-        //TODO - only DB changed
-    }
-
-    @Test
-    public void testUpdateApplicationEvent() throws Exception {
-        //TODO - only DB changed
+        facade.createApplication(app);
+        facade.buildApplication(app.getId(), app.getUsername());
+        assertTrue(FileHandler.isFileExist(Strings.PATH_APPS + "/" + app.getUsername() + "/" +app.getName() + "/platforms/android/build/outputs/apk/android-debug.apk"));
     }
 
     private JSONObject createJsonObjFromAppInstance(String id2, String app_id2, int value) throws JSONException {
