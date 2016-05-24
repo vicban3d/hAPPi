@@ -476,10 +476,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             jsonObj["action"] = {};
             jsonObj["action"]["operandObject"] = behaviorObj["operandObject"];
             jsonObj["action"]["operandAttribute"] = behaviorObj["operandAttribute"]["name"];
-            if (behaviorObj["Conditions"]===undefined)
-                jsonObj["action"]["Conditions"]=[];
+            if (behaviorObj["conditions"]===undefined)
+                jsonObj["action"]["conditions"]=[];
             else
-                jsonObj["action"]["Conditions"] = behaviorObj["Conditions"];
+                jsonObj["action"]["conditions"] = behaviorObj["conditions"];
 
             jsonObj["action"]["operator"] = behaviorObj["operator"];
             jsonObj["action"]["operandType"] = behaviorObj["operandType"];
@@ -489,7 +489,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addBehavior = function(){
             behaviorService.addBehavior(appService.getCurrentApplication(), $scope.currentUser.username);
-
             var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
 
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_BEHAVIOR, angular.toJson(jsonObj)));
@@ -553,8 +552,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             $scope.showNoBehaviorMembersImage = !$scope.showNoBehaviorMembersImage;
             $scope.toggleArea("behaviorCreateArea");
         };
-
-        $scope.addNewCondition = function(){behaviorService.addNewCondition();};
 
         $scope.deleteBehavior = function(behavior){
             behaviorService.deleteBehavior(appService.currentApplication, behavior);
