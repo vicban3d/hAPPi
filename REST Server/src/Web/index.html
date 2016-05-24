@@ -396,10 +396,29 @@
                                     </tr>
                                     <tr data-ng-repeat="chainLink in actionChain.actions track by $index">
                                         <td class="formInput formInput15">
-                                            <select class="form-control" ng-model="chainLink.operand" ng-options="i.name for i in getCurrentObject().actions.concat(getCurrentObject().attributes)" required>
+                                            <select class="form-control" ng-model="chainOperandType" required>
+                                                <option value="" select="selected">Choose Operand Type</option>
+                                                <option value="attribute" select="selected">Attribute</option>
+                                                <option value="action" select="selected">Action</option>
+                                            </select>
+                                        </td>
+
+                                        <td class="formInput formInput15" data-ng-show="chainOperandType==='attribute'">
+                                            <select class="form-control" ng-model="chainLink.operandAttribute" ng-options="i.name for i in getCurrentObject().attributes" data-ng-disabled="chainOperandType != 'attribute'" required>
                                                 <option value="" select="selected">Choose Operand</option>
                                             </select>
                                         </td>
+                                        <td class="formInput formInput15" data-ng-show="chainOperandType==='action'">
+                                            <select class="form-control" ng-model="chainLink.operandAction" ng-options="i.name for i in getCurrentObject().actions" data-ng-disabled="chainOperandType != 'action'" required>
+                                                <option value="" select="selected">Choose Operand</option>
+                                            </select>
+                                        </td>
+                                        <td class="formInput formInput15" data-ng-show= "chainOperandType!=='action' && chainOperandType!=='attribute'">
+                                            <select class="form-control" ng-options="i.name for i in getCurrentObject().actions" disabled required>
+                                                <option value="" select="selected">Choose Operand</option>
+                                            </select>
+                                        </td>
+
                                         <td class="formInput formInput15">
                                             <select class="form-control" ng-model="chainLink.operator" ng-options="i for i in actionOperations.concat(isLastActionChainLink($parent.$index, $index))" required>
                                                 <option value="" select="selected">Choose Action</option>

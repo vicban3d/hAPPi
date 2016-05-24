@@ -31,22 +31,27 @@ public class ApplicationObject extends Document{
     private List<ObjectAttribute> attributes;
     @XmlElement(required = true)
     private List<ObjectAction> actions;
+    @XmlElement(required = true)
+    private List<ObjectActionChain> actionChains;
 
     @JsonCreator
     public ApplicationObject(@JsonProperty("id") String id,
                              @JsonProperty("name") String name,
                              @JsonProperty("attributes") List<ObjectAttribute> attributes,
-                             @JsonProperty("actions") List<ObjectAction> actions) {
+                             @JsonProperty("actions") List<ObjectAction> actions,
+                             @JsonProperty("actionChains") List<ObjectActionChain> actionsChain) {
 
         super();
         this.append("id",id);
         this.append("name", name);
         this.append("attributes", attributes);
         this.append("actions", actions);
+        this.append("actionChains", actionsChain);
         this.id = id;
         this.name = name;
         this.attributes = attributes;
         this.actions = actions;
+        this.actionChains = actionsChain;
     }
 
     public String getName() {
@@ -65,12 +70,16 @@ public class ApplicationObject extends Document{
         this.attributes = attributes;
     }
 
-    public List<ObjectAction> getActions() {
-        return actions;
-    }
+    public List<ObjectAction> getActions() { return actions;}
 
     public void setActions(ArrayList<ObjectAction> actions) {
         this.actions = actions;
+    }
+
+    public List<ObjectActionChain> getActionsChain() { return actionChains; }
+
+    public void setActionsChain(ArrayList<ObjectActionChain> actionChains) {
+        this.actionChains = actionChains;
     }
 
     public String toString(){
@@ -83,7 +92,11 @@ public class ApplicationObject extends Document{
         }
         result += "\tActions:\n";
         for (ObjectAction key : this.actions){
-            result += "\t* " + key.getName() + ": " + key.getOperand1().getName() + " " + key.getOperator() + " " + key.getOperandType() + " " +key.getOperand2() + "\n";
+            result += "\t* " + key.getName() + ": " + key.getOperand1().getName() + " " + key.getOperator() + " " + key.getOperand2() + "\n";
+        }
+        result += "\tactionChains:\n";
+        for (ObjectActionChain key : this.actionChains){
+            result += "\t* " + key.getName() + ": " + key.getActionsChain().toString() + " " + "\n";
         }
         return result;
     }
@@ -98,8 +111,8 @@ public class ApplicationObject extends Document{
     }
 
     public static ApplicationObject fromDocument(Document data){
-
-        return new ApplicationObject(data.getString("id"), data.getString("name"), (ArrayList<ObjectAttribute>) data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"));
+        return new ApplicationObject(data.getString("id"), data.getString("name"), (ArrayList<ObjectAttribute>) data.get("attributes"), (ArrayList<ObjectAction>)data.get("actions"),
+                (ArrayList<ObjectActionChain>)data.get("actionChains"));
     }
 }
 

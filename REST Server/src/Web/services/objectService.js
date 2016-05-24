@@ -72,7 +72,6 @@ main_module.service('objectService',[function(){
 
     this.addObject = function(application) {
         this.currentObject.id = generateUUID();
-
         /*this.currentObject.applicationId = application.id;
         this.currentObject.username = username;*/
         addObjectToApplication(application, this.currentObject);
@@ -118,7 +117,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addActionChainLink = function(index){
-        this.currentObject.actionChains[index].actions.push({operand: "", operator: ""});
+        this.currentObject.actionChains[index].actions.push({operandAttribute: "", operandAction: "", operator: ""});
     };
 
     this.isLastActionChainLink = function(chainIndex, index){
@@ -155,6 +154,44 @@ main_module.service('objectService',[function(){
         return false;
     };
 
+ /*   var getAction = function(actionName, object){
+        var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
+        var action = object.actions[index].operator;
+        return this.objectOperators[action].FUNCTION;
+    };*/
+
+    var getAction = function(actionName, object){
+        var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
+        var action = object.actions[index].operator;
+        var operand2 = parseFloat(object.actions[index].operand2);
+        if (action == "Increase By") {
+            return function (operand) {
+                return operand + operand2;
+            };
+        }
+        if (action == "Reduce By") {
+            return function (operand) {
+                return operand - operand2;
+            };
+        }
+        if (action == "Multiply By") {
+            return function (operand) {
+                return operand * operand2;
+            };
+        }
+        if (action == "Divide By") {
+            return function (operand) {
+                return operand / operand2;
+            };
+        }
+        if (action == "Change To") {
+            return function () {
+                return operand2;
+            };
+        }
+        return undefined;
+    };
+
     this.getObjectAction = function(actionChainName, object){
         for (var i = 0; i < object.actionChains.length; i++){
             if(object.actionChains[i].name == actionChainName){
@@ -164,14 +201,14 @@ main_module.service('objectService',[function(){
                     if(actions.length == 0)
                         return 0;
                     for (var i = 0; i < actions.length; i++){
-                        var index = object.attributes.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);
-                        if(index >= 0)//if its attributes
+                        if(actions[i].operandAttribute != undefined){//if its attributes
+                            var index = object.attributes.map(function(a) {return a.name;}).indexOf(actions[i].operandAttribute.name);
                             newInstances.push(myParseFloat(instances[index]));
+                    }
                         else {
-                            index = object.actions.map(function(a) {return a.name;}).indexOf(actions[i].operand.name);//exam5 : exam , exam5
                             var index2 = object.attributes.map(function(a) {return a.name;}).indexOf(object.actions[index].operand1.name);
                             if(index2 >= 0){//if its actions
-                                var action = this.getAction(actions[i].operand.name, object);
+                                var action = getAction(actions[i].operandAction.name, object);
                                 newInstances.push(action(instances[index2], object.actions[index].operand2));
                             }
                         }
@@ -188,12 +225,6 @@ main_module.service('objectService',[function(){
             }
         }
         return undefined;
-    };
-
-    this.getAction = function(actionName, object){
-        var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
-        var action = object.actions[index].operator;
-        return this.objectOperators[action].FUNCTION;
     };
 
     this.isValidObject = function($scope, object){
@@ -234,7 +265,7 @@ main_module.service('objectService',[function(){
         }
 
 
-        var actionFunc = this.getAction(action.name, object);
+        var actionFunc = getAction(action.name, object);
 
         for (var i = 0; i < object.attributes.length; i++) {
             if (object.attributes[i].name === action.operand1.name) {

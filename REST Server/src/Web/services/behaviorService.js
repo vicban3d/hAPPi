@@ -220,7 +220,7 @@ main_module.service('behaviorService',[function(){
                         else
                             initial += action(instances[i]) + ", ";
                     }
-                    initial.substring(0,initial.length - 3);
+                    initial = initial.substring(0,initial.length - 2);
                     return initial;
                 };
                 return getAccumulatedValue($scope, object, operand, "", accumulatorFunction);

@@ -44,8 +44,17 @@ public class MongoDBTest {
         ArrayList<ObjectAction> actions = new ArrayList<ObjectAction>();
         ObjectAction action = new ObjectAction("action1", attr2, "increase by", "Constant Value", "1");
         actions.add(action);
+        // create actionsChain
+        ActionChain actionChain1 = new ActionChain(attr1,null,"+");
+        ActionChain actionChain2 = new ActionChain(null,action,"DONE");
+        ArrayList<ActionChain> actionsChain = new ArrayList<ActionChain>();
+        actionsChain.add(actionChain1);
+        actionsChain.add(actionChain2);
+        ObjectActionChain objectActionChain = new ObjectActionChain("actionChain",actionsChain);
+        ArrayList<ObjectActionChain> objectActionsChain = new ArrayList<ObjectActionChain>();
+        objectActionsChain.add(objectActionChain );
         // create object
-        ApplicationObject object = new ApplicationObject("objectId", "objectName", attributes, actions);
+        ApplicationObject object = new ApplicationObject("objectId", "objectName", attributes, actions, objectActionsChain);
         objects.add(object);
         application.setObjects(objects);
 

@@ -26,7 +26,7 @@ public class ApplicationTest {
 
     @Test
     public void testAddObject() throws Exception {
-        ApplicationObject obj = new ApplicationObject("objId", "objName", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>());
+        ApplicationObject obj = new ApplicationObject("objId", "objName", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>(), new ArrayList<ObjectActionChain>());
         app.addObject(obj);
         assertTrue(app.getObjects().size() == 1);
         assertEquals(app.getObjects().get(0), obj);
@@ -43,7 +43,7 @@ public class ApplicationTest {
     @Test
     public void testAddEvent() throws Exception {
         ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>());
+        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
         ApplicationEvent event = new ApplicationEvent("eventId", "eventName", obj, attr, "Less Than", "1");
         app.addEvent(event);
         assertTrue(app.getEvents().size() == 1);
@@ -52,7 +52,7 @@ public class ApplicationTest {
 
     @Test
     public void testRemoveObject() throws Exception {
-        ApplicationObject obj = new ApplicationObject("objId", "objName", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>());
+        ApplicationObject obj = new ApplicationObject("objId", "objName", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
         app.addObject(obj);
         assertTrue(app.getObjects().size() == 1);
         app.removeObject(obj);
@@ -61,7 +61,7 @@ public class ApplicationTest {
 
     @Test
     public void testUpdateObject() throws Exception {
-        ApplicationObject obj = new ApplicationObject("objId", "objName", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>());
+        ApplicationObject obj = new ApplicationObject("objId", "objName", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
         app.addObject(obj);
         ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
         ArrayList<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
@@ -90,7 +90,7 @@ public class ApplicationTest {
         behavior.setName("newBehaviorName");
 
         ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>());
+        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
         BehaviorAction action = new BehaviorAction(obj, attr, new ArrayList<Condition>(), "SumOfAll");
 
         behavior.setAction(action);
@@ -104,7 +104,7 @@ public class ApplicationTest {
     @Test
     public void testRemoveEvent() throws Exception {
         ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>());
+        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
         ApplicationEvent event = new ApplicationEvent("eventId", "eventName", obj, attr, "Less Than", "1");
         app.addEvent(event);
         assertTrue(app.getEvents().size() == 1);
@@ -115,7 +115,7 @@ public class ApplicationTest {
     @Test
     public void testUpdateEvent() throws Exception {
         ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
-        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>());
+        ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
         ApplicationEvent event = new ApplicationEvent("eventId", "eventName", obj, attr, "Less Than", "1");
         app.addEvent(event);
 
@@ -136,8 +136,8 @@ public class ApplicationTest {
         platforms.add("android");
         // objects
         ArrayList<ApplicationObject> objects = new ArrayList<ApplicationObject>();
-        ApplicationObject obj1 = new ApplicationObject("objId1", "objName1", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>());
-        ApplicationObject obj2 = new ApplicationObject("objId2", "objName2", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>());
+        ApplicationObject obj1 = new ApplicationObject("objId1", "objName1", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
+        ApplicationObject obj2 = new ApplicationObject("objId2", "objName2", new ArrayList<ObjectAttribute>(), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
         objects.add(obj1); objects.add(obj2);
         // behaviors
         ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();

@@ -43,7 +43,7 @@ public class Server implements RESTServer {
     private static final Facade facade = new hAPPiFacade();
 
     private Response respondOK(String data) {
-//        Logger.DEBUG(data);
+        //Logger.DEBUG(data);
         return Response.ok() //200
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
@@ -386,7 +386,7 @@ public class Server implements RESTServer {
     }
 
     private ApplicationObject createApplicationObjectFromJson(JSONObject data) throws JSONException, IOException {
-        String[] names = {"id","name","attributes","actions"};
+        String[] names = {"id","name","attributes","actions","actionChains"};
         JSONObject copy = new JSONObject(data,names);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(copy.toString(), ApplicationObject.class);
