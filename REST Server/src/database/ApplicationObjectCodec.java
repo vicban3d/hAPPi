@@ -58,6 +58,7 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
             }
         reader.readEndArray();
 
+
         reader.readEndDocument();
 
         return new ApplicationObject(id,name,attributes,actions);

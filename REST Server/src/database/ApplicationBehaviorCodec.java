@@ -45,6 +45,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
                 reader.readStartArray();
                 while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
                     reader.readStartDocument();
+                    reader.readStartDocument();
                     String condAttrName = reader.readString("name");
                     String condAttrType = reader.readString("type");
                     ObjectAttribute condAttribute = new ObjectAttribute(condAttrName, condAttrType);
@@ -52,8 +53,8 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
 
                     String logicOperand = reader.readString("logicOperation");
                     String value = reader.readString("value");
-                    String andOrOperator = reader.readString("andOrOperator");
-                    conds.add(new Condition(condAttribute, logicOperand, value, andOrOperator));
+                    conds.add(new Condition(condAttribute, logicOperand, value));
+                    reader.readEndDocument();
                 }
                 reader.readEndArray();
             }else{
@@ -94,21 +95,20 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
 
                 writer.writeStartArray("Conditions");
                 for (Condition cond : action.getConditions()) {
-                    writer.writeStartDocument("attribute");
-                    writer.writeName("name");
-                    writer.writeString(cond.getAttribute().getName());
-                    writer.writeName("type");
-                    writer.writeString(cond.getAttribute().getType());
+                    writer.writeStartDocument();
+                        writer.writeStartDocument("attribute");
+                        writer.writeName("name");
+                        writer.writeString(cond.getAttribute().getName());
+                        writer.writeName("type");
+                        writer.writeString(cond.getAttribute().getType());
+                        writer.writeEndDocument();
+
+                        writer.writeName("logicOperation");
+                        writer.writeString(cond.getLogicOperation());
+
+                        writer.writeName("value");
+                        writer.writeString(cond.getValue());
                     writer.writeEndDocument();
-
-                    writer.writeName("logicOperation");
-                    writer.writeString(cond.getLogicOperation());
-
-                    writer.writeName("value");
-                    writer.writeString(cond.getValue());
-
-                    writer.writeName("andOrOperator");
-                    writer.writeString(cond.getandOrOperator());
                 }
                 writer.writeEndArray();
 

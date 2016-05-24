@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Created by victor on 11/9/2015.
- * This class implements the Database interface and allows communication with MongoDB.
+ * This class implements the database interface and allows communication with MongoDB.
  */
 public class MongoDB implements Database {
 
@@ -49,7 +49,7 @@ public class MongoDB implements Database {
     @Override
     public void connect() throws IOException {
         Runtime.getRuntime().exec("mongod");
-        Logger.SEVERE("Database started.");
+        Logger.SEVERE("database started.");
     }
 
     @Override
