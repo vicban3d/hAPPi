@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 /**
- * hAPPi RESTful Server
+ * hAPPi RESTful server
  * The server will host at the URL http://132.72.23.136 on port 80
  */
 @Singleton
@@ -43,7 +43,7 @@ public class Server implements RESTServer {
     private static final Facade facade = new hAPPiFacade();
 
     private Response respondOK(String data) {
-        Logger.DEBUG(data);
+//        Logger.DEBUG(data);
         return Response.ok() //200
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
@@ -352,7 +352,7 @@ public class Server implements RESTServer {
     }
 
     /**
-     * Starts the Server.
+     * Starts the server.
      */
     private static void start() {
         HttpServer server;
@@ -364,7 +364,7 @@ public class Server implements RESTServer {
             Logger.ERROR("Failed to start server", e);
             return;
         }
-        Logger.SEVERE("*** Server running ***");
+        Logger.SEVERE("*** server running ***");
 
         System.out.println("Visit: " + Strings.SRV_HOST);
         System.out.println("Applications: " + Strings.PATH_APPS);
@@ -379,7 +379,7 @@ public class Server implements RESTServer {
         }
         Logger.SEVERE("Stopping server...");
         server.stop(0);
-        Logger.SEVERE("Server stopped.");
+        Logger.SEVERE("server stopped.");
         // TODO - remove in production!!!
 //        facade.clearDatabase();// TODO - remove in production!!!
         // TODO - remove in production!!!
@@ -419,7 +419,7 @@ public class Server implements RESTServer {
      * @param args - null
      */
     public static void main(String[] args) {
-        Logger.SEVERE("*** Starting Server ***");
+        Logger.SEVERE("*** Starting server ***");
         try {
             facade.connectToDatabase();
             start();
