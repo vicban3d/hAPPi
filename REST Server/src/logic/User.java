@@ -50,7 +50,7 @@ public class User extends Document {
     }
 
     public void setPassword(String pass) {
-        this.put("password", password);
+        this.put("password", pass);
     }
 
     public String getEmail() {

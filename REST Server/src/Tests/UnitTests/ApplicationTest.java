@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
  */
 public class ApplicationTest {
 
+
     Application app;
 
     @Before
@@ -162,4 +163,5 @@ public class ApplicationTest {
         assertEquals(objects, application.getObjects());
         assertEquals(behaviors, application.getBehaviors());
     }
+
 }

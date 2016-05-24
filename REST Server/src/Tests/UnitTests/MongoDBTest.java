@@ -5,6 +5,7 @@ import exceptions.InvalidUserCredentialsException;
 import logic.*;
 import org.junit.Before;
 import org.junit.Test;
+import tests.TestUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -15,6 +16,7 @@ import static org.junit.Assert.*;
  * Created by Gila-Ber on 04/05/2016.
  */
 public class MongoDBTest {
+
 
     MongoDB db = new MongoDB();
 
@@ -57,7 +59,7 @@ public class MongoDBTest {
         db.updateApplication(application);
         Application updatedApp = db.getApplication("testAppId");
 
-        validateApplicationResults(application, updatedApp);
+        TestUtils.validateApplicationResults(application, updatedApp);
     }
 
     @Test
@@ -67,7 +69,7 @@ public class MongoDBTest {
                 new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         db.addApplication(application);
         Application appResult = db.getApplication("testAppId");
-        validateApplicationResults(application, appResult);
+        TestUtils.validateApplicationResults(application, appResult);
     }
 
     @Test
@@ -149,7 +151,7 @@ public class MongoDBTest {
 
     @Test
     public void testAddApplicationInstance() throws Exception {
-        AppInstance appInstance = createAppInstance();
+        AppInstance appInstance = TestUtils.createAppInstance();
         db.addApplicationInstance(appInstance);
 
         AppInstance appInstanceResult = db.getAppInstance("appInstanceId", "appId");
@@ -159,7 +161,7 @@ public class MongoDBTest {
 
     @Test
     public void testGetAppInstance() throws Exception {
-        AppInstance appInstance = createAppInstance();
+        AppInstance appInstance = TestUtils.createAppInstance();
         db.addApplicationInstance(appInstance);
         AppInstance appInstanceResult = db.getAppInstance("appInstanceId", "appId");
         validateAppInstanceResults(appInstance, appInstanceResult, "Attr1");
@@ -191,7 +193,7 @@ public class MongoDBTest {
 
     @Test
     public void testIsInstanceExistWhenInstanceExist() throws Exception {
-        AppInstance appInstance = createAppInstance();
+        AppInstance appInstance = TestUtils.createAppInstance();
         db.addApplicationInstance(appInstance);
 
         assertTrue(db.isInstanceExist(appInstance.getId(), appInstance.getApp_id()));
@@ -199,13 +201,13 @@ public class MongoDBTest {
 
     @Test
     public void testIsInstanceExistWhenInstanceNotExist() throws Exception {
-        AppInstance appInstance = createAppInstance();
+        AppInstance appInstance = TestUtils.createAppInstance();
         assertFalse(db.isInstanceExist("notExistInstanceId", appInstance.getApp_id()));
     }
 
     @Test
     public void testUpdateAppInstance() throws Exception {
-        AppInstance appInstance = createAppInstance();
+        AppInstance appInstance = TestUtils.createAppInstance();
         db.addApplicationInstance(appInstance);
         appInstance = db.getAppInstance("appInstanceId", "appId");
         assertTrue(appInstance.getObjectInstances().keySet().size() == 1);
@@ -223,7 +225,7 @@ public class MongoDBTest {
                 new ArrayList<ApplicationBehavior>(), new ArrayList<ApplicationEvent>());
         db.addApplication(app);
         Application appFromDB = db.getApplication(app.getId());
-        validateApplicationResults(app, appFromDB);
+        TestUtils.validateApplicationResults(app, appFromDB);
     }
 
     @Test
@@ -247,23 +249,6 @@ public class MongoDBTest {
         return app;
     }
 
-    private void validateApplicationResults(Application expectedApp, Application actualApp) {
-        assertEquals(expectedApp.getName(), actualApp.getName());
-        assertEquals(expectedApp.getPlatforms(), actualApp.getPlatforms());
-        assertEquals(expectedApp.getObjects(), actualApp.getObjects());
-        assertEquals(expectedApp.getBehaviors(), actualApp.getBehaviors());
-        assertEquals(expectedApp.getEvents(), actualApp.getEvents());
-    }
-
-    private AppInstance createAppInstance() {
-        Map<String, List<List<String>>> instances = new HashMap<String, List<List<String>>>();
-        List<List<String>> instanceValues = new ArrayList<List<String>>();
-        instanceValues.add(Arrays.asList("1","2"));
-        instanceValues.add(Arrays.asList("3","4"));
-        instances.put("Attr1", instanceValues);
-        return new AppInstance("appInstanceId","appId", instances);
-    }
-
     private void validateAppInstanceResults(AppInstance expectedAppInstance, AppInstance actualAppInstance, String attr) {
         assertEquals(expectedAppInstance.keySet().size(), actualAppInstance.keySet().size());
         assertEquals(expectedAppInstance.get(attr), actualAppInstance.get(attr));
@@ -284,5 +269,4 @@ public class MongoDBTest {
         platforms.add("ios");
         return platforms;
     }
-
 }

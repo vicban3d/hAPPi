@@ -4,6 +4,7 @@ import logic.AppInstance;
 import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
+import tests.TestUtils;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class AppInstanceTest {
 
     @Before
     public void setup() {
-        appInstance = createAppInstance();
+        appInstance = TestUtils.createAppInstance();
     }
 
     @Test
@@ -36,15 +37,15 @@ public class AppInstanceTest {
 
     @Test
     public void testAddObjectInstance_existObject() throws Exception {
-        List<List<String>> attrInstances = appInstance.getObjectInstances().get("Attr");
+        List<List<String>> attrInstances = appInstance.getObjectInstances().get("Attr1");
         assertTrue(attrInstances.size() == 2);
 
         List<String> attributes = new ArrayList<String>();
         attributes.add("5");
         attributes.add("6");
 
-        appInstance.addObjectInstance("Attr", attributes);
-        attrInstances = appInstance.getObjectInstances().get("Attr");
+        appInstance.addObjectInstance("Attr1", attributes);
+        attrInstances = appInstance.getObjectInstances().get("Attr1");
         assertTrue(attrInstances.size() == 3);
         assertTrue(attrInstances.contains(attributes));
     }
@@ -64,19 +65,10 @@ public class AppInstanceTest {
 
     @Test
     public void testRemoveObjectInstance() throws Exception {
-        appInstance.removeObjectInstance("Attr", 0);
-        List<List<String>> attr = appInstance.getObjectInstances().get("Attr");
+        appInstance.removeObjectInstance("Attr1", 0);
+        List<List<String>> attr = appInstance.getObjectInstances().get("Attr1");
         assertTrue(attr.size() == 1);
         assertEquals(Arrays.asList("3","4"), attr.get(0));
     }
 
-
-    private AppInstance createAppInstance() {
-        Map<String, List<List<String>>> instances = new HashMap<String, List<List<String>>>();
-        List<List<String>> instanceValues = new ArrayList<List<String>>();
-        instanceValues.add(Arrays.asList("1","2"));
-        instanceValues.add(Arrays.asList("3","4"));
-        instances.put("Attr", instanceValues);
-        return new AppInstance("appInstanceId","appId", instances);
-    }
 }
