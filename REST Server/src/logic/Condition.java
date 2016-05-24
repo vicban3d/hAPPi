@@ -20,25 +20,20 @@ public class Condition extends Document {
     private String logicOperation;
     @XmlElement(required = true)
     private String value;
-    @XmlElement(required = true)
-    private String andOrOperator;
 
     @JsonCreator
     public Condition(
             @JsonProperty("attribute") ObjectAttribute attribute,
             @JsonProperty("logicOperation") String logicOperation,
-            @JsonProperty("value") String value,
-            @JsonProperty("andOrOperator") String andOrOperator){
+            @JsonProperty("value") String value){
 
         super();
         this.append("attribute", attribute);
         this.append("logicOperation", logicOperation);
         this.append("value", value);
-        this.append("andOrOperator", andOrOperator);
         this.attribute = attribute;
         this.logicOperation = logicOperation;
         this.value = value;
-        this.andOrOperator = andOrOperator;
     }
 
     @Override
@@ -46,8 +41,7 @@ public class Condition extends Document {
         return "Condition:\n" +
                 "\t* Attribute: " + this.attribute +
                 "\t* Logic Operation: " + this.logicOperation +
-                "\t* Value: " + this.value +
-                "\t* And/Or Operation: " + this.andOrOperator;
+                "\t* Value: " + this.value;
     }
 
     public ObjectAttribute getAttribute() {
@@ -73,14 +67,4 @@ public class Condition extends Document {
     public void setValue(String value) {
         this.value = value;
     }
-
-    public String getandOrOperator() {
-        return andOrOperator;
-    }
-
-    public void setandOrOperator(String andOrOperator) {
-        this.andOrOperator = andOrOperator;
-    }
-
-
 }
