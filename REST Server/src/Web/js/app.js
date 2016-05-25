@@ -342,6 +342,15 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addObject = function() {
             objectService.addObject(appService.currentApplication);
+            for (var i=0; i< objectService.currentObject.actionChains.length; i++) {
+                var chain =  objectService.currentObject.actionChains[i];
+                chain.actions = chain.actions.map(function (act) {
+                    if(act.operandAttribute === "")
+                        return {operandAction: act.operandAction, operator: act.operator};
+                    if(act.operandAction === "")
+                        return {operandAttribute: act.operandAttribute, operator: act.operator};
+                });
+            }
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)));
             $scope.hideArea("objectCreateArea");
         };
@@ -476,7 +485,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             jsonObj["action"] = {};
             jsonObj["action"]["operandObject"] = behaviorObj["operandObject"];
             jsonObj["action"]["operandAttribute"] = behaviorObj["operandAttribute"]["name"];
-            if (behaviorObj["conditions"]===undefined)
+            if (behaviorObj["conditions"] === undefined)
                 jsonObj["action"]["conditions"]=[];
             else
                 jsonObj["action"]["conditions"] = behaviorObj["conditions"];
