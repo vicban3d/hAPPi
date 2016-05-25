@@ -210,7 +210,7 @@ main_module.service('objectService',[function(){
                             var index2 = object.attributes.map(function(a) {return a.name;}).indexOf(object.actions[index].operand1.name);
                             if(index2 >= 0){//if its actions
                                 var action = getAction(actions[i].operandAction.name, object);
-                                newInstances.push(action(myParseFloat(instances[index2], object.actions[index].operand2)));
+                                newInstances.push(action(myParseFloat(instances[index2]), myParseFloat(object.actions[index].operand2)));
                             }
                         }
                     }
