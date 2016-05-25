@@ -62,7 +62,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
             }
             String operator = reader.readString("operator");
             reader.readEndDocument();
-            BehaviorAction action = new BehaviorAction(applicationObject, attribute, conds, operator);
+            BehaviorAction action = new BehaviorAction(applicationObject, attribute,null, conds, operator);
 
         reader.readEndDocument();
         return new ApplicationBehavior(id,name,action);

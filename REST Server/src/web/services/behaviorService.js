@@ -10,6 +10,7 @@ main_module.service('behaviorService',[function(){
         operandObject: {},
         operator: '',
         operandAttribute: {},
+        actionChain: {},
         conditions: [],
         applicationId: '',
         username: '',
@@ -23,6 +24,7 @@ main_module.service('behaviorService',[function(){
             operandObject: {},
             operator: '',
             operandAttribute: {},
+            actionChain: {},
             conditions: [],
             applicationId: '',
             username: ''

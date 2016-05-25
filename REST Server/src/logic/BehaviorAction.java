@@ -21,6 +21,8 @@ public class BehaviorAction extends Document {
     @XmlAttribute(required = true)
     private ObjectAttribute operandAttribute;
     @XmlAttribute(required = true)
+    private ObjectActionChain actionChain;
+    @XmlAttribute(required = true)
     private String operator;
     @XmlAttribute(required = true)
     private List<Condition> conditions;
@@ -28,16 +30,19 @@ public class BehaviorAction extends Document {
     @JsonCreator
     public BehaviorAction(@JsonProperty("operandObject") ApplicationObject operandObject,
                           @JsonProperty("operandAttribute") ObjectAttribute operandAttribute,
+                          @JsonProperty("actionChain") ObjectActionChain actionChain,
                           @JsonProperty("Conditions") List<Condition> conditions,
                           @JsonProperty("operator") String operator) {
 
         super();
         this.append("operandObject", operandObject);
         this.append("operandAttribute", operandAttribute);
+        this.append("actionChain", actionChain);
         this.append("Conditions", conditions);
         this.append("operator", operator);
         this.operandObject = operandObject;
         this.operandAttribute = operandAttribute;
+        this.actionChain = actionChain;
         this.operator = operator;
         this.conditions = conditions;
     }
@@ -52,6 +57,14 @@ public class BehaviorAction extends Document {
 
     public ObjectAttribute getOperandAttribute() {
         return operandAttribute;
+    }
+
+    public void setActionChain(ObjectActionChain actionChain) {
+        this.actionChain = actionChain;
+    }
+
+    public ObjectActionChain getActionChain() {
+        return actionChain;
     }
 
     public void setOperandAttribute(ObjectAttribute operandAttribute) {
@@ -79,6 +92,7 @@ public class BehaviorAction extends Document {
         return "Behavior Action:\n" +
                 "\t* Object: " + operandObject +
                 "\t* Attribute: " + operandAttribute +
+                "\t* ActionChain: " + actionChain +
                 "\t* Conditions: " + conditions +
                 "\t* Operator: " + operator;
     }
