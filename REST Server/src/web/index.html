@@ -639,8 +639,8 @@
                                             <option value="" select="selected">Choose Operand</option>
                                         </select>
                                     </td>
-                                    <td class="formInput formInput15" data-ng-show= "behaviorOperandType!=='action' && behaviorOperandType!=='attribute'">
-                                        <select class="form-control" disabled required>
+                                    <td class="formInput formInput15" data-ng-show= "behaviorOperandType!=='actionChain' && behaviorOperandType!=='attribute'">
+                                        <select class="form-control" disabled ng-options="i.name for i in getCurrentObject().actions" required>
                                             <option value="" select="selected">Choose Operand</option>
                                         </select>
                                     </td>
