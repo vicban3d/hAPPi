@@ -514,8 +514,8 @@
                                             <td class="formInput formInput20">
                                                 <input data-ng-model="action.name" class="form-control" placeholder="Enter Action Name" required>
                                             </td>
-                                            <td class="formInput formInput20">
-                                                <select class="form-control" ng-model="action.operand1" ng-options="i.name for i in getCurrentObject().attributes" required>
+                                            <td class="formInput formInput20" data-ng-init="action.operand1 = getAttributeByName(action.operand1.name)">
+                                                <select class="form-control" ng-model="action.operand1" data-ng-options="i as i.name for i in getCurrentObject().attributes" required>
                                                     <option value="" selected="selected">Choose Attribute</option>
                                                 </select>
                                             </td>

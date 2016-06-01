@@ -368,7 +368,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             if (object.name === designService.currentInstance.name){
                 designService.designDisplayBehaviorPage();
             }
-	    object["username"] = $scope.currentUser.username;
+	        object["username"] = $scope.currentUser.username;
             object["applicationId"] = appService.currentApplication.id;
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_OBJECT, angular.toJson(object)));
         };
@@ -471,6 +471,12 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.getOperatorListByType = function (type) {
             return objectService.getOperatorListByType(type);
+        };
+
+        $scope.getAttributeByName = function(name){
+            var attr_names = $scope.getCurrentObject().attributes.map(function (a) {return a.name});
+            var index = attr_names.indexOf(name);
+            return $scope.getCurrentObject().attributes[index];
         };
 
         // ----------------------------------------------------------------------Behavior Service Methods---------------
