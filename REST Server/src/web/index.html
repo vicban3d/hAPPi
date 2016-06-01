@@ -620,11 +620,31 @@
                                             <option value="" selected="selected">Choose Action</option>
                                         </select>
                                     </td>
-                                    <td class="formInput formInput20">
-                                        <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actionChains)" required>
-                                            <option value="" selected="selected">Choose Operand</option>
+
+                                    <td class="formInput formInput15">
+                                        <select class="form-control" ng-model="behaviorOperandType" required>
+                                            <option value="" select="selected">Choose Operand Type</option>
+                                            <option value="attribute" select="selected">Attribute</option>
+                                            <option value="actionChain" select="selected">ActionChain</option>
                                         </select>
                                     </td>
+
+                                    <td class="formInput formInput15" data-ng-show="behaviorOperandType==='attribute'">
+                                        <select class="form-control" ng-model="getCurrentBehavior().operandAttribute.name" ng-options="i.name for i in getCurrentBehavior().operandObject.attributes" data-ng-disabled="behaviorOperandType != 'attribute'" required>
+                                            <option value="" select="selected">Choose Operand</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput15" data-ng-show="behaviorOperandType==='actionChain'">
+                                        <select class="form-control" ng-model="getCurrentBehavior().actionChain.name" ng-options="i.name for i in getCurrentBehavior().operandObject.actionChains" data-ng-disabled="behaviorOperandType != 'actionChain'" required>
+                                            <option value="" select="selected">Choose Operand</option>
+                                        </select>
+                                    </td>
+                                    <td class="formInput formInput15" data-ng-show= "behaviorOperandType!=='actionChain' && behaviorOperandType!=='attribute'">
+                                        <select class="form-control" disabled ng-options="i.name for i in getCurrentObject().actions" required>
+                                            <option value="" select="selected">Choose Operand</option>
+                                        </select>
+                                    </td>
+
                                     <td class="formInput formInput40">
                                         <!--PADDING-->
                                     </td>

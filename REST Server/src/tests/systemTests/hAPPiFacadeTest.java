@@ -436,7 +436,8 @@ public class hAPPiFacadeTest {
         ApplicationObject object = createObject();
         ObjectAttribute attribute = object.getAttributes().get(0);
         Condition cond = new Condition(attribute, "Greater Than", "1");
-        BehaviorAction bAction = new BehaviorAction(object, attribute, Arrays.asList(cond), "SumOfAll");
+        ObjectActionChain actionChain = new ObjectActionChain("chain", new ArrayList<ActionChain>());
+        BehaviorAction bAction = new BehaviorAction(object, attribute, actionChain, Arrays.asList(cond), "SumOfAll");
         ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behavior1", bAction);
         return behavior;
     }

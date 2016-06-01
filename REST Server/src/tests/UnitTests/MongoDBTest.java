@@ -264,7 +264,8 @@ public class MongoDBTest {
     }
 
     private ArrayList<ApplicationBehavior> createApplicationBehaviors(ObjectAttribute attr1, ApplicationObject object) {
-        BehaviorAction bAction = new BehaviorAction(object, attr1, new ArrayList<Condition>(), "SumOfAll");
+        ObjectActionChain actionChain = new ObjectActionChain("chain", new ArrayList<ActionChain>());
+        BehaviorAction bAction = new BehaviorAction(object, attr1, actionChain, new ArrayList<Condition>(), "SumOfAll");
         ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behavior1", bAction);
 
         ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();

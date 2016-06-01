@@ -67,11 +67,15 @@ main_module.service('designService',[function(){
     this.performBehaviorAction = function($scope, behavior){
         var object = behavior.operandObject;
         var operand1 = behavior.operandAttribute.name;
+        var chain = behavior.actionChain.name;
         var action = $scope.getBehaviorAction(object, behavior.operator, behavior.conditions);
         if (action == undefined){
             this.emulatorOutput = "Unsupported Operation"
-        } else {
+        } else if (chain == undefined){
             this.emulatorOutput = action(operand1);
+        }
+        else if(operand1 == undefined){
+            this.emulatorOutput = action(chain);
         }
     };
 

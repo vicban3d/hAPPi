@@ -91,7 +91,8 @@ public class ApplicationTest {
 
         ObjectAttribute attr = new ObjectAttribute("attr1", "Number");
         ApplicationObject obj = new ApplicationObject("objId", "objName", Arrays.asList(attr), new ArrayList<ObjectAction>(),new ArrayList<ObjectActionChain>());
-        BehaviorAction action = new BehaviorAction(obj, attr, new ArrayList<Condition>(), "SumOfAll");
+        ObjectActionChain actionChain = new ObjectActionChain("chain", new ArrayList<ActionChain>());
+        BehaviorAction action = new BehaviorAction(obj, attr, actionChain,new ArrayList<Condition>(), "SumOfAll");
 
         behavior.setAction(action);
 

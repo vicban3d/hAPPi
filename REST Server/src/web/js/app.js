@@ -490,7 +490,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
             jsonObj["action"] = {};
             jsonObj["action"]["operandObject"] = behaviorObj["operandObject"];
-            jsonObj["action"]["operandAttribute"] = behaviorObj["operandAttribute"]["name"];
+            if(behaviorObj["operandAttribute"] === "")
+                jsonObj["action"]["operandAttribute"] = behaviorObj["operandAttribute"]["name"];
+            else
+                jsonObj["action"]["actionChain"] = behaviorObj["actionChain"]["name"];
             if (behaviorObj["conditions"] === undefined)
                 jsonObj["action"]["conditions"]=[];
             else

@@ -206,10 +206,11 @@ main_module.service('objectService',[function(){
                             newInstances.push(myParseFloat(instances[index]));
                     }
                         else {
+                            var index = object.actions.map(function(a) {return a.name;}).indexOf(actions[i].operandAction.name);
                             var index2 = object.attributes.map(function(a) {return a.name;}).indexOf(object.actions[index].operand1.name);
                             if(index2 >= 0){//if its actions
                                 var action = getAction(actions[i].operandAction.name, object);
-                                newInstances.push(action(instances[index2], object.actions[index].operand2));
+                                newInstances.push(action(myParseFloat(instances[index2]), myParseFloat(object.actions[index].operand2)));
                             }
                         }
                     }
