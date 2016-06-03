@@ -38,7 +38,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
         // $scope.numberOperators = ['Increase By', 'Multiply By', 'Reduce By', 'Divide By', 'Change To'];
         // $scope.textOperators = ['Add Prefix', 'Add Suffix', 'Change To'];
-        $scope.behaviorOperators = ['Sum of All', 'Display', 'Product of All', 'Maximum', 'Minimum', 'Average'];
+        $scope.behaviorTextOperators = ['Display'];
+        $scope.behaviorNumberOperators = ['Sum of All', 'Display', 'Product of All', 'Maximum', 'Minimum', 'Average'];
         $scope.actionOperations = ["+", "-"];
         $scope.operand_types = ["Fixed Value", "Attribute", "Dynamic"];
 
