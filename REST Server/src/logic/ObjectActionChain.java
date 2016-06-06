@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Almog on 25/04/2016.
@@ -19,10 +20,10 @@ public class ObjectActionChain extends Document{
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
-    private ArrayList<ActionChain> actions;
+    private List<ActionChain> actions;
 
     @JsonCreator
-    public ObjectActionChain(@JsonProperty("name") String name, @JsonProperty("actions") ArrayList<ActionChain> actions) {
+    public ObjectActionChain(@JsonProperty("name") String name, @JsonProperty("actions") List<ActionChain> actions) {
         super();
         this.append("name", name);
         this.append("actions", actions);
@@ -38,11 +39,11 @@ public class ObjectActionChain extends Document{
         this.name = name;
     }
 
-    public ArrayList<ActionChain> getActionsChain() {
+    public List<ActionChain> getActionsChain() {
         return actions;
     }
 
-    public void setActionsChain(ArrayList<ActionChain> actions) { this.actions = actions; }
+    public void setActionsChain(List<ActionChain> actions) { this.actions = actions; }
 
     @Override
     public String toString() {

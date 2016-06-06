@@ -17,39 +17,44 @@ public class Condition extends Document {
     @XmlElement(required = true)
     private ObjectAttribute attribute;
     @XmlElement(required = true)
+    private ObjectActionChain actionChain;
+    @XmlElement(required = true)
     private String logicOperation;
     @XmlElement(required = true)
     private String value;
 
     @JsonCreator
     public Condition(
-            @JsonProperty("attribute") ObjectAttribute attribute,
+            @JsonProperty("operandAttribute") ObjectAttribute attribute,
+            @JsonProperty("operandActionChain") ObjectActionChain actionChain,
             @JsonProperty("logicOperation") String logicOperation,
             @JsonProperty("value") String value){
 
         super();
-        this.append("attribute", attribute);
+        this.append("operandAttribute", attribute);
+        this.append("operandActionChain", actionChain);
         this.append("logicOperation", logicOperation);
         this.append("value", value);
         this.attribute = attribute;
+        this.actionChain = actionChain;
         this.logicOperation = logicOperation;
         this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "Condition:\n" +
-                "\t* Attribute: " + this.attribute +
-                "\t* Logic Operation: " + this.logicOperation +
-                "\t* Value: " + this.value;
     }
 
     public ObjectAttribute getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(ObjectAttribute attribute) {
+    public void setActionChain(ObjectActionChain actionChain) {
+        this.actionChain = actionChain;
+        this.put("actionChain", actionChain);
+    }
 
+    public ObjectActionChain getActionChain() {
+        return actionChain;
+    }
+
+    public void setAttribute(ObjectAttribute attribute) {
         this.attribute = attribute;
         this.put("attribute", attribute);
     }
@@ -70,6 +75,15 @@ public class Condition extends Document {
     public void setValue(String value) {
         this.value = value;
         this.put("value", value);
+    }
+
+    @Override
+    public String toString() {
+        return "Condition:\n" +
+                "\t* Attribute: " + this.attribute +
+                "\t* ActionChain: " + this.actionChain +
+                "\t* Logic Operation: " + this.logicOperation +
+                "\t* Value: " + this.value;
     }
 
 }
