@@ -71,7 +71,7 @@ public class hAPPiFacade implements Facade {
         Application application = Application.fromDocument(database.getApplication(appId));
         prepareApplicationForCompilation(application);
         compiler.buildApplication(application.getName(), application.getUsername());
-        return fileUploader.uploadFile(application.getName(), Strings.PATH_APPS + "/" + application.getUsername() + "/" +application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
+        return fileUploader.uploadFile(username, application.getName(), Strings.PATH_APPS + "/" + application.getUsername() + "/" +application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
 
     }
 
@@ -191,9 +191,10 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void removeApplication(String appId, String username) {
+    public void removeApplication(String appId, String username) throws DbxException {
         String appName = Application.fromDocument(database.getApplication(appId)).getName();
         database.removeApplication(appId);
+        fileUploader.deleteFile(username, appName + ".apk");
         FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + username + "\\" + appName);
         Logger.DEBUG("The application " + appName + " was deleted.");
     }

@@ -1,6 +1,7 @@
 package tests.systemTests;
 
 
+import com.dropbox.core.DbxException;
 import database.Database;
 import exceptions.CordovaRuntimeException;
 import exceptions.InvalidUserCredentialsException;
@@ -52,7 +53,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testCreateApplication() throws Exception {
+    public void testCreateApplication() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
         assertTrue(FileHandler.isFileExist(Strings.PATH_APPS + "\\" + app.getUsername() + "\\" + app.getName()));
         // validate platforms
@@ -65,7 +66,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testCreateApplicationDuplicateName() throws Exception {
+    public void testCreateApplicationDuplicateName() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
         boolean duplicateNameError = false;
         try{
@@ -78,7 +79,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testUpdateApplication() throws Exception {
+    public void testUpdateApplication() throws Exception, CordovaRuntimeException {
         String appOldName = app.getName();
         facade.createApplication(app);
         app.setName("newAppName");
@@ -96,7 +97,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testRemoveApplication() throws Exception {
+    public void testRemoveApplication() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
         assertTrue(FileHandler.isFileExist(Strings.PATH_APPS + "\\" + app.getUsername() + "\\" + app.getName()));
         facade.removeApplication(app.getId(), app.getUsername());
@@ -112,7 +113,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testRemovePlatforms() throws Exception {
+    public void testRemovePlatforms() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
         assertTrue(FileHandler.isFileExist(Strings.PATH_APPS + "\\" + app.getUsername() + "\\" + app.getName()
                 + "\\platforms\\android"));
@@ -160,12 +161,14 @@ public class hAPPiFacadeTest {
             facade.updateApplication(app, app.getUsername());
         } catch (Exception e){
             appNotExist = true;
+        } catch (CordovaRuntimeException e) {
+            e.printStackTrace();
         }
         assertTrue(appNotExist);
     }
 
     @Test
-    public void testCreateObject() throws Exception {
+    public void testCreateObject() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
 
         ApplicationObject object = createObject();
@@ -194,7 +197,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testRemoveObject() throws Exception {
+    public void testRemoveObject() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
         ApplicationObject object = createObject();
         facade.createObject(app.getId(), app.getUsername(), object);
@@ -220,7 +223,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testCreateBehavior() throws Exception {
+    public void testCreateBehavior() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
         ApplicationBehavior behavior = createBehavior();
         ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();
@@ -248,7 +251,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testRemoveBehavior() throws Exception {
+    public void testRemoveBehavior() throws Exception, CordovaRuntimeException {
         // create app with behavior
         ApplicationBehavior behavior = createBehavior();
         ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();
@@ -264,7 +267,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testUpdateApplicationObject() throws Exception {
+    public void testUpdateApplicationObject() throws Exception, CordovaRuntimeException {
         // create app with objects
         ApplicationObject object = createObject();
         ArrayList<ApplicationObject> objects = new ArrayList<ApplicationObject>();
@@ -291,7 +294,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testUpdateApplicationBehavior() throws Exception {
+    public void testUpdateApplicationBehavior() throws Exception, CordovaRuntimeException {
         // create app with behaviors
         ApplicationBehavior behavior = createBehavior();
         ArrayList<ApplicationBehavior> behaviors = new ArrayList<ApplicationBehavior>();
@@ -383,7 +386,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testLogin() throws Exception, InvalidUserCredentialsException {
+    public void testLogin() throws Exception, InvalidUserCredentialsException, CordovaRuntimeException {
         facade.createApplication(app);
         List<Application> userApplications = facade.login(user);
         assertTrue(userApplications.size() == 1);
@@ -417,9 +420,15 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testBuildApplication() throws Exception {
+    public void testBuildApplication() throws Exception, CordovaRuntimeException {
         facade.createApplication(app);
-        facade.buildApplication(app.getId(), app.getUsername());
+        try {
+            facade.buildApplication(app.getId(), app.getUsername());
+        } catch (CordovaRuntimeException | IOException e) {
+            e.printStackTrace();
+        } catch (DbxException e) {
+            e.printStackTrace();
+        }
         assertTrue(FileHandler.isFileExist(Strings.PATH_APPS + "/" + app.getUsername() + "/" +app.getName() + "/platforms/android/build/outputs/apk/android-debug.apk"));
     }
 

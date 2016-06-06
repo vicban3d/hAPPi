@@ -113,6 +113,9 @@ main_module.service('objectService',[function(){
     };
 
     this.addActionChain = function(){
+        if (this.currentObject.actionChains == undefined){
+            this.currentObject.actionChains = [];
+        }
         this.currentObject.actionChains.push({name: "", actions: []});
     };
 
@@ -163,29 +166,30 @@ main_module.service('objectService',[function(){
     var getAction = function(actionName, object){
         var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
         var action = object.actions[index].operator;
-        var operand2 = parseFloat(object.actions[index].operand2);
+        // var operand2 = parseFloat(object.actions[index].operand2);
+
         if (action == "Increase By") {
-            return function (operand) {
-                return operand + operand2;
+            return function (operand1, operand2) {
+                return operand1 + operand2;
             };
         }
         if (action == "Reduce By") {
-            return function (operand) {
-                return operand - operand2;
+            return function (operand1, operand2) {
+                return operand1 - operand2;
             };
         }
         if (action == "Multiply By") {
-            return function (operand) {
-                return operand * operand2;
+            return function (operand1, operand2) {
+                return operand1 * operand2;
             };
         }
         if (action == "Divide By") {
-            return function (operand) {
-                return operand / operand2;
+            return function (operand1, operand2) {
+                return operand1 / operand2;
             };
         }
         if (action == "Change To") {
-            return function () {
+            return function (operand1, operand2) {
                 return operand2;
             };
         }
@@ -253,6 +257,7 @@ main_module.service('objectService',[function(){
         if (action.operandType === "Fixed Value"){
             operand2 = action.operand2;
         }
+
         if (action.operandType === "Attribute"){
             for (var j = 0; j < object.attributes.length; j++) {
                 if (object.attributes[j].name === action.operand2.name) {
@@ -274,7 +279,7 @@ main_module.service('objectService',[function(){
             }
         }
 
-        instance[i] = actionFunc(instance[i], operand2);
+        instance[i] = actionFunc(parseFloat(instance[i]), parseFloat(operand2));
     };
 
     var myParseFloat = function(n){

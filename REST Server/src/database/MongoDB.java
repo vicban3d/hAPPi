@@ -43,7 +43,7 @@ public class MongoDB implements Database {
                 MongoClient.getDefaultCodecRegistry());
         MongoClientOptions options = MongoClientOptions.builder()
                 .codecRegistry(codecRegistry).build();
-        mongoClient = new MongoClient("localhost" + ":" + Strings.DB_PORT, options);
+        mongoClient = new MongoClient("localhost:" + Strings.DB_PORT, options);
     }
 
     @Override

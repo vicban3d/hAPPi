@@ -5,6 +5,7 @@
 
 package server;
 
+import com.sun.jersey.spi.resource.Singleton;
 import exceptions.CordovaRuntimeException;
 import exceptions.InvalidUserCredentialsException;
 import logic.*;
@@ -13,7 +14,6 @@ import utility.Logger;
 import utility.Strings;
 import com.dropbox.core.DbxException;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
-import com.sun.jersey.spi.resource.Singleton;
 import com.sun.net.httpserver.HttpServer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
@@ -51,8 +51,8 @@ public class Server implements RESTServer {
                 .build();
     }
 
-    private Response respondERROR(String data) {
-        Logger.ERROR(data, new Exception());
+    private Response respondERROR(String data, Throwable e) {
+        Logger.ERROR(data, e);
         return Response.serverError()//500
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
@@ -65,7 +65,7 @@ public class Server implements RESTServer {
         try {
             return respondOK(facade.getPage("index.html"));
         } catch (IOException e) {
-            return respondERROR("Failed to retrieve main page!");
+            return respondERROR("Failed to retrieve main page!", e);
         }
     }
 
@@ -74,7 +74,7 @@ public class Server implements RESTServer {
         try {
             return respondOK(facade.getPage(folder + "\\" + resource));
         } catch (IOException e) {
-            return respondERROR("Failed to retrieve resource " + resource + "!");
+            return respondERROR("Failed to retrieve resource " + resource + "!", e);
         }
     }
 
@@ -93,11 +93,11 @@ public class Server implements RESTServer {
             facade.createApplication(application);
             return respondOK("Created " + application.getName());
         } catch (CordovaRuntimeException e) {
-            return respondERROR("Failed to create application!");
+            return respondERROR("Failed to create application!", e);
         } catch (JSONException e) {
-            return respondERROR("Failed to create application!");
+            return respondERROR("Failed to create application!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to create application!");
+            return respondERROR("Failed to create application!", e);
         }
     }
 
@@ -109,13 +109,13 @@ public class Server implements RESTServer {
             application = createApplicationFromJsonObj(jsonObject);
             return respondOK(facade.buildApplication(application.getId(), jsonObject.getString("username")));
         } catch (CordovaRuntimeException e) {
-            return respondERROR("Error building application " + application.getName());
+            return respondERROR("Error building application " + application.getName(), e);
         } catch (IOException e) {
-            return respondERROR("Error building application");
+            return respondERROR("Error building application", e);
         } catch (DbxException e) {
-            return respondERROR("Error building application");
+            return respondERROR("Error building application", e);
         } catch (JSONException e) {
-            return respondERROR("Error building application ");
+            return respondERROR("Error building application ", e);
         }
     }
 
@@ -128,9 +128,9 @@ public class Server implements RESTServer {
             facade.createObject(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationObject);
             return respondOK("Object " + applicationObject.getName() + " added!");
         } catch (JSONException e) {
-            return respondERROR("Error: failed to create object!");
+            return respondERROR("Error: failed to create object!", e);
         } catch (IOException e) {
-            return respondERROR("Error: failed to create object!");
+            return respondERROR("Error: failed to create object!", e);
         }
     }
 
@@ -141,9 +141,9 @@ public class Server implements RESTServer {
             ApplicationObject applicationObject = createApplicationObjectFromJson(jsonObject);
             facade.removeObject(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationObject);
         } catch (JSONException e) {
-            return respondERROR("Failed to remove object!");
+            return respondERROR("Failed to remove object!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to remove object!");
+            return respondERROR("Failed to remove object!", e);
         }
         return respondOK("Object Removed!");
     }
@@ -157,9 +157,9 @@ public class Server implements RESTServer {
             facade.createBehavior(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationBehavior);
             return respondOK("Behavior " + applicationBehavior.getName() + " added!");
         } catch (JSONException e) {
-            return respondERROR("Failed to create behavior!");
+            return respondERROR("Failed to create behavior!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to create behavior!");
+            return respondERROR("Failed to create behavior!", e);
         }
     }
 
@@ -170,9 +170,9 @@ public class Server implements RESTServer {
             ApplicationBehavior applicationBehavior = createApplicationBehaviorFromJson(jsonObject);
             facade.removeBehavior(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationBehavior);
         } catch (JSONException e) {
-            return respondERROR("Failed to remove behavior!");
+            return respondERROR("Failed to remove behavior!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to remove behavior!");
+            return respondERROR("Failed to remove behavior!", e);
         }
 
 
@@ -187,9 +187,9 @@ public class Server implements RESTServer {
             applicationBehavior = createApplicationBehaviorFromJson(jsonObject);
             facade.updateApplicationBehavior(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationBehavior);
         } catch (JSONException e) {
-            return respondERROR("Failed to update application object!");
+            return respondERROR("Failed to update application object!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to update application object!");
+            return respondERROR("Failed to update application object!", e);
         }
         return respondOK("The Behavior " + applicationBehavior.getName() + " was updated successfully");
     }
@@ -200,7 +200,7 @@ public class Server implements RESTServer {
         try {
             facade.addUser(data);
         } catch (InvalidUserCredentialsException e) {
-            return respondERROR("Failed to add user!");
+            return respondERROR("Failed to add user!", e);
         }
         return respondOK("The user " + data.getUsername() + " was created successfully!");
     }
@@ -212,7 +212,7 @@ public class Server implements RESTServer {
         try {
             apps = facade.login(data);
         } catch (InvalidUserCredentialsException e) {
-            return respondERROR("Invalid username of password!");
+            return respondERROR("Invalid username of password!", e);
         }
         for (Application app : apps){
             arrayOfApplication.put(app.toJson());
@@ -227,7 +227,7 @@ public class Server implements RESTServer {
             JSONObject jsonObject = new JSONObject(createObjInstanceRequest);
             facade.addObjectInstance(jsonObject);
         } catch (JSONException e) {
-            return respondERROR("Failed to create instance!");
+            return respondERROR("Failed to create instance!", e);
         }
         Logger.DEBUG("Created Instance successfully");
         return respondOK("Created Instance successfully");
@@ -241,9 +241,9 @@ public class Server implements RESTServer {
             event = createApplicationEventFromJsonObj(jsonObject);
             facade.removeEvent(jsonObject.getString("applicationId"), jsonObject.getString("username"), event);
         } catch (JSONException e) {
-            return respondERROR("Failed to remove event!");
+            return respondERROR("Failed to remove event!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to remove event!");
+            return respondERROR("Failed to remove event!", e);
         }
 
 
@@ -258,9 +258,9 @@ public class Server implements RESTServer {
             event = createApplicationEventFromJsonObj(jsonObject);
             facade.updateApplicationEvent(jsonObject.getString("applicationId"),jsonObject.getString("username"), event);
         } catch (JSONException e) {
-            return respondERROR("Error: Failed to update application event!");
+            return respondERROR("Error: Failed to update application event!", e);
         } catch (IOException e) {
-            return respondERROR("Error: Failed to update application event!");
+            return respondERROR("Error: Failed to update application event!", e);
         }
         return respondOK("The event " + event.getName() + " was updated successfully");
     }
@@ -274,9 +274,9 @@ public class Server implements RESTServer {
             facade.createEvent(jsonObject.getString("applicationId"), jsonObject.getString("username"), event);
             return respondOK("Event " + event.getName() + " added!");
         } catch (JSONException e) {
-            return respondERROR("Failed to create event!");
+            return respondERROR("Failed to create event!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to create event!");
+            return respondERROR("Failed to create event!", e);
         }
     }
 
@@ -288,9 +288,11 @@ public class Server implements RESTServer {
             application = createApplicationFromJsonObj(jsonObject);
             facade.removeApplication(application.getId(), jsonObject.getString("username"));
         } catch (JSONException e) {
-            return respondERROR("Failed to remove application!");
+            return respondERROR("Failed to remove application!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to remove application!");
+            return respondERROR("Failed to remove application!", e);
+        } catch (DbxException e) {
+            return respondERROR("Failed to remove application!", e);
         }
         return respondOK("Application "+ application.getName() +" Removed!");
     }
@@ -303,9 +305,9 @@ public class Server implements RESTServer {
             app = createApplicationFromJsonObj(jsonObject);
             facade.updateApplication(app, jsonObject.getString("username"));
         } catch (CordovaRuntimeException e) {
-            return respondERROR("Failed to update application!");
+            return respondERROR("Failed to update application!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to update application!");
+            return respondERROR("Failed to update application!", e);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -320,9 +322,9 @@ public class Server implements RESTServer {
             applicationObject = createApplicationObjectFromJson(jsonObject);
             facade.updateApplicationObject(jsonObject.getString("applicationId"), jsonObject.getString("username"), applicationObject);
         } catch (JSONException e) {
-            return respondERROR("Failed to update application object!");
+            return respondERROR("Failed to update application object!", e);
         } catch (IOException e) {
-            return respondERROR("Failed to update application object!");
+            return respondERROR("Failed to update application object!", e);
         }
         return respondOK("The object " + applicationObject.getName() + " was updated successfully");
     }
@@ -335,7 +337,7 @@ public class Server implements RESTServer {
             facade.removeObjectInstance(jsonObject);
             objName = jsonObject.getString("objName");
         } catch (JSONException e) {
-            return respondERROR("Error: Failed to remove object instance!");
+            return respondERROR("Error: Failed to remove object instance!", e);
         }
         Logger.DEBUG("The object " + objName + " instance was removed successfully");
         return respondOK("The object " + objName + " instance was removed successfully");

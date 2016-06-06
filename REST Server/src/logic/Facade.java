@@ -53,7 +53,7 @@ public interface Facade {
 
     void clearDatabase();
 
-    void removeApplication(String appId, String username);
+    void removeApplication(String appId, String username) throws DbxException;
 
     void updateApplication(Application application, String username) throws IOException, CordovaRuntimeException;
 

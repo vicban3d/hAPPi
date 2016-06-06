@@ -445,7 +445,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     id: object.id,
                     name: object.name,
                     attributes: copyArray(object.attributes),
-                    actions: copyArray(object.actions)
+                    actions: copyArray(object.actions),
+                    actionChains: copyArray(object.actionChains)
                 };
             } else {
                 $scope.indexToShow = -1
@@ -817,4 +818,19 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             else
                 return 0;
         }
+
+
+        // Help Texts
+
+        $scope.HT_object = 'Objects are the things that populate your Application.';
+        $scope.HT_object_attribute = 'Attributes make an object what it is, Ex. Name, Speed, Age, etc.';
+        $scope.HT_object_action = 'Actions can be performed on Attributes to manipulate them. Ex. Increase, Multiply, etc.';
+        $scope.HT_object_action_chain = 'Action Chains can combine several Actions and Attributes in a series of more complicated calculations.';
+        $scope.HT_object_action_chain_link = 'An Action Chain consists of Links which are an Attribute (or Action) and an Operation.';
+        $scope.HT_behavior = 'A Behavior defines calculations that can be performed on an Object.';
+        $scope.HT_behavior_target = 'The Behavior Target is the Object data on which the calculations are based.';
+        $scope.HT_behavior_condition = 'Conditions allow you to specify constraints on the data used for calculations.';
+        $scope.HT_release = 'Releasing you application will generate a fully-functional application according to the platforms you choose. The Applications can then be downloaded from Dropbox and installed on your device.';
+
+
     }]);

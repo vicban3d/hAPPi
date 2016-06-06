@@ -52,7 +52,7 @@ public class CordovaAppCompiler implements AppCompiler {
                 byte[] error = new byte[1024];
                 //noinspection ResultOfMethodCallIgnored
                 p.getErrorStream().read(error);
-                throw new CordovaRuntimeException(new Exception(Arrays.toString(error)));
+                throw new CordovaRuntimeException(new Exception(new String(error)));
             }
         } catch (InterruptedException | IOException e) {
             Logger.ERROR("Error adding android to application!", e);

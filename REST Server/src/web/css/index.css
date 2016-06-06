@@ -405,6 +405,10 @@ span.addAppButton{
     padding: 1%;
 }
 
+.formInput5{
+    width: 5%;
+}
+
 .formInput10{
     width: 10%;
 }
@@ -451,4 +455,31 @@ span.addAppButton{
     font: 24px calibri;
     width: 100%;
     text-align: center;
+}
+
+.helptext {
+    font-size: medium;
+    cursor: help;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.helptext .tooltiptext {
+    visibility: hidden;
+    background-color: #fff7d1;
+    color: black;
+    cursor: help;
+    text-align: center;
+
+    padding: 5px;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.helptext:hover .tooltiptext {
+    visibility: visible;
 }

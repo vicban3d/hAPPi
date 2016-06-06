@@ -24,7 +24,7 @@ public class Logger {
         logger.severe(s);
     }
 
-    public static void ERROR(String cause, Exception e){
+    public static void ERROR(String cause, Throwable e){
         System.err.println("ERROR: " + cause);
         e.printStackTrace();
     }

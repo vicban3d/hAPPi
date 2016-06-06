@@ -4,6 +4,10 @@
  */
 var numOfAttributes = 0;
 
+$(function () {
+    $('[data-toggle="popover"]').tooltip()
+});
+
 function collectAttributeValues(){
     if (numOfAttributes == 0) {
         return "";
