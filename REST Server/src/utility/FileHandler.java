@@ -1,5 +1,6 @@
 package utility;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -53,9 +54,7 @@ public class FileHandler {
      */
     public static boolean isFileExist(String path) {
         Path filePath = Paths.get(path);
-        if (Files.exists(filePath))
-            return true;
-        return false;
+        return Files.exists(filePath);
     }
 
     /**
@@ -72,7 +71,7 @@ public class FileHandler {
      * Deletes the target folder.
      * @param folderPath the path to the folder that should be deleted.
      */
-    public static void deleteFolder(String folderPath) {
+    public static void deleteFolder(String folderPath) throws IOException {
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
         if(files!=null) {
@@ -81,20 +80,25 @@ public class FileHandler {
                 if(f.isDirectory()) {
                     deleteFolder(f.getAbsolutePath());
                 } else {
-                    f.delete();
+                    if (f.exists() && !f.delete()){
+                        throw new IOException("Failed to delete file " + f.getPath());
+                    }
                 }
             }
         }
-        folder.delete();
+        if (folder.exists() && !folder.delete()){
+            throw new IOException("Failed to delete file " + folder.getPath());
+        }
     }
 
     /**
      * Creates an empty folder from the given file.
      * @param folderPath the file handler to create a folder from.
      */
-    public static void createFolder(String folderPath) {
-        File folder = new File(folderPath);
-        folder.mkdir();
+    public static void createFolder(String folderPath) throws IOException {
+//        File folder = new File(folderPath);
+//        folder.mkdir();
+        Files.createDirectory(Paths.get(folderPath));
     }
 
     /**
@@ -106,8 +110,10 @@ public class FileHandler {
     public static void renameFolder(String oldName, String newName) throws IOException{
         File oldFile = new File(oldName);
         File newFile = new File(newName);
-        if (newFile.exists() && !oldFile.equals(newFile))
+        if (newFile.exists() && !oldFile.getAbsolutePath().equals(newFile.getAbsolutePath())) {
             throw new java.io.IOException("file exists");
-        oldFile.renameTo(newFile);
+        }
+        Files.move(Paths.get(oldName), Paths.get(newName));
+
     }
 }

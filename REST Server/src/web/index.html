@@ -142,8 +142,16 @@
 <!--APPLICATIONS LIST START-->
 <div data-ng-show="areaFlags['myApps']">
     <div>
-        <h3  style="text-align: center;">My Apps</h3>
+        <h3 style="text-align: center;">My Apps
+        <span class="helptext">
+            [?]
+            <span class="tooltiptext">{{HT_my_app}}</span>
+        </span>
+        </h3>
         <hr><br>
+        <div data-ng-show="applications.length == 0">
+            <p style="text-align: center">You have not created any Applications yet.<br>Click on <a href="#" data-ng-click="backToMain()" data-ng-show="currentUser != undefined">+ Create App</a> to create your first Application.</p>
+        </div>
         <div style="text-align: center;" class="applicationsList" data-ng-init="indexToShow=-1; indexToDelete=-1;">
             <div href="#" class="list-group-item" data-ng-repeat="application in applications.sort(compare) track by $index" data-ng-show="(indexToShow == -1 && indexToDelete == -1) || indexToShow == application.id || indexToDelete == application.id">
                 <form data-ng-submit="editApplication(application)">
@@ -159,10 +167,22 @@
                                 </td>
                                 <!--Status Labels-->
                                 <td class="formInput formInput20" data-ng-show="indexToDelete == -1 && indexToShow == -1">
-                                    <p data-ng-show="applicationStates[application.id] == states.BUILDING"><b>Releasing...</b></p>
-                                    <p data-ng-show="applicationStates[application.id] == states.UPDATING"><b>Updating...</b></p>
-                                    <p data-ng-show="applicationStates[application.id] == states.DELETING"><b>Deleting...</b></p>
-                                    <p data-ng-show="applicationStates[application.id] == states.READY"><b>Ready</b></p>
+                                    <p data-ng-show="applicationStates[application.id] == states.BUILDING"><b>Releasing...</b><span class="helptext">
+                                            [?]
+                                            <span class="tooltiptext">We are building your application. You can still work on it.</span>
+                                        </span></p>
+                                    <p data-ng-show="applicationStates[application.id] == states.UPDATING"><b>Updating...</b><span class="helptext">
+                                            [?]
+                                            <span class="tooltiptext">Your application is being updated. You can still work on it.</span>
+                                        </span></p>
+                                    <p data-ng-show="applicationStates[application.id] == states.DELETING"><b>Deleting...</b><span class="helptext">
+                                            [?]
+                                            <span class="tooltiptext">Your application is being deleted, please wait.</span>
+                                        </span></p>
+                                    <p data-ng-show="applicationStates[application.id] == states.READY"><b>Ready</b><span class="helptext">
+                                            [?]
+                                            <span class="tooltiptext">Your application is ready to be edited, deleted or released.</span>
+                                        </span></p>
                                 </td>
                                 <!--Applications List Buttons-->
                                 <td class="formInput formInput10" style="border-left: dashed thin silver" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
@@ -262,7 +282,7 @@
     <ul class="nav nav-tabs" data-ng-show="areaFlags['menuArea']">
         <li class="active" data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#objectsAddArea"><p class="menuTab">Objects</p></a></li>
         <li data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#behaviorAddArea"><p class="menuTab">Behavior</p></a></li>
-        <li data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#eventsAddArea"><p class="menuTab">Events</p></a></li>
+        <!--<li data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#eventsAddArea"><p class="menuTab">Events</p></a></li>-->
         <li data-ng-click="indexToShow=-1"><a data-toggle="tab" href="#releaseArea"><p class="menuTab">Release</p></a></li>
     </ul>
     <div class="workAreaComponent centralArea tab-content" data-ng-show="areaFlags['centralArea']">
@@ -1136,6 +1156,10 @@
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()" data-ng-show="areaFlags['designArea']">
             <div class="componentMainTitle">
                 Preview
+                <span class="helptext">
+                    [?]
+                    <span class="tooltiptext">This is a preview of how your application will appear and function on user devices once it is installed.</span>
+                </span>
             </div>
             <div style="width: 60%; margin-left: 10%">
                 <!--<PHONE CODE START>-->

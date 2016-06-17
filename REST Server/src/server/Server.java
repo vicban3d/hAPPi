@@ -201,6 +201,8 @@ public class Server implements RESTServer {
             facade.addUser(data);
         } catch (InvalidUserCredentialsException e) {
             return respondERROR("Failed to add user!", e);
+        } catch (IOException e) {
+            return respondERROR("Failed to add user!", e);
         }
         return respondOK("The user " + data.getUsername() + " was created successfully!");
     }

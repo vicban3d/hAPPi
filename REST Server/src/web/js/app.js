@@ -840,6 +840,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.HT_behavior_target = 'The Behavior Target is the Object data on which the calculations are based.';
         $scope.HT_behavior_condition = 'Conditions allow you to specify constraints on the data used for calculations.';
         $scope.HT_release = 'Releasing you application will generate fully-functional applications according to the platforms you choose. The Applications can then be downloaded and installed on your device.';
+        $scope.HT_my_app = 'This page lists all the applications you created. From here you can edit the basic information of you applications or delete them. Click on "Go >" near an application to start working on it.';
 
 
     }]);

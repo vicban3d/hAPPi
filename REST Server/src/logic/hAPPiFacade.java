@@ -192,7 +192,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void removeApplication(String appId, String username) throws DbxException {
+    public void removeApplication(String appId, String username) throws DbxException, IOException {
         String appName = Application.fromDocument(database.getApplication(appId)).getName();
         database.removeApplication(appId);
         fileUploader.deleteFile(username, appName + ".apk");
@@ -201,7 +201,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void removePlatforms(String appName, String username){
+    public void removePlatforms(String appName, String username) throws IOException {
         FileHandler.deleteFolder(Strings.PATH_APPS + "\\" + username + "\\" + appName+ "\\platforms");
         FileHandler.createFolder(Strings.PATH_APPS + "\\" + username + "\\" + appName + "\\platforms");
     }
@@ -245,7 +245,7 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public void addUser(User user) throws InvalidUserCredentialsException {
+    public void addUser(User user) throws InvalidUserCredentialsException, IOException {
         database.addUser(user);
         FileHandler.createFolder(Strings.PATH_APPS + "\\" + user.getUsername());
     }

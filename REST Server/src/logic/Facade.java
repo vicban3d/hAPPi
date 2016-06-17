@@ -53,11 +53,11 @@ public interface Facade {
 
     void clearDatabase();
 
-    void removeApplication(String appId, String username) throws DbxException;
+    void removeApplication(String appId, String username) throws DbxException, IOException;
 
     void updateApplication(Application application, String username) throws IOException, CordovaRuntimeException;
 
-    void removePlatforms(String application, String username);
+    void removePlatforms(String application, String username) throws IOException;
 
     void createBehavior(String appId, String username, ApplicationBehavior behavior);
 
@@ -71,7 +71,7 @@ public interface Facade {
 
     void updateApplicationBehavior(String appId, String username, ApplicationBehavior behavior);
 
-    void addUser(User user) throws InvalidUserCredentialsException;
+    void addUser(User user) throws InvalidUserCredentialsException, IOException;
 
     byte[] getImageAsBytes(String resource);
 

@@ -1,10 +1,13 @@
+/**
+ * Created by victor on 6/17/2016.
+ */
+
 package utility;
 
 import com.upplication.cordova.Cordova;
 import com.upplication.cordova.CordovaCLI;
 import com.upplication.cordova.CordovaProject;
 import com.upplication.cordova.Platform;
-import com.upplication.cordova.util.Environment;
 import exceptions.CordovaRuntimeException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -14,9 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-/**
- * Created by victor on 6/17/2016.
- */
 public class UpplicationAppCompiler implements AppCompiler {
 
     private Cordova cordova;
@@ -33,7 +33,7 @@ public class UpplicationAppCompiler implements AppCompiler {
         if (!Files.exists(Paths.get(Strings.PATH_APPS + "\\" + username))){
             Files.createDirectory(Paths.get(Strings.PATH_APPS + "\\" + username));
         }
-        cli.create(new File(Strings.PATH_APPS + "\\" + username + "\\" + name), "com.happi.app", name);
+        cli.create(new File(Strings.PATH_APPS + "\\" + username + "\\" + name), "com." + name + ".happi", name);
     }
 
     @Override
