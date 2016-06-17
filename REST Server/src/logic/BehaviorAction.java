@@ -31,14 +31,14 @@ public class BehaviorAction extends Document {
     public BehaviorAction(@JsonProperty("operandObject") ApplicationObject operandObject,
                           @JsonProperty("operandAttribute") ObjectAttribute operandAttribute,
                           @JsonProperty("actionChain") ObjectActionChain actionChain,
-                          @JsonProperty("Conditions") List<Condition> conditions,
+                          @JsonProperty("conditions") List<Condition> conditions,
                           @JsonProperty("operator") String operator) {
 
         super();
         this.append("operandObject", operandObject);
         this.append("operandAttribute", operandAttribute);
         this.append("actionChain", actionChain);
-        this.append("Conditions", conditions);
+        this.append("conditions", conditions);
         this.append("operator", operator);
         this.operandObject = operandObject;
         this.operandAttribute = operandAttribute;

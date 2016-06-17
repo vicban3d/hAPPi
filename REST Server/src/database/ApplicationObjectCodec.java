@@ -69,21 +69,20 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
             reader.readStartArray();
             while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
                 reader.readStartDocument();
-                reader.readStartDocument();
                 ObjectAttribute operandAttribute = null;
-                if (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+                ObjectAction operandAction = null;
+                if (reader.readName().equals("operandAttribute")){
+                    reader.readStartDocument();
                     String attrName = reader.readString("name");
                     String attrType = reader.readString("type");
                     operandAttribute = new ObjectAttribute(attrName, attrType);
-                }
-                reader.readEndDocument();
-
-                reader.readStartDocument();
-                ObjectAction operandAction = null;
-                if (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+                }else{
+                    reader.readStartDocument();
                     String actionName = reader.readString("name");
+                    reader.readStartDocument();
                     String attrName = reader.readString("name");
                     String attrType = reader.readString("type");
+                    reader.readEndDocument();
                     ObjectAttribute actionAttr = new ObjectAttribute(attrName, attrType);
 
                     String operator = reader.readString("operator");
@@ -92,9 +91,11 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
 
                     operandAction = new ObjectAction(actionName,actionAttr,operator,operandType,operand2);
                 }
-                String operator = reader.readString("operator");
-                listOfActions.add(new ActionChain(operandAttribute,operandAction, operator));
                 reader.readEndDocument();
+
+                String operator = reader.readString("operator");
+                reader.readEndDocument();
+                listOfActions.add(new ActionChain(operandAttribute,operandAction, operator));
             }
             reader.readEndArray();
             listOfActionChain.add(new ObjectActionChain(actionChainName, listOfActions));
@@ -158,6 +159,7 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
             for (ActionChain actionChain : objectActionChain.getActionsChain()) {
                 writer.writeStartDocument();
                 ObjectAttribute attribute = actionChain.getOperandAttribute();
+                ObjectAction action = actionChain.getOperandAction();
                 if (attribute!=null) {
                     writer.writeStartDocument("operandAttribute");
                     writer.writeName("name");
@@ -165,12 +167,7 @@ public class ApplicationObjectCodec implements Codec<ApplicationObject> {
                     writer.writeName("type");
                     writer.writeString(attribute.getType());
                     writer.writeEndDocument();
-                }
-
-
-                ObjectAction action = actionChain.getOperandAction();
-
-                if (action!=null){
+                }else{
                     writer.writeStartDocument("operandAction");
                     writer.writeName("name");
                     writer.writeString(action.getName());
