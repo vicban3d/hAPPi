@@ -36,12 +36,13 @@ public class hAPPiFacade implements Facade {
      */
     public  hAPPiFacade(){
         database = new MongoDB();
-        compiler = new CordovaAppCompiler();
+//        compiler = new CordovaAppCompiler();
+        compiler = new UpplicationAppCompiler();
         fileUploader = new DropboxAPI();
     }
 
     @Override
-    public void createApplication(Application application) throws CordovaRuntimeException, JSONException {
+    public void createApplication(Application application) throws CordovaRuntimeException, JSONException, IOException {
             database.addApplication(application);
             compiler.createApplication(application.toJSON());
             createPlatforms(application.getPlatforms(), application.getName(), application.getUsername());

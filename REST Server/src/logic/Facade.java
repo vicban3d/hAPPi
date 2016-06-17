@@ -24,7 +24,7 @@ public interface Facade {
      * Creates a new application with the given parameters.
      * @param application - a JSON compatible string describing the application.
      */
-    void createApplication(Application application) throws CordovaRuntimeException, JSONException;
+    void createApplication(Application application) throws CordovaRuntimeException, JSONException, IOException;
 
      /**
      * Compiles and builds the application.

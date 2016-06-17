@@ -123,7 +123,7 @@ public class hAPPiFacadeTest {
     }
 
     @Test
-    public void testUpdateApplicationWithNameAlreadyExist() throws CordovaRuntimeException, JSONException {
+    public void testUpdateApplicationWithNameAlreadyExist() throws CordovaRuntimeException, JSONException, IOException {
         String appOldName = app.getName();
         facade.createApplication(app);
         app.setName("newAppName");

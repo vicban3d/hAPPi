@@ -4,6 +4,8 @@ import exceptions.CordovaRuntimeException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import java.io.IOException;
+
 /**
  * Created by victor on 11/11/2015.
  *
@@ -18,7 +20,7 @@ public interface AppCompiler {
      * Creates a new application and initializes relevant files.
      * @param name - the name of the created application.
      */
-    void createApplication(JSONObject name) throws CordovaRuntimeException, JSONException;
+    void createApplication(JSONObject name) throws CordovaRuntimeException, JSONException, IOException;
 
     /**
      * Add an android module to the given application.

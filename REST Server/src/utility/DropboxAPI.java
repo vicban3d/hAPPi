@@ -31,6 +31,9 @@ public class DropboxAPI implements FileUploader {
         if (listFolder("/Apps/" + username).contains(targetName + ".apk")){
             deleteFile(username, targetName + ".apk");
         }
+        if (!listFolder("/Apps").contains(username)){
+            client.files.createFolder("/Apps/" + username);
+        }
         client.files.uploadBuilder("/Apps/" + username + "/" + targetName + ".apk").run(in);
         DbxSharing.PathLinkMetadata link = client.sharing.createSharedLink("/Apps/" + username + "/" + targetName + ".apk");
         return link.url;
@@ -41,6 +44,9 @@ public class DropboxAPI implements FileUploader {
         DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial", "en_US");
         String access = "-B5QkYWKi2YAAAAAAAAAE7Ny2MxSaCShIU17yiMU59E2wy07Lpbm3Z6bGYI2RreK";
         DbxClientV2 client = new DbxClientV2(config, access);
+        if (!listFolder("/Apps").contains(username)){
+            return;
+        }
         if (listFolder("/Apps/" + username).contains(fileName)) {
             client.files.delete("/Apps/" + username + "/" + fileName);
         }

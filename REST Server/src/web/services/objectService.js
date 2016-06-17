@@ -66,7 +66,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addNewObject = function(applicationId, username) {
-        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionChains: [], applicationId: applicationId, username: username};
+        this.currentObject = {id: '', name: '', attributes: [{name: '', type:''}], actions: [], actionChains: [], applicationId: applicationId, username: username};
         // this.currentObject.actionChains.push({name: '', actions: []});
     };
 

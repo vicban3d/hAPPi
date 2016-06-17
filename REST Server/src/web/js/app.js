@@ -12,7 +12,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.states = {
             READY : 0,
             UPDATING : 1,
-            BUILDING : 2
+            BUILDING : 2,
+            DELETING : 3
         };
         
         $scope.applicationStates = {};
@@ -218,9 +219,13 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.showCurrentPlatforms = function(){ appService.showCurrentPlatforms(); };
 
         $scope.deleteApplication = function(application){
+            $scope.applicationStates[application.id] = $scope.states.DELETING;
             $scope.indexToDelete = -1;
-            appService.deleteApplication($scope.applications, application);
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_APP, angular.toJson(application)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_APP,
+                angular.toJson(application)),
+                function () {appService.deleteApplication($scope.applications, application);},
+                function () {alert('Failed to delete application!')}
+            );
         };
 
         $scope.addApplication = function(){
@@ -703,6 +708,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // ----------------------------------------------------------------------Release Service Methods----------------
 
         $scope.releaseBuildApplication = function(application){
+            $scope.applicationBuildError = false;
+            releaseService.applicationBuilt = false;
             $scope.message = "Building application...";
             $scope.applicationStates[application.id] = $scope.states.BUILDING;
             // releaseService.releaseBuildApplication($scope, application);
@@ -715,7 +722,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 $scope.qrLink = result;
             },
               function(){
-                  $scope.message = "ERROR";
+                  releaseService.applicationBuilt = true;
+                  $scope.applicationBuildError = true;
+                  $scope.applicationStates[app.id] = $scope.states.READY;
               }
             );
         };
@@ -817,20 +826,20 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 return 1;
             else
                 return 0;
-        }
+        };
 
 
         // Help Texts
 
-        $scope.HT_object = 'Objects are the things that populate your Application.';
+        $scope.HT_object = 'Objects are templates for the data in your application. An Object consists of the Attributes that describe it and the Actions that can be performed on those Attributes.';
         $scope.HT_object_attribute = 'Attributes make an object what it is, Ex. Name, Speed, Age, etc.';
         $scope.HT_object_action = 'Actions can be performed on Attributes to manipulate them. Ex. Increase, Multiply, etc.';
         $scope.HT_object_action_chain = 'Action Chains can combine several Actions and Attributes in a series of more complicated calculations.';
         $scope.HT_object_action_chain_link = 'An Action Chain consists of Links which are an Attribute (or Action) and an Operation.';
-        $scope.HT_behavior = 'A Behavior defines calculations that can be performed on an Object.';
+        $scope.HT_behavior = 'Behavior defines calculations that can be performed on an Object.';
         $scope.HT_behavior_target = 'The Behavior Target is the Object data on which the calculations are based.';
         $scope.HT_behavior_condition = 'Conditions allow you to specify constraints on the data used for calculations.';
-        $scope.HT_release = 'Releasing you application will generate a fully-functional application according to the platforms you choose. The Applications can then be downloaded from Dropbox and installed on your device.';
+        $scope.HT_release = 'Releasing you application will generate fully-functional applications according to the platforms you choose. The Applications can then be downloaded and installed on your device.';
 
 
     }]);

@@ -13,6 +13,7 @@ public class Strings {
 //    public static final String SRV_FULL = SRV_HOST + ":" + SRV_PORT + SRV_MAIN;
     public static final String PATH_WEB_CONTENT = "C:\\users\\" + username + "\\IdeaProjects\\hAPPi\\REST server\\src\\web\\";
     public static final String PATH_CORDOVA = "C:\\users\\" + username + "\\AppData\\Roaming\\npm\\cordova.cmd";
+    public static final String PATH_NODE = "C:\\users\\" + username + "\\AppData\\Roaming\\npm\\npm.cmd";
     public static final String PATH_APPS = "C:\\users\\" + username + "\\HAPPI\\Applications";
     public static final String PATH_MAIN = "/";
     public static final String PATH_IMAGES = "/img/{resource}";

@@ -5,6 +5,8 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 /**
@@ -15,9 +17,15 @@ import java.util.Arrays;
 public class CordovaAppCompiler implements AppCompiler {
 
     @Override
-    public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException {
+    public void createApplication(JSONObject application) throws CordovaRuntimeException, JSONException, IOException {
         String name = application.getString("name");
         String username = application.getString("username");
+        if (!Files.exists(Paths.get(Strings.PATH_APPS + "\\" + username))){
+            Files.createDirectory(Paths.get(Strings.PATH_APPS + "\\" + username));
+        }
+        if (!Files.exists(Paths.get(Strings.PATH_APPS + "\\" + username + "\\" + name))){
+            Files.createDirectory(Paths.get(Strings.PATH_APPS + "\\" + username + "\\" + name));
+        }
         executeCommand("","create \"" + Strings.PATH_APPS + "\\" + username + "\\" + name + "\" com.happi.app \"" + name + "\"");
         //initializeFiles(Strings.PATH_APPS + "\\" + name);
     }
