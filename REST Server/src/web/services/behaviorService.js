@@ -64,7 +64,7 @@ main_module.service('behaviorService',[function(){
     };
 
     this.addCondition = function(){
-        this.currentBehavior.conditions.push({attribute: {}, logicOperation: '', value: ''})
+        this.currentBehavior.conditions.push({attribute: {}, actionChain: {}, logicOperation: '', value: ''})
     };
 
     this.removeCondition = function($index){
@@ -111,8 +111,14 @@ main_module.service('behaviorService',[function(){
         var filteredInstances = [];
         for (var i = 0 ; i < conditions.length; i++){
             var attrIndex =  object.attributes.indexOf(conditions[i].attribute);
+            var actionChainIndex = object.actionChains.indexOf(conditions[i].actionChain);
+            var index;
+            if(attrIndex == -1)
+                index = actionChainIndex;
+            else
+                index = attrIndex;
             var temp = instances.map(function(instance) {
-                    var instanceValue = parseInt(instance[attrIndex]);
+                    var instanceValue = parseInt(instance[index]);
                     var logicOperation = conditions[i].logicOperation;
                     var conditionValue = conditions[i].value;
 

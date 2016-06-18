@@ -47,6 +47,7 @@ public class BehaviorAction extends Document {
         this.conditions = conditions;
     }
 
+
     public ApplicationObject getOperandObject() {
         return operandObject;
     }
