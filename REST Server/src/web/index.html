@@ -638,7 +638,6 @@
                                         </span>
                                 </p>
                                 <div data-ng-repeat="actionChain in getCurrentObject().actionChains track by $index">
-                                    {{actionChain}}
                                     <table style="width: 100%">
                                         <tr>
                                             <td class="formInput formInput30" colspan="2">
@@ -663,8 +662,9 @@
                                             </td>
                                         </tr>
                                         <tr data-ng-repeat="chainLink in actionChain.actions track by $index">
-                                            <td class="formInput formInput15">
-                                                <select class="form-control" ng-model="chainOperandType" required>
+
+                                            <td class="formInput formInput15" data-ng-init="chainOperandType = (chainLink.operandAttribute == '' || chainLink.operandAttribute == null) ? ((chainLink.operandAction == '' || chainLink.operandAction == null) ? '' : 'action') : 'attribute'">
+                                                <select class="form-control" ng-model="chainOperandType" ng-change="chainLink.operandAction = ''; chainLink.operandAttribute = '';" required>
                                                     <option value="" select="selected">Choose Operand Type</option>
                                                     <option value="attribute" select="selected">Attribute</option>
                                                     <option value="action" select="selected">Action</option>
@@ -1176,9 +1176,6 @@
                                                         <a class="navbar-brand" href="#" data-ng-click="chosenObject=undefined;designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
                                                     </div>
                                                 </td>
-                                                <!--<ul class="nav navbar-nav navbar-right" >-->
-                                                <!--<li data-ng-repeat="object in getCurrentApplication().objects track by $index" ><a href="#" data-ng-click="designDisplayObjectPage(object)">{{object.name}}</a></li>-->
-                                                <!--</ul>-->
                                                 <td class="formInput formInput80">
                                                     <select class="form-control" ng-model="chosenObject" data-ng-options="chosenObject as chosenObject.name for chosenObject in getCurrentApplication().objects track by chosenObject.name" ng-change="designDisplayObjectPage(chosenObject)" data-ng-show="!getShowEmulatorMainPage() && getCurrentApplication().objects.length > 0">
                                                         <option value="" select="selected">Behavior</option>

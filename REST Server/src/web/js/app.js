@@ -357,7 +357,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                         return {operandAttribute: act.operandAttribute, operator: act.operator};
                 });
             }
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)),
+                function () {},
+                function () {alert("Failed to create object!")});
             $scope.hideArea("objectCreateArea");
         };
 
@@ -376,7 +378,9 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             }
 	        object["username"] = $scope.currentUser.username;
             object["applicationId"] = appService.currentApplication.id;
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_OBJECT, angular.toJson(object)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_OBJECT, angular.toJson(object)),
+                function () {},
+                function () {alert("Failed to delete object!")});
         };
 
         $scope.addAttribute = function(){ objectService.addAttribute(); };
@@ -429,11 +433,23 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 }
             }
 
+            for (i=0; i< objectService.currentObject.actionChains.length; i++) {
+                var chain =  objectService.currentObject.actionChains[i];
+                chain.actions = chain.actions.map(function (act) {
+                    if(act.operandAttribute === "" || act.operandAttribute == null)
+                        return {operandAction: act.operandAction, operator: act.operator};
+                    if(act.operandAction === "" || act.operandAction == null)
+                        return {operandAttribute: act.operandAttribute, operator: act.operator};
+                });
+            }
+            
             objectService.editObject(appService.currentApplication, object);
 
             objectService.currentObject["username"] = $scope.currentUser.username;
             objectService.currentObject["applicationId"] = appService.currentApplication.id;
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_OBJECT, angular.toJson(objectService.currentObject)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_OBJECT, angular.toJson(objectService.currentObject)),
+                function () {},
+                function () {alert("Failed to edit object!")});
             $scope.indexToShow = -1;
 
             if (designService.currentInstance.name === object.name){
