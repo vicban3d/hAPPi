@@ -662,7 +662,6 @@
                                             </td>
                                         </tr>
                                         <tr data-ng-repeat="chainLink in actionChain.actions track by $index">
-
                                             <td class="formInput formInput15" data-ng-init="chainOperandType = (chainLink.operandAttribute == '' || chainLink.operandAttribute == null) ? ((chainLink.operandAction == '' || chainLink.operandAction == null) ? '' : 'action') : 'attribute'">
                                                 <select class="form-control" ng-model="chainOperandType" ng-change="chainLink.operandAction = ''; chainLink.operandAttribute = '';" required>
                                                     <option value="" select="selected">Choose Operand Type</option>
