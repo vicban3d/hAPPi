@@ -45,7 +45,10 @@ main_module.service('designService',[function(){
             objName: this.currentInstance.name,
             attributesList: attributes
         };
-        $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
+        $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)),
+            function () {},
+            function () {alert("Failed to add instance!")}
+        );
     };
 
     this.removeInstance = function($scope, idx){

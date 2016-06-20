@@ -71,7 +71,7 @@ main_module.service('objectService',[function(){
     };
 
     this.addObject = function(application) {
-        this.currentObject.id = generateUUID();
+        
         /*this.currentObject.applicationId = application.id;
         this.currentObject.username = username;*/
         addObjectToApplication(application, this.currentObject);
@@ -260,7 +260,7 @@ main_module.service('objectService',[function(){
 
         if (action.operandType === "Attribute"){
             for (var j = 0; j < object.attributes.length; j++) {
-                if (object.attributes[j].name === action.operand2.name) {
+                if (object.attributes[j].name === action.operand2) {
                     break;
                 }
             }

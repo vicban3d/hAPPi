@@ -347,7 +347,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // ----------------------------------------------------------------------Object Service methods-----------------
 
         $scope.addObject = function() {
-            objectService.addObject(appService.currentApplication);
+
             for (var i=0; i< objectService.currentObject.actionChains.length; i++) {
                 var chain =  objectService.currentObject.actionChains[i];
                 chain.actions = chain.actions.map(function (act) {
@@ -357,9 +357,15 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                         return {operandAttribute: act.operandAttribute, operator: act.operator};
                 });
             }
+
+            objectService.currentObject.id = generateUUID();
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)),
-                function () {},
-                function () {alert("Failed to create object!")});
+                function () {
+                    objectService.addObject(appService.currentApplication);
+                },
+                function () {
+                    alert("Failed to create object!")
+                });
             $scope.hideArea("objectCreateArea");
         };
 
@@ -488,8 +494,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             return objectService.currentObject;
         };
 
-        $scope.performObjectAction = function(actionName, object, instance, dynamicValue){
-            objectService.performObjectAction(actionName, object, instance, dynamicValue);
+        $scope.performObjectAction = function(action, object, instance, dynamicValue){
+            objectService.performObjectAction(action, object, instance, dynamicValue);
         };
 
         $scope.getOperatorListByType = function (type) {
@@ -505,6 +511,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 
         var behaviorObjToJSONOBJ = function(behaviorObj){
+            alert(JSON.toJSON(behaviorObj));
+
             var jsonObj = {};
             jsonObj["id"] = behaviorObj["id"];
             jsonObj["name"] = behaviorObj["name"];
@@ -529,10 +537,44 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.addBehavior = function(){
-            behaviorService.addBehavior(appService.getCurrentApplication(), $scope.currentUser.username);
-            var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
 
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_BEHAVIOR, angular.toJson(jsonObj)));
+
+            var attribute = behaviorService.currentBehavior.action.operandAttribute;
+            var chain = behaviorService.currentBehavior.action.actionChain;
+
+            behaviorService.currentBehavior.action =
+            {
+                operandObject: behaviorService.currentBehavior.action.operandObject,
+                conditions: behaviorService.currentBehavior.action.conditions,
+                operator: behaviorService.currentBehavior.action.operator
+            };
+
+            if (attribute != undefined
+                && attribute !== ""
+                && !(Object.keys(attribute).length === 0 && attribute.constructor === Object)
+                && attribute != null){
+                alert("Adding attribute " + angular.toJson(attribute));
+                behaviorService.currentBehavior.action.operandAttribute = attribute;
+            } else {
+                alert("Adding actionChain " + angular.toJson(chain));
+                behaviorService.currentBehavior.action.actionChain = chain;
+            }
+
+            behaviorService.currentBehavior.id = generateUUID();
+            behaviorService.currentBehavior.username = $scope.currentUser.username;
+            behaviorService.currentBehavior.applicationId = appService.getCurrentApplication().id;
+
+
+            // var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
+            alert(angular.toJson(behaviorService.currentBehavior));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)),
+                function () {
+                    behaviorService.addBehavior(appService.getCurrentApplication());
+                },
+                function () {
+                    alert('Failed to add behavior!');
+                }
+            );
             $scope.hideArea("behaviorCreateArea");
         };
 
@@ -843,6 +885,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             else
                 return 0;
         };
+
+        $scope.names = function(arr){
+            return arr.map(function (a) {return a.name;});
+        }
 
 
         // Help Texts

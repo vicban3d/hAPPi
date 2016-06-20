@@ -7,13 +7,15 @@ main_module.service('behaviorService',[function(){
     {
         id : '',
         name: '',
-        operandObject: {},
-        operator: '',
-        operandAttribute: {},
-        actionChain: {},
-        conditions: [],
         applicationId: '',
         username: '',
+        action: {
+            operandObject: {},
+            operator: '',
+            operandAttribute: {},
+            actionChain: {},
+            conditions: []
+        }
     };
 
     this.addNewBehavior = function() {
@@ -21,20 +23,19 @@ main_module.service('behaviorService',[function(){
         {
             id : '',
             name: '',
-            operandObject: {},
-            operator: '',
-            operandAttribute: {},
-            actionChain: {},
-            conditions: [],
             applicationId: '',
-            username: ''
+            username: '',
+            action: {
+                operandObject: {},
+                operator: '',
+                operandAttribute: {},
+                actionChain: {},
+                conditions: []
+            }
         };
     };
 
-    this.addBehavior = function(application, username){
-        this.currentBehavior.id = generateUUID();
-        this.currentBehavior.username = username;
-        this.currentBehavior.applicationId = application.id;
+    this.addBehavior = function(application){
         addBehaviorToApplication(application, this.currentBehavior);
     };
 
@@ -64,11 +65,11 @@ main_module.service('behaviorService',[function(){
     };
 
     this.addCondition = function(){
-        this.currentBehavior.conditions.push({attribute: {}, actionChain: {}, logicOperation: '', value: ''})
+        this.currentBehavior.action.conditions.push({attribute: {}, actionChain: {}, logicOperation: '', value: ''})
     };
 
     this.removeCondition = function($index){
-        this.currentBehavior.conditions.splice($index, 1);
+        this.currentBehavior.action.conditions.splice($index, 1);
     };
 
     var getAccumulatedValue = function($scope, object, operand, initial, accumulatorFunction){

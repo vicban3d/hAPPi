@@ -400,7 +400,7 @@
                                 </td>
 
                                 <td class="formInput formInput15" data-ng-show="action.operandType === 'Attribute'">
-                                    <select class="form-control" ng-model="action.operand2" data-ng-options="i.name for i in getCurrentObject().attributes track by i.name" data-ng-disabled="action.operandType !== 'Attribute'" required>
+                                    <select class="form-control" ng-model="action.operand2" data-ng-options="i for i in names(getCurrentObject().attributes)" data-ng-disabled="action.operandType !== 'Attribute'" required>
                                         <option value="" selected="selected">Choose Attribute</option>
                                     </select>
                                 </td>
@@ -612,7 +612,7 @@
                                         </td>
 
                                         <td class="formInput formInput15" data-ng-show="action.operandType === 'Attribute'">
-                                            <select class="form-control" ng-model="action.operand2" data-ng-options="i.name for i in getCurrentObject().attributes track by i.name" data-ng-disabled="action.operandType !== 'Attribute'" required>
+                                            <select class="form-control" ng-model="action.operand2" data-ng-options="i for i in names(getCurrentObject().attributes)" data-ng-disabled="action.operandType !== 'Attribute'" required>
                                                 <option value="" selected="selected">Choose Attribute</option>
                                             </select>
                                         </td>
@@ -751,6 +751,7 @@
                         </tr>
                     </table>
                     <br>
+                    {{getCurrentBehavior()}}
                     <div class="form-group">
                         <input data-ng-model="getCurrentBehavior().name" class="form-control" placeholder="Enter Behavior Name" style="width: 40%" maxlength="40" required>
                     </div>
@@ -764,7 +765,7 @@
                         <table style="width: 100%">
                             <tr>
                                 <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="getCurrentBehavior().operandObject" data-ng-options="item as item.name for item in getCurrentApplication().objects.filter(isValidObject) track by item.name" required>
+                                    <select class="form-control" ng-model="getCurrentBehavior().action.operandObject" data-ng-options="item as item.name for item in getCurrentApplication().objects.filter(isValidObject) track by item.name" required>
                                         <option value="" selected="selected">Choose Object</option>
                                     </select>
                                 </td>
@@ -778,34 +779,34 @@
                                 </td>
 
                                 <td class="formInput formInput15" data-ng-show="behaviorOperandType==='attribute'">
-                                    <select class="form-control" ng-model="getCurrentBehavior().operandAttribute" data-ng-options="i.name for i in getCurrentBehavior().operandObject.attributes track by i.name" data-ng-disabled="behaviorOperandType!=='attribute'" required>
+                                    <select class="form-control" ng-model="getCurrentBehavior().action.operandAttribute" data-ng-options="i.name for i in getCurrentBehavior().action.operandObject.attributes track by i.name" data-ng-disabled="behaviorOperandType!=='attribute'" required>
                                         <option value="" select="selected">Choose Operand</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput15" data-ng-show="behaviorOperandType==='actionChain'">
-                                    <select class="form-control" ng-model="getCurrentBehavior().actionChain.name" data-ng-options="i.name for i in getCurrentBehavior().operandObject.actionChains track by i.name" data-ng-disabled="behaviorOperandType!=='actionChain'" required>
+                                    <select class="form-control" ng-model="getCurrentBehavior().action.actionChain.name" data-ng-options="i.name for i in getCurrentBehavior().action.operandObject.actionChains track by i.name" data-ng-disabled="behaviorOperandType!=='actionChain'" required>
                                         <option value="" select="selected">Choose Operand</option>
                                     </select>
                                 </td>
                                 <td class="formInput formInput15" data-ng-show= "behaviorOperandType!=='actionChain' && behaviorOperandType!=='attribute'">
-                                    <select class="form-control" data-ng-options="i.name for i in getCurrentObject().actions track by i.name" disabled>
+                                    <select class="form-control" disabled>
                                         <option value="" select="selected">Choose Operand</option>
                                     </select>
                                 </td>
 
-                                <td class="formInput formInput15" data-ng-show= "behaviorOperandType ==='actionChain' || (behaviorOperandType ==='attribute' && getCurrentBehavior().operandAttribute.type === 'Number')">
+                                <td class="formInput formInput15" data-ng-show= "behaviorOperandType ==='actionChain' || (behaviorOperandType ==='attribute' && getCurrentBehavior().action.operandAttribute.type === 'Number')">
                                     <select class="form-control"
-                                            ng-model="getCurrentBehavior().operator" data-ng-options="i for i in behaviorNumberOperators" data-ng-disabled="!(behaviorOperandType ==='actionChain' || (behaviorOperandType ==='attribute' && getCurrentBehavior().operandAttribute.type === 'Number'))" required>
+                                            ng-model="getCurrentBehavior().action.operator" data-ng-options="i for i in behaviorNumberOperators" data-ng-disabled="!(behaviorOperandType ==='actionChain' || (behaviorOperandType ==='attribute' && getCurrentBehavior().action.operandAttribute.type === 'Number'))" required>
                                         <option value="" selected="selected">Choose Action</option>
                                     </select>
                                 </td>
-                                <td class="formInput formInput15" data-ng-show= "behaviorOperandType ==='attribute' && getCurrentBehavior().operandAttribute.type === 'Text'">
+                                <td class="formInput formInput15" data-ng-show= "behaviorOperandType ==='attribute' && getCurrentBehavior().action.operandAttribute.type === 'Text'">
                                     <select class="form-control"
-                                            ng-model="getCurrentBehavior().operator" data-ng-options="i for i in behaviorTextOperators" data-ng-disabled="!(behaviorOperandType ==='attribute' && getCurrentBehavior().operandAttribute.type === 'Text')" required>
+                                            ng-model="getCurrentBehavior().action.operator" data-ng-options="i for i in behaviorTextOperators" data-ng-disabled="!(behaviorOperandType ==='attribute' && getCurrentBehavior().action.operandAttribute.type === 'Text')" required>
                                         <option value="" selected="selected">Choose Action</option>
                                     </select>
                                 </td>
-                                <td class="formInput formInput15" data-ng-show= "(behaviorOperandType ==='actionChain' && getCurrentBehavior().actionChain.name === '') || (behaviorOperandType ==='attribute'&& getCurrentBehavior().operandAttribute.type === undefined)|| !(behaviorOperandType ==='attribute' || behaviorOperandType ==='actionChain')">
+                                <td class="formInput formInput15" data-ng-show= "(behaviorOperandType ==='actionChain' && getCurrentBehavior().action.actionChain.name === '') || (behaviorOperandType ==='attribute'&& getCurrentBehavior().action.operandAttribute.type === undefined)|| !(behaviorOperandType ==='attribute' || behaviorOperandType ==='actionChain')">
                                     <select class="form-control" disabled>
                                         <option value="" selected="selected">Choose Action</option>
                                     </select>
@@ -826,9 +827,9 @@
                     </p>
                     <div class="form-group">
                         <table style="width: 100%;">
-                            <tr data-ng-repeat="condition in getCurrentBehavior().conditions track by $index">
+                            <tr data-ng-repeat="condition in getCurrentBehavior().action.conditions track by $index">
                                 <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="condition.attribute" data-ng-options="item as item.name for item in getCurrentBehavior().operandObject.attributes.concat(getCurrentBehavior().operandObject.actions) track by item.name" required>
+                                    <select class="form-control" ng-model="condition.attribute" data-ng-options="item as item.name for item in getCurrentBehavior().action.operandObject.attributes.concat(getCurrentBehavior().action.operandObject.actions) track by item.name" required>
                                         <option value="" selected="selected">Choose Attribute</option>
                                     </select>
                                 </td>
@@ -1243,6 +1244,7 @@
                                                 </td>
                                             </tr>
                                             <tr style="border-top: none">
+
                                                 <td colspan="{{ ((instance.length) / 2) + 1 }}">
                                                     <select class="form-control" ng-model="chosenAction" data-ng-options="action as action.name for action in getCurrentInstance().actions track by action.name">
                                                         <option value="" selected="selected">Choose Action</option>
@@ -1250,7 +1252,7 @@
                                                     <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-disabled="chosenAction.operandType !== 'Dynamic'" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
                                                 </td>
                                                 <td colspan="{{ ((instance.length) / 2) }}">
-                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
+                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
                                                 </td>
                                             </tr>
                                             </tbody>
