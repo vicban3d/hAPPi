@@ -25,14 +25,14 @@ public class Condition extends Document {
 
     @JsonCreator
     public Condition(
-            @JsonProperty("operandAttribute") ObjectAttribute attribute,
-            @JsonProperty("operandActionChain") ObjectActionChain actionChain,
+            @JsonProperty("attribute") ObjectAttribute attribute,
+            @JsonProperty("actionChain") ObjectActionChain actionChain,
             @JsonProperty("logicOperation") String logicOperation,
             @JsonProperty("value") String value){
 
         super();
-        this.append("operandAttribute", attribute);
-        this.append("operandActionChain", actionChain);
+        this.append("attribute", attribute);
+        this.append("actionChain", actionChain);
         this.append("logicOperation", logicOperation);
         this.append("value", value);
         this.attribute = attribute;
