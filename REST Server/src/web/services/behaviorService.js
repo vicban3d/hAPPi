@@ -73,7 +73,7 @@ main_module.service('behaviorService',[function(){
     };
 
     var getAccumulatedValue = function($scope, object, operand, initial, accumulatorFunction){
-        var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand.name);
+        var index = object.attributes.map(function(a) {return a.name;}).indexOf(operand);
         var result = 0;
         if (index < 0){//not an attribute
             var actionChainIndex = object.actionChains.map(function(a) {return a.name;}).indexOf(operand.name);

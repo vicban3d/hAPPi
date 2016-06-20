@@ -150,6 +150,7 @@ public class Server implements RESTServer {
 
     @Override
     public Response createBehavior(String data) {
+        System.out.println(data);
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(data);
@@ -181,6 +182,7 @@ public class Server implements RESTServer {
 
     @Override
     public Response updateBehavior(String data) {
+        System.out.println(data);
         ApplicationBehavior applicationBehavior;
         try {
             JSONObject jsonObject = new JSONObject(data);
@@ -217,6 +219,7 @@ public class Server implements RESTServer {
             return respondERROR("Invalid username of password!", e);
         }
         for (Application app : apps){
+            System.out.println("#Conds: " + app.getBehaviors().get(0).getAction().getConditions().size());
             arrayOfApplication.put(app.toJson());
         }
         return respondOK(arrayOfApplication.toString());

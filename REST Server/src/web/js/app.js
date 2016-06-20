@@ -510,31 +510,29 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         // ----------------------------------------------------------------------Behavior Service Methods---------------
 
-        var behaviorObjToJSONOBJ = function(behaviorObj){
-            alert(JSON.toJSON(behaviorObj));
-
-            var jsonObj = {};
-            jsonObj["id"] = behaviorObj["id"];
-            jsonObj["name"] = behaviorObj["name"];
-            jsonObj["applicationId"] = behaviorObj["applicationId"];
-            jsonObj["username"] = behaviorObj["username"];
-
-            jsonObj["action"] = {};
-            jsonObj["action"]["operandObject"] = behaviorObj["operandObject"];
-            if(behaviorObj["operandAttribute"] === "")
-                jsonObj["action"]["operandAttribute"] = behaviorObj["operandAttribute"]["name"];
-            else
-                jsonObj["action"]["actionChain"] = behaviorObj["actionChain"]["name"];
-            if (behaviorObj["conditions"] === undefined)
-                jsonObj["action"]["conditions"]=[];
-            else {
-                jsonObj["action"]["conditions"] = behaviorObj["conditions"];
-            }
-            jsonObj["action"]["operator"] = behaviorObj["operator"];
-            jsonObj["action"]["operandType"] = behaviorObj["operandType"];
-            jsonObj["action"]["operand2"] = behaviorObj["operand2"];
-            return jsonObj;
-        };
+        // var behaviorObjToJSONOBJ = function(behaviorObj){
+        //     var jsonObj = {};
+        //     jsonObj["id"] = behaviorObj["id"];
+        //     jsonObj["name"] = behaviorObj["name"];
+        //     jsonObj["applicationId"] = behaviorObj["applicationId"];
+        //     jsonObj["username"] = behaviorObj["username"];
+        //
+        //     jsonObj["action"] = {};
+        //     jsonObj["action"]["operandObject"] = behaviorObj["operandObject"];
+        //     if(behaviorObj["operandAttribute"] == null)
+        //         jsonObj["action"]["operandAttribute"] = behaviorObj["operandAttribute"]["name"];
+        //     else
+        //         jsonObj["action"]["actionChain"] = behaviorObj["actionChain"]["name"];
+        //     if (behaviorObj["conditions"] === undefined)
+        //         jsonObj["action"]["conditions"]=[];
+        //     else {
+        //         jsonObj["action"]["conditions"] = behaviorObj["conditions"];
+        //     }
+        //     jsonObj["action"]["operator"] = behaviorObj["operator"];
+        //     jsonObj["action"]["operandType"] = behaviorObj["operandType"];
+        //     jsonObj["action"]["operand2"] = behaviorObj["operand2"];
+        //     return jsonObj;
+        // };
 
         $scope.addBehavior = function(){
 
@@ -553,10 +551,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                 && attribute !== ""
                 && !(Object.keys(attribute).length === 0 && attribute.constructor === Object)
                 && attribute != null){
-                alert("Adding attribute " + angular.toJson(attribute));
                 behaviorService.currentBehavior.action.operandAttribute = attribute;
             } else {
-                alert("Adding actionChain " + angular.toJson(chain));
                 behaviorService.currentBehavior.action.actionChain = chain;
             }
 
@@ -565,8 +561,6 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             behaviorService.currentBehavior.applicationId = appService.getCurrentApplication().id;
 
 
-            // var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
-            alert(angular.toJson(behaviorService.currentBehavior));
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)),
                 function () {
                     behaviorService.addBehavior(appService.getCurrentApplication());
@@ -587,11 +581,35 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.editBehavior = function(behavior){
-            behaviorService.editBehavior(appService.getCurrentApplication(), $scope.currentUser.username, behavior);
-            // behavior["username"] = $scope.currentUser.username;
-            // behavior["applicationId"] = appService.currentApplication.id;
-            var jsonObj = behaviorObjToJSONOBJ(behaviorService.currentBehavior);
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_BEHAVIOR, angular.toJson(jsonObj)));
+
+            var attribute = behaviorService.currentBehavior.action.operandAttribute;
+            var chain = behaviorService.currentBehavior.action.actionChain;
+
+            behaviorService.currentBehavior.action =
+            {
+                operandObject: behaviorService.currentBehavior.action.operandObject,
+                conditions: behaviorService.currentBehavior.action.conditions,
+                operator: behaviorService.currentBehavior.action.operator
+            };
+
+            if (attribute != undefined
+                && attribute !== ""
+                && !(Object.keys(attribute).length === 0 && attribute.constructor === Object)
+                && attribute != null){
+                behaviorService.currentBehavior.action.operandAttribute = attribute;
+            } else {
+                behaviorService.currentBehavior.action.actionChain = chain;
+            }
+
+            behaviorService.currentBehavior.id = behavior.id;
+            behaviorService.currentBehavior.username = $scope.currentUser.username;
+            behaviorService.currentBehavior.applicationId = appService.getCurrentApplication().id;
+
+
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_BEHAVIOR, angular.toJson(behaviorService.currentBehavior)),
+                function () {behaviorService.editBehavior(appService.getCurrentApplication(), $scope.currentUser.username, behavior);},
+                function () {alert("Failed to edit Behavior!")
+            });
             $scope.indexToShow = -1;
         };
 
@@ -605,12 +623,15 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             if ($scope.indexToShow != behavior.id) {
                 $scope.indexToShow = behavior.id;
                 behaviorService.currentBehavior = {
-                    id: behavior.id,
+                    id : behavior.id,
                     name: behavior.name,
-                    operandObject: behavior.operandObject,
-                    operator: behavior.operator,
-                    operandAttribute: behavior.operandAttribute,
-                    conditions: copyArray(behavior.conditions)
+                    action: {
+                        operandObject: clone(behavior.action.operandObject),
+                        operator: behavior.action.operator,
+                        operandAttribute: clone(behavior.action.operandAttribute),
+                        actionChain: clone(behavior.action.actionChain),
+                        conditions: copyArray(behavior.action.conditions)
+                    }
                 };
             } else {
                 $scope.indexToShow = -1
@@ -620,12 +641,17 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.hideBehaviorEditArea = function(){
             $scope.indexToShow = -1;
             behaviorService.currentBehavior = {
-                id: '',
-                name: '',
-                operandObject: {},
-                operator: '',
-                operandAttribute: {},
-                conditions: []
+                id : '',
+                    name: '',
+                applicationId: '',
+                username: '',
+                action: {
+                    operandObject: {},
+                    operator: '',
+                    operandAttribute: {},
+                    actionChain: {},
+                    conditions: []
+                }
             };
         };
 
@@ -888,7 +914,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.names = function(arr){
             return arr.map(function (a) {return a.name;});
-        }
+        };
 
 
         // Help Texts
