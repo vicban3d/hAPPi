@@ -537,15 +537,27 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.addBehavior = function(){
 
-
             var attribute = behaviorService.currentBehavior.action.operandAttribute;
             var chain = behaviorService.currentBehavior.action.actionChain;
 
             behaviorService.currentBehavior.action =
             {
                 operandObject: behaviorService.currentBehavior.action.operandObject,
-                conditions: behaviorService.currentBehavior.action.conditions,
-                operator: behaviorService.currentBehavior.action.operator
+                operator: behaviorService.currentBehavior.action.operator,
+                conditions: behaviorService.currentBehavior.action.conditions.map(
+                    function (cond){
+                        var temp = {};
+                        if (cond.attribute && !(Object.keys(cond.attribute).length === 0 && cond.attribute.constructor === Object)) {
+                            temp.attribute = cond.attribute;
+                        } else {
+                            temp.actionChain = cond.actionChain;
+                        }
+                        temp.logicOperation = cond.logicOperation;
+                        temp.value = cond.value;
+
+                        return temp;
+                    }
+                )
             };
 
             if (attribute != undefined
@@ -589,8 +601,21 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             behaviorService.currentBehavior.action =
             {
                 operandObject: behaviorService.currentBehavior.action.operandObject,
-                conditions: behaviorService.currentBehavior.action.conditions,
-                operator: behaviorService.currentBehavior.action.operator
+                operator: behaviorService.currentBehavior.action.operator,
+                conditions: behaviorService.currentBehavior.action.conditions.map(
+                    function (cond){
+                        var temp = {};
+                        if (cond.attribute && !(Object.keys(cond.attribute).length === 0 && cond.attribute.constructor === Object)) {
+                            temp.attribute = cond.attribute;
+                        } else {
+                            temp.actionChain = cond.actionChain;
+                        }
+                        temp.logicOperation = cond.logicOperation;
+                        temp.value = cond.value;
+
+                        return temp;
+                    }
+                )
             };
 
             if (attribute != undefined

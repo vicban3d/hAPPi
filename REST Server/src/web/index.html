@@ -792,7 +792,6 @@
                                         <option value="" select="selected">Choose Operand</option>
                                     </select>
                                 </td>
-
                                 <td class="formInput formInput15" data-ng-show= "(behaviorOperandType ==='actionChain' && getCurrentBehavior().action.actionChain.name != undefined) || (behaviorOperandType ==='attribute' && getCurrentBehavior().action.operandAttribute.type === 'Number')">
                                     <select class="form-control"
                                             ng-model="getCurrentBehavior().action.operator" data-ng-options="i for i in behaviorNumberOperators" data-ng-disabled="!(behaviorOperandType ==='actionChain' || (behaviorOperandType ==='attribute' && getCurrentBehavior().action.operandAttribute.type === 'Number'))" required>

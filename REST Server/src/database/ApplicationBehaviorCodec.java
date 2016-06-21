@@ -107,6 +107,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
                         String attrName = reader.readString("name");
                         String attrType = reader.readString("type");
                         chainOperandAttribute = new ObjectAttribute(attrName, attrType);
+                        reader.readEndDocument();
                     }else{
                         reader.readStartDocument();
                         String actionName = reader.readString("name");
@@ -121,6 +122,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
                         String operand2 = reader.readString("operand2");
 
                         chainOperandAction = new ObjectAction(actionName,actionAttr,operator,operandType,operand2);
+                        reader.readEndDocument();
                     }
 
                     String operator = reader.readString("operator");
@@ -244,6 +246,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
 
                                 writer.writeStartArray("actions");
                                 for (ActionChain actionChain : objActionChain.getActionsChain()){
+                                    writer.writeStartDocument();
                                     if (actionChain.getOperandAttribute()!=null) {
                                         ObjectAttribute operandAttribute = actionChain.getOperandAttribute();
                                         writer.writeStartDocument("operandAttribute");
@@ -254,7 +257,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
                                         writer.writeEndDocument();
                                     }else{
                                         ObjectAction operandAction = actionChain.getOperandAction();
-                                        writer.writeStartDocument();
+                                        writer.writeStartDocument("operandAction");
                                         writer.writeName("name");
                                         writer.writeString(operandAction.getName());
                                         ObjectAttribute attribute = operandAction.getOperand1();
@@ -275,7 +278,7 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
 
                                     writer.writeName("operator");
                                     writer.writeString(actionChain.getOperator());
-
+                                    writer.writeEndDocument();
                                 }
                                 writer.writeEndArray();
                             writer.writeEndDocument();
