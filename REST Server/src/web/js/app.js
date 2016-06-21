@@ -839,7 +839,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
                     $scope.login(user);
                 },
                 function () {
-                    $scope.invalidSignupMessage = "Invalid credentials!";
+                    $scope.invalidSignupMessage = "User already exist!";
                 }
             );
         };

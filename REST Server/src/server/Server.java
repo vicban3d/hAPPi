@@ -219,7 +219,6 @@ public class Server implements RESTServer {
             return respondERROR("Invalid username of password!", e);
         }
         for (Application app : apps){
-            System.out.println("#Conds: " + app.getBehaviors().get(0).getAction().getConditions().size());
             arrayOfApplication.put(app.toJson());
         }
         return respondOK(arrayOfApplication.toString());

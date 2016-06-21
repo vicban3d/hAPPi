@@ -130,7 +130,10 @@ public class MongoDB implements Database {
         BasicDBObject whereQuery = getWhereQuery(ID_KEY, id);
         whereQuery.put("app_id",app_id);
         Document appDoc = getAppInstanceTable().find(whereQuery).first();
-        return AppInstance.fromDocument(appDoc);
+        if (appDoc!=null)
+            return AppInstance.fromDocument(appDoc);
+        else
+            return null;
     }
 
     @Override

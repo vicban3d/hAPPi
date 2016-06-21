@@ -22,7 +22,8 @@ main_module.service('designService',[function(){
         var jsonObj = {app_id: $scope.getCurrentApplication().id, id : phoneNumber};
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.GETOBJ_INSTANCE,angular.toJson(jsonObj)),
                             function (res) {
-                                $scope.instances = JSON.parse(res).object_map;
+                                if (res !== undefined)
+                                    $scope.instances = JSON.parse(res).object_map;
                             },null);
     };
 
