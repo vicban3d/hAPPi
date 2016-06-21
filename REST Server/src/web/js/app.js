@@ -766,7 +766,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         };
 
         $scope.gotoAppInstance = function(phoneNumber){
-            designService.gotoAppInstance(phoneNumber);
+            designService.gotoAppInstance($scope, phoneNumber);
         };
 
         $scope.addInstance = function(){

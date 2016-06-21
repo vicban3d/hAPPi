@@ -15,10 +15,15 @@ main_module.service('designService',[function(){
         return this.showAddInstance;
     };
 
-    this.gotoAppInstance = function(phoneNumber){
+    this.gotoAppInstance = function($scope, phoneNumber){ //book
         this.phoneNumber = phoneNumber;
         this.showEmulatorMainPage = false;
         this.showAddInstance = false;
+        var jsonObj = {app_id: $scope.getCurrentApplication().id, id : phoneNumber};
+        $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.GETOBJ_INSTANCE,angular.toJson(jsonObj)),
+                            function (res) {
+                                $scope.instances = JSON.parse(res).object_map;
+                            },null);
     };
 
     this.designDisplayObjectPage = function(object){
