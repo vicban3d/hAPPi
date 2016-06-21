@@ -783,7 +783,7 @@
                                     </select>
                                 </td>
                                 <td class="formInput formInput15" data-ng-show="behaviorOperandType==='actionChain'">
-                                    <select class="form-control" ng-model="getCurrentBehavior().action.actionChain.name" data-ng-options="i.name for i in getCurrentBehavior().action.operandObject.actionChains track by i.name" data-ng-disabled="behaviorOperandType!=='actionChain'" required>
+                                    <select class="form-control" ng-model="getCurrentBehavior().action.actionChain" data-ng-options="i.name for i in getCurrentBehavior().action.operandObject.actionChains track by i.name" data-ng-disabled="behaviorOperandType!=='actionChain'" required>
                                         <option value="" select="selected">Choose Operand</option>
                                     </select>
                                 </td>
@@ -961,7 +961,7 @@
                                             </select>
                                         </td>
                                         <td class="formInput formInput15" data-ng-show="behaviorOperandType==='actionChain'">
-                                            <select class="form-control" ng-model="getCurrentBehavior().action.actionChain.name" data-ng-options="i.name for i in getCurrentBehavior().action.operandObject.actionChains track by i.name" data-ng-disabled="behaviorOperandType!=='actionChain'" required>
+                                            <select class="form-control" ng-model="getCurrentBehavior().action.actionChain" data-ng-options="i.name for i in getCurrentBehavior().action.operandObject.actionChains track by i.name" data-ng-disabled="behaviorOperandType!=='actionChain'" required>
                                                 <option value="" select="selected">Choose Operand</option>
                                             </select>
                                         </td>
