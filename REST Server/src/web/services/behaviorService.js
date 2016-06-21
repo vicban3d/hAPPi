@@ -65,7 +65,7 @@ main_module.service('behaviorService',[function(){
     };
 
     this.addCondition = function(){
-        this.currentBehavior.action.conditions.push({attribute: {}, actionChain: {}, logicOperation: '', value: ''})
+        this.currentBehavior.action.conditions.push({operandType: '', attribute: {}, actionChain: {}, logicOperation: '', value: ''})
     };
 
     this.removeCondition = function($index){

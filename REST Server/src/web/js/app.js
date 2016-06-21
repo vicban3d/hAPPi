@@ -36,7 +36,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
 
         $scope.basic_types = ["Number", "Text"];
         $scope.andOrOperator = ["Or", "And"];
-        $scope.logicOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
+        $scope.conditionNumberOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
+        $scope.conditionTextOperations = ["Equal", "Not Equal"];
         // $scope.numberOperators = ['Increase By', 'Multiply By', 'Reduce By', 'Divide By', 'Change To'];
         // $scope.textOperators = ['Add Prefix', 'Add Suffix', 'Change To'];
         $scope.behaviorTextOperators = ['Display'];
