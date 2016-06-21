@@ -829,7 +829,7 @@
                         <table style="width: 100%;">
                             <tr data-ng-repeat="condition in getCurrentBehavior().action.conditions track by $index">
                                 <td class="formInput formInput20">
-                                    <select class="form-control" ng-model="condition.attribute" data-ng-options="item as item.name for item in getCurrentBehavior().action.operandObject.attributes.concat(getCurrentBehavior().action.operandObject.actions) track by item.name" required>
+                                    <select class="form-control" ng-model="condition.attribute" data-ng-options="item as item.name for item in getCurrentBehavior().action.operandObject.attributes.concat(getCurrentBehavior().action.operandObject.actionChains) track by item.name" required>
                                         <option value="" selected="selected">Choose Attribute</option>
                                     </select>
                                 </td>
@@ -973,7 +973,7 @@
                                 <table style="width: 100%;">
                                     <tr data-ng-repeat="condition in getCurrentBehavior().action.conditions track by $index">
                                         <td class="formInput formInput20">
-                                            <select class="form-control" ng-model="condition.attribute" data-ng-options="item as item.name for item in getCurrentBehavior().action.operandObject.attributes.concat(getCurrentBehavior().action.operandObject.actions) track by item.name" required>
+                                            <select class="form-control" ng-model="condition.attribute" data-ng-options="item as item.name for item in getCurrentBehavior().action.operandObject.attributes.concat(getCurrentBehavior().action.operandObject.actionChains) track by item.name" required>
                                                 <option value="" selected="selected">Choose Attribute</option>
                                             </select>
                                         </td>

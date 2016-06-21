@@ -82,68 +82,63 @@ public class ApplicationBehaviorCodec implements Codec<ApplicationBehavior> {
             reader.readEndDocument();
         }
         List<Condition> conds = new ArrayList<>();
-        if (reader.getCurrentBsonType().equals(BsonType.ARRAY)){
-            reader.readStartArray();
-            while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+        reader.readStartArray();
+        while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+            reader.readStartDocument();
+            ObjectAttribute condOperandAttribute=null;
+            ObjectActionChain condOperandAction = null;
+            if (reader.readName().equals("attribute")) {
                 reader.readStartDocument();
-                ObjectAttribute condOperandAttribute=null;
-                ObjectActionChain condOperandAction = null;
-                if (reader.readName().equals("attribute")) {
+                String attrName = reader.readString("name");
+                String attrType = reader.readString("type");
+                reader.readEndDocument();
+                condOperandAttribute = new ObjectAttribute(attrName, attrType);
+            } else {
+                reader.readStartDocument();
+                String actionChainName = reader.readString("name");
+                ArrayList<ActionChain> listOfActions = new ArrayList<>();
+                reader.readStartArray();
+                while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
                     reader.readStartDocument();
-                    String attrName = reader.readString("name");
-                    String attrType = reader.readString("type");
-                    reader.readEndDocument();
-                    condOperandAttribute = new ObjectAttribute(attrName, attrType);
-                } else {
-                    reader.readStartDocument();
-                    String actionChainName = reader.readString("name");
-                    ArrayList<ActionChain> listOfActions = new ArrayList<>();
-                    reader.readStartArray();
-                    while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+                    ObjectAttribute chainOperandAttribute = null;
+                    ObjectAction chainOperandAction = null;
+                    if (reader.readName().equals("operandAttribute")){
                         reader.readStartDocument();
-                        ObjectAttribute chainOperandAttribute = null;
-                        ObjectAction chainOperandAction = null;
-                        if (reader.readName().equals("operandAttribute")){
-                            reader.readStartDocument();
-                            String attrName = reader.readString("name");
-                            String attrType = reader.readString("type");
-                            chainOperandAttribute = new ObjectAttribute(attrName, attrType);
-                        }else{
-                            reader.readStartDocument();
-                            String actionName = reader.readString("name");
-                            reader.readStartDocument();
-                            String attrName = reader.readString("name");
-                            String attrType = reader.readString("type");
-                            reader.readEndDocument();
-                            ObjectAttribute actionAttr = new ObjectAttribute(attrName, attrType);
-
-                            String operator = reader.readString("operator");
-                            String operandType = reader.readString("operandType");
-                            String operand2 = reader.readString("operand2");
-
-                            chainOperandAction = new ObjectAction(actionName,actionAttr,operator,operandType,operand2);
-                        }
+                        String attrName = reader.readString("name");
+                        String attrType = reader.readString("type");
+                        chainOperandAttribute = new ObjectAttribute(attrName, attrType);
+                    }else{
+                        reader.readStartDocument();
+                        String actionName = reader.readString("name");
+                        reader.readStartDocument();
+                        String attrName = reader.readString("name");
+                        String attrType = reader.readString("type");
+                        reader.readEndDocument();
+                        ObjectAttribute actionAttr = new ObjectAttribute(attrName, attrType);
 
                         String operator = reader.readString("operator");
-                        reader.readEndDocument();
+                        String operandType = reader.readString("operandType");
+                        String operand2 = reader.readString("operand2");
 
-                        listOfActions.add(new ActionChain(chainOperandAttribute,chainOperandAction, operator));
+                        chainOperandAction = new ObjectAction(actionName,actionAttr,operator,operandType,operand2);
                     }
-                    reader.readEndArray();
-                    reader.readEndDocument();
-                    condOperandAction = new ObjectActionChain(actionChainName,listOfActions);
-                }
-                String logicOperand = reader.readString("logicOperation");
-                String value = reader.readString("value");
 
-                conds.add(new Condition(condOperandAttribute, condOperandAction, logicOperand, value));
-                reader.readEndDocument();
+                    String operator = reader.readString("operator");
+                    reader.readEndDocument();
+
+                    listOfActions.add(new ActionChain(chainOperandAttribute,chainOperandAction, operator));
                 }
-            reader.readEndArray();
-        }else{
-            reader.readName("conditions");
-            reader.skipValue();
+                reader.readEndArray();
+                reader.readEndDocument();
+                condOperandAction = new ObjectActionChain(actionChainName,listOfActions);
+            }
+            String logicOperand = reader.readString("logicOperation");
+            String value = reader.readString("value");
+
+            conds.add(new Condition(condOperandAttribute, condOperandAction, logicOperand, value));
+            reader.readEndDocument();
         }
+        reader.readEndArray();
 
 
         String operator = reader.readString("operator");
