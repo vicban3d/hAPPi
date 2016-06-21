@@ -111,8 +111,8 @@ main_module.service('behaviorService',[function(){
         }
         var filteredInstances = [];
         for (var i = 0 ; i < conditions.length; i++){
-            var attrIndex =  object.attributes.indexOf(conditions[i].attribute);
-            var actionChainIndex = object.actionChains.indexOf(conditions[i].actionChain);
+            var attrIndex =  object.attributes.map(function(a) {return a.name;}).indexOf(conditions[i].attribute.name);
+            var actionChainIndex = object.actionChains.map(function(a) {return a.name;}).indexOf(conditions[i].actionChain.name);
             var index;
             if(attrIndex == -1)
                 index = actionChainIndex;
