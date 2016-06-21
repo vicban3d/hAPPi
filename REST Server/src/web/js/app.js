@@ -412,8 +412,12 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             objectService.removeActionChainLink(chainIndex, linkIndex);
         };
 
-        $scope.checkDisabled = function(){
-            return objectService.checkDisabled();
+        $scope.checkActionChainDisabledInner = function(index){
+            return objectService.checkActionChainDisabledInner(index);
+        };
+
+        $scope.checkActionChainDisabled = function() {
+            return objectService.checkActionChainDisabled();
         };
 
         $scope.getAttributeName = function(val){ objectService.getAttributeName(val); };
@@ -948,8 +952,8 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         $scope.HT_object = 'Objects are templates for the data in your application. An Object consists of the Attributes that describe it and the Actions that can be performed on those Attributes.';
         $scope.HT_object_attribute = 'Attributes make an object what it is, Ex. Name, Speed, Age, etc.';
         $scope.HT_object_action = 'Actions can be performed on Attributes to manipulate them. Ex. Increase, Multiply, etc.';
-        $scope.HT_object_action_chain = 'Action Chains can combine several Actions and Attributes in a series of more complicated calculations.';
-        $scope.HT_object_action_chain_link = 'An Action Chain consists of Links which are an Attribute (or Action) and an Operation.';
+        $scope.HT_object_action_chain = 'Action Chains can combine several Actions and Attributes in a series of more complicated calculations. At least one attribute should be defined before creating an action chain';
+        $scope.HT_object_action_chain_link = 'An Action Chain consists of Links which are an Attribute (or Action) and an Operation. The action in the last link must be DONE';
         $scope.HT_behavior = 'Behavior defines calculations that can be performed on an Object.';
         $scope.HT_behavior_target = 'The Behavior Target is the Object data on which the calculations are based.';
         $scope.HT_behavior_condition = 'Conditions allow you to specify constraints on the data used for calculations.';

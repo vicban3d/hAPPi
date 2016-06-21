@@ -483,13 +483,16 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div data-ng-hide="checkDisabled()">
+                            <div data-ng-hide="checkActionChainDisabledInner($index)">
                                 <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div> Add Link
                             </div>
                             <hr>
                             <hr>
                         </div>
-                        <div class="addFormFieldsButton" data-ng-click="addActionChain()"></div> Add Chain
+                        <div data-ng-hide="checkActionChainDisabled()">
+                            <div class="addFormFieldsButton" data-ng-click="addActionChain()"></div>
+                            Add Chain
+                        </div>
                         <hr>
                     </div>
                 </form>
@@ -681,7 +684,7 @@
                                                 </select>
                                             </td>
                                             <td class="formInput formInput15" data-ng-show= "chainOperandType!=='action' && chainOperandType!=='attribute'">
-                                                <select class="form-control" data-ng-options="i.name for i in getCurrentObject().actions track by i.name" disabled required>
+                                                <select class="form-control" disabled required>
                                                     <option value="" select="selected">Choose Operand</option>
                                                 </select>
                                             </td>
@@ -696,14 +699,16 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <div data-ng-hide="checkDisabled()">
-                                        <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div> Add Link
+                                    <div data-ng-hide="checkActionChainDisabledInner($index)">
+                                        <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div>
                                         Add Link
                                     </div>
                                     <hr>
                                     <hr>
                                 </div>
-                                <div class="addFormFieldsButton" data-ng-click="addActionChain()"></div> Add Chain
+                                <div data-ng-hide="checkActionChainDisabled()">
+                                    <div class="addFormFieldsButton" data-ng-click="addActionChain()"></div> Add Chain
+                                </div>
                                 <hr>
                             </div>
                         </form>

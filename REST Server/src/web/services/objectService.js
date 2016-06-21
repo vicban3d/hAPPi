@@ -117,6 +117,7 @@ main_module.service('objectService',[function(){
             this.currentObject.actionChains = [];
         }
         this.currentObject.actionChains.push({name: "", actions: []});
+        this.addActionChainLink(0);
     };
 
     this.addActionChainLink = function(index){
@@ -143,19 +144,27 @@ main_module.service('objectService',[function(){
         this.currentObject.actionChains[chainIndex].actions.splice(linkIndex, 1);
     };
 
-    this.checkDisabled = function(){
+    this.checkActionChainDisabledInner = function(index){
         if (
             this.currentObject.actionChains != undefined &&
-            this.currentObject.actionChains[0] != undefined &&
-            this.currentObject.actionChains[0].actions.length > 0 &&
-            this.currentObject.actionChains[0].actions[
-                this.currentObject.actionChains[0].actions.length - 1
+            this.currentObject.actionChains[index] != undefined &&
+            this.currentObject.actionChains[index].actions.length > 0 &&
+            this.currentObject.actionChains[index].actions[
+                this.currentObject.actionChains[index].actions.length - 1
                 ].operator == 'DONE') {
 
             return true;
         }
         return false;
     };
+
+    this.checkActionChainDisabled = function(){
+        if (this.currentObject.attributes.length <= 0 ||
+            this.currentObject.attributes.filter(function(a) {return a.name != "" && a.name != undefined}).length == 0)
+            return true;
+        return false;
+    };
+
 
  /*   var getAction = function(actionName, object){
         var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
@@ -247,6 +256,17 @@ main_module.service('objectService',[function(){
                 $scope.objectCreateErrorMessage = "An Object by that name already exists!";
                 return false;
             }
+        }
+
+        for (var i=0; i< object.actionChains.length; i++) {
+            var isContainDoneOperator = false;
+            for (var j=0; j< object.actionChains[i].actions.length; j++) {
+                isContainDoneOperator = false;
+                if(object.actionChains[i].actions[j].operator  == "DONE")
+                    isContainDoneOperator = true;
+            }
+            if(isContainDoneOperator == false)
+                return false;
         }
         return true;
     };
