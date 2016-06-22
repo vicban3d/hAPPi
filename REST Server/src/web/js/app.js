@@ -374,6 +374,10 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
             return objectService.isValidObject($scope, object);
         };
 
+        $scope.isActionAttributeTypeIsNumber = function(object) {
+            return objectService.isActionAttributeTypeIsNumber(object);
+        };
+
         $scope.deleteObject = function(object){
             objectService.deleteObject(appService.currentApplication, object);
             if (!appService.currentApplication.objects.length){

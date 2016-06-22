@@ -241,6 +241,13 @@ main_module.service('objectService',[function(){
         return undefined;
     };
 
+    this.isActionAttributeTypeIsNumber = function(object) {
+        if(object.operand1.type == 'Number')
+            return true;
+        else
+            return false;
+    };
+
     this.isValidObject = function($scope, object){
         if (object == undefined || object === ""){
             return false;

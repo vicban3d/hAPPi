@@ -458,17 +458,17 @@
                                     </td>
 
                                     <td class="formInput formInput15" data-ng-show="chainOperandType==='attribute'">
-                                        <select class="form-control" ng-model="chainLink.operandAttribute" data-ng-options="i.name for i in getCurrentObject().attributes track by i.name" data-ng-disabled="chainOperandType != 'attribute'" required>
+                                        <select class="form-control" ng-model="chainLink.operandAttribute" data-ng-options="i.name for i in getCurrentObject().attributes | filter:{type:'Number'} track by i.name" data-ng-disabled="chainOperandType != 'attribute'" required>
                                             <option value="" select="selected">Choose Operand</option>
                                         </select>
                                     </td>
                                     <td class="formInput formInput15" data-ng-show="chainOperandType==='action'">
-                                        <select class="form-control" ng-model="chainLink.operandAction" data-ng-options="i.name for i in getCurrentObject().actions track by i.name" data-ng-disabled="chainOperandType != 'action'" required>
+                                        <select class="form-control" ng-model="chainLink.operandAction" data-ng-options="i.name for i in getCurrentObject().actions.filter(isActionAttributeTypeIsNumber) track by i.name" data-ng-disabled="chainOperandType != 'action'" required>
                                             <option value="" select="selected">Choose Operand</option>
                                         </select>
                                     </td>
                                     <td class="formInput formInput15" data-ng-show= "chainOperandType!=='action' && chainOperandType!=='attribute'">
-                                        <select class="form-control" data-ng-options="i.name for i in getCurrentObject().actions track by i.name" disabled required>
+                                        <select class="form-control" disabled required>
                                             <option value="" select="selected">Choose Operand</option>
                                         </select>
                                     </td>
@@ -674,12 +674,12 @@
                                             </td>
 
                                             <td class="formInput formInput15" data-ng-show="chainOperandType==='attribute'">
-                                                <select class="form-control" ng-model="chainLink.operandAttribute" data-ng-options="i.name for i in getCurrentObject().attributes track by i.name" data-ng-disabled="chainOperandType != 'attribute'" required>
+                                                <select class="form-control" ng-model="chainLink.operandAttribute" data-ng-options="i.name for i in getCurrentObject().attributes | filter:{type:'Number'} track by i.name" data-ng-disabled="chainOperandType != 'attribute'" required>
                                                     <option value="" select="selected">Choose Operand</option>
                                                 </select>
                                             </td>
                                             <td class="formInput formInput15" data-ng-show="chainOperandType==='action'">
-                                                <select class="form-control" ng-model="chainLink.operandAction" data-ng-options="i.name for i in getCurrentObject().actions track by i.name" data-ng-disabled="chainOperandType != 'action'" required>
+                                                <select class="form-control" ng-model="chainLink.operandAction" data-ng-options="i.name for i in getCurrentObject().actions.filter(isActionAttributeTypeIsNumber) track by i.name" data-ng-disabled="chainOperandType != 'action'" required>
                                                     <option value="" select="selected">Choose Operand</option>
                                                 </select>
                                             </td>
