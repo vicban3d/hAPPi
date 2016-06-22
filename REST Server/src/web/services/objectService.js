@@ -299,7 +299,7 @@ main_module.service('objectService',[function(){
             }
         }
 
-        instance[i] = actionFunc(parseFloat(instance[i]), parseFloat(operand2));
+        instance[i] = actionFunc(myParseFloat(instance[i]), myParseFloat(operand2));
     };
 
     var myParseFloat = function(n){
