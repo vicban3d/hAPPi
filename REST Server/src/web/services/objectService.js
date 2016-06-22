@@ -217,7 +217,7 @@ main_module.service('objectService',[function(){
                         if(actions[i].operandAttribute != undefined){//if its attributes
                             var index = object.attributes.map(function(a) {return a.name;}).indexOf(actions[i].operandAttribute.name);
                             newInstances.push(myParseFloat(instances[index]));
-                    }
+                        }
                         else {
                             var index = object.actions.map(function(a) {return a.name;}).indexOf(actions[i].operandAction.name);
                             var index2 = object.attributes.map(function(a) {return a.name;}).indexOf(object.actions[index].operand1.name);

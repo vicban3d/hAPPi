@@ -402,7 +402,7 @@ main_module.controller('ctrl_main', ['appService', 'objectService', 'behaviorSer
         
         $scope.addAction = function(){ objectService.addAction(); };
 
-        $scope.addActionChain = function(index){ objectService.addActionChain(); };
+        $scope.addActionChain = function(index){ objectService.addActionChain(index); };
         
         $scope.removeAction = function($index){ objectService.removeAction($index); };
 

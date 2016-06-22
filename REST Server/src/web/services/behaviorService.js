@@ -111,21 +111,17 @@ main_module.service('behaviorService',['objectService', function(objectService){
         }
         var filteredInstances = [];
         for (var i = 0 ; i < conditions.length; i++){
-            if(conditions[i].attribute != undefined)
-                var index =  object.attributes.map(function(a) {return a.name;}).indexOf(conditions[i].attribute.name);
-            else if(conditions[i].actionChain != undefined)
-                var index = object.actionChains.map(function(a) {return a.name;}).indexOf(conditions[i].actionChain.name);
             var temp = instances.map(function(instance) {
+                if(conditions[i].attribute != undefined){
+                    var index =  object.attributes.map(function(a) {return a.name;}).indexOf(conditions[i].attribute.name);
                     var instanceValue = parseInt(instance[index]);
-
-                    if(conditions[i].actionChain != undefined){
-                        var funcIns = objectService.getObjectAction(conditions[i].actionChain.name, object);
-                        instanceValue = funcIns(instance);
-                    }
-
+                }
+                else if(conditions[i].actionChain != undefined){
+                    var funcIns = objectService.getObjectAction(conditions[i].actionChain.name, object);
+                    var instanceValue = funcIns(instance);
+                }
                     var logicOperation = conditions[i].logicOperation;
                     var conditionValue = conditions[i].value;
-
                     if (logicOperation == "Greater Than") {
                         if(instanceValue > conditionValue)
                             return instance;
