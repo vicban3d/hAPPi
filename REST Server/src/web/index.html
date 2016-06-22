@@ -488,10 +488,10 @@
                             </div>
                             <hr>
                             <hr>
-                        </div>
-                        <div data-ng-hide="checkActionChainDisabled()">
-                            <div class="addFormFieldsButton" data-ng-click="addActionChain($index)"></div>
-                            Add Chain
+                            <div data-ng-hide="checkActionChainDisabled()">
+                                <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div>
+                                Add Chain
+                            </div>
                         </div>
                         <hr>
                     </div>
@@ -632,7 +632,6 @@
                                 </table>
                                 <div class="addFormFieldsButton" data-ng-click="addAction()"></div>Add Action
                             </div>
-
                             <div class="form-group">
                                 <p><b>Action Chains:</b>
                                         <span class="helptext">
@@ -705,9 +704,9 @@
                                     </div>
                                     <hr>
                                     <hr>
-                                </div>
-                                <div data-ng-hide="checkActionChainDisabled()">
-                                    <div class="addFormFieldsButton" data-ng-click="addActionChain($parent.$index)"></div> Add Chain
+                                    <div data-ng-hide="checkActionChainDisabled()">
+                                        <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div> Add Chain
+                                    </div>
                                 </div>
                                 <hr>
                             </div>
