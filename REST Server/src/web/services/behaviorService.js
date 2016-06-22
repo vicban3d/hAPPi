@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 10/03/2016.
  */
-main_module.service('behaviorService',[function(){
+main_module.service('behaviorService',['objectService', function(objectService){
 
     this.currentBehavior =
     {
@@ -105,7 +105,7 @@ main_module.service('behaviorService',[function(){
      };
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-    this.getInstancesFilteredByConditions = function(instances, conditions, object){
+    this.getInstancesFilteredByConditions = function($scope, instances, conditions, object){
         if(conditions == null || conditions.length ==  0){
             return instances;
         }
@@ -117,6 +117,12 @@ main_module.service('behaviorService',[function(){
                 var index = object.actionChains.map(function(a) {return a.name;}).indexOf(conditions[i].actionChain.name);
             var temp = instances.map(function(instance) {
                     var instanceValue = parseInt(instance[index]);
+
+                    if(conditions[i].actionChain != undefined){
+                        var funcIns = objectService.getObjectAction(conditions[i].actionChain.name, object);
+                        instanceValue = funcIns(instance);
+                    }
+
                     var logicOperation = conditions[i].logicOperation;
                     var conditionValue = conditions[i].value;
 
@@ -147,7 +153,7 @@ main_module.service('behaviorService',[function(){
     };
 
     this.getBehaviorAction = function($scope, object, actionName, conditions){
-        var instances = this.getInstancesFilteredByConditions($scope.instances[object.name], conditions, object);
+        var instances = this.getInstancesFilteredByConditions($scope, $scope.instances[object.name], conditions, object);
         if (actionName == "Sum of All"){
             return function (operand){
                 var accumulatorFunction = function(initial, action, index) {
