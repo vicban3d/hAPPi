@@ -111,13 +111,10 @@ main_module.service('behaviorService',[function(){
         }
         var filteredInstances = [];
         for (var i = 0 ; i < conditions.length; i++){
-            var attrIndex =  object.attributes.map(function(a) {return a.name;}).indexOf(conditions[i].attribute.name);
-            var actionChainIndex = object.actionChains.indexOf(conditions[i].actionChain);
-            var index;
-            if(attrIndex == -1)
-                index = actionChainIndex;
-            else
-                index = attrIndex;
+            if(conditions[i].attribute != undefined)
+                var index =  object.attributes.map(function(a) {return a.name;}).indexOf(conditions[i].attribute.name);
+            else if(conditions[i].actionChain != undefined)
+                var index = object.actionChains.map(function(a) {return a.name;}).indexOf(conditions[i].actionChain.name);
             var temp = instances.map(function(instance) {
                     var instanceValue = parseInt(instance[index]);
                     var logicOperation = conditions[i].logicOperation;

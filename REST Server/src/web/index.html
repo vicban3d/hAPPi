@@ -490,7 +490,7 @@
                             <hr>
                         </div>
                         <div data-ng-hide="checkActionChainDisabled()">
-                            <div class="addFormFieldsButton" data-ng-click="addActionChain()"></div>
+                            <div class="addFormFieldsButton" data-ng-click="addActionChain($index)"></div>
                             Add Chain
                         </div>
                         <hr>
@@ -707,7 +707,7 @@
                                     <hr>
                                 </div>
                                 <div data-ng-hide="checkActionChainDisabled()">
-                                    <div class="addFormFieldsButton" data-ng-click="addActionChain()"></div> Add Chain
+                                    <div class="addFormFieldsButton" data-ng-click="addActionChain($index)"></div> Add Chain
                                 </div>
                                 <hr>
                             </div>

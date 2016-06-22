@@ -112,16 +112,16 @@ main_module.service('objectService',[function(){
         this.currentObject.actions.push({name: '', operand1: '', operator: '', operandType: '', operand2: ''});
     };
 
-    this.addActionChain = function(){
+    this.addActionChain = function(index){
         if (this.currentObject.actionChains == undefined){
             this.currentObject.actionChains = [];
         }
         this.currentObject.actionChains.push({name: "", actions: []});
-        this.addActionChainLink(0);
+        this.addActionChainLink(index);
     };
 
     this.addActionChainLink = function(index){
-        this.currentObject.actionChains[index].actions.push({operandAttribute: "", operandAction: "", operator: ""});
+        this.currentObject.actionChains[index].actions.push({operandAttribute: '', operandAction: '', operator: ''});
     };
 
     this.isLastActionChainLink = function(chainIndex, index){
