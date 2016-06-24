@@ -16,10 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by victor on 11/10/2015.
@@ -255,11 +252,13 @@ public class hAPPiFacade implements Facade {
         String id = null;
         String app_id = null;
         String objName = null;
+        String insId = null;
         List<String> attributes = new ArrayList<>();
         try {
             id = jsonObj.getString("id");
             app_id = jsonObj.getString("app_id");
             objName = jsonObj.getString("objName");
+            insId = jsonObj.getString("insId");
             JSONArray jsonArray = (JSONArray)jsonObj.get("attributesList");
             if (jsonArray!=null){
                 for (int i=0;i<jsonArray.length();i++)
@@ -270,15 +269,15 @@ public class hAPPiFacade implements Facade {
         }
         Boolean isAppInstanceExist = database.isInstanceExist(id, app_id);
         if (!isAppInstanceExist){
-            Map<String,List<List<String>>> newMap = new HashMap<>();
-            List<List<String>> list = new ArrayList<>();
-            list.add(attributes);
+            Map<String,Map<String, List<String>>> newMap = new HashMap<>();
+            Map<String, List<String>> list = new HashMap<>();
+            list.put(insId, attributes);
             newMap.put(objName,list);
             AppInstance appInstance = new AppInstance(id,app_id,newMap);
             database.addApplicationInstance(appInstance);
         }else{
             AppInstance appInstance = database.getAppInstance(id, app_id);
-            appInstance.addObjectInstance(objName, attributes);
+            appInstance.addObjectInstance(objName, attributes,insId);
             database.updateAppInstance(appInstance);
         }
     }
@@ -288,20 +287,46 @@ public class hAPPiFacade implements Facade {
         String instanceId = null;
         String app_id = null;
         String objName = null;
-        int index = 0;
+        String insId = null;
 
         try {
             instanceId = jsonObj.getString("id");
             app_id = jsonObj.getString("app_id");
             objName = jsonObj.getString("objName");
-            index = jsonObj.getInt("index");
+            insId = jsonObj.getString("insId");
         } catch (org.codehaus.jettison.json.JSONException e) {
             e.printStackTrace();
         }
 
 
         AppInstance instance = database.getAppInstance(instanceId, app_id);
-        instance.removeObjectInstance(objName,index);
+        instance.removeObjectInstance(objName,insId);
+        database.updateAppInstance(instance);
+    }
+
+    @Override
+    public void updateObjectInstance(JSONObject jsonObj) {
+        String instanceId = null;
+        String app_id = null;
+        String objName = null;
+        String insId = null;
+        List<String> attributes = new ArrayList<>();
+        try {
+            instanceId = jsonObj.getString("id");
+            app_id = jsonObj.getString("app_id");
+            objName = jsonObj.getString("objName");
+            insId = jsonObj.getString("insId");
+            JSONArray jsonArray = (JSONArray)jsonObj.get("attributesList");
+            if (jsonArray!=null){
+                for (int i=0;i<jsonArray.length();i++)
+                    attributes.add(jsonArray.getString(i));
+            }
+        } catch (org.codehaus.jettison.json.JSONException e) {
+            e.printStackTrace();
+        }
+
+        AppInstance instance = database.getAppInstance(instanceId, app_id);
+        instance.updateObjectInstance(objName,insId,attributes);
         database.updateAppInstance(instance);
     }
 

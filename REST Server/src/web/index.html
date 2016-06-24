@@ -1302,14 +1302,14 @@
                                                 <!--PADDING-->
                                             </th>
                                             </thead>
-                                            <tbody data-ng-repeat="instance in instances[getCurrentInstance().name] track by $index">
+                                            <tbody data-ng-repeat="(insId, instance) in instances[getCurrentInstance().name] track by $index">
 
                                             <tr style="border-bottom: none; border-top: solid thick silver">
                                                 <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
                                                     {{val}}
                                                 </td>
                                                 <td style="width: 10%; border-left: silver thin dashed">
-                                                    <input type="button" class="btn btn-danger" value="Remove" data-ng-click="removeInstance($index)">
+                                                    <input type="button" class="btn btn-danger" value="Remove" data-ng-click="removeInstance(insId)">
                                                 </td>
                                             </tr>
                                             <tr style="border-top: none">

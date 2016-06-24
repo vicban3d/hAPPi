@@ -227,6 +227,16 @@ public interface RESTServer {
     /**
      * Creates new user in db
      * @param reqParam - request
+     */
+    @POST
+    @Path(Strings.PATH_UPDATE_OBJECT_INSTANCE)
+    @Consumes({MediaType.TEXT_PLAIN})
+    @Produces(MediaType.TEXT_PLAIN)
+    Response updateObjInstance(String reqParam);
+
+    /**
+     * Creates new user in db
+     * @param reqParam - request
      * */
     @POST
     @Path(Strings.PATH_GET_OBJECT_INSTANCE)

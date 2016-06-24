@@ -348,6 +348,20 @@ public class Server implements RESTServer {
     }
 
     @Override
+    public Response updateObjInstance(String reqParam) {
+        String objName;
+        try {
+            JSONObject jsonObject = new JSONObject(reqParam);
+            facade.updateObjectInstance(jsonObject);
+            objName = jsonObject.getString("objName");
+        } catch (JSONException e) {
+            return respondERROR("Error: Failed to update object instance!", e);
+        }
+        Logger.DEBUG("The object " + objName + " instance was updated successfully");
+        return respondOK("The object " + objName + " instance was updated successfully");
+    }
+
+    @Override
     public AppInstance getObjInstance(String reqParam) {
         try {
             JSONObject jsonObject = new JSONObject(reqParam);

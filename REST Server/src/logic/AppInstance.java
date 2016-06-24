@@ -24,12 +24,12 @@ public class AppInstance extends Document{
 
     // map between object and his attributes
     @XmlElement(required = true)
-    private Map<String, List<List<String>>> objectInstances;
+    private Map<String, Map<String, List<String>>> objectInstances;
 
     @JsonCreator
     public AppInstance(@JsonProperty("id")String id,
                        @JsonProperty("app_id")String app_id,
-                       @JsonProperty("object_map")Map<String, List<List<String>>> objectInstances){
+                       @JsonProperty("object_map")Map<String, Map<String, List<String>>> objectInstances){
         super();
 
 
@@ -59,11 +59,11 @@ public class AppInstance extends Document{
         this.put("app_id",app_id);
     }
 
-    public Map<String, List<List<String>>> getObjectInstances() {
+    public Map<String, Map<String, List<String>>> getObjectInstances() {
         return (Map)this.get("object_map");
     }
 
-    public void setObjectInstances(HashMap<String, List<List<String>>> objectInstances) {
+    public void setObjectInstances(HashMap<String, Map<String, List<String>>> objectInstances) {
         this.put("object_map",objectInstances);
     }
 
@@ -76,27 +76,31 @@ public class AppInstance extends Document{
         return new AppInstance(data.getString("id"),data.getString("app_id"),(Map)data.get("object_map"));
     }
 
-    public void addObjectInstance(String objName, List<String> attributes){
+    public void addObjectInstance(String objName, List<String> attributes, String insId){
         if (objectInstances.containsKey(objName)){
-            List<List<String>> objList = objectInstances.remove(objName);
-            objList.add(attributes);
+            Map<String, List<String>> objList = objectInstances.remove(objName);
+            objList.put(insId, attributes);
             objectInstances.put(objName,objList);
         }else{
-            List<List<String>> objList = new ArrayList<>();
-            objList.add(attributes);
-            objectInstances.put(objName, objList);
+            Map<String, List<String>> objMap = new HashMap<String, List<String>>();
+            objMap.put(insId, attributes);
+            objectInstances.put(objName, objMap);
         }
     }
 
-    public void removeObjectInstance(String objName,int index){
+    public void removeObjectInstance(String objName,String insId){
         if (objectInstances.containsKey(objName)){
-            List<List<String>> objList = objectInstances.get(objName);
-            if (objList.size()>index){
-                if (objList.size()>1){
-                    objList.remove(index);
-                }else{
-                    objectInstances.remove(objName);
-                }
+            Map<String, List<String>> objList = objectInstances.get(objName);
+            objList.remove(insId);
+        }
+    }
+
+    public void updateObjectInstance(String objName,String insId, List<String> attributes){
+        if (objectInstances.containsKey(objName)){
+            Map<String, List<String>> objList = objectInstances.get(objName);
+            if (objList.containsKey(insId)){
+                objList.remove(insId);
+                objList.put(insId,attributes);
             }
         }
     }

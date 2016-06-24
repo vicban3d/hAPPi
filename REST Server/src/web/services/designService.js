@@ -40,16 +40,18 @@ main_module.service('designService',[function(){
 
     this.addInstance = function($scope, attributes){
         if ($scope.instances[this.currentInstance.name] == undefined){
-            $scope.instances[this.currentInstance.name] = [];
+            $scope.instances[this.currentInstance.name] = {};
         }
-        $scope.instances[this.currentInstance.name].push(attributes);
+        var insId = generateUUID();
+        $scope.instances[this.currentInstance.name][insId] = attributes;
         $scope.attribute_values = [];
 
         var postBody = {
             id : this.phoneNumber,
             app_id: $scope.getCurrentApplication().id,
             objName: this.currentInstance.name,
-            attributesList: attributes
+            attributesList: attributes,
+            insId : insId
         };
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)),
             function () {},
@@ -57,17 +59,14 @@ main_module.service('designService',[function(){
         );
     };
 
-    this.removeInstance = function($scope, idx){
-        if(isNumber(idx))
-            $scope.instances[this.currentInstance.name].splice(parseInt(idx),1);
-        else
-            alert("Please choose index from the list!");
-
+    this.removeInstance = function($scope, insId){
+        //$scope.instances[this.currentInstance.name][this.currentInstance.insId].splice(parseInt(idx),1);
+        delete $scope.instances[this.currentInstance.name][insId];
         var postBody = {
             id : this.phoneNumber,
             app_id: $scope.getCurrentApplication().id,
             objName: this.currentInstance.name,
-            index: idx
+            insId: insId
         };
 
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVEOBJ_INSTANCE, angular.toJson(postBody)));

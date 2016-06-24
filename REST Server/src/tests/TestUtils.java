@@ -21,10 +21,10 @@ public class TestUtils {
     }
 
     public static AppInstance createAppInstance() {
-        Map<String, List<List<String>>> instances = new HashMap<String, List<List<String>>>();
-        List<List<String>> instanceValues = new ArrayList<List<String>>();
-        instanceValues.add(Arrays.asList("1","2"));
-        instanceValues.add(Arrays.asList("3","4"));
+        Map<String, Map<String, List<String>>> instances = new HashMap<String, Map<String, List<String>>>();
+        Map<String, List<String>> instanceValues = new HashMap<>();
+        instanceValues.put("insId1", Arrays.asList("1", "2"));
+        instanceValues.put("insId2", Arrays.asList("3","4"));
         instances.put("Attr1", instanceValues);
         return new AppInstance("appInstanceId","appId", instances);
     }
