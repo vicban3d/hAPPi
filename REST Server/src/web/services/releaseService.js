@@ -1,5 +1,6 @@
 /**
  * Created by Victor on 10/03/2016.
+ * 
  */
 main_module.service('releaseService',[function(){
 

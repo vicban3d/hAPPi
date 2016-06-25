@@ -70,7 +70,7 @@ body{
     /*left: 0;*/
     background: white;
     /*z-index: 2;*/
-    /*overflow-x: hidden;*/
+    overflow-y: auto;
 }
 
 .designAreaOutput{
@@ -146,7 +146,8 @@ body{
     text-align: center;
     color: black;
     font-size: 20px;
-    background-color: white;
+    background: none;
+
 }
 
 .componentListTitle{
@@ -291,6 +292,14 @@ span.addAppButton{
     padding: 0 0 0 0;
     cursor: hand;
 }
+
+.platformIcon{
+    background-size: 100%;
+    height: auto;
+    width: 30%;
+    padding: 0 0 0 0;
+}
+
 .debug{
     position: absolute;
     height: 3%;

@@ -1,5 +1,6 @@
 /**
  * Created by Victor on 10/03/2016.
+ *
  */
 main_module.service('objectService',[function(){
 
@@ -67,24 +68,28 @@ main_module.service('objectService',[function(){
 
     this.addNewObject = function(applicationId, username) {
         this.currentObject = {id: '', name: '', attributes: [{name: '', type:''}], actions: [], actionChains: [], applicationId: applicationId, username: username};
-        // this.currentObject.actionChains.push({name: '', actions: []});
     };
 
     this.addObject = function(application) {
-        
-        /*this.currentObject.applicationId = application.id;
-        this.currentObject.username = username;*/
         addObjectToApplication(application, this.currentObject);
     };
 
     this.editObject = function(application, object){
+        // remove previous object
         removeObjectFromApplication(application, object.name);
-        this.currentObject.applicationId = application.id;
+        // add new object
         addObjectToApplication(application, this.currentObject);
     };
 
     this.deleteObject = function(application, object){
-       removeObjectFromApplication(application, object.name);
+        removeObjectFromApplication(application, object.name);
+        for(var i = application.behaviors.length - 1; i >= 0; i--){
+            if(application.behaviors[i].action.operandObject.name === object.name){
+                application.behaviors[i].action.operandObject = {};
+                alert("Warning: Behavior " + application.behaviors[i].name + " was effected by deleting this Object.")
+            }
+        }
+
         this.currentObject = {id: '', name: '', attributes: [], actions: [], actionChains: [], applicationId: '', username: ''};
     };
 
@@ -92,9 +97,10 @@ main_module.service('objectService',[function(){
         application.objects.push(object);
     };
 
-    var removeObjectFromApplication= function(application, objectName){
+    var removeObjectFromApplication = function(application, objectName){
+        
         for(var i = application.objects.length - 1; i >= 0; i--){
-            if(application.objects[i].name == objectName){
+            if(application.objects[i].name === objectName){
                 application.objects.splice(i,1);
             }
         }
@@ -152,7 +158,6 @@ main_module.service('objectService',[function(){
             this.currentObject.actionChains[index].actions[
                 this.currentObject.actionChains[index].actions.length - 1
                 ].operator == 'DONE') {
-
             return true;
         }
         return false;
@@ -165,17 +170,9 @@ main_module.service('objectService',[function(){
         return false;
     };
 
-
- /*   var getAction = function(actionName, object){
-        var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
-        var action = object.actions[index].operator;
-        return this.objectOperators[action].FUNCTION;
-    };*/
-
     var getAction = function(actionName, object){
         var index = object.actions.map(function(a) {return a.name;}).indexOf(actionName);
         var action = object.actions[index].operator;
-        // var operand2 = parseFloat(object.actions[index].operand2);
 
         if (action == "Increase By") {
             return function (operand1, operand2) {
@@ -242,10 +239,7 @@ main_module.service('objectService',[function(){
     };
 
     this.isActionAttributeTypeIsNumber = function(object) {
-        if(object.operand1.type == 'Number')
-            return true;
-        else
-            return false;
+        return object.operand1.type == 'Number';
     };
 
     this.isValidObject = function($scope, object){
@@ -257,7 +251,7 @@ main_module.service('objectService',[function(){
         if (all_objects == undefined){
             return true;
         }
-        for (var i=0; i< all_objects.length; i++) {
+        for (i=0; i< all_objects.length; i++) {
             if (all_objects[i].name === object.name
                 && all_objects[i].id !== object.id){
                 $scope.objectCreateErrorMessage = "An Object by that name already exists!";
@@ -279,6 +273,7 @@ main_module.service('objectService',[function(){
     };
 
     this.performObjectAction = function(action, object, instance, dynamicValue){
+
         var operand2 = undefined;
 
         if (action.operandType === "Fixed Value"){
@@ -316,5 +311,4 @@ main_module.service('objectService',[function(){
             return n;
         }
     };
-
 }]);

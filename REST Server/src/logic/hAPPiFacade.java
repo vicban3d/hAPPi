@@ -65,12 +65,22 @@ public class hAPPiFacade implements Facade {
     }
 
     @Override
-    public String buildApplication(String appId, String username) throws CordovaRuntimeException, IOException, DbxException {
+    public HashMap<String, String> buildApplication(String appId, String username) throws CordovaRuntimeException, IOException, DbxException {
         Application application = Application.fromDocument(database.getApplication(appId));
         prepareApplicationForCompilation(application);
         compiler.buildApplication(application.getName(), application.getUsername());
-        return fileUploader.uploadFile(username, application.getName(), Strings.PATH_APPS + "/" + application.getUsername() + "/" +application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk");
-
+        ArrayList<String> platforms = application.getPlatforms();
+        HashMap<String, String> links = new HashMap<>();
+        if (platforms.contains("android")) {
+            links.put("android", fileUploader.uploadFile(username, application.getName(), Strings.PATH_APPS + "/" + application.getUsername() + "/" + application.getName() + "/platforms/android/build/outputs/apk/android-debug.apk"));
+        }
+        if (platforms.contains("ios")) {
+            links.put("ios", fileUploader.uploadFile(username, application.getName(), Strings.PATH_APPS + "/" + application.getUsername() + "/" + application.getName() + "/platforms/ios/build/outputs/apk/ios-debug.apk"));
+        }
+        if (platforms.contains("wp8")) {
+            links.put("wp8", fileUploader.uploadFile(username, application.getName(), Strings.PATH_APPS + "/" + application.getUsername() + "/" + application.getName() + "/platforms/wp8/build/outputs/apk/android-debug.apk"));
+        }
+        return links;
     }
 
     private void prepareApplicationForCompilation(Application application) throws IOException {

@@ -528,12 +528,15 @@
                                         <div style="color: red; font: 16px bold calibri" data-ng-show="!isValidObject(getCurrentObject())">
                                             {{objectCreateErrorMessage}}
                                         </div>
+                                        <div style="color: red; font: 16px bold calibri" data-ng-show="objectBelongsToBehavior(object)">
+                                            This Object is part of a Behavior and cannot be edited. Change the Behavior first.
+                                        </div>
                                     </td>
                                     <td class="formInput formInput10" style="border-left: dashed thin silver">
                                         <input type="button" value="Cancel" class="btn btn-danger btn-app-list" data-ng-click="hideObjectEditArea()">
                                     </td>
                                     <td class="formInput formInput10" style="border-right: dashed thin silver">
-                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidObject(getCurrentObject())">
+                                        <input type="submit" value="Save" class="btn btn-primary btn-app-list" data-ng-disabled="!isValidObject(getCurrentObject())  || objectBelongsToBehavior(object)">
                                     </td>
                                 </tr>
                             </table>
@@ -1187,33 +1190,74 @@
                     <span class="tooltiptext">{{HT_release}}</span>
                 </span>
             </div>
-            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release {{getCurrentApplication().name}}</span>
+            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release for all platforms</span>
+            <br>
             <div data-ng-show="applicationStates[getCurrentApplication().id] == states.READY && !getApplicationBuilt()">
                 <img class="noMembersImage" src="http://localhost/img/before_release.png">
             </div>
-            <br><br>
-            <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY && !applicationBuildError">
-            </div>
-            <div class="componentMainTitle" style="color: red" data-ng-show="applicationBuildError">X<br>An error was encountered while building your application, please try again...</div>
-            <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.BUILDING && !applicationBuildError">Releasing your Application...</div>
-            <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.UPDATING && !applicationBuildError">Your Application is being updated, please wait...</div>
-            <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.DELETING && !applicationBuildError">Your Application is being deleted!</div>
-            <table style="width: 100%;" data-ng-show="getApplicationBuilt() && !applicationBuildError">
-                <tr>
-                    <td class="formInput formInput20">
-                        <!--PADDING-->
+            <table style="width: 100%;">
+                <tr data-ng-show="applicationStates[getCurrentApplication().id] != states.READY || applicationBuildError">
+                    <td style="width:33%; height:auto;">
+                        <img class="platformIcon" style="margin-left: 35%"  src="http://localhost/img/{{androidCheckboxImg}}">
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY && !(getCurrentApplication().platforms.indexOf('android') >= 0)">Not Selected</div>
+                        <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY && !applicationBuildError && (getCurrentApplication().platforms.indexOf('android') >= 0)"></div>
+                        <div class="componentMainTitle" style="color: red" data-ng-show="applicationBuildError && (getCurrentApplication().platforms.indexOf('android') >= 0)">X<br>An error was encountered while building your application, please try again...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.BUILDING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('android') >= 0)">Releasing Android...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.UPDATING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('android') >= 0)">Your Application is being updated, please wait...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.DELETING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('android') >= 0)">Your Application is being deleted!</div>
+
                     </td>
-                    <td class="formInput formInput20">
-                        <div id="appQRImage"></div>
+                    <td style="width:33%; height:auto;">
+                        <img class="platformIcon" style="margin-left: 35%"  src="http://localhost/img/{{iosCheckboxImg}}">
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY && !applicationBuildError && !(getCurrentApplication().platforms.indexOf('ios') >= 0)">Not Selected</div>
+                        <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY && !applicationBuildError && (getCurrentApplication().platforms.indexOf('ios') >= 0)"></div>
+                        <div class="componentMainTitle" style="color: red" data-ng-show="applicationBuildError && (getCurrentApplication().platforms.indexOf('ios') >= 0)">X<br>An error was encountered while building your application, please try again...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.BUILDING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('ios') >= 0)">Releasing iOS...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.UPDATING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('ios') >= 0)">Your Application is being updated, please wait...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.DELETING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('ios') >= 0)">Your Application is being deleted!</div>
+
                     </td>
-                    <td class="formInput formInput40">
-                        <p class="applicationTitle">Your Application is complete!</p>
-                        <p class="applicationTitle">Scan this QR code to get it.</p>
-                        <p>(Or visit <!--suppress HtmlUnknownTarget -->
-                            <a href="{{qrLink}}">here</a>)</p>
+                    <td style="width:33%; height:auto;">
+                        <img class="platformIcon" style="margin-left: 35%" src="http://localhost/img/{{windowsCheckboxImg}}">
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY && !(getCurrentApplication().platforms.indexOf('wp8') >= 0)">Not Selected</div>
+                        <div class="loadingCircle largeBlackLoadingCircle" data-ng-show="applicationStates[getCurrentApplication().id] != states.READY && !applicationBuildError && (getCurrentApplication().platforms.indexOf('wp8') >= 0)"></div>
+                        <div class="componentMainTitle" style="color: red" data-ng-show="applicationBuildError && (getCurrentApplication().platforms.indexOf('wp8') >= 0)">X<br>An error was encountered while building your application, please try again...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.BUILDING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('wp8') >= 0)">Releasing WindowsPhone...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.UPDATING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('wp8') >= 0)">Your Application is being updated, please wait...</div>
+                        <div class="componentMainTitle" data-ng-show="applicationStates[getCurrentApplication().id] == states.DELETING && !applicationBuildError && (getCurrentApplication().platforms.indexOf('wp8') >= 0)">Your Application is being deleted!</div>
+
                     </td>
-                    <td class="formInput formInput20">
-                        <!--PADDING-->
+                </tr>
+                <tr data-ng-show="applicationStates[getCurrentApplication().id] == states.READY && getApplicationBuilt() && !applicationBuildError">
+                    <td style="width:33%; padding: 5%; height:auto;">
+                        <img class="platformIcon" style="margin-left: 32.5%"  src="http://localhost/img/{{androidCheckboxImgEnable}}">
+                        <div class="componentMainTitle" data-ng-show="!(getCurrentApplication().platforms.indexOf('android') >= 0)">Not Selected</div>
+                        <div data-ng-show="(getCurrentApplication().platforms.indexOf('android') >= 0)"><br>
+                            <div id="androidQRImage"></div>
+                            <p class="applicationTitle">Android is complete!</p>
+                            <p class="applicationTitle">Scan the QR code to get it.</p>
+                            <p>(Or visit <!--suppress HtmlUnknownTarget --><a href="{{androidLink}}">here</a>)</p>
+                        </div>
+                    </td>
+                    <td style="width:33%; padding: 3%; height:auto;">
+                        <img class="platformIcon" style="margin-left: 35%"  src="http://localhost/img/{{iosCheckboxImgEnable}}">
+                        <div class="componentMainTitle" data-ng-show="!(getCurrentApplication().platforms.indexOf('ios') >= 0)">Not Selected</div>
+                        <div data-ng-show="(getCurrentApplication().platforms.indexOf('ios') >= 0)"><br>
+                            <div id="iosQRImage"></div>
+                            <p class="applicationTitle">iOS is complete!</p>
+                            <p class="applicationTitle">Scan the QR code to get it.</p>
+                            <p>(Or visit <!--suppress HtmlUnknownTarget --><a href="{{iosLink}}">here</a>)</p>
+                        </div>
+                    </td>
+                    <td style="width:33%; padding: 3%; height:auto;">
+                        <img class="platformIcon" style="margin-left: 35%" src="http://localhost/img/{{windowsCheckboxImgEnable}}">
+                        <div class="componentMainTitle" data-ng-show="!(getCurrentApplication().platforms.indexOf('wp8') >= 0)">Not Selected</div>
+                        <div data-ng-show="(getCurrentApplication().platforms.indexOf('wp8') >= 0)"><br>
+                            <div id="wp8QRImage"></div>
+                            <p class="applicationTitle">WindowsPhone is complete!</p>
+                            <p class="applicationTitle">Scan the QR code to get it.</p>
+                            <p>(Or visit <!--suppress HtmlUnknownTarget --><a href="{{wp8Link}}">here</a>)</p>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -1223,7 +1267,7 @@
     <div class="workAreaComponent sideArea" data-ng-show="areaFlags['sideArea']">
         <!--EMULATOR START-->
         <div class="centralAreaComponent designArea" data-ng-init="refreshIframe()" data-ng-show="areaFlags['designArea']">
-            <div class="componentMainTitle">
+            <div class="componentMainTitle" style="background: white">
                 Preview
                 <span class="helptext">
                     [?]
@@ -1302,7 +1346,7 @@
                                                 <!--PADDING-->
                                             </th>
                                             </thead>
-                                            <tbody data-ng-repeat="(insId, instance) in instances[getCurrentInstance().name] track by $index">
+                                            <tbody data-ng-repeat="(insId, instance) in instances[getCurrentInstance().name] track by insId">
 
                                             <tr style="border-bottom: none; border-top: solid thick silver">
                                                 <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
@@ -1321,7 +1365,7 @@
                                                     <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-disabled="chosenAction.operandType !== 'Dynamic'" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
                                                 </td>
                                                 <td colspan="{{ ((instance.length) / 2) }}">
-                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
+                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][insId], dynamicValue)">
                                                 </td>
                                             </tr>
                                             </tbody>

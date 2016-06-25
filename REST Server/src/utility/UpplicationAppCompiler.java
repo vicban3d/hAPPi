@@ -33,7 +33,7 @@ public class UpplicationAppCompiler implements AppCompiler {
         if (!Files.exists(Paths.get(Strings.PATH_APPS + "\\" + username))){
             Files.createDirectory(Paths.get(Strings.PATH_APPS + "\\" + username));
         }
-        cli.create(new File(Strings.PATH_APPS + "\\" + username + "\\" + name), "com." + name + ".happi", name);
+        cli.create(new File(Strings.PATH_APPS + "\\" + username + "\\" + name), "com." + name.replace(" ", "") + ".happi", name);
     }
 
     @Override

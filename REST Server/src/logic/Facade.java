@@ -13,6 +13,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public interface Facade {
      * Compiles and builds the application.
       * @param appId - the name of the application to build.
       */
-    String buildApplication(String appId, String username) throws CordovaRuntimeException, IOException, DbxException;
+    HashMap<String, String> buildApplication(String appId, String username) throws CordovaRuntimeException, IOException, DbxException;
 
     /**
      * Creates a new object in the given application.

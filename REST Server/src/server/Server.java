@@ -107,7 +107,7 @@ public class Server implements RESTServer {
         try {
             JSONObject jsonObject = new JSONObject(data);
             application = createApplicationFromJsonObj(jsonObject);
-            return respondOK(facade.buildApplication(application.getId(), jsonObject.getString("username")));
+            return respondOK(new JSONObject(facade.buildApplication(application.getId(), jsonObject.getString("username"))).toString());
         } catch (CordovaRuntimeException e) {
             return respondERROR("Error building application " + application.getName(), e);
         } catch (IOException e) {

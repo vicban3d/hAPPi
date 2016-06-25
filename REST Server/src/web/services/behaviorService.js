@@ -1,6 +1,8 @@
 /**
  * Created by Victor on 10/03/2016.
+ *
  */
+
 main_module.service('behaviorService',['objectService', function(objectService){
 
     this.currentBehavior =
@@ -110,54 +112,59 @@ main_module.service('behaviorService',['objectService', function(objectService){
             return instances;
         }
         var filteredInstances = [];
-        for (var i = 0 ; i < conditions.length; i++){
-            var temp = instances.map(function(instance) {
-                if(conditions[i].attribute != undefined){
-                    var index =  object.attributes.map(function(a) {return a.name;}).indexOf(conditions[i].attribute.name);
-                    var instanceValue = parseInt(instance[index]);
-                }
-                else if(conditions[i].actionChain != undefined){
-                    var funcIns = objectService.getObjectAction(conditions[i].actionChain.name, object);
-                    var instanceValue = funcIns(instance);
-                }
+        var instanceValue;
+        for (var i = 0 ; i < conditions.length; i++) {
+            for (var instanceId in instances) {
+                if (instances.hasOwnProperty(instanceId)) {
+                    // get relevant value
+                    if (conditions[i].attribute != undefined) {
+                        var index = object.attributes.map(function (a) {
+                            return a.name;
+                        }).indexOf(conditions[i].attribute.name);
+                        instanceValue = parseInt(instances[instanceId][index]);
+                    }
+                    else if (conditions[i].actionChain != undefined) {
+                        var funcIns = objectService.getObjectAction(conditions[i].actionChain.name, object);
+                        instanceValue = funcIns(instances[instanceId]);
+                    }
+
                     var logicOperation = conditions[i].logicOperation;
                     var conditionValue = conditions[i].value;
                     if (logicOperation == "Greater Than") {
-                        if(instanceValue > conditionValue)
-                            return instance;
+                        if (instanceValue > conditionValue)
+                            filteredInstances.push(instances[instanceId]);
                     }
                     else if (logicOperation == "Less Than") {
-                        if(instanceValue < conditionValue)
-                            return instance;
+                        if (instanceValue < conditionValue)
+                            filteredInstances.push(instances[instanceId]);
                     }
                     else if (logicOperation == "Equal") {
-                        if(instanceValue == conditionValue)
-                            return instance;
+                        if (instanceValue == conditionValue)
+                            filteredInstances.push(instances[instanceId]);
                     }
                     else if (logicOperation == "Not Equal") {
-                        if(instanceValue != conditionValue)
-                            return instance;
+                        if (instanceValue != conditionValue)
+                            filteredInstances.push(instances[instanceId]);
                     }
-                    return null;
-                });
-            temp = temp.filter(function(x) {return x != null});
-            temp.forEach(function(value){
-                if (filteredInstances.indexOf(value)==-1) filteredInstances.push(value);
-            });
+                }
+            }
         }
         return filteredInstances;
     };
 
     this.getBehaviorAction = function($scope, object, actionName, conditions){
         var instances = this.getInstancesFilteredByConditions($scope, $scope.instances[object.name], conditions, object);
+        alert(angular.toJson(instances));
         if (actionName == "Sum of All"){
-            return function (operand){
-                var accumulatorFunction = function(initial, action, index) {
-                    for (var i = 0; i < instances.length; i++) {
-                        if (action == undefined)
-                            initial += parseFloat(instances[i][index]);
-                        else
-                            initial += action(instances[i]);
+            return function (operand) {
+                var accumulatorFunction = function (initial, action, index) {
+                    for (var instanceId in instances) {
+                        if (instances.hasOwnProperty(instanceId)) {
+                            if (action == undefined)
+                                initial += parseFloat(instances[instanceId][index]);
+                            else
+                                initial += action(instances[instanceId]);
+                        }
                     }
                     return initial
                 };
@@ -166,13 +173,15 @@ main_module.service('behaviorService',['objectService', function(objectService){
         } else if (actionName == "Maximum") {
             return function (operand){
                 var accumulatorFunction = function(initial, action, index) {
-                    for (var i = 0; i < instances.length; i++) {
-                        if (action == undefined){
-                            if (initial < parseFloat(instances[i][index]))
-                                initial = parseFloat(instances[i][index]);
+                    for (var instanceId in instances) {
+                        if (instances.hasOwnProperty(instanceId)) {
+                            if (action == undefined) {
+                                if (initial < parseFloat(instances[instanceId][index]))
+                                    initial = parseFloat(instances[instanceId][index]);
+                            }
+                            else if (initial < action(instances[instanceId]))
+                                initial = action(instances[instanceId]);
                         }
-                        else if (initial < action(instances[i]))
-                                initial = action(instances[i]);
                     }
                     return initial
                 };
@@ -181,13 +190,15 @@ main_module.service('behaviorService',['objectService', function(objectService){
         } else if (actionName == "Minimum"){
             return function (operand){
                 var accumulatorFunction = function(initial, action, index) {
-                    for (var i = 0; i < instances.length; i++) {
-                        if (action == undefined){
-                            if (initial > parseFloat(instances[i][index]))
-                                initial = parseFloat(instances[i][index]);
+                    for (var instanceId in instances) {
+                        if (instances.hasOwnProperty(instanceId)) {
+                            if (action == undefined) {
+                                if (initial > parseFloat(instances[instanceId][index]))
+                                    initial = parseFloat(instances[instanceId][index]);
+                            }
+                            else if (initial > action(parseFloat(instances[instanceId][index])))
+                                initial = action(parseFloat(instances[instanceId][index]));
                         }
-                        else if (initial > action(parseFloat(instances[i][index])))
-                            initial = action(parseFloat(instances[i][index]));
                     }
                     return initial
                 };
@@ -196,11 +207,13 @@ main_module.service('behaviorService',['objectService', function(objectService){
         } else if (actionName == "Product of All"){
             return function (operand){
                 var accumulatorFunction = function(initial, action, index) {
-                    for (var i = 0; i < instances.length; i++) {
-                        if (action == undefined)
-                            initial *= parseFloat(instances[i][index]);
-                        else
-                            initial *= action(instances[i]);
+                    for (var instanceId in instances) {
+                        if (instances.hasOwnProperty(instanceId)) {
+                            if (action == undefined)
+                                initial *= parseFloat(instances[instanceId][index]);
+                            else
+                                initial *= action(instances[instanceId]);
+                        }
                     }
                     return initial
                 };
@@ -209,24 +222,30 @@ main_module.service('behaviorService',['objectService', function(objectService){
         } else if (actionName == "Average"){
             return function (operand){
                 var accumulatorFunction = function(initial, action, index) {
-                    for (var i = 0; i < instances.length; i++) {
-                        if (action == undefined)
-                            initial += parseFloat(instances[i][index]);
-                        else
-                            initial += action(instances[i]);
+                    var size = 0;
+                    for (var instanceId in instances) {
+                        if (instances.hasOwnProperty(instanceId)) {
+                            size += 1;
+                            if (action == undefined)
+                                initial += parseFloat(instances[instanceId][index]);
+                            else
+                                initial += action(instances[instanceId]);
+                        }
                     }
-                    return initial/instances.length;
+                    return initial/size;
                 };
                 return getAccumulatedValue($scope, object, operand, 0, accumulatorFunction);
             };
         } else if (actionName == "Display"){
             return function (operand){
                 var accumulatorFunction = function(initial, action, index) {
-                    for (var i = 0; i < instances.length; i++) {
-                        if (action == undefined)
-                            initial += instances[i][index] + ", ";
-                        else
-                            initial += action(instances[i]) + ", ";
+                    for (var instanceId in instances) {
+                        if (instances.hasOwnProperty(instanceId)) {
+                            if (action == undefined)
+                                initial += instances[instanceId][index] + ", ";
+                            else
+                                initial += action(instances[instanceId]) + ", ";
+                        }
                     }
                     initial = initial.substring(0,initial.length - 2);
                     return initial;
