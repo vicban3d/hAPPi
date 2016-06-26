@@ -177,6 +177,16 @@ main_module.service('objectService',[function(){
                 return operand2;
             };
         }
+        if (action == "Add Prefix") {
+            return function (operand1, operand2) {
+                return operand2 + operand1;
+            };
+        }
+        if (action == "Add Suffix") {
+            return function (operand1, operand2) {
+                return operand1 + operand2;
+            };
+        }
         return undefined;
     };
 
