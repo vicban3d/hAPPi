@@ -88,7 +88,6 @@ main_module.service('behaviorService',['objectService', function(objectService){
 
     this.getBehaviorAction = function($scope, object, actionName, conditions){
         var instances = this.getInstancesFilteredByConditions($scope, $scope.instances[object.name], conditions, object);
-        alert(angular.toJson(instances));
         if (actionName == "Sum of All"){
             return function (operand) {
                 var accumulatorFunction = function (initial, action, index) {
@@ -198,6 +197,8 @@ main_module.service('behaviorService',['objectService', function(objectService){
         }
         var filteredInstances = [];
         var instanceValue;
+        var maxInstanceId = '';
+        var minInstanceId = '';
         for (var i = 0 ; i < conditions.length; i++) {
             for (var instanceId in instances) {
                 if (instances.hasOwnProperty(instanceId)) {
@@ -231,8 +232,32 @@ main_module.service('behaviorService',['objectService', function(objectService){
                         if (instanceValue != conditionValue)
                             filteredInstances.push(instances[instanceId]);
                     }
+                    else if (logicOperation == "Is Maximal") {
+
+                        if (instances[maxInstanceId] == undefined){
+                            maxInstanceId = instanceId;
+                        }
+                        if (instanceValue > instances[maxInstanceId][index]) {
+                            maxInstanceId = instanceId;
+                        }
+                    }
+                    else if (logicOperation == "Is Minimal") {
+                        if (instances[minInstanceId] == undefined){
+                            minInstanceId = instanceId;
+                        }
+                        if (instanceValue < instances[minInstanceId][index]) {
+                            minInstanceId = instanceId;
+                        }
+                    }
                 }
             }
+        }
+
+        if (logicOperation == "Is Maximal") {
+                filteredInstances.push(instances[maxInstanceId]);
+        }
+        else if (logicOperation == "Is Minimal") {
+                filteredInstances.push(instances[minInstanceId]);
         }
         return filteredInstances;
     };

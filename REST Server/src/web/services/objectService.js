@@ -92,7 +92,7 @@ main_module.service('objectService',[function(){
         if (all_objects == undefined){
             return true;
         }
-        for (i=0; i< all_objects.length; i++) {
+        for (var i=0; i< all_objects.length; i++) {
             if (all_objects[i].name === object.name
                 && all_objects[i].id !== object.id){
                 $scope.objectCreateErrorMessage = "An Object by that name already exists!";
@@ -100,16 +100,16 @@ main_module.service('objectService',[function(){
             }
         }
 
-        for (var i=0; i< object.actionChains.length; i++) {
-            var isContainDoneOperator = false;
-            for (var j=0; j< object.actionChains[i].actions.length; j++) {
-                isContainDoneOperator = false;
-                if(object.actionChains[i].actions[j].operator  == "DONE")
-                    isContainDoneOperator = true;
-            }
-            if(isContainDoneOperator == false)
-                return false;
-        }
+        // for (var i=0; i< object.actionChains.length; i++) {
+        //     var isContainDoneOperator = false;
+        //     for (var j=0; j< object.actionChains[i].actions.length; j++) {
+        //         isContainDoneOperator = false;
+        //         if(object.actionChains[i].actions[j].operator  == "DONE")
+        //             isContainDoneOperator = true;
+        //     }
+        //     if(isContainDoneOperator == false)
+        //         return false;
+        // }
         return true;
     };
 
@@ -280,6 +280,8 @@ main_module.service('objectService',[function(){
 
     this.removeActionChainLink = function(chainIndex, linkIndex){
         this.currentObject.actionChains[chainIndex].actions.splice(linkIndex, 1);
+        if (linkIndex == this.currentObject.actionChains[chainIndex].actions.length)
+        this.currentObject.actionChains[chainIndex].actions[linkIndex - 1].operator = 'DONE';
     };
 
     this.isLastActionChainLink = function(chainIndex, index){

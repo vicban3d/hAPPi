@@ -346,8 +346,11 @@
                                         <option value="" selected="selected">Type</option>
                                     </select>
                                 </td>
-                                <td class="formInput formInput10">
+                                <td class="formInput formInput10" data-ng-show="getCurrentObject().attributes.length > 1">
                                     <div class="removeFormFieldsButton" data-ng-click="removeAttribute($index)"></div>
+                                </td>
+                                <td class="formInput formInput10" data-ng-show="getCurrentObject().attributes.length == 1">
+                                    <!--PADDING-->
                                 </td>
                                 <td class="formInput formInput35">
                                     <!--PADDING-->
@@ -481,26 +484,25 @@
                                     </td>
 
                                     <td class="formInput formInput15">
-                                        <select class="form-control" ng-model="chainLink.operator" data-ng-options="i for i in actionOperations.concat(isLastActionChainLink($parent.$index, $index))" required>
+                                        <select class="form-control" ng-model="chainLink.operator" data-ng-change="(chainLink.operator !== 'DONE') && (actionChain.actions.length == $index + 1) && addActionChainLink($parent.$index)" data-ng-options="i for i in actionOperations.concat(isLastActionChainLink($parent.$index, $index))" required>
                                             <option value="" select="selected">Choose Action</option>
                                         </select>
                                     </td>
-                                    <td class="formInput formInput10">
+                                    <td class="formInput formInput10" data-ng-show="actionChain.actions.length > 1">
                                         <div class="removeFormFieldsButton" data-ng-click="removeActionChainLink($parent.$index, $index)"></div>
+                                    </td>
+                                    <td class="formInput formInput10" data-ng-show="actionChain.actions.length == 1">
+                                        <!--PADDING-->
                                     </td>
                                 </tr>
                             </table>
-
-                            <div data-ng-hide="checkActionChainDisabledInner($index)">
-                                 <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div> Add Link
-                            </div><br>
+                            <br>
                             <div style="background-color: #ebebeb; padding: 2px"></div>
                         </div>
                         <div data-ng-hide="checkActionChainDisabled()"><br>
-                            <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div>
+                            <div class="addFormFieldsButton" data-ng-click="addActionChain(getCurrentObject().actionChains.length)"></div>
                             Add Chain
                             </div>
-                        <hr>
                     </div>
                 </form>
             </div>
@@ -571,8 +573,11 @@
                                                 <option value="" selected="selected">Type</option>
                                             </select>
                                         </td>
-                                        <td class="formInput formInput10">
+                                        <td class="formInput formInput10" data-ng-show="getCurrentObject().attributes.length > 1">
                                             <div class="removeFormFieldsButton" data-ng-click="removeAttribute($index)"></div>
+                                        </td>
+                                        <td class="formInput formInput10" data-ng-show="getCurrentObject().attributes.length == 1">
+                                            <!--PADDING-->
                                         </td>
                                         <td class="formInput formInput35">
                                             <!--PADDING-->
@@ -706,25 +711,24 @@
                                             </td>
 
                                             <td class="formInput formInput15">
-                                                <select class="form-control" ng-model="chainLink.operator" data-ng-options="i for i in actionOperations.concat(isLastActionChainLink($parent.$index, $index))" required>
+                                                <select class="form-control" ng-model="chainLink.operator" data-ng-change="(chainLink.operator !== 'DONE') && (actionChain.actions.length == $index + 1) && addActionChainLink($parent.$index)" data-ng-options="i for i in actionOperations.concat(isLastActionChainLink($parent.$index, $index))" required>
                                                     <option value="" select="selected">Choose Action</option>
                                                 </select>
                                             </td>
-                                            <td class="formInput formInput10">
+                                            <td class="formInput formInput10" data-ng-show="actionChain.actions.length > 1">
                                                 <div class="removeFormFieldsButton" data-ng-click="removeActionChainLink($parent.$index, $index)"></div>
+                                            </td>
+                                            <td class="formInput formInput10" data-ng-show="actionChain.actions.length == 1">
+                                                <!--PADDING-->
                                             </td>
                                         </tr>
                                     </table>
-                                    <div data-ng-hide="checkActionChainDisabledInner($index)">
-                                        <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div>
-                                        Add Link
-                                    </div><br>
                                     <div style="background-color: #ebebeb; padding: 2px"></div>
                                 </div>
                                 <div data-ng-hide="checkActionChainDisabled()"><br>
-                                    <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div> Add Chain
+                                    <div class="addFormFieldsButton" data-ng-click="addActionChain(getCurrentObject().actionChains.length)"></div>
+                                    Add Chain
                                 </div>
-                                <hr>
                             </div>
                         </form>
                     </div>
@@ -896,8 +900,11 @@
                                     </select>
                                 </td>
 
-                                <td class="formInput formInput20">
-                                    <input class="form-control" ng-model="condition.value" required>
+                                <td class="formInput formInput20" data-ng-show="condition.logicOperation !== '' && condition.logicOperation !== 'Is Maximal' && condition.logicOperation !== 'Is Minimal'">
+                                    <input class="form-control" ng-model="condition.value" placeholder="Enter Test Value" data-ng-disabled="condition.logicOperation === '' || condition.logicOperation === 'Is Maximal' || condition.logicOperation === 'Is Minimal'" required>
+                                </td>
+                                <td class="formInput formInput20" data-ng-show="condition.logicOperation === '' || condition.logicOperation === 'Is Maximal' || condition.logicOperation === 'Is Minimal'">
+                                    <!--PADDING-->
                                 </td>
                                 <td class="formInput formInput10">
                                     <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
@@ -1079,8 +1086,11 @@
                                                 <option value="" selected="selected">Choose Condition</option>
                                             </select>
                                         </td>
-                                        <td class="formInput formInput20">
-                                            <input class="form-control" ng-model="condition.value" required>
+                                        <td class="formInput formInput20" data-ng-show="condition.logicOperation !== '' && condition.logicOperation !== 'Is Maximal' && condition.logicOperation !== 'Is Minimal'">
+                                            <input class="form-control" ng-model="condition.value" placeholder="Enter Test Value" data-ng-disabled="condition.logicOperation === '' || condition.logicOperation === 'Is Maximal' || condition.logicOperation === 'Is Minimal'" required>
+                                        </td>
+                                        <td class="formInput formInput20" data-ng-show="condition.logicOperation === '' || condition.logicOperation === 'Is Maximal' || condition.logicOperation === 'Is Minimal'">
+                                            <!--PADDING-->
                                         </td>
                                         <td class="formInput formInput10">
                                             <div class="removeFormFieldsButton" data-ng-click="removeCondition($index)"></div>
@@ -1309,12 +1319,12 @@
                                     <div class="container-fluid ">
                                         <table>
                                             <tr>
-                                                <td class="formInput formInput20">
+                                                <td class="formInput formInput60">
                                                     <div class="navbar-header">
                                                         <a class="navbar-brand" href="#" data-ng-click="chosenObject=undefined;designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
                                                     </div>
                                                 </td>
-                                                <td class="formInput formInput80">
+                                                <td class="formInput formInput40">
                                                     <select class="form-control" ng-model="chosenObject" data-ng-options="chosenObject as chosenObject.name for chosenObject in getCurrentApplication().objects track by chosenObject.name" ng-change="designDisplayObjectPage(chosenObject)" data-ng-show="!getShowEmulatorMainPage() && getCurrentApplication().objects.length > 0">
                                                         <option value="" select="selected">Behavior</option>
                                                     </select>
@@ -1364,12 +1374,12 @@
                                     <form>
                                         <table class="table" style="width: 100%">
                                             <thead>
-                                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                                                {{attr.name}}
-                                            </th>
-                                            <th>
-                                                <!--PADDING-->
-                                            </th>
+                                                <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                                                    {{attr.name}}
+                                                </th>
+                                                <th>
+                                                    <!--PADDING-->
+                                                </th>
                                             </thead>
                                             <tbody data-ng-repeat="(insId, instance) in instances[getCurrentInstance().name] track by insId">
 
@@ -1382,7 +1392,6 @@
                                                 </td>
                                             </tr>
                                             <tr style="border-top: none">
-
                                                 <td colspan="{{ ((instance.length) / 2) + 1 }}">
                                                     <select class="form-control" ng-model="chosenAction" data-ng-options="action as action.name for action in getCurrentInstance().actions track by action.name">
                                                         <option value="" selected="selected">Choose Action</option>

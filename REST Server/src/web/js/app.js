@@ -42,7 +42,7 @@ main_module.controller('ctrl_main', [
 
         $scope.basicTypes = ["Number", "Text"];
         $scope.andOrOperator = ["Or", "And"];
-        $scope.conditionNumberOperations = ["Greater Than", "Less Than", "Equal", "Not Equal"];
+        $scope.conditionNumberOperations = ["Greater Than", "Less Than", "Equal", "Not Equal", "Is Maximal", "Is Minimal"];
         $scope.conditionTextOperations = ["Equal", "Not Equal"];
         $scope.behaviorTextOperators = ['Display'];
         $scope.behaviorNumberOperators = ['Sum of All', 'Display', 'Product of All', 'Maximum', 'Minimum', 'Average'];
@@ -354,10 +354,6 @@ main_module.controller('ctrl_main', [
                 });
             }
 
-            $scope.isLastActionChainLink = function(chainIndex, index){
-                return objectService.isLastActionChainLink(chainIndex, index)
-            };
-
             objectService.currentObject.id = generateUUID();
 
             $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.CREATE_OBJECT, angular.toJson(objectService.currentObject)),
@@ -423,6 +419,10 @@ main_module.controller('ctrl_main', [
 
         $scope.getCurrentObject = function(){
             return objectService.currentObject;
+        };
+
+        $scope.isLastActionChainLink = function(chainIndex, index){
+            return objectService.isLastActionChainLink(chainIndex, index)
         };
 
         $scope.isActionAttributeTypeIsNumber = function(object) {
@@ -907,7 +907,7 @@ main_module.controller('ctrl_main', [
         // ----------------------------------------------------------------------Help Text------------------------------
 
         $scope.HT_object = 'Objects are templates for the data in your application. An Object consists of the Attributes that describe it and the Actions that can be performed on those Attributes.';
-        $scope.HT_object_attribute = 'Attributes make an object what it is, Ex. Name, Speed, Age, etc.';
+        $scope.HT_object_attribute = 'Attributes make an object what it is, Ex. Name, Speed, Age, etc. An Object must have at least one Attribute.';
         $scope.HT_object_action = 'Actions can be performed on Attributes to manipulate them. Ex. Increase, Multiply, etc.';
         $scope.HT_object_action_chain = 'Action Chains can combine several Actions and Attributes in a series of more complicated calculations. At least one attribute should be defined before creating an action chain';
         $scope.HT_object_action_chain_link = 'An Action Chain consists of Links which are an Attribute (or Action) and an Operation. The action in the last link must be DONE';
