@@ -192,7 +192,7 @@
                                     <input type="button" value="Edit" class="btn btn-warning btn-app-list" data-ng-disabled="applicationStates[application.id] != states.READY" data-ng-click="showApplicationEditArea(application)">
                                 </td>
                                 <td class="formInput formInput10" data-ng-show="!(indexToShow == application.id || indexToDelete == application.id)">
-                                    <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="getApplication(application);" data-ng-disabled="applicationStates[application.id] == states.DELETING">
+                                    <input type="button" value="Go >" class="btn btn-primary btn-app-list" data-ng-click="setCurrentApplication(application);" data-ng-disabled="applicationStates[application.id] == states.DELETING">
                                 </td>
 
                                 <!--Edit Menu Buttons-->
@@ -297,7 +297,7 @@
             </div>
 
             <div data-ng-show="!areaFlags['objectCreateArea'] && indexToShow == -1">
-                <span class="btn btn-primary btn-block" data-ng-click="addNewObject()">+ new object</span>
+                <span class="btn btn-primary btn-block" data-ng-click="createBlankObject()">+ new object</span>
             </div>
             <div data-ng-show="showNoObjectMembersImage && !getCurrentApplication().objects.length">
                 <img class="noMembersImage" src="http://localhost/img/no_objects.png"></div>
@@ -315,7 +315,7 @@
                                 </div>
                             </td>
                             <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewObject()">
+                                <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="createBlankObject()">
                             </td>
                             <td class="formInput formInput10" style="border-right: dashed thin silver">
                                 <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidObject(getCurrentObject())">
@@ -326,14 +326,15 @@
                     <div class="form-group">
                         <input data-ng-model="getCurrentObject().name" class="form-control" placeholder="Enter Object Name" style="width: 40%" maxlength="40" required>
                     </div>
-                    <p>
-                        <b>Attributes:</b>
+                    <div style="background-color: #ebebeb; padding: 2px">
+                        <p>
+                            <b>Attributes:</b>
                             <span class="helptext">
                                 [?]
                                 <span class="tooltiptext">{{HT_object_attribute}}</span>
                             </span>
-                    </p>
-
+                        </p>
+                    </div>
                     <div class="form-group">
                         <table style="width: 100%;">
                             <tr data-ng-repeat="attribute in getCurrentObject().attributes track by $index">
@@ -341,7 +342,7 @@
                                     <input data-ng-model="attribute.name" class="form-control" placeholder="Enter Attribute Name" required>
                                 </td>
                                 <td class="formInput formInput15">
-                                    <select class="form-control" data-ng-model="attribute.type" data-ng-options="i for i in basic_types" required>
+                                    <select class="form-control" data-ng-model="attribute.type" data-ng-options="i for i in basicTypes" required>
                                         <option value="" selected="selected">Type</option>
                                     </select>
                                 </td>
@@ -355,12 +356,15 @@
                         </table>
                         <div class="addFormFieldsButton"  data-ng-click="addAttribute()"></div> Add Attribute
                     </div>
-                    <p><b>Actions:</b>
+                    <div style="background-color: #ebebeb; padding: 2px">
+                        <p>
+                            <b>Actions:</b>
                             <span class="helptext">
                                 [?]
                                 <span class="tooltiptext">{{HT_object_action}}</span>
                             </span>
-                    </p>
+                        </p>
+                    </div>
                     <div class="form-group">
                         <table style="width: 100%">
                             <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
@@ -390,7 +394,7 @@
                                 </td>
 
                                 <td class="formInput formInput15">
-                                    <select class="form-control" ng-model="action.operandType" data-ng-options="i for i in operand_types" required>
+                                    <select class="form-control" ng-model="action.operandType" data-ng-options="i for i in operandTypes" required>
                                         <option value="" selected="selected">Choose Operand Type</option>
                                     </select>
                                 </td>
@@ -418,12 +422,15 @@
                         <div class="addFormFieldsButton" data-ng-click="addAction()"></div> Add Action
                     </div>
                     <div class="form-group">
-                        <p><b>Action Chains:</b>
+                        <div style="background-color: #ebebeb; padding: 2px">
+                            <p>
+                                <b>Action Chains:</b>
                                 <span class="helptext">
                                     [?]
                                     <span class="tooltiptext">{{HT_object_action_chain}}</span>
                                 </span>
-                        </p>
+                            </p>
+                        </div>
                         <div data-ng-repeat="actionChain in getCurrentObject().actionChains track by $index">
                             <table style="width: 100%">
                                 <tr>
@@ -483,16 +490,16 @@
                                     </td>
                                 </tr>
                             </table>
+
                             <div data-ng-hide="checkActionChainDisabledInner($index)">
-                                <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div> Add Link
-                            </div>
-                            <hr>
-                            <hr>
-                            <div data-ng-hide="checkActionChainDisabled()">
-                                <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div>
-                                Add Chain
-                            </div>
+                                 <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div> Add Link
+                            </div><br>
+                            <div style="background-color: #ebebeb; padding: 2px"></div>
                         </div>
+                        <div data-ng-hide="checkActionChainDisabled()"><br>
+                            <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div>
+                            Add Chain
+                            </div>
                         <hr>
                     </div>
                 </form>
@@ -545,20 +552,22 @@
                                 <input type="text" class="form-control" data-ng-model="getCurrentObject().name" placeholder="Enter Object Name" required>
                             </div>
                             <div class="form-group">
-                                <p>
-                                    <b>Attributes:</b>
+                                <div style="background-color: #ebebeb; padding: 2px">
+                                    <p>
+                                        <b>Attributes:</b>
                                         <span class="helptext">
                                             [?]
                                             <span class="tooltiptext">{{HT_object_attribute}}</span>
                                         </span>
-                                </p>
+                                    </p>
+                                </div>
                                 <table style="width: 100%">
                                     <tr data-ng-repeat="attribute in getCurrentObject().attributes track by $index">
                                         <td class="formInput formInput40">
                                             <input class="form-control" placeholder="Enter Attribute name" data-ng-model="attribute.name" required>
                                         </td>
                                         <td class="formInput formInput15">
-                                            <select class="form-control" data-ng-model="attribute.type" data-ng-options="i for i in basic_types" required>
+                                            <select class="form-control" data-ng-model="attribute.type" data-ng-options="i for i in basicTypes" required>
                                                 <option value="" selected="selected">Type</option>
                                             </select>
                                         </td>
@@ -573,13 +582,15 @@
                                 <div class="addFormFieldsButton" data-ng-click="addAttribute()"></div> Add Attribute
                             </div>
                             <div class="form-group">
-                                <p>
-                                    <b>Actions:</b>
+                                <div style="background-color: #ebebeb; padding: 2px">
+                                    <p>
+                                        <b>Actions:</b>
                                         <span class="helptext">
                                             [?]
                                             <span class="tooltiptext">{{HT_object_action}}</span>
                                         </span>
-                                </p>
+                                    </p>
+                                </div>
                                 <table style="width: 100%">
                                     <tr data-ng-repeat="action in getCurrentObject().actions track by $index">
                                         <td class="formInput formInput20">
@@ -608,7 +619,7 @@
                                         </td>
 
                                         <td class="formInput formInput15">
-                                            <select class="form-control" ng-model="action.operandType" data-ng-options="i for i in operand_types" required>
+                                            <select class="form-control" ng-model="action.operandType" data-ng-options="i for i in operandTypes" required>
                                                 <option value="" selected="selected">Choose Operand Type</option>
                                             </select>
                                         </td>
@@ -636,12 +647,15 @@
                                 <div class="addFormFieldsButton" data-ng-click="addAction()"></div>Add Action
                             </div>
                             <div class="form-group">
-                                <p><b>Action Chains:</b>
+                                <div style="background-color: #ebebeb; padding: 2px">
+                                    <p>
+                                        <b>Action Chains:</b>
                                         <span class="helptext">
                                             [?]
                                             <span class="tooltiptext">{{HT_object_action_chain}}</span>
                                         </span>
-                                </p>
+                                    </p>
+                                </div>
                                 <div data-ng-repeat="actionChain in getCurrentObject().actionChains track by $index">
                                     <table style="width: 100%">
                                         <tr>
@@ -704,12 +718,11 @@
                                     <div data-ng-hide="checkActionChainDisabledInner($index)">
                                         <div class="addFormFieldsButton" data-ng-click="addActionChainLink($index)"></div>
                                         Add Link
-                                    </div>
-                                    <hr>
-                                    <hr>
-                                    <div data-ng-hide="checkActionChainDisabled()">
-                                        <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div> Add Chain
-                                    </div>
+                                    </div><br>
+                                    <div style="background-color: #ebebeb; padding: 2px"></div>
+                                </div>
+                                <div data-ng-hide="checkActionChainDisabled()"><br>
+                                    <div class="addFormFieldsButton" data-ng-click="addActionChain($index+1)"></div> Add Chain
                                 </div>
                                 <hr>
                             </div>
@@ -731,7 +744,7 @@
                 </span>
             </div>
             <div data-ng-show="!areaFlags['behaviorCreateArea'] && indexToShow == -1">
-                <span class="btn btn-primary btn-block" data-ng-click="addNewBehavior()">+ new behavior</span>
+                <span class="btn btn-primary btn-block" data-ng-click="createBlankBehavior()">+ new behavior</span>
             </div>
             <div data-ng-show="showNoBehaviorMembersImage && !getCurrentApplication().behaviors.length">
                 <img class="noMembersImage" src="http://localhost/img/no_behaviors.png">
@@ -750,7 +763,7 @@
                                 </div>
                             </td>
                             <td class="formInput formInput10" style="border-left: dashed thin silver">
-                                <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="addNewBehavior()">
+                                <input type="button" value="Cancel" class="btn btn-danger btn-block" data-ng-click="createBlankBehavior()">
                             </td>
                             <td class="formInput formInput10" style="border-right: dashed thin silver">
                                 <input type="submit" value="Save" class="btn btn-primary btn-block" data-ng-disabled="!isValidBehavior(getCurrentBehavior())">
@@ -761,12 +774,15 @@
                     <div class="form-group">
                         <input data-ng-model="getCurrentBehavior().name" class="form-control" placeholder="Enter Behavior Name" style="width: 40%" maxlength="40" required>
                     </div>
-                    <p><b>Behavior Target:</b>
-                        <span class="helptext">
-                            [?]
-                            <span class="tooltiptext">{{HT_behavior_target}}</span>
-                        </span>
-                    </p>
+                    <div style="background-color: #ebebeb; padding: 2px">
+                        <p>
+                            <b>Behavior Target:</b>
+                            <span class="helptext">
+                                [?]
+                                <span class="tooltiptext">{{HT_behavior_target}}</span>
+                            </span>
+                        </p>
+                    </div>
                     <div class="form-group">
                         <table style="width: 100%">
                             <tr>
@@ -824,12 +840,15 @@
                             </tr>
                         </table>
                     </div>
-                    <p><b>Conditions:</b>
+                    <div style="background-color: #ebebeb; padding: 2px">
+                        <p>
+                            <b>Conditions:</b>
                             <span class="helptext">
                                 [?]
                                 <span class="tooltiptext">{{HT_behavior_condition}}</span>
                              </span>
-                    </p>
+                        </p>
+                    </div>
                     <div class="form-group">
                         <table style="width: 100%;">
                             <tr data-ng-repeat="condition in getCurrentBehavior().action.conditions track by $index">
@@ -938,12 +957,15 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" data-ng-model="getCurrentBehavior().name" placeholder="Enter Behavior Name" required>
                             </div>
-                            <p><b>Behavior Target:</b>
-                                <span class="helptext">
-                                    [?]
-                                    <span class="tooltiptext">{{HT_behavior_target}}</span>
-                                </span>
-                            </p>
+                            <div style="background-color: #ebebeb; padding: 2px">
+                                <p>
+                                    <b>Behavior Target:</b>
+                                    <span class="helptext">
+                                        [?]
+                                        <span class="tooltiptext">{{HT_behavior_target}}</span>
+                                    </span>
+                                </p>
+                            </div>
                             <div class="form-group">
                                 <table style="width: 100%">
                                     <tr>
@@ -1002,12 +1024,15 @@
                                     </tr>
                                 </table>
                             </div>
-                            <p><b>Conditions:</b>
-                            <span class="helptext">
-                                [?]
-                                <span class="tooltiptext">{{HT_behavior_condition}}</span>
-                             </span>
-                            </p>
+                            <div style="background-color: #ebebeb; padding: 2px">
+                                <p>
+                                    <b>Conditions:</b>
+                                    <span class="helptext">
+                                        [?]
+                                        <span class="tooltiptext">{{HT_behavior_condition}}</span>
+                                    </span>
+                                </p>
+                            </div>
                             <div class="form-group">
                                 <table style="width: 100%;">
                                     <tr data-ng-repeat="condition in getCurrentBehavior().action.conditions track by $index">
@@ -1190,7 +1215,7 @@
                     <span class="tooltiptext">{{HT_release}}</span>
                 </span>
             </div>
-            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release for all platforms</span>
+            <span class="btn btn-primary btn-block" data-ng-click="releaseBuildApplication(getCurrentApplication())" data-ng-disabled="applicationStates[getCurrentApplication().id] != states.READY">release for selected platforms</span>
             <br>
             <div data-ng-show="applicationStates[getCurrentApplication().id] == states.READY && !getApplicationBuilt()">
                 <img class="noMembersImage" src="http://localhost/img/before_release.png">
@@ -1321,17 +1346,17 @@
                                         </tr>
                                     </table>
                                 </form>
-                                <div class="designAreaPage" data-ng-show="!getShowEmulatorMainPage() && (!getShowAddInstance()|| chosenObject == undefined)">
+                                <div class="designAreaPage" data-ng-show="!getShowEmulatorMainPage() && (!getShowInstancePage()|| chosenObject == undefined)">
                                     <div style="padding: 1%;" class="componentMainTitle">Behavior</div><hr>
                                     <div style="padding: 1%;" class="componentMainTitle" data-ng-show="getCurrentApplication().behaviors.length == 0">This Application has no defined behavior.</div>
                                     <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                                 </div>
-                                <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage() && chosenObject != undefined" data-ng-init="attribute_values=[]">
+                                <div class="designAreaPage" data-ng-show="getShowInstancePage()  && !getShowEmulatorMainPage() && chosenObject != undefined" data-ng-init="attributeValues=[]">
                                     <div style="padding: 1%;" class="componentMainTitle">{{getCurrentInstance().name}}</div><hr>
 
                                     <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
                                         <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index" class="formInput">
-                                            <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attribute_values[$index]" required>
+                                            <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attributeValues[$index]" required>
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-block" value="Add">
                                     </form>
@@ -1376,7 +1401,7 @@
                         </tr>
                         <tr style="height: 10%;">
                             <td>
-                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && (!getShowAddInstance()|| chosenObject == undefined)">
+                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && (!getShowInstancePage()|| chosenObject == undefined)">
                                     <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
                                 </div>
                             </td>

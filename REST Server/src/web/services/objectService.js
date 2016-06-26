@@ -4,15 +4,7 @@
  */
 main_module.service('objectService',[function(){
 
-    this.currentObject = {
-        id: '',
-        name: '',
-        attributes: [],
-        actions: [],
-        actionChains: [],
-        applicationId: '',
-        username: ''
-    };
+
 
     this.objectOperators = [];
     this.objectOperators['Increase By'] = {
@@ -56,33 +48,31 @@ main_module.service('objectService',[function(){
             FUNCTION: function (op1, op2){ return op2; }
         };
 
-    this.getOperatorListByType = function (type){
-        var keys = [];
-        for (var key in this.objectOperators) {
-            if (this.objectOperators.hasOwnProperty(key) && this.objectOperators[key].TYPE === type) {
-                keys.push(key);
-            }
-        }
-        return keys;
+    this.newObject = function(){
+        return {
+            id: '',
+            name: '',
+            attributes: [{ name: '', type:'' }],
+            actions: [],
+            actionChains: [],
+            applicationId: '',
+            username: ''
+        };
     };
 
-    this.addNewObject = function(applicationId, username) {
-        this.currentObject = {id: '', name: '', attributes: [{name: '', type:''}], actions: [], actionChains: [], applicationId: applicationId, username: username};
-    };
+    this.currentObject = this.newObject();
 
     this.addObject = function(application) {
-        addObjectToApplication(application, this.currentObject);
+        this.addObjectToApplication(application, this.currentObject);
     };
 
     this.editObject = function(application, object){
-        // remove previous object
-        removeObjectFromApplication(application, object.name);
-        // add new object
-        addObjectToApplication(application, this.currentObject);
+        this.removeObjectFromApplication(application, object.name);
+        this.addObjectToApplication(application, this.currentObject);
     };
 
     this.deleteObject = function(application, object){
-        removeObjectFromApplication(application, object.name);
+        this.removeObjectFromApplication(application, object.name);
         for(var i = application.behaviors.length - 1; i >= 0; i--){
             if(application.behaviors[i].action.operandObject.name === object.name){
                 application.behaviors[i].action.operandObject = {};
@@ -90,15 +80,51 @@ main_module.service('objectService',[function(){
             }
         }
 
-        this.currentObject = {id: '', name: '', attributes: [], actions: [], actionChains: [], applicationId: '', username: ''};
+        this.currentObject = this.newObject();
     };
 
-    var addObjectToApplication = function(application, object){
+    this.isValidObject = function($scope, object){
+        if (object == undefined || object === ""){
+            return false;
+        }
+
+        var all_objects = $scope.getCurrentApplication().objects;
+        if (all_objects == undefined){
+            return true;
+        }
+        for (i=0; i< all_objects.length; i++) {
+            if (all_objects[i].name === object.name
+                && all_objects[i].id !== object.id){
+                $scope.objectCreateErrorMessage = "An Object by that name already exists!";
+                return false;
+            }
+        }
+
+        for (var i=0; i< object.actionChains.length; i++) {
+            var isContainDoneOperator = false;
+            for (var j=0; j< object.actionChains[i].actions.length; j++) {
+                isContainDoneOperator = false;
+                if(object.actionChains[i].actions[j].operator  == "DONE")
+                    isContainDoneOperator = true;
+            }
+            if(isContainDoneOperator == false)
+                return false;
+        }
+        return true;
+    };
+
+    this.createBlankObject = function(applicationId, username) {
+        this.currentObject = this.newObject();
+        this.currentObject.applicationId = applicationId;
+        this.currentObject.username = username;
+    };
+
+    this.addObjectToApplication = function(application, object){
         application.objects.push(object);
     };
 
-    var removeObjectFromApplication = function(application, objectName){
-        
+    this.removeObjectFromApplication = function(application, objectName){
+
         for(var i = application.objects.length - 1; i >= 0; i--){
             if(application.objects[i].name === objectName){
                 application.objects.splice(i,1);
@@ -118,56 +144,8 @@ main_module.service('objectService',[function(){
         this.currentObject.actions.push({name: '', operand1: '', operator: '', operandType: '', operand2: ''});
     };
 
-    this.addActionChain = function(index){
-        if (this.currentObject.actionChains == undefined){
-            this.currentObject.actionChains = [];
-        }
-        this.currentObject.actionChains.push({name: "", actions: []});
-        this.addActionChainLink(index);
-    };
-
-    this.addActionChainLink = function(index){
-        this.currentObject.actionChains[index].actions.push({operandAttribute: '', operandAction: '', operator: ''});
-    };
-
-    this.isLastActionChainLink = function(chainIndex, index){
-        if (index == this.currentObject.actionChains[chainIndex].actions.length - 1){
-            return ["DONE"];
-        } else {
-            return [];
-        }
-    };
-
     this.removeAction = function(index){
         this.currentObject.actions.splice(index, 1);
-    };
-
-    this.removeActionChain = function(index){
-        this.currentObject.actionChains.splice(index, 1);
-    };
-
-    this.removeActionChainLink = function(chainIndex, linkIndex){
-        this.currentObject.actionChains[chainIndex].actions.splice(linkIndex, 1);
-    };
-
-    this.checkActionChainDisabledInner = function(index){
-        if (
-            this.currentObject.actionChains != undefined &&
-            this.currentObject.actionChains[index] != undefined &&
-            this.currentObject.actionChains[index].actions.length > 0 &&
-            this.currentObject.actionChains[index].actions[
-                this.currentObject.actionChains[index].actions.length - 1
-                ].operator == 'DONE') {
-            return true;
-        }
-        return false;
-    };
-
-    this.checkActionChainDisabled = function(){
-        if (this.currentObject.attributes.length <= 0 ||
-            this.currentObject.attributes.filter(function(a) {return a.name != "" && a.name != undefined}).length == 0)
-            return true;
-        return false;
     };
 
     var getAction = function(actionName, object){
@@ -242,36 +220,6 @@ main_module.service('objectService',[function(){
         return object.operand1.type == 'Number';
     };
 
-    this.isValidObject = function($scope, object){
-        if (object == undefined || object === ""){
-            return false;
-        }
-
-        var all_objects = $scope.getCurrentApplication().objects;
-        if (all_objects == undefined){
-            return true;
-        }
-        for (i=0; i< all_objects.length; i++) {
-            if (all_objects[i].name === object.name
-                && all_objects[i].id !== object.id){
-                $scope.objectCreateErrorMessage = "An Object by that name already exists!";
-                return false;
-            }
-        }
-
-        for (var i=0; i< object.actionChains.length; i++) {
-            var isContainDoneOperator = false;
-            for (var j=0; j< object.actionChains[i].actions.length; j++) {
-                isContainDoneOperator = false;
-                if(object.actionChains[i].actions[j].operator  == "DONE")
-                    isContainDoneOperator = true;
-            }
-            if(isContainDoneOperator == false)
-                return false;
-        }
-        return true;
-    };
-
     this.performObjectAction = function(action, object, instance, dynamicValue){
 
         var operand2 = undefined;
@@ -304,6 +252,64 @@ main_module.service('objectService',[function(){
         instance[i] = actionFunc(myParseFloat(instance[i]), myParseFloat(operand2));
     };
 
+    this.getOperatorListByType = function (type){
+        var keys = [];
+        for (var key in this.objectOperators) {
+            if (this.objectOperators.hasOwnProperty(key) && this.objectOperators[key].TYPE === type) {
+                keys.push(key);
+            }
+        }
+        return keys;
+    };
+
+    this.addActionChain = function(index){
+        if (this.currentObject.actionChains == undefined){
+            this.currentObject.actionChains = [];
+        }
+        this.currentObject.actionChains.push({name: "", actions: []});
+        this.addActionChainLink(index);
+    };
+
+    this.removeActionChain = function(index){
+        this.currentObject.actionChains.splice(index, 1);
+    };
+
+    this.addActionChainLink = function(index){
+        this.currentObject.actionChains[index].actions.push({operandAttribute: '', operandAction: '', operator: ''});
+    };
+
+    this.removeActionChainLink = function(chainIndex, linkIndex){
+        this.currentObject.actionChains[chainIndex].actions.splice(linkIndex, 1);
+    };
+
+    this.isLastActionChainLink = function(chainIndex, index){
+        if (index == this.currentObject.actionChains[chainIndex].actions.length - 1){
+            return ["DONE"];
+        } else {
+            return [];
+        }
+    };
+
+    this.checkActionChainDisabledInner = function(index){
+        if (
+            this.currentObject.actionChains != undefined &&
+            this.currentObject.actionChains[index] != undefined &&
+            this.currentObject.actionChains[index].actions.length > 0 &&
+            this.currentObject.actionChains[index].actions[
+                this.currentObject.actionChains[index].actions.length - 1
+                ].operator == 'DONE') {
+            return true;
+        }
+        return false;
+    };
+
+    this.checkActionChainDisabled = function(){
+        if (this.currentObject.attributes.length <= 0 ||
+            this.currentObject.attributes.filter(function(a) {return a.name != "" && a.name != undefined}).length == 0)
+            return true;
+        return false;
+    };
+
     var myParseFloat = function(n){
         if (isNumber(n)){
             return parseFloat(n);
@@ -311,4 +317,5 @@ main_module.service('objectService',[function(){
             return n;
         }
     };
+
 }]);

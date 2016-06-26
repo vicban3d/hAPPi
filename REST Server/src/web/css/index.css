@@ -52,65 +52,23 @@ body{
 }
 
 .designAreaTopMenu {
-    /*position: relative;*/
     height: 100%;
     background: white;
-    /*top: 0;*/
-    /*left: 0;*/
-    /*z-index: 2;*/
-    /*overflow-x: auto;*/
-    /*overflow-y: auto;*/
-    /*white-space: nowrap;*/
 }
 
 .designAreaPage {
-    /*position: relative;*/
     height: 100%;
-    /*top: -3%;*/
-    /*left: 0;*/
     background: white;
-    /*z-index: 2;*/
     overflow-y: auto;
 }
 
 .designAreaOutput{
-    /*position: relative;*/
     height: 100%;]
     background: white;
-    /*top: -3%;*/
-    /*left: 0;*/
-    /*z-index: 2;*/
-    /*overflow: hidden;*/
 }
 
 .designAreaOutputLabel{
     color: skyblue;
-}
-
-.componentButton{
-    display: inline-block;
-    position: relative;
-    background: #7aba7b;
-    margin-left: 4%;
-    margin-top: 4%;
-    width: 80px;
-    height: 80px;
-    border-radius: 10%;
-    text-align: center;
-    vertical-align: middle;
-    word-wrap: break-word;
-    box-shadow: 0 0 5px 1px rgba(0,0,0,0.75);
-    overflow: hidden;
-    cursor: pointer;
-}
-.textInButton{
-    top: 20px;
-    position: relative;
-    text-align: center;
-}
-
-.componentButtonControl {
-    height: 2%;
 }
 
 .addFormFieldsButton{
@@ -150,37 +108,8 @@ body{
 
 }
 
-.componentListTitle{
-    position: relative;
-    top:1%;
-    color: black;
-    font-size: inherit;
-    font-family: inherit;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
-    background-color: lightblue;
-    padding-left: 1%;
-}
-
-.componentListEntry{
-    position: relative;
-    top:1%;
-    left: 2%;
-    color: black;
-    font-size: inherit;
-    font-family: inherit;
-    background-color: lightgrey;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.75);
-    padding-left: 1%;
-    margin: 1%;
-    width: 90%;
-}
-
 .mergeLeft {
     margin-left : 10px;
-}
-
-.object-name-input-width{
-    left: 42.2%;
 }
 
 .imgDivWidth{
@@ -249,10 +178,6 @@ span.addAppButton{
     margin-top: 0;
 }
 
-.floatLeft{
-    float: left;
-}
-
 .noMembersImage{
     text-wrap: normal;
     width: 30%;
@@ -267,7 +192,6 @@ span.addAppButton{
 
 .applicationEditArea{
     width: 100%;
-    /*background-color: #ffffee;*/
 }
 
 .itemList{
@@ -300,13 +224,6 @@ span.addAppButton{
     padding: 0 0 0 0;
 }
 
-.debug{
-    position: absolute;
-    height: 3%;
-    top: 92%;
-    width: 100%;
-}
-
 .btn-app-list{
     width: 100%;
     margin-left: 5px;
@@ -334,13 +251,8 @@ span.addAppButton{
     background-color: rgba(0,0,0,0);
     border: 3px solid rgba(0, 204, 0, 0.9);
     opacity: .9;
-    /*border-top: 5px solid rgba(0,0,0,0);*/
-    /*border-left: 5px solid rgba(0,0,0,0);*/
     border-radius: 50px;
     margin: 0 auto;
-    /*animation: spin .5s infinite linear;*/
-    /*-moz-animation: spin .5s infinite linear;*/
-    /*-webkit-animation: spin .5s infinite linear;*/
 }
 
 .loadingCircleOff{
@@ -452,14 +364,6 @@ span.addAppButton{
     width: 80%;
 }
 
-.appReleaseSquare{
-    border: solid dodgerblue thick;
-    box-shadow: 0 0 20px 0 #1769B9;
-    /*margin-left: 40%;*/
-    /*width: 22.4%;*/
-    /*padding-top: 30%;*/
-}
-
 .mainApplicationTitle{
     font: 24px calibri;
     width: 100%;
@@ -469,10 +373,9 @@ span.addAppButton{
 .helptext {
     font-size: medium;
     cursor: help;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    border-bottom: 1px dotted black;
 }
 
-/* Tooltip text */
 .helptext .tooltiptext {
     visibility: hidden;
     background-color: #fff7d1;
@@ -480,16 +383,12 @@ span.addAppButton{
     color: black;
     cursor: help;
     text-align: center;
-
     padding: 5px;
     border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
 .helptext:hover .tooltiptext {
     visibility: visible;
 }

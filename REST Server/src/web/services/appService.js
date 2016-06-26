@@ -1,21 +1,37 @@
 /**
  * Created by Gila on 10/03/2016.
+ *
  */
 
 main_module.service('appService',[function(){
 
-    this.currentApplication = {
-        id: "",
-        name: '',
-        platforms: '',
-        objects: [],
-        behaviors: [],
-        events: [],
-        username: ''
+    this.newApplication = function(){
+        return {
+            id: "",
+            name: '',
+            platforms: '',
+            objects: [],
+            behaviors: [],
+            events: [],
+            username: ''
+        };
     };
 
-    this.getCurrentApplication = function(){
-        return this.currentApplication;
+    this.currentApplication = this.newApplication();
+
+    this.addApplication = function(applications){
+        this.currentApplication.id = generateUUID();
+        this.addApplicationToApplicationList(applications, this.currentApplication);
+    };
+
+    this.editApplication = function(applications, application){
+        this.removeApplicationFromApplicationList(applications, application.id);
+        this.addApplicationToApplicationList(applications, this.currentApplication);
+    };
+
+    this.deleteApplication = function(applications, application){
+        this.removeApplicationFromApplicationList(applications, application.id);
+        this.currentApplication = {};
     };
 
     this.isValidApplication = function($scope, application){
@@ -23,7 +39,6 @@ main_module.service('appService',[function(){
             return true;
         }
         var all_apps = $scope.applications;
-        $scope.message = $scope.applicationStates[application.id];
         for (var i=0; i< all_apps.length; i++) {
             if (all_apps[i].name === $scope.applicationName)
             {
@@ -34,26 +49,19 @@ main_module.service('appService',[function(){
         return true;
     };
 
-    this.deleteApplication = function(applications, application){
-        removeApplicationFromApplicationList(applications, application.id);
-        this.currentApplication = {};
+    this.getCurrentApplication = function(){
+        return this.currentApplication;
     };
 
-    this.addApplication = function(applications){
-        this.currentApplication.id = generateUUID();
-        addApplicationToApplicationList(applications, this.currentApplication);
+    this.setCurrentApplication = function($scope, application){
+        this.currentApplication = application;
     };
 
-    this.editApplication = function(applications, application){
-        removeApplicationFromApplicationList(applications, application.id);
-        addApplicationToApplicationList(applications, this.currentApplication);
-    };
-
-    var addApplicationToApplicationList = function(applications, application){
+    this.addApplicationToApplicationList = function(applications, application){
         applications.push(application);
     };
 
-    var removeApplicationFromApplicationList = function(applications, applicationId){
+    this.removeApplicationFromApplicationList = function(applications, applicationId){
         for(var i = applications.length - 1; i >= 0; i--){
             if(applications[i].id == applicationId){
                 applications.splice(i,1);
@@ -71,10 +79,6 @@ main_module.service('appService',[function(){
             platforms.push("wp8");
         return platforms;
     };
-
-    this.getApplication = function($scope, application){
-        this.currentApplication = application;
-    };
-
+    
 }]);
 

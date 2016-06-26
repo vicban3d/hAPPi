@@ -5,7 +5,7 @@ REQUIRED FUNCTIONS:
      designDisplayObjectPage
      gotoAppInstance
      getShowEmulatorMainPage
-     getShowAddInstance
+     getShowInstancePage
      performBehaviorAction
      getBehaviorAction
      addInstance
@@ -40,8 +40,8 @@ main_module.controller('ctrl_main', ['$scope',
 
         $scope.currentInstance = '';
         $scope.showEmulatorMainPage = true;
-        $scope.showAddInstance = true;
-        $scope.attribute_values = [];
+        $scope.showInstancePage = true;
+        $scope.attributeValues = [];
         $scope.instances = [];
         $scope.emulatorOutput = '';
         $scope.phoneNumber = '';
@@ -91,11 +91,11 @@ main_module.controller('ctrl_main', ['$scope',
         $scope.designDisplayObjectPage = function(object){
             $scope.currentInstance = object;
             $scope.emulatorOutput = '';
-            $scope.showAddInstance = true;
+            $scope.showInstancePage = true;
         };
 
-        $scope.getShowAddInstance = function(){
-            return $scope.showAddInstance;
+        $scope.getShowInstancePage = function(){
+            return $scope.showInstancePage;
         };
 
         $scope.getCurrentApplication = function(){
@@ -109,28 +109,28 @@ main_module.controller('ctrl_main', ['$scope',
         $scope.gotoAppInstance = function(phoneNumber){
             $scope.phoneNumber = phoneNumber;
             $scope.showEmulatorMainPage = false;
-            $scope.showAddInstance = false;
+            $scope.showInstancePage = false;
         };
 
         $scope.designDisplayBehaviorPage = function(){
             $scope.currentInstance = {};
-            $scope.showAddInstance = false;
+            $scope.showInstancePage = false;
         };
 
         $scope.addInstance = function(){
             if ($scope.instances[$scope.currentInstance.name] == undefined){
                 $scope.instances[$scope.currentInstance.name] = [];
             }
-            $scope.instances[$scope.currentInstance.name].push($scope.attribute_values);
+            $scope.instances[$scope.currentInstance.name].push($scope.attributeValues);
 
             var postBody = {
                 id : $scope.phoneNumber,
                 app_id: $scope.currentApplication.id,
                 objName: $scope.currentInstance.name,
-                attributesList: $scope.attribute_values
+                attributesList: $scope.attributeValues
             };
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADDOBJ_INSTANCE, angular.toJson(postBody)));
-            $scope.attribute_values = [];
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.ADD_OBJECT_INSTANCE, angular.toJson(postBody)));
+            $scope.attributeValues = [];
         };
 
         $scope.removeInstance = function(idx){
@@ -145,7 +145,7 @@ main_module.controller('ctrl_main', ['$scope',
                 objName: $scope.currentInstance.name,
                 index: idx
             };
-            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVEOBJ_INSTANCE, angular.toJson(postBody)));
+            $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.REMOVE_OBJECT_INSTANCE, angular.toJson(postBody)));
         };
 
         $scope.getOutput = function(){
@@ -390,12 +390,10 @@ main_module.controller('ctrl_main', ['$scope',
             }
             result.onreadystatechange = function(){
                 if (result.readyState != 4 && result.status != 200){
-                    $scope.message = "Error";
                     fail();
                     $scope.$apply();
                 }
                 else if (result.readyState == 4 && result.status == 200){
-                    $scope.message = result.responseText;
                     success(result.responseText);
                     $scope.$apply();
                 }
@@ -458,6 +456,6 @@ var Paths = {
     CREATE_EVENT: "/createEvent",
     REMOVE_EVENT: "/removeEvent",
     UPDATE_EVENT: "/updateEvent",
-    ADDOBJ_INSTANCE: "/AddObjInstance",
-    REMOVEOBJ_INSTANCE: "/RemoveObjInstance"
+    ADD_OBJECT_INSTANCE: "/AddObjInstance",
+    REMOVE_OBJECT_INSTANCE: "/RemoveObjInstance"
 };

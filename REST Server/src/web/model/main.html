@@ -55,17 +55,17 @@
                                         </tr>
                                     </table>
                                 </form>
-                                <div class="designAreaPage" data-ng-show="!getShowEmulatorMainPage() && (!getShowAddInstance()|| chosenObject == undefined)">
+                                <div class="designAreaPage" data-ng-show="!getShowEmulatorMainPage() && (!getShowInstancePage()|| chosenObject == undefined)">
                                     <div style="padding: 1%;" class="componentMainTitle">Behavior</div><hr>
                                     <div style="padding: 1%;" class="componentMainTitle" data-ng-show="getCurrentApplication().behaviors.length == 0">This Application has no defined behavior.</div>
                                     <button class="btn btn-primary btn-block" ng-repeat="behavior in getCurrentApplication().behaviors track by $index" data-ng-click="performBehaviorAction(behavior)">{{behavior.name}}</button><br>
                                 </div>
-                                <div class="designAreaPage" data-ng-show="getShowAddInstance()  && !getShowEmulatorMainPage() && chosenObject != undefined" data-ng-init="attribute_values=[]">
+                                <div class="designAreaPage" data-ng-show="getShowInstancePage()  && !getShowEmulatorMainPage() && chosenObject != undefined" data-ng-init="attributeValues=[]">
                                     <div style="padding: 1%;" class="componentMainTitle">{{getCurrentInstance().name}}</div><hr>
 
                                     <form class="form-horizontal" role="form" data-ng-submit="addInstance()">
                                         <div data-ng-repeat="attr in getCurrentInstance().attributes track by $index" class="formInput">
-                                            <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attribute_values[$index]" required>
+                                            <input type="text" class="form-control" placeholder="{{attr.name}} ({{attr.type}})" data-ng-model="attributeValues[$index]" required>
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-block" value="Add">
                                     </form>
@@ -80,7 +80,7 @@
                                                 <!--PADDING-->
                                             </th>
                                             </thead>
-                                            <tbody data-ng-repeat="(insId, instance) in instances[getCurrentInstance().name] track by $index">
+                                            <tbody data-ng-repeat="(insId, instance) in instances[getCurrentInstance().name] track by insId">
 
                                             <tr style="border-bottom: none; border-top: solid thick silver">
                                                 <td data-ng-repeat="val in instance track by $index" style="width: {{ (90 / (instance.length)) }}%">
@@ -99,7 +99,7 @@
                                                     <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-disabled="chosenAction.operandType !== 'Dynamic'" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
                                                 </td>
                                                 <td colspan="{{ ((instance.length) / 2) }}">
-                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][$index], dynamicValue)">
+                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][insId], dynamicValue)">
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -110,7 +110,7 @@
                         </tr>
                         <tr style="height: 10%;">
                             <td>
-                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && (!getShowAddInstance()|| chosenObject == undefined)">
+                                <div class="navbar navbar-inverse designAreaOutput" data-ng-show="!getShowEmulatorMainPage() && (!getShowInstancePage()|| chosenObject == undefined)">
                                     <label class="designAreaOutputLabel">OUTPUT > <br>{{getOutput()}}</label>
                                 </div>
                             </td>

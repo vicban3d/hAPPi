@@ -25,8 +25,8 @@ main_module.service('releaseService',[function(){
     //     };
     // };
 
-    this.getApplicationBuilt = function(){
-        return this.applicationBuilt;
-    }
+    // this.getApplicationBuilt = function(){
+    //     return this.applicationBuilt;
+    // }
 
 }]);

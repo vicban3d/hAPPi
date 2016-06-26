@@ -1,5 +1,6 @@
 /**
  * Created by Gila-Ber on 18/04/2016.
+ * 
  */
 main_module.service('eventService',[function(){
 
