@@ -197,19 +197,21 @@ main_module.service('behaviorService',['objectService', function(objectService){
         }
         var filteredInstances = [];
         var instanceValue;
-        var maxInstanceId = '';
-        var minInstanceId = '';
+        var maxInstanceValue = '';
+        var maxInstances = [];
+        var minInstanceValue = '';
+        var minInstances = [];
         for (var i = 0 ; i < conditions.length; i++) {
             for (var instanceId in instances) {
                 if (instances.hasOwnProperty(instanceId)) {
                     // get relevant value
-                    if (conditions[i].attribute != undefined) {
+                    if (conditions[i].attribute) {
                         var index = object.attributes.map(function (a) {
                             return a.name;
                         }).indexOf(conditions[i].attribute.name);
                         instanceValue = parseInt(instances[instanceId][index]);
                     }
-                    else if (conditions[i].actionChain != undefined) {
+                    else if (conditions[i].actionChain) {
                         var funcIns = objectService.getObjectAction(conditions[i].actionChain.name, object);
                         instanceValue = funcIns(instances[instanceId]);
                     }
@@ -233,20 +235,15 @@ main_module.service('behaviorService',['objectService', function(objectService){
                             filteredInstances.push(instances[instanceId]);
                     }
                     else if (logicOperation == "Is Maximal") {
-
-                        if (instances[maxInstanceId] == undefined){
-                            maxInstanceId = instanceId;
-                        }
-                        if (instanceValue > instances[maxInstanceId][index]) {
-                            maxInstanceId = instanceId;
+                        if (maxInstanceValue === '' || instanceValue > maxInstanceValue){
+                            maxInstanceValue = instanceValue;
+                            maxInstances = instances[instanceId];
                         }
                     }
                     else if (logicOperation == "Is Minimal") {
-                        if (instances[minInstanceId] == undefined){
-                            minInstanceId = instanceId;
-                        }
-                        if (instanceValue < instances[minInstanceId][index]) {
-                            minInstanceId = instanceId;
+                        if (minInstanceValue === '' || instanceValue < minInstanceValue) {
+                            minInstanceValue = instanceValue;
+                            minInstances = instances[instanceId];
                         }
                     }
                 }
@@ -254,10 +251,10 @@ main_module.service('behaviorService',['objectService', function(objectService){
         }
 
         if (logicOperation == "Is Maximal") {
-                filteredInstances.push(instances[maxInstanceId]);
+                filteredInstances.push(maxInstances);
         }
         else if (logicOperation == "Is Minimal") {
-                filteredInstances.push(instances[minInstanceId]);
+                filteredInstances.push(minInstances);
         }
         return filteredInstances;
     };

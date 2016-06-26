@@ -797,7 +797,7 @@
                                 </td>
 
                                 <td class="formInput formInput15">
-                                    <select class="form-control" ng-model="behaviorOperandType" required>
+                                    <select class="form-control" ng-model="behaviorOperandType"  data-ng-change="behaviorOperandType == 'attribute' ? getCurrentBehavior().action.actionChain = undefined : getCurrentBehavior().action.operandAttribute = undefined" required>
                                         <option value="" select="selected">Choose Operand Type</option>
                                         <option value="attribute" select="selected">Attribute</option>
                                         <option value="actionChain" select="selected">ActionChain</option>
@@ -982,11 +982,11 @@
                                             </select>
                                         </td>
 
-                                        <td class="formInput formInput15" data-ng-init="behaviorOperandType =( getCurrentBehavior().action.operandAttribute != null) ? 'attribute' : actionChain">
-                                            <select class="form-control" ng-model="behaviorOperandType" required>
-                                                <option value="" select="selected">Choose Operand Type</option>
-                                                <option value="attribute" select="selected">Attribute</option>
-                                                <option value="actionChain" select="selected">ActionChain</option>
+                                        <td class="formInput formInput15" data-ng-init="behaviorOperandType = (!getCurrentBehavior().action.actionChain ? 'attribute' : 'actionChain')">
+                                            <select class="form-control" ng-model="behaviorOperandType"  data-ng-change="behaviorOperandType == 'attribute' ? getCurrentBehavior().action.actionChain = undefined : getCurrentBehavior().action.operandAttribute = undefined" required>
+                                                <option value="">Choose Operand Type</option>
+                                                <option value="attribute">Attribute</option>
+                                                <option value="actionChain">ActionChain</option>
                                             </select>
                                         </td>
 

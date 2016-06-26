@@ -388,7 +388,7 @@ main_module.controller('ctrl_main', [
                     objectService.editObject(appService.currentApplication, object);
                     $scope.indexToShow = -1;
 
-                    if (designService.currentInstance.name === object.name){
+                    if (designService.currentInstance != null && designService.currentInstance.name === object.name){
                         designService.designDisplayObjectPage(objectService.currentObject);
                     }},
                 function () {alert("Failed to edit object!")});
@@ -571,6 +571,9 @@ main_module.controller('ctrl_main', [
 
             var attribute = behaviorService.currentBehavior.action.operandAttribute;
             var chain = behaviorService.currentBehavior.action.actionChain;
+
+            alert(angular.toJson(attribute));
+            alert(angular.toJson(chain));
 
             behaviorService.currentBehavior.action =
             {
