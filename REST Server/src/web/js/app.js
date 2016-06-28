@@ -194,6 +194,7 @@ main_module.controller('ctrl_main', [
             designService.emulatorOutput = "";
         };
 
+
         $scope.hideAll = function () {
             for (var f in $scope.areaFlags) {
                 if ($scope.areaFlags.hasOwnProperty(f)) {
