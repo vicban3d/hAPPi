@@ -29,6 +29,7 @@ var Paths = {
     UPDATE_EVENT: "/updateEvent",
     ADD_OBJECT_INSTANCE: "/AddObjInstance",
     REMOVE_OBJECT_INSTANCE: "/RemoveObjInstance",
-    GET_OBJECT_INSTANCE: "/GetObjInstance"
+    GET_OBJECT_INSTANCE: "/GetObjInstance",
+    UPDATE_OBJECT_INSTANCE: "/UpdateObjInstance"
 };
 

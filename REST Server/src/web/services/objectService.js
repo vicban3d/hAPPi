@@ -230,7 +230,7 @@ main_module.service('objectService',[function(){
         return object.operand1.type == 'Number';
     };
 
-    this.performObjectAction = function(action, object, instance, dynamicValue){
+    this.performObjectAction = function(action, object, instance, insId, dynamicValue, $scope){
 
         var operand2 = undefined;
 
@@ -260,6 +260,16 @@ main_module.service('objectService',[function(){
         }
 
         instance[i] = actionFunc(myParseFloat(instance[i]), myParseFloat(operand2));
+
+        var postBody = {
+            id : $scope.getPhoneNumber(),
+            app_id : $scope.getCurrentApplication().id,
+            objName : $scope.getCurrentInstance().name,
+            insId : insId,
+            attributesList : instance
+        }
+
+        $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_OBJECT_INSTANCE, angular.toJson(postBody)));
     };
 
     this.getOperatorListByType = function (type){

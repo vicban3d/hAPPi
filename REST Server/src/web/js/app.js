@@ -288,6 +288,10 @@ main_module.controller('ctrl_main', [
             };
         };
 
+        $scope.getPhoneNumber = function(){
+            return designService.phoneNumber;
+        }
+
         $scope.hideApplicationDeleteArea = function(){
             $scope.indexToDelete = -1;
         };
@@ -468,8 +472,8 @@ main_module.controller('ctrl_main', [
 
         $scope.getObjectAction = function(actionChainName, object){ return objectService.getObjectAction(actionChainName, object); };
 
-        $scope.performObjectAction = function(action, object, instance, dynamicValue){
-            objectService.performObjectAction(action, object, instance, dynamicValue);
+        $scope.performObjectAction = function(action, object, instance, insId, dynamicValue){
+            objectService.performObjectAction(action, object, instance, insId, dynamicValue, $scope);
 
             /*
              SEND INSTANCE UPDATE FROM HERE

@@ -1399,7 +1399,7 @@
                                                     <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-disabled="chosenAction.operandType !== 'Dynamic'" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
                                                 </td>
                                                 <td colspan="{{ ((instance.length) / 2) }}">
-                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][insId], dynamicValue)">
+                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][insId], insId, dynamicValue)">
                                                 </td>
                                             </tr>
                                             </tbody>
