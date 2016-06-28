@@ -187,6 +187,9 @@ main_module.controller('ctrl_main', [
             $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showArea("myApps");
+            designService.showEmulatorMainPage = true;
+            designService.showInstancePage = true;
+            $scope.phoneNumber = "";
         };
 
         $scope.hideAll = function () {
