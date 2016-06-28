@@ -242,7 +242,7 @@ public interface RESTServer {
     @Path(Strings.PATH_GET_OBJECT_INSTANCE)
     @Consumes({MediaType.TEXT_PLAIN})
     @Produces(MediaType.APPLICATION_JSON)
-    AppInstance getObjInstance(String reqParam);
+    Response getObjInstance(String reqParam);
 
     /**
      * Removes an event from the currently selected application.

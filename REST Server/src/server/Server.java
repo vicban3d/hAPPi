@@ -42,7 +42,7 @@ public class Server implements RESTServer {
 
     private static final Facade facade = new hAPPiFacade();
 
-    private Response respondOK(String data) {
+    private Response respondOK(Object data) {
         //Logger.DEBUG(data);
         return Response.ok() //200
                 .header("Access-Control-Allow-Origin", "*")
@@ -362,10 +362,10 @@ public class Server implements RESTServer {
     }
 
     @Override
-    public AppInstance getObjInstance(String reqParam) {
+    public Response getObjInstance(String reqParam) {
         try {
             JSONObject jsonObject = new JSONObject(reqParam);
-            return facade.getObjectInstance(jsonObject);
+            return respondOK(facade.getObjectInstance(jsonObject));
         } catch (JSONException e) {
             return null;
         }
