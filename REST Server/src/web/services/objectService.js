@@ -4,8 +4,6 @@
  */
 main_module.service('objectService',[function(){
 
-
-
     this.objectOperators = [];
     this.objectOperators['Increase By'] = {
             TYPE: "Number",
@@ -100,16 +98,6 @@ main_module.service('objectService',[function(){
             }
         }
 
-        // for (var i=0; i< object.actionChains.length; i++) {
-        //     var isContainDoneOperator = false;
-        //     for (var j=0; j< object.actionChains[i].actions.length; j++) {
-        //         isContainDoneOperator = false;
-        //         if(object.actionChains[i].actions[j].operator  == "DONE")
-        //             isContainDoneOperator = true;
-        //     }
-        //     if(isContainDoneOperator == false)
-        //         return false;
-        // }
         return true;
     };
 
