@@ -18,12 +18,12 @@
                                     <div class="container-fluid ">
                                         <table>
                                             <tr>
-                                                <td class="formInput formInput20">
+                                                <td class="formInput formInput60">
                                                     <div class="navbar-header">
                                                         <a class="navbar-brand" href="#" data-ng-click="chosenObject=undefined;designDisplayBehaviorPage()">{{getCurrentApplication().name}}</a>
                                                     </div>
                                                 </td>
-                                                <td class="formInput formInput80">
+                                                <td class="formInput formInput40">
                                                     <select class="form-control" ng-model="chosenObject" data-ng-options="chosenObject as chosenObject.name for chosenObject in getCurrentApplication().objects track by chosenObject.name" ng-change="designDisplayObjectPage(chosenObject)" data-ng-show="!getShowEmulatorMainPage() && getCurrentApplication().objects.length > 0">
                                                         <option value="" select="selected">Behavior</option>
                                                     </select>
@@ -73,12 +73,12 @@
                                     <form>
                                         <table class="table" style="width: 100%">
                                             <thead>
-                                            <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
-                                                {{attr.name}}
-                                            </th>
-                                            <th>
-                                                <!--PADDING-->
-                                            </th>
+                                                <th data-ng-repeat="attr in getCurrentInstance().attributes track by $index">
+                                                    {{attr.name}}
+                                                </th>
+                                                <th>
+                                                    <!--PADDING-->
+                                                </th>
                                             </thead>
                                             <tbody data-ng-repeat="(insId, instance) in instances[getCurrentInstance().name] track by insId">
 
@@ -91,7 +91,6 @@
                                                 </td>
                                             </tr>
                                             <tr style="border-top: none">
-
                                                 <td colspan="{{ ((instance.length) / 2) + 1 }}">
                                                     <select class="form-control" ng-model="chosenAction" data-ng-options="action as action.name for action in getCurrentInstance().actions track by action.name">
                                                         <option value="" selected="selected">Choose Action</option>
@@ -99,7 +98,7 @@
                                                     <input type="text" class="form-control" placeholder="Value" data-ng-model="dynamicValue" data-ng-disabled="chosenAction.operandType !== 'Dynamic'" data-ng-show="chosenAction.operandType === 'Dynamic'" required>
                                                 </td>
                                                 <td colspan="{{ ((instance.length) / 2) }}">
-                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][insId], dynamicValue)">
+                                                    <input class="btn btn-primary btn-block" type="submit" value="Perform"  data-ng-disabled="!chosenAction || (chosenAction.operandType === 'Dynamic' && dynamicValue == undefined)" data-ng-click="performObjectAction(chosenAction, getCurrentInstance(), instances[getCurrentInstance().name][insId], insId, dynamicValue)">
                                                 </td>
                                             </tr>
                                             </tbody>

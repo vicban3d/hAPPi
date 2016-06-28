@@ -255,7 +255,7 @@ main_module.service('objectService',[function(){
             objName : $scope.getCurrentInstance().name,
             insId : insId,
             attributesList : instance
-        }
+        };
 
         $scope.acceptMessageResult(sendPOSTRequestPlainText(Paths.UPDATE_OBJECT_INSTANCE, angular.toJson(postBody)));
     };

@@ -582,6 +582,7 @@ main_module.controller('ctrl_main', [
             var attribute = behaviorService.currentBehavior.action.operandAttribute;
             var chain = behaviorService.currentBehavior.action.actionChain;
 
+            $scope.behaviorOperandType = '';
             behaviorService.currentBehavior.action =
             {
                 operandObject: behaviorService.currentBehavior.action.operandObject,
