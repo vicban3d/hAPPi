@@ -179,6 +179,7 @@ main_module.controller('ctrl_main', [
             $scope.windowsPhone = false;
             $scope.applicationName = '';
             $scope.showArea("frontPage");
+            designService.emulatorOutput = "";
         };
 
         $scope.showAppsList = function(){
@@ -187,6 +188,7 @@ main_module.controller('ctrl_main', [
             $scope.indexToShow = -1;
             $scope.hideAll();
             $scope.showArea("myApps");
+            designService.emulatorOutput = "";
         };
 
         $scope.hideAll = function () {
@@ -575,9 +577,6 @@ main_module.controller('ctrl_main', [
 
             var attribute = behaviorService.currentBehavior.action.operandAttribute;
             var chain = behaviorService.currentBehavior.action.actionChain;
-
-            alert(angular.toJson(attribute));
-            alert(angular.toJson(chain));
 
             behaviorService.currentBehavior.action =
             {
