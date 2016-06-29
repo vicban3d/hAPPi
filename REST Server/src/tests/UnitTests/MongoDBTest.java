@@ -190,14 +190,7 @@ public class MongoDBTest {
 
     @Test
     public void testGetNotExistAppInstance() {
-        boolean notExist = false;
-        try {
-            db.getAppInstance("testAppInstanceId", "appId");
-        }
-        catch(Exception e) {
-            notExist = true; // failed to get appInstance because appInstance not exist
-        }
-        assertTrue(notExist);
+            assertNull(db.getAppInstance("testAppInstanceId", "appId"));
     }
 
     @Test
