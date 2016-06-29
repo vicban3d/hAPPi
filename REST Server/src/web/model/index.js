@@ -370,7 +370,7 @@ main_module.controller('ctrl_main', ['$scope',
                             instanceValue = parseInt(instances[instanceId][index]);
                         }
                         else if (conditions[i].actionChain) {
-                            var funcIns = objectService.getObjectAction(conditions[i].actionChain.name, object);
+                            var funcIns = $scope.getObjectAction(conditions[i].actionChain.name, object);
                             instanceValue = funcIns(instances[instanceId]);
                         }
 
