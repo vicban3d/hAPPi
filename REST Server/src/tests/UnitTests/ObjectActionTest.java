@@ -1,4 +1,4 @@
-package tests.UnitTests;
+package tests.unitTests;
 
 import logic.ObjectAction;
 import logic.ObjectAttribute;
