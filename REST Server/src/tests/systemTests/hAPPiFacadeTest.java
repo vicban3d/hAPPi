@@ -351,7 +351,8 @@ public class hAPPiFacadeTest {
         jsonObject.put("id", appInstance.getId());
         jsonObject.put("app_id", appInstance.getApp_id());
         jsonObject.put("objName", "Attr1");
-        jsonObject.put("attributesList", appInstance.getObjectInstances().get("Attr1"));
+        jsonObject.put("insId", "insId1");
+        jsonObject.put("attributesList", appInstance.getObjectInstances().get("Attr1").get("insId1"));
 
         facade.addObjectInstance(jsonObject);
         assertTrue(dataBase.isInstanceExist(appInstance.getId(), appInstance.getApp_id()));
@@ -360,7 +361,7 @@ public class hAPPiFacadeTest {
     @Test
     public void testRemoveObjectInstance() throws Exception {
         AppInstance appInstance = TestUtils.createAppInstance();
-        JSONObject jsonObject = createJsonObjFromAppInstance(appInstance.getId(), appInstance.getApp_id(), 0);
+        JSONObject jsonObject = createJsonObjFromAppInstance(appInstance.getId(), appInstance.getApp_id(), "insId1");
 
         dataBase.addApplicationInstance(appInstance);
         AppInstance appInstanceFromDB = dataBase.getAppInstance(appInstance.getId(), appInstance.getApp_id());
@@ -374,7 +375,7 @@ public class hAPPiFacadeTest {
     @Test
     public void testRemoveNotExistObjectInstance() throws Exception {
         AppInstance appInstance = TestUtils.createAppInstance();
-        JSONObject jsonObject = createJsonObjFromAppInstance(appInstance.getId(), appInstance.getApp_id(), 6);
+        JSONObject jsonObject = createJsonObjFromAppInstance(appInstance.getId(), appInstance.getApp_id(), "notExistInsId");
 
         dataBase.addApplicationInstance(appInstance);
         AppInstance appInstanceFromDB = dataBase.getAppInstance(appInstance.getId(), appInstance.getApp_id());
@@ -432,21 +433,22 @@ public class hAPPiFacadeTest {
         assertTrue(FileHandler.isFileExist(Strings.PATH_APPS + "/" + app.getUsername() + "/" +app.getName() + "/platforms/android/build/outputs/apk/android-debug.apk"));
     }
 
-    private JSONObject createJsonObjFromAppInstance(String id2, String app_id2, int value) throws JSONException {
+    private JSONObject createJsonObjFromAppInstance(String id2, String app_id2, String insId) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id2);
         jsonObject.put("app_id", app_id2);
         jsonObject.put("objName", "Attr1");
-        jsonObject.put("index", value);
+        jsonObject.put("insId", insId);
         return jsonObject;
     }
 
     private ApplicationBehavior createBehavior() {
         ApplicationObject object = createObject();
         ObjectAttribute attribute = object.getAttributes().get(0);
-        ObjectActionChain actionChain = new ObjectActionChain("chain", new ArrayList<ActionChain>());
-        Condition cond = new Condition(attribute, actionChain, "Greater Than", "1");
-        BehaviorAction bAction = new BehaviorAction(object, attribute, actionChain, Arrays.asList(cond), "SumOfAll");
+        ObjectActionChain actionChain = object.getActionsChain().get(0);
+
+        Condition cond = new Condition(attribute, null, "Greater Than", "1");
+        BehaviorAction bAction = new BehaviorAction(object, null, actionChain, Arrays.asList(cond), "SumOfAll");
         ApplicationBehavior behavior = new ApplicationBehavior("behaviorId", "behavior1", bAction);
         return behavior;
     }
